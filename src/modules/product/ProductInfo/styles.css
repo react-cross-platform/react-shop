@@ -1,0 +1,86 @@
+.tabTitle {
+  color: #1296db;
+  font-size: 0.35rem;
+}
+
+.tabText {
+  font-size: 0.33rem;
+  line-height: 0.45rem;
+}
+
+.tabText p {
+  margin-bottom: 0;
+  margin-top: 0.1rem;
+}
+
+.tabIcons {
+  text-align: center;
+  width: 100%;
+}
+
+.tabIcon {
+  margin-left: 0.05rem;
+  margin-right: 0.05rem;
+}
+
+.firstTabPane {
+  margin-bottom: 30px;
+}
+
+.tabPaneArea {
+  background-color: #fff;
+  padding-bottom: 75px;
+}
+
+.tabProductName {
+  padding-bottom: 0.07rem;
+}
+
+.availability {
+  color: green;
+  font-size: 24px;
+  line-height: 0.4rem;
+}
+
+.productCode {
+  color: #b94a48;
+  font-size: 24px;
+  line-height: 0.4rem;
+}
+
+.iconName {
+  color: #1296db;
+}
+
+.nameStyle {
+  color: #1296db;
+  font-size: 0.35rem;
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
+}
+
+.oneColor {
+  color: #1296db;
+  font-size: 0.35rem;
+  margin-left: 0.3rem;
+}
+
+.characteristicName {
+  font-size: 0.33rem;
+  line-height: 0.45rem;
+}
+
+.characteristicValue {
+  color: #8a8282;
+  line-height: 0.45rem;
+}
+
+.aboutProduct {
+  font-size: 0.35rem;
+  padding-left: 0.3rem;
+}
+
+.colorName {
+  color: gray;
+  text-align: right;
+}

@@ -1,0 +1,9 @@
+.content {
+  margin-top: 80px;
+  /*overflowY: scroll;*/
+  /*webkit-overflow-scrolling: touch;*/
+}
+
+.sideber {
+  margin-top: 80px;
+}

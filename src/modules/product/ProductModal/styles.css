@@ -1,0 +1,21 @@
+.flex {
+  background-color: #2474cc;
+  color: white;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.icon {
+  fill: white;
+  padding: 0 20px;
+}
+
+.productName {
+  margin: 0;
+  text-align: center;
+  width: 80%;
+}

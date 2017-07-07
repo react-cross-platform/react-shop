@@ -1,0 +1,13 @@
+body {
+  background-color: #f5f5f9;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0 !important;
+}
+
+.am-list-body {
+  border: none !important;
+}
+
+.am-list-body::after {
+  display: none !important;
+}

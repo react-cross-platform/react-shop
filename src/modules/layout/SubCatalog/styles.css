@@ -1,0 +1,15 @@
+.card {
+  height: 190px;
+  padding-bottom: 10px;
+  padding-top: 30px;
+}
+
+.name {
+  margin: auto;
+  max-width: 80%;
+}
+
+.flexItem {
+  margin: 5px !important;
+  text-align: center;
+}
