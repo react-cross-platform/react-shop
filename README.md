@@ -42,6 +42,20 @@ Single monorepo (maybe [Lerna](https://github.com/lerna/lerna)) to share JS code
 1. Start project with `yarn start`
 1. Open in Chrome [http://localhost:3000/](http://localhost:3000/), inspect window (from menu `View -> Developer -> Developer Tools`) and enable [mobile device simulator](https://developers.google.com/web/tools/chrome-devtools/device-mode/) in DevTools
 
+## Architecture
+
+### One React component - one directory
+
+```bash
+
+/MyComponent
+  /MyComponent.tsx
+  /myQuery.gql  # GraphQL query. Named like "GraphQl root query field". Can be multiple per directory
+  /styles.css  # local-scoped styles with CSS-Modules
+  /myIcon.svg  # some media. Can be multiple per directory
+  /readme.md  # component-related docs
+```
+
 ## Tools
 
 ### GraphiQL
@@ -105,7 +119,7 @@ An in-browser IDE for exploring GraphQL API. Try [this query](http://shop.serga.
 ### [Prettier](https://prettier.io/) code formatter
 
 * TSLint for linting, Prettier for code formatting
-* in this project all TypeScript, JS, JSON and CSS files are formatted with Prettier
+* in this project all TypeScript, JS, CSS, GraphQL and JSON files are formatted using Prettier
 * *VSCode*
   * install [Prettier - JavaScript formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extension
   * to format file select in menu `View -> Command Palette...` and type command "*Format Document*"
