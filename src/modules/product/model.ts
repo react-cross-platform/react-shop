@@ -1,5 +1,3 @@
-import { gql } from "react-apollo/lib";
-
 export interface ICurrentDataProduct {
   subProductId: string;
   colorId: number;
@@ -73,55 +71,3 @@ export interface IValue {
 export interface ICategories {
   products: [IProduct];
 }
-
-export const PRODUCT_QUERY = gql`
-  query product($id: Int) {
-    product(id: $id) {
-      id
-      name
-      shortDescription
-      description
-      brand {
-        id
-        name
-      }
-      category {
-        id
-        name
-      }
-      images {
-        id
-        src
-        width
-        height
-        colorValue
-        colorName
-        isTitle
-      }
-      subProducts {
-        id
-        article
-        price
-        oldPrice
-        discount
-        attributes {
-          name
-          values {
-            id
-            name
-            value
-            description
-          }
-        }
-      }
-      attributes {
-        id
-        name
-        values {
-          name
-          description
-        }
-      }
-    }
-  }
-`;

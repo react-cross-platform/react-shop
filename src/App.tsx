@@ -5,7 +5,6 @@ import { Switch } from "react-router-dom";
 import { ConnectedRouter } from "react-router-redux";
 import client from "./graphqlClient";
 import history from "./history";
-import { CATEGORY_QUERY } from "./modules/catalog/model";
 import { FlatPageModal, FlatPages, Layout } from "./modules/layout/index";
 import { Product, ProductModal } from "./modules/product/index";
 import { CategoryPage, HomePage, ProductPage } from "./pages/index";

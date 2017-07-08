@@ -89,6 +89,11 @@ module.exports = {
       // },
 
       {
+        test: /\.gql$/,
+        use: "raw-loader",
+        exclude: /node_modules/
+      },
+      {
         test: /\.(jpg|jpeg|png|gif)(\?[a-z0-9=&.]+)?$/,
         use: [
           {

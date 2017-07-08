@@ -2,14 +2,16 @@ import { Flex, Icon } from "antd-mobile";
 import update from "immutability-helper";
 import { throttle } from "lodash";
 import * as React from "react";
-import { compose, graphql } from "react-apollo";
+import { compose, gql, graphql } from "react-apollo";
 import MasonryInfiniteScroller from "react-masonry-infinite";
 import { connect } from "react-redux";
 
 import { IData } from "../../../model";
 import { Loading } from "../../layout/index";
 import { Product, ProductsCounter } from "../index";
-import { ALL_PRODUCTS_QUERY, IAllProduct, ICatalog } from "../model";
+import { IAllProduct, ICatalog } from "../model";
+
+const ALL_PRODUCTS_QUERY = require("./allProducts.gql");
 
 // tslint:disable-next-line:no-var-requires
 const styles = require("./styles.css");
@@ -221,5 +223,5 @@ const mapStateToProps: any = state => ({
 
 export default compose(
   connect<IConnectedProductsProps, {}, IProductsProps>(mapStateToProps),
-  graphql(ALL_PRODUCTS_QUERY, options as any)
+  graphql(gql(ALL_PRODUCTS_QUERY), options as any)
 )(Products);

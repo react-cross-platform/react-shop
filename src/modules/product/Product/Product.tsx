@@ -1,5 +1,5 @@
 import * as React from "react";
-import { compose, graphql } from "react-apollo";
+import { compose, gql, graphql } from "react-apollo";
 import { connect } from "react-redux";
 
 import { IData } from "../../../model";
@@ -7,7 +7,9 @@ import { ACTION_ADD_VIEWED_PRODUCT } from "../../catalog/constants";
 import { Loading } from "../../layout/index";
 import { ACTION_SELECT_SUBPRODUCT } from "../constants";
 import { Images, ProductBuy, ProductInfo } from "../index";
-import { ICurrentDataProduct, IProduct, PRODUCT_QUERY } from "../model";
+import { ICurrentDataProduct, IProduct } from "../model";
+
+const PRODUCT_QUERY = require("./product.gql");
 
 // tslint:disable-next-line:no-var-requires
 const styles = require("./styles.css");
@@ -100,5 +102,5 @@ const mapStateToProps: any = state => ({
 
 export default compose(
   connect<IConnectedProductProps, {}, IProductProps>(mapStateToProps),
-  graphql(PRODUCT_QUERY, options)
+  graphql(gql(PRODUCT_QUERY), options)
 )(Product);

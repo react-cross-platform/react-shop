@@ -1,12 +1,14 @@
 import { Icon, List } from "antd-mobile";
 import * as React from "react";
-import { compose, graphql } from "react-apollo";
+import { compose, gql, graphql } from "react-apollo";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { IData } from "../../../model";
 import { Loading } from "../index";
-import { FLATPAGES_QUERY, IFlatPage, ILayout } from "../model";
+import { IFlatPage, ILayout } from "../model";
+
+const FLATPAGES_QUERY = require("./flatpages.gql");
 
 // tslint:disable-next-line:no-var-requires
 const styles = require("./styles.css");
@@ -142,7 +144,7 @@ const mapStateToProps: any = state => ({
 export default compose(
   connect<IConnectedFlatPagesProps, {}, any>(mapStateToProps),
   graphql(
-    FLATPAGES_QUERY,
+    gql(FLATPAGES_QUERY),
     {
       options: ({ layout, router }) => ({
         skip: !(router.location.pathname === "/" || layout.openMenu)

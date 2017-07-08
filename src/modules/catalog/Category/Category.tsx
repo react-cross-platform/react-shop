@@ -20,7 +20,8 @@ import { Loading, utils } from "../../layout/index";
 import { ILayout } from "../../layout/model";
 import { ICategory } from "../../product/model";
 import { Product, Products } from "../index";
-import { CATEGORY_QUERY } from "../model";
+
+const CATEGORY_QUERY = require("./category.gql");
 
 // tslint:disable-next-line:no-var-requires
 const styles = require("./styles.css");
@@ -82,5 +83,5 @@ const mapStateToProps: any = state => ({
 
 export default compose(
   connect<IConnectedCategoryProps, {}, ICategoryProps>(mapStateToProps),
-  graphql(CATEGORY_QUERY, options)
+  graphql(gql(CATEGORY_QUERY), options)
 )(Category);

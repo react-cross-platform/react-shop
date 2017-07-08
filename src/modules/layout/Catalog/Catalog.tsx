@@ -20,7 +20,9 @@ import { ACTION_TOOTLE_CATALOG } from "../../layout/constants";
 import { HEIGHT } from "../../layout/Header/Header";
 import { Loading, SubCatalog } from "../../layout/index";
 import { ICategory } from "../../product/model";
-import { CATALOG_QUERY, ILayout } from "../model";
+import { ILayout } from "../model";
+
+const CATEGORIES_QUERY = require("./categories.gql");
 
 interface ICatalogData extends IData {
   categories: [ICategory];
@@ -100,7 +102,7 @@ const mapStateToProps: any = state => ({
 export default compose(
   connect<IConnectedCatalogProps, {}, ICatalogProps>(mapStateToProps),
   graphql(
-    CATALOG_QUERY,
+    gql(CATEGORIES_QUERY),
     {
       options: ({ layout, router }) => ({
         skip: !(router.location.pathname === "/" || layout.openCatalog)

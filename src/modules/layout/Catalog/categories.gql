@@ -1,0 +1,11 @@
+query categories {
+  categories {
+    id
+    name
+    alias
+    parent {
+      id
+    }
+    image
+  }
+}

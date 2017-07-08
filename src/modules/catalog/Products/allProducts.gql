@@ -1,0 +1,34 @@
+query allProducts($categoryId: Int, $offset: Int, $first: Int) {
+  allProducts(categoryId: $categoryId, offset: $offset, first: $first) {
+    total
+    products {
+      id
+      name
+      shortDescription
+      brand {
+        id
+        name
+      }
+      category {
+        id
+        name
+      }
+      imagesWithColor {
+        id
+        src
+        width
+        height
+        colorName
+        colorValue
+        isTitle
+      }
+      subProducts {
+        id
+        article
+        price
+        oldPrice
+        discount
+      }
+    }
+  }
+}
