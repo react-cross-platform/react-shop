@@ -44,7 +44,7 @@ class FlatPageModal extends React.Component<any, any> {
               onClick={this.back}
             />
           </Ripples>
-          <h3 style={{ margin: 0, textAlign: "center", width: "80%" }}>
+          <h3 className={styles.title}>
             {page.map(el => el.name)}
           </h3>
         </Flex>

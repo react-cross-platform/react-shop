@@ -23,6 +23,7 @@ import { ICategory } from "../../product/model";
 import { ILayout } from "../model";
 
 const CATEGORIES_QUERY = require("./categories.gql");
+const styles = require("./styles.css");
 
 interface ICatalogData extends IData {
   categories: [ICategory];
@@ -63,20 +64,15 @@ class Catalog extends React.Component<
       }
     }
 
-    const style = {
-      backgroundColor: "#f5f5f9",
-      paddingTop: 10,
-      textAlign: "center"
-    };
     if (isDrawer === true) {
       // tslint:disable-next-line:no-string-literal
-      style["width"] = window.innerWidth * 0.9;
+      styles["width"] = window.innerWidth * 0.9;
       // tslint:disable-next-line:no-string-literal
-      style["padding"] = 10;
+      styles["padding"] = 10;
     }
 
     return (
-      <div style={style}>
+      <div className={styles.startCats}>
         {startCats.map((parent, i) =>
           <div key={i}>
             <h2>

@@ -48,6 +48,7 @@ class SubProducts extends React.Component<
           <List>
             {subProducts.map((el, index) =>
               <List.Item
+                className={styles.item}
                 key={index}
                 onClick={() => this.onChangePrice(el.id)}
                 thumb={

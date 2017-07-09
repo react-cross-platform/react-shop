@@ -20,6 +20,7 @@ class MenuTrigger extends React.Component<
   IConnectedMenuTriggerProps & IMenuTriggerProps,
   any
 > {
+
   onClick = e => {
     e.preventDefault();
     this.props.dispatch({ type: ACTION_TOOTLE_MENU });

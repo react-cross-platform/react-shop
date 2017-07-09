@@ -12,6 +12,12 @@
   padding: 0 20px;
 }
 
+.title {
+  margin: 0;
+  text-align: center;
+  width: 80%;
+}
+
 .flatpage * {
   color: black !important;
   font-size: 30px;
