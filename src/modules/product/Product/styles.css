@@ -1,3 +1,37 @@
 .product {
-  text-align: left;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  width: 100%;
+}
+
+.product hr {
+  margin: 20px 0;
+}
+
+.productTop {
+  flex: 1;
+  background-color: #2474cc;
+  color: white;
+  min-height: 80px;
+  width: 100%;
+  z-index: 1000;
+}
+
+.productTopBack {
+  fill: white;
+  padding: 0 20px;
+  height: 80px;
+}
+
+.productContent {
+  flex-grow: 1;
+  overflow: auto;
+  margin-bottom: 30px;
+  background: white;
+}
+
+.productName {
+  text-align: center;
+  width: 80%;
 }

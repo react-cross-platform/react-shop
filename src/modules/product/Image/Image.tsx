@@ -9,7 +9,6 @@ export const scaleImageSize = (width, height, ratio = 1) => {
   };
 };
 
-// tslint:disable-next-line:no-var-requires
 const styles = require("./styles.css");
 
 interface ImageProps {

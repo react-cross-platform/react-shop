@@ -1,4 +1,4 @@
-import { Flex, Icon } from "antd-mobile";
+import { Icon } from "antd-mobile";
 import update from "immutability-helper";
 import { throttle } from "lodash";
 import * as React from "react";
@@ -13,7 +13,6 @@ import { IAllProduct, ICatalog } from "../model";
 
 const ALL_PRODUCTS_QUERY = require("./allProducts.gql");
 
-// tslint:disable-next-line:no-var-requires
 const styles = require("./styles.css");
 
 const LIMIT = 10;
@@ -30,6 +29,7 @@ interface IDataProducts extends IData {
 
 interface IConnectedProductsProps {
   catalog: ICatalog;
+  router: any;
   data: IDataProducts;
 }
 
@@ -110,21 +110,22 @@ class Products extends React.Component<
   };
 
   handleScroll = event => {
-    const { data } = this.props;
-    const { fetchMore, allProducts: { products, total } } = data;
+    const { router, data } = this.props;
+    if (router.location.pathname.indexOf("category") !== -1) {
+      const { fetchMore, allProducts: { products, total } } = data;
 
-    // Calculate scrolled products
-    const { scrolledProducts, haveMoreProducts } = this.state;
-    const scrolled = Math.round(
-      event.srcElement.scrollTop / this.bottomHeight * products.length
-    );
-    this.setState({ scrolledProducts: scrolled });
+      // Calculate scrolled products
+      const scrollTop = event.srcElement.scrollTop;
+      // const scrollTop = document.body.scrollTop;
+      const { scrolledProducts, haveMoreProducts } = this.state;
+      const scrolled = Math.round(
+        scrollTop / this.bottomHeight * products.length
+      );
+      this.setState({ scrolledProducts: scrolled });
 
-    if (
-      event.srcElement.scrollTop > this.bottomHeight &&
-      haveMoreProducts === true
-    ) {
-      fetchMore();
+      if (scrollTop > this.bottomHeight && haveMoreProducts === true) {
+        fetchMore();
+      }
     }
   };
 
@@ -218,7 +219,8 @@ class Products extends React.Component<
 }
 
 const mapStateToProps: any = state => ({
-  catalog: state.catalog
+  catalog: state.catalog,
+  router: state.router
 });
 
 export default compose(

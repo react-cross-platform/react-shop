@@ -1,7 +1,6 @@
 import { Progress } from "antd-mobile";
 import * as React from "react";
 
-// tslint:disable-next-line:no-var-requires
 const styles = require("./styles.css");
 
 interface IProductsCounterProps {

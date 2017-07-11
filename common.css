@@ -11,3 +11,25 @@ body {
 .am-list-body::after {
   display: none !important;
 }
+
+.am-modal-body {
+  color: black !important;
+  font-size: inherit !important;
+}
+
+.am-modal-content {
+  text-align: inherit !important;
+}
+
+html.overlayVisible,
+html.overlayVisible body {
+  height: 100%;
+  overflow: hidden;
+  user-select: none;
+}
+
+.am-drawer-sidebar {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+

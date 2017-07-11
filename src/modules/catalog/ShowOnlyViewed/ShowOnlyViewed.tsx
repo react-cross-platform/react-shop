@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { ACTION_TOGGLE_SHOW_ONLY_VIEWED } from "../constants";
 import { ICatalog } from "../model";
 
-// tslint:disable-next-line:no-var-requires
 const styles = require("./styles.css");
 
 interface IConnectedShowOnlyViewedProps {

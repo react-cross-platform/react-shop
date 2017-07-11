@@ -1,24 +1,9 @@
 import * as React from "react";
 import { compose, gql, graphql } from "react-apollo";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-
-import {
-  Card,
-  Carousel,
-  Flex,
-  Grid,
-  Icon,
-  List,
-  NavBar,
-  WingBlank
-} from "antd-mobile";
 
 import { IData } from "../../../model";
-
-import { ACTION_TOOTLE_CATALOG } from "../../layout/constants";
-import { HEIGHT } from "../../layout/Header/Header";
-import { Loading, SubCatalog } from "../../layout/index";
+import { SubCatalog } from "../../layout/index";
 import { ICategory } from "../../product/model";
 import { ILayout } from "../model";
 
@@ -52,6 +37,7 @@ class Catalog extends React.Component<
     const { loading, categories } = data;
     const startCats: any = [];
     const childrenMap: any = {};
+    const style = {};
     for (const cat of categories) {
       if (cat.parent) {
         const key = cat.parent.id;
@@ -66,13 +52,13 @@ class Catalog extends React.Component<
 
     if (isDrawer === true) {
       // tslint:disable-next-line:no-string-literal
-      styles["width"] = window.innerWidth * 0.9;
+      style["width"] = window.innerWidth * 0.9;
       // tslint:disable-next-line:no-string-literal
-      styles["padding"] = 10;
+      style["padding"] = 10;
     }
 
     return (
-      <div className={styles.startCats}>
+      <div className={styles.catalog} style={style}>
         {startCats.map((parent, i) =>
           <div key={i}>
             <h2>

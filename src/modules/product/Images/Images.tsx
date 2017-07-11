@@ -1,9 +1,9 @@
-import { Carousel, Flex, WhiteSpace, WingBlank } from "antd-mobile";
+import { Carousel, Flex } from "antd-mobile";
 import * as React from "react";
+
 import { scaleImageSize } from "../Image/Image";
 import { IImage } from "../model";
 
-// tslint:disable-next-line:no-var-requires
 const styles = require("./styles.css");
 
 interface IImagesProps {
@@ -11,13 +11,11 @@ interface IImagesProps {
 }
 
 interface IImagesState {
-  // data: [string];
   initialHeight: any;
 }
 
 class Images extends React.Component<IImagesProps, IImagesState> {
   state = {
-    data: ["", "", ""],
     initialHeight: 200
   };
 
@@ -27,6 +25,7 @@ class Images extends React.Component<IImagesProps, IImagesState> {
       ...images.map(img => scaleImageSize(img.width, img.height, 1.5).height)
     );
 
+    const height = window.innerHeight * 0.73;
     if (images.length > 1) {
       return (
         <Carousel
@@ -36,7 +35,7 @@ class Images extends React.Component<IImagesProps, IImagesState> {
           infinite={false}
           selectedIndex={0}
           style={{
-            height: maxImageHeight + 80
+            height
           }}
         >
           {this.props.images.map((image, i) =>
@@ -45,7 +44,7 @@ class Images extends React.Component<IImagesProps, IImagesState> {
               justify="center"
               align="center"
               style={{
-                height: maxImageHeight
+                height
               }}
             >
               <img

@@ -5,7 +5,6 @@ import Ripples from "react-ripples";
 import { Modal, utils } from "../../layout/index";
 import { HEIGHT } from "../Header/Header";
 
-// tslint:disable-next-line:no-var-requires
 const styles = require("./styles.css");
 
 function createMarkup(html) {

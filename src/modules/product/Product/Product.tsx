@@ -1,17 +1,18 @@
+import { Flex, Icon } from "antd-mobile";
 import * as React from "react";
 import { compose, gql, graphql } from "react-apollo";
 import { connect } from "react-redux";
+import Ripples from "react-ripples";
 
 import { IData } from "../../../model";
 import { ACTION_ADD_VIEWED_PRODUCT } from "../../catalog/constants";
 import { Loading } from "../../layout/index";
 import { ACTION_SELECT_SUBPRODUCT } from "../constants";
 import { Images, ProductBuy, ProductInfo } from "../index";
-import { ICurrentDataProduct, IProduct } from "../model";
+import { ICurrentProduct, IProduct } from "../model";
 
 const PRODUCT_QUERY = require("./product.gql");
 
-// tslint:disable-next-line:no-var-requires
 const styles = require("./styles.css");
 
 interface IDataProduct extends IData {
@@ -20,12 +21,14 @@ interface IDataProduct extends IData {
 
 interface IConnectedProductProps {
   data: IDataProduct;
-  product: ICurrentDataProduct;
+  product: ICurrentProduct;
   dispatch: any;
 }
 
 interface IProductProps {
   id: string;
+  isModal: boolean;
+  history: any;
 }
 
 const options = {
@@ -72,24 +75,50 @@ class Product extends React.Component<
     }
   };
 
+  back = e => {
+    e.stopPropagation();
+    this.props.history.goBack();
+    this.setState({
+      showModal: false
+    });
+  };
+
   render() {
-    const { data } = this.props;
+    const { isModal, data } = this.props;
     const { loading, product } = data;
     const { subProductId, colorId } = this.props.product;
     if (loading === true || subProductId === null) {
       return <Loading />;
     }
-    const { images, subProducts } = product;
+    const { brand, images, subProducts } = product;
     const activeSubProduct = getActiveSubProduct(subProducts, subProductId);
     const { price, oldPrice } = activeSubProduct;
 
     return (
       <div className={styles.product}>
-        <Images images={images} />
-        <ProductInfo
-          dataProduct={product}
-          activeSubProduct={activeSubProduct}
-        />
+        {isModal
+          ? <Flex className={styles.productTop} justify="start" align="center">
+              <Ripples during={200}>
+                <Icon
+                  className={styles.productTopBack}
+                  type={require("!svg-sprite-loader!./back.svg")}
+                  size="md"
+                  onClick={this.back}
+                />
+              </Ripples>
+              <div className={styles.productName}>
+                {product.name} {brand.name}
+              </div>
+            </Flex>
+          : ""}
+
+        <div className={styles.productContent}>
+          <Images images={images} />
+          <ProductInfo
+            dataProduct={product}
+            activeSubProduct={activeSubProduct}
+          />
+        </div>
         <ProductBuy price={price} oldPrice={oldPrice} />
       </div>
     );

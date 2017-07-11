@@ -1,14 +1,14 @@
+import { Modal } from "antd-mobile";
 import * as React from "react";
 
-// tslint:disable-next-line:no-var-requires
 const styles = require("./styles.css");
 
-const Modal = props => {
+const MyModal = props => {
   return (
-    <div className={styles.modal}>
+    <Modal className={styles.modal} visible={true} transparent={false}>
       {props.children}
-    </div>
+    </Modal>
   );
 };
 
-export default Modal;
+export default MyModal;

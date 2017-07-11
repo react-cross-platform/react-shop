@@ -1,13 +1,12 @@
-import { Button, Flex, Icon } from "antd-mobile";
+import { Flex, Icon } from "antd-mobile";
 import * as React from "react";
 import { compose } from "react-apollo";
 import { connect } from "react-redux";
 import Ripples from "react-ripples";
-import { Link, NavLink } from "react-router-dom";
-import { ACTION_RESET, ACTION_TOOTLE_MENU } from "../../layout/constants";
+import { Link } from "react-router-dom";
+
 import { ILayout } from "../model";
 
-// tslint:disable-next-line:no-var-requires
 const styles = require("./styles.css");
 
 interface IConnectedHomeTriggerProps {
@@ -32,7 +31,7 @@ const Logo = ({ height, isActive }) => {
     >
       REACT
       <Icon
-        className={styles.icon}
+        className={styles.logoIcon}
         type={require("!svg-sprite-loader!./logo.svg")}
         size="md"
         style={{

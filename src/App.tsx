@@ -30,7 +30,7 @@ class FlatPageSwitch extends React.Component<any, any> {
       location.state &&
       location.state.modal &&
       this.previousLocation !== location
-    ); // not initial render
+    );
     return (
       <div>
         {isModal
@@ -62,7 +62,7 @@ class ProductsSwitch extends React.Component<any, any> {
       location.state &&
       location.state.modal &&
       this.previousLocation !== location
-    ); // not initial render
+    );
     return (
       <div>
         <Switch location={isModal ? this.previousLocation : location}>

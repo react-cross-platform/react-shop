@@ -71,23 +71,6 @@ module.exports = {
           }
         })
       },
-
-      // project styles with CSS Modules
-      // {
-      //   test: /\.css$/,
-      //   use: ExtractTextPlugin.extract({
-      //       fallback: 'style-loader',
-      //       loader: [
-      //           "css-loader?modules&importLoaders=1&localIdentName=[local]___[hash:base64:5]",
-      //           "postcss-loader",
-      //       ],
-      //
-      //
-      //   }),
-      //   // loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[local]___[hash:base64:5]!postcss-loader'),
-      //   include: [path.resolve(__dirname, "./src")],
-      // },
-
       {
         test: /\.gql$/,
         use: "raw-loader",

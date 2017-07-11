@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import { ACTION_RESET } from "../../modules/layout/constants";
 import { Catalog, FlatPages } from "../../modules/layout/index";
 
+const styles = require("./styles.css");
+
 class HomePage extends React.Component<any, any> {
   constructor(props) {
     super(props);
@@ -14,7 +16,7 @@ class HomePage extends React.Component<any, any> {
 
   render() {
     return (
-      <div>
+      <div className={styles.homePage}>
         <WingBlank size="sm">
           <Catalog isDrawer={false} />
         </WingBlank>

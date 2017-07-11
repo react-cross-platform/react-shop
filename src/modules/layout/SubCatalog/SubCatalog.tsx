@@ -1,17 +1,15 @@
 import { Card, Flex } from "antd-mobile";
 import * as React from "react";
-import { compose, gql, graphql } from "react-apollo";
-import LazyLoad from "react-lazy-load";
+import { compose } from "react-apollo";
 import { connect } from "react-redux";
 import Ripples from "react-ripples";
-import { Link } from "react-router-dom";
 import { push } from "react-router-redux";
+
 import { ACTION_ADD_VIEWED_CATEGORY } from "../../catalog/constants";
 import { ICategory } from "../../product/model";
-import { ACTION_DISABLE_CATALOG, ACTION_RESET } from "../constants";
+import { ACTION_DISABLE_CATALOG } from "../constants";
 import { ILayout } from "../model";
 
-// tslint:disable-next-line:no-var-requires
 const styles = require("./styles.css");
 
 interface IConnectedSubCatalogProps {
@@ -65,7 +63,7 @@ class SubCatalog extends React.Component<
 
   render() {
     const { dispatch, categories, isDrawer } = this.props;
-
+    const height = window.innerWidth / 2;
     return (
       <div>
         {chunk(categories, 2).map((cats, i) =>
@@ -82,13 +80,13 @@ class SubCatalog extends React.Component<
                   <Card>
                     <Ripples>
                       <div
-                        className={styles.card}
+                        className={styles.category}
                         style={{
                           opacity: this.isCurrentCategory(cat.id) ? 0.3 : 1
                         }}
                         onClick={e => this.onClick(e, cat)}
                       >
-                        <img src={cat.image || ""} />
+                        <img src={cat.image.src || ""} />
                         <div className={styles.name}>
                           {cat.name}
                         </div>

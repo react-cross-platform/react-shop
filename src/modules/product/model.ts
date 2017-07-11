@@ -1,4 +1,4 @@
-export interface ICurrentDataProduct {
+export interface ICurrentProduct {
   subProductId: string;
   colorId: number;
 }
@@ -14,6 +14,7 @@ export interface ICategory {
   alias: string;
   products: [IProduct];
   parent: IParentCategory;
+  image: IImage;
 }
 
 export interface IProduct {

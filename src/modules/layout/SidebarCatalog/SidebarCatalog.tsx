@@ -4,25 +4,16 @@ import { connect } from "react-redux";
 import Sidebar from "react-sidebar";
 
 import { ACTION_TOOTLE_CATALOG } from "../constants";
-import { Catalog, utils } from "../index";
+import { Catalog } from "../index";
 import { ILayout } from "../model";
+import { swipeEnabled } from "../utils";
 
 interface IConnectedSideBarProps {
   layout: ILayout;
   dispatch: any;
 }
 
-const CatalogMenu = props => {
-  return (
-    <div>
-      <Catalog isDrawer={true} />
-    </div>
-  );
-};
-
-const sidebarStyles = {
-  content: { overflowY: "scroll", WebkitOverflowScrolling: "touch" }
-};
+const styles = require("./styles.css");
 
 class SidebarCatalog extends React.Component<IConnectedSideBarProps, any> {
   onSetSidebarOpen = () => {
@@ -34,14 +25,14 @@ class SidebarCatalog extends React.Component<IConnectedSideBarProps, any> {
     const { layout } = this.props;
     return (
       <Sidebar
-        styles={sidebarStyles}
-        touch={utils.swipeEnabled()}
-        sidebar={<CatalogMenu />}
+        contentClassName={styles.content}
         open={layout.openCatalog}
-        touchHandleWidth={50}
-        dragToggleDistance={60}
-        // onOpenChange={this.onSetSidebarOpen as any}
         onSetOpen={this.onSetSidebarOpen as any}
+        sidebar={<Catalog isDrawer={true} />}
+        sidebarClassName={styles.sidebar}
+        touch={swipeEnabled()}
+        dragToggleDistance={30}
+        touchHandleWidth={100}
       >
         {this.props.children}
       </Sidebar>

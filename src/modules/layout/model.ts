@@ -2,7 +2,6 @@ import { ICategory } from "../product/model";
 
 export interface ILayout {
   openCatalog: boolean;
-  openMenu: boolean;
 }
 
 export interface ICategories {

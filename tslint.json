@@ -1,39 +1,18 @@
 {
-  "extends": [
-    "tslint:latest",
-    "tslint-react",
-    "tslint-config-prettier"
-  ],
+  "extends": ["tslint:latest", "tslint-react", "tslint-config-prettier"],
   "rules": {
-    "align": [
-      true,
-      "parameters",
-      "statements"
-    ],
-    "ordered-imports": [
-      true
-    ],
+    "align": [true, "parameters", "statements"],
+    "ordered-imports": [true],
     "class-name": true,
-    "comment-format": [
-      true,
-      "check-space"
-    ],
+    "comment-format": [true, "check-space"],
     "curly": true,
     "eofline": true,
     "forin": true,
-    "indent": [
-      true,
-      "spaces"
-    ],
+    "indent": [true, "spaces"],
     "jsdoc-format": false,
     "label-position": true,
-    "max-line-length": [
-      true,
-      120
-    ],
-    "member-access": [
-      false
-    ],
+    "max-line-length": [true, 120],
+    "member-access": [false],
     "member-ordering": [
       true,
       {
@@ -46,15 +25,7 @@
     "no-bitwise": true,
     "no-conditional-assignment": true,
     "no-consecutive-blank-lines": true,
-    "no-console": [
-      true,
-      "debug",
-      "info",
-      "log",
-      "time",
-      "timeEnd",
-      "trace"
-    ],
+    "no-console": [true, "debug", "info", "log", "time", "timeEnd", "trace"],
     "no-construct": true,
     "no-constructor-vars": false,
     "no-debugger": true,
@@ -81,24 +52,12 @@
       "check-open-brace",
       "check-whitespace"
     ],
-    "one-variable-per-declaration": [
-      true,
-      "ignore-for-loop"
-    ],
-    "quotemark": [
-      true,
-      "double",
-      "jsx-double"
-    ],
+    "one-variable-per-declaration": [true, "ignore-for-loop"],
+    "quotemark": [true, "double", "jsx-double"],
     "radix": true,
     "switch-default": true,
-    "trailing-comma": [
-      false
-    ],
-    "triple-equals": [
-      true,
-      "allow-null-check"
-    ],
+    "trailing-comma": [false],
+    "triple-equals": [true, "allow-null-check"],
     "typedef-whitespace": [
       true,
       {

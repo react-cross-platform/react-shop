@@ -10,7 +10,6 @@ import { IFlatPage, ILayout } from "../model";
 
 const FLATPAGES_QUERY = require("./flatpages.gql");
 
-// tslint:disable-next-line:no-var-requires
 const styles = require("./styles.css");
 
 interface IFlatPagesData extends IData {

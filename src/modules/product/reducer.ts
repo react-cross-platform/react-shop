@@ -1,4 +1,5 @@
 import update from "immutability-helper";
+
 import { ACTION_SELECT_COLOR, ACTION_SELECT_SUBPRODUCT } from "./constants";
 
 const DEFAULT_PRODUCT = {

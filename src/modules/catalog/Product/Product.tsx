@@ -8,7 +8,6 @@ import { scaleImageSize } from "../../product/index";
 import { IProduct } from "../../product/model";
 import { ICatalog } from "../model";
 
-// tslint:disable-next-line:no-var-requires
 const styles = require("./styles.css");
 
 const getMinOfArray = numArray => {

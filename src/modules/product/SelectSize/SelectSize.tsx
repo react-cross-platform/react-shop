@@ -11,14 +11,13 @@ import {
   WingBlank
 } from "antd-mobile";
 import { ACTION_SELECT_SUBPRODUCT } from "../constants";
-import { ICurrentDataProduct, ISubProduct } from "../model";
+import { ICurrentProduct, ISubProduct } from "../model";
 
-// tslint:disable-next-line:no-var-requires
 const styles = require("./styles.css");
 
 interface IConnectedSubProductsProps {
   dispatch: any;
-  product: ICurrentDataProduct;
+  product: ICurrentProduct;
 }
 
 interface ISubProductsProps {

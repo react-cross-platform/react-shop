@@ -1,19 +1,19 @@
 import * as React from "react";
 
-import { Header, SidebarCatalog, SidebarMenu } from "../index";
+import { Header, SidebarCatalog } from "../index";
+
+const styles = require("./styles.css");
 
 class Layout extends React.Component<any, any> {
   render() {
     return (
-      <div>
+      <div className={styles.layout}>
         <Header />
-        <SidebarMenu>
-          <SidebarCatalog>
-            <div>
-              {this.props.children}
-            </div>
-          </SidebarCatalog>
-        </SidebarMenu>
+        <SidebarCatalog>
+          <div className={styles.layoutContent}>
+            {this.props.children}
+          </div>
+        </SidebarCatalog>
       </div>
     );
   }

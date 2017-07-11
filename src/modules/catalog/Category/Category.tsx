@@ -1,29 +1,13 @@
-import {
-  Button,
-  Card,
-  Carousel,
-  Flex,
-  Icon,
-  List,
-  NavBar,
-  WhiteSpace,
-  WingBlank
-} from "antd-mobile";
 import * as React from "react";
 import { compose, gql, graphql } from "react-apollo";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import client from "../../../graphqlClient";
-import { ACTION_TOOTLE_CATALOG } from "../../layout/constants";
-import { HEIGHT } from "../../layout/Header/Header";
-import { Loading, utils } from "../../layout/index";
+
+import { Loading } from "../../layout/index";
 import { ILayout } from "../../layout/model";
-import { ICategory } from "../../product/model";
-import { Product, Products } from "../index";
+import { Products } from "../index";
 
 const CATEGORY_QUERY = require("./category.gql");
 
-// tslint:disable-next-line:no-var-requires
 const styles = require("./styles.css");
 
 interface IConnectedCategoryProps {
@@ -56,16 +40,8 @@ class Category extends React.Component<
     if (loading === true) {
       return <Loading />;
     }
-    // const category = client.readFragment({
-    //   fragment: gql`
-    //     fragment categoryName on CategoryType {
-    //       name
-    //     }
-    //   `,
-    //   id: `CategoryType:${id}`,
-    // }) as ICategory;
     return (
-      <div style={{ margin: "20px 10px" }}>
+      <div style={{ margin: "120px 10px 20px 10px" }}>
         {category
           ? <h2 className={styles.category}>
               {category.name}

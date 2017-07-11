@@ -1,4 +1,4 @@
-.card {
+.category {
   height: 190px;
   padding-bottom: 10px;
   padding-top: 30px;
@@ -12,4 +12,15 @@
 .flexItem {
   margin: 5px !important;
   text-align: center;
+}
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.imageContainer img {
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
 }
