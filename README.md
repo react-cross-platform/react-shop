@@ -11,11 +11,20 @@ CAUTION: This code is for fun. Now it isn't stable, isn't production ready and s
 
 ## Long term idea
 
-Single monorepo (maybe [Lerna](https://github.com/lerna/lerna)) to share JS code between projects:
+Cross-platform front-end for
 
 * web and mobile web ([React](https://facebook.github.io/react/))
 * mobile apps ([React Native](https://facebook.github.io/react-native/))
-* desktop apps ([Electron](https://electron.atom.io/))
+* desktop apps ([React + Electron](https://electron.atom.io/))
+
+with shared common code using
+
+* [ReactXP](https://github.com/Microsoft/reactxp)
+* or [Lerna](https://github.com/lerna/lerna)
+
+Smells like future front-end!
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/-5VkI0dpHek/0.jpg)](https://www.youtube.com/watch?v=-5VkI0dpHek)
 
 ## Current tech stack (mobile web)
 
