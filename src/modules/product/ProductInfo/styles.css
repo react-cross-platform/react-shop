@@ -1,36 +1,38 @@
-.tabTitle {
+.productInfo {
+  background-color: #fff;
+  padding-bottom: 75px;
+}
+
+.sectionTitle {
   color: #1296db;
   font-size: 0.35rem;
   margin: 0.2rem 0;
 }
 
-.tabText {
+.description {
   font-size: 0.33rem;
   line-height: 0.45rem;
 }
 
-.tabText p {
+.description p {
   margin-bottom: 0;
   margin-top: 0.1rem;
 }
 
-.tabIcons {
+.colors {
   text-align: center;
-  width: 100%;
 }
 
-.tabIcon {
+.colorIcon {
   margin-left: 0.05rem;
   margin-right: 0.05rem;
 }
 
-.firstTabPane {
-  margin-bottom: 30px;
-}
-
-.tabPaneArea {
-  background-color: #fff;
-  padding-bottom: 75px;
+.colorName {
+  color: gray;
+  text-align: right;
+  text-transform: lowercase;
+  width: 28%;
 }
 
 .productName {
@@ -38,52 +40,12 @@
   height: 120px;
 }
 
-.availability {
-  color: green;
-  font-size: 24px;
-  line-height: 0.4rem;
-}
-
-.productCode {
-  color: #b94a48;
-  font-size: 24px;
-  line-height: 0.4rem;
-}
-
-.iconName {
-  color: #1296db;
-}
-
-.nameStyle {
-  color: #1296db;
-  font-size: 0.35rem;
-  padding-left: 0.3rem;
-  padding-right: 0.3rem;
-}
-
-.oneColor {
-  color: #1296db;
-  font-size: 0.35rem;
-  margin-left: 0.3rem;
-}
-
-.characteristicName {
+.paramtName {
   font-size: 0.33rem;
   line-height: 0.45rem;
 }
 
-.characteristicValue {
+.paramValue {
   color: #8a8282;
   line-height: 0.45rem;
-}
-
-.aboutProduct {
-  font-size: 0.35rem;
-  padding-left: 0.3rem;
-}
-
-.colorName {
-  color: gray;
-  text-align: right;
-  text-transform: lowercase;
 }

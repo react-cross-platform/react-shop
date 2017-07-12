@@ -52,7 +52,7 @@ class ProductInfo extends React.Component<
         : images.filter(image => image.isTitle === true)[0];
 
     return (
-      <div className={styles.tabPaneArea}>
+      <div className={styles.productInfo}>
         <WhiteSpace size="lg" />
         <WingBlank>
           <h2 className={styles.productName}>
@@ -60,7 +60,7 @@ class ProductInfo extends React.Component<
           </h2>
         </WingBlank>
 
-        {/* Select SubProduct */}
+        {/* Select SubProduct section */}
         {subProducts.length > 1
           ? <div>
               <SubProducts subProducts={subProducts} />
@@ -68,17 +68,17 @@ class ProductInfo extends React.Component<
             </div>
           : ""}
 
-        {/* Select Color */}
+        {/* Select Color section */}
         <WingBlank>
           <Flex justify="between">
-            <div className={styles.tabTitle}>Цвет</div>
-            <div className={styles.tabIcons}>
+            <div className={styles.sectionTitle}>Цвет</div>
+            <div className={styles.colors}>
               {images.filter(el => el.colorValue !== "").length > 1
                 ? images.filter(el => el.colorValue !== "").map(
                     (e, i) =>
                       e.id === this.props.product.colorId
                         ? <Icon
-                            className={styles.tabIcon}
+                            className={styles.colorIcon}
                             key={i}
                             type={require("svg-sprite-loader!./circle-check_color.svg")}
                             style={{
@@ -87,7 +87,7 @@ class ProductInfo extends React.Component<
                             }}
                           />
                         : <Icon
-                            className={styles.tabIcon}
+                            className={styles.colorIcon}
                             key={i}
                             onClick={() => this.changeColor(e.id)}
                             type={require("svg-sprite-loader!./icon-circle-for-colors.svg")}
@@ -117,24 +117,26 @@ class ProductInfo extends React.Component<
 
         <hr />
 
+        {/* Product params section */}
         <WingBlank>
-          <div className={styles.tabTitle}>Характеристики</div>
+          <div className={styles.sectionTitle}>Характеристики</div>
           {attributes.map((el, index) =>
             <Flex key={index} justify="between">
-              <Flex className={styles.characteristicName}>
+              <Flex className={styles.paramtName}>
                 {el.name}
               </Flex>
-              <Flex className={styles.characteristicValue}>
+              <Flex className={styles.paramValue}>
                 {el.values.map(v => v.name).join(", ")}
               </Flex>
             </Flex>
           )}
 
+          {/* Product description section */}
           {subProducts.length === 1
             ? subProducts.map((supProduct, i) =>
                 <Flex key={i} justify="between">
-                  <div className={styles.characteristi}>Размер, ШxВxГ</div>
-                  <div className={styles.characteristicValue}>
+                  <div className={styles.paramtName}>Размер, ШxВxГ</div>
+                  <div className={styles.paramValue}>
                     {supProduct.attributes.length !== 0
                       ? supProduct.attributes
                           .slice(0, 3)
@@ -146,12 +148,14 @@ class ProductInfo extends React.Component<
               )
             : ""}
         </WingBlank>
-        {/* About Product */}
+
         <hr />
+
+        {/* Product description section */}
         <WingBlank>
-          <div className={styles.tabTitle}>О товаре</div>
+          <div className={styles.sectionTitle}>О товаре</div>
           <div
-            className={styles.tabText}
+            className={styles.description}
             dangerouslySetInnerHTML={createMarkup(dataProduct.description)}
           />
         </WingBlank>
