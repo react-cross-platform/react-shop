@@ -4,7 +4,7 @@ import { compose } from "react-apollo";
 import { connect } from "react-redux";
 
 import { ACTION_SELECT_COLOR } from "../constants";
-import { SelectSize } from "../index";
+import { SubProducts } from "../index";
 import { ICurrentProduct, IProduct, ISubProduct } from "../model";
 
 const styles = require("./styles.css");
@@ -60,10 +60,15 @@ class ProductInfo extends React.Component<
           </h2>
         </WingBlank>
 
-        {/* Select Sizes */}
-        {subProducts.length > 1 ? <SelectSize subProducts={subProducts} /> : ""}
+        {/* Select SubProduct */}
+        {subProducts.length > 1
+          ? <div>
+              <SubProducts subProducts={subProducts} />
+              <hr />
+            </div>
+          : ""}
 
-        {/* Select Colors*/}
+        {/* Select Color */}
         <WingBlank>
           <Flex justify="between">
             <div className={styles.tabTitle}>Цвет</div>
@@ -109,10 +114,11 @@ class ProductInfo extends React.Component<
             </div>
           </Flex>
         </WingBlank>
+
         <hr />
+
         <WingBlank>
           <div className={styles.tabTitle}>Характеристики</div>
-          <WhiteSpace size="sm" />
           {attributes.map((el, index) =>
             <Flex key={index} justify="between">
               <Flex className={styles.characteristicName}>

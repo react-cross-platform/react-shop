@@ -4,7 +4,7 @@ import Product from "./Product/Product";
 import ProductBuy from "./ProductBuy/ProductBuy";
 import ProductInfo from "./ProductInfo/ProductInfo";
 import ProductModal from "./ProductModal/ProductModal";
-import SelectSize from "./SelectSize/SelectSize";
+import SubProducts from "./SubProducts/SubProducts";
 
 import * as model from "./model";
 import reducer from "./reducer";
@@ -16,7 +16,7 @@ export {
   Image,
   scaleImageSize,
   ProductInfo,
-  SelectSize,
+  SubProducts,
   ProductBuy,
   reducer,
   model

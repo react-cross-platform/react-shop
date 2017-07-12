@@ -1,14 +1,7 @@
 .title {
   color: #1296db;
   font-size: 0.35rem;
-}
-
-.item {
-  padding-left: 0 !important;
-}
-
-.SizeNameIcon {
-  color: #1296db;
+  margin: 0.2rem 0;
 }
 
 .checkIcon {

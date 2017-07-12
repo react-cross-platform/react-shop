@@ -5,8 +5,6 @@ import initReactFastclick from "react-fastclick";
 import { AppContainer } from "react-hot-loader";
 import App from "./App";
 
-import "common/styles/common.less";
-
 declare var module: { hot: any };
 
 polyfill();
