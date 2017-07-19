@@ -45,7 +45,7 @@ Smells like future front-end!
 ## How to install
 
 1. Install [Yarn](https://yarnpkg.com/lang/en/docs/install/)
-1. Clone git project and `cd` to it
+1. Clone git project and `cd` to it with command `git clone https://github.com/ArtemSerga/react-shop.git && cd react-shop`
 1. Copy `.env.default` file to `.env` with command `cp .env.default .env`. This will be your local settings
 1. Install packages by running `yarn install`
 1. Start project with `yarn start`
@@ -53,7 +53,7 @@ Smells like future front-end!
 
 ## Architecture
 
-### One React component - one directory
+### One React component - one self-contained directory
 
 ```bash
 
@@ -61,7 +61,7 @@ Smells like future front-end!
   /MyComponent.tsx
   /myQuery.gql  # GraphQL query. Named like "GraphQl root query field". Can be multiple per directory
   /styles.css  # local-scoped styles with CSS-Modules
-  /myIcon.svg  # some media. Can be multiple per directory
+  /my-icon.svg  # some media. Can be multiple per directory
   /readme.md  # component-related docs
 ```
 
