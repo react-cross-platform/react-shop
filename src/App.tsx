@@ -10,7 +10,7 @@ import { Product, ProductModal } from "./modules/product/index";
 import { CategoryPage, HomePage, ProductPage } from "./pages/index";
 import store from "./store";
 
-class FlatPageSwitch extends React.Component<any, any> {
+class ModalSwitch extends React.Component<any, any> {
   previousLocation = this.props.location;
 
   componentWillUpdate(nextProps) {
@@ -31,46 +31,21 @@ class FlatPageSwitch extends React.Component<any, any> {
       location.state.modal &&
       this.previousLocation !== location
     );
+    const _location = isModal ? this.previousLocation : location;
+
     return (
       <div>
-        {isModal
-          ? <Route path="/flatpage/:id" component={FlatPageModal} />
-          : null}
-      </div>
-    );
-  }
-}
-
-// tslint:disable-next-line:max-classes-per-file
-class ProductsSwitch extends React.Component<any, any> {
-  previousLocation = this.props.location;
-
-  componentWillUpdate(nextProps) {
-    const { location } = this.props;
-    if (
-      nextProps.history.action !== "POP" &&
-      (!location.state || !location.state.modal)
-    ) {
-      this.previousLocation = this.props.location;
-    }
-  }
-
-  render() {
-    // https://reacttraining.com/react-router/web/example/modal-gallery
-    const { location } = this.props;
-    const isModal = !!(
-      location.state &&
-      location.state.modal &&
-      this.previousLocation !== location
-    );
-    return (
-      <div>
-        <Switch location={isModal ? this.previousLocation : location}>
+        <Switch location={_location}>
+          <Route exact={true} path="/" component={HomePage} />
           <Route path="/category/:id" component={CategoryPage} />
           <Route path="/product/:id" component={ProductPage} />
         </Switch>
+
         {isModal
-          ? <Route path="/product/:id" component={ProductModal} />
+          ? <div>
+              <Route path="/flatpage/:id" component={FlatPageModal} />
+              <Route path="/product/:id" component={ProductModal} />
+            </div>
           : null}
       </div>
     );
@@ -82,9 +57,7 @@ const App = () => {
     <ApolloProvider store={store} client={client}>
       <ConnectedRouter history={history}>
         <Layout>
-          <Route exact={true} path="/" component={HomePage} />
-          <Route component={ProductsSwitch} />
-          <Route component={FlatPageSwitch} />
+          <Route component={ModalSwitch} />
         </Layout>
       </ConnectedRouter>
     </ApolloProvider>
