@@ -7,13 +7,13 @@ import { ICatalog } from "../model";
 const styles = require("./styles.css");
 
 interface IConnectedShowOnlyViewedProps {
-  dispatch: any;
+  dispatch?: any;
   catalog: ICatalog;
 }
 
 class ShowOnlyViewed extends React.Component<
   IConnectedShowOnlyViewedProps,
-  any
+  null
 > {
   toggleViewed = e => {
     const { dispatch } = this.props;
@@ -44,4 +44,6 @@ const mapStateToProps: any = state => ({
   catalog: state.catalog
 });
 
-export default connect<any, {}, any>(mapStateToProps)(ShowOnlyViewed);
+export default connect(
+  mapStateToProps
+)(ShowOnlyViewed as any);

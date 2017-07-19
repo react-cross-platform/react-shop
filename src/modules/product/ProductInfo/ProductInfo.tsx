@@ -1,7 +1,8 @@
-import { Checkbox, Flex, Icon, Tabs, WhiteSpace, WingBlank } from "antd-mobile";
+import { Checkbox, Flex, Icon, Tabs, WingBlank } from "antd-mobile";
 import * as React from "react";
 import { compose } from "react-apollo";
 import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
 import { ACTION_SELECT_COLOR } from "../constants";
 import { SubProducts } from "../index";
@@ -14,7 +15,7 @@ const { AgreeItem, CheckboxItem } = Checkbox;
 
 interface IConnectedProductInfoProps {
   product: ICurrentProduct;
-  dispatch: any;
+  dispatch: Dispatch<{}>;
 }
 
 interface IProductInfoProps {

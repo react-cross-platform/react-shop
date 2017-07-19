@@ -1,19 +1,26 @@
 import * as React from "react";
 import { compose, gql, graphql } from "react-apollo";
 import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
+import { IData } from "../../../model";
 import { Loading } from "../../layout/index";
 import { ILayout } from "../../layout/model";
+import { ICategory } from "../../product/model";
 import { Products } from "../index";
 
 const CATEGORY_QUERY = require("./category.gql");
 
 const styles = require("./styles.css");
 
+interface IDataCategory extends IData {
+  category: ICategory;
+}
+
 interface IConnectedCategoryProps {
-  dispatch: any;
+  dispatch: Dispatch<{}>;
   layout: ILayout;
-  data: any;
+  data: IDataCategory;
 }
 
 interface ICategoryProps {
@@ -31,7 +38,7 @@ const options = {
 
 class Category extends React.Component<
   IConnectedCategoryProps & ICategoryProps,
-  any
+  null
 > {
   render() {
     const { id, dispatch, layout, data } = this.props;

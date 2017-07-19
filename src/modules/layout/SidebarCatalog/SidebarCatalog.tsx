@@ -1,8 +1,8 @@
 import * as React from "react";
 import { compose } from "react-apollo";
 import { connect } from "react-redux";
-import { push } from "react-router-redux";
 import Sidebar from "react-sidebar";
+import { Dispatch } from "redux";
 
 import { ACTION_TOOTLE_CATALOG } from "../constants";
 import { Catalog } from "../index";
@@ -11,7 +11,7 @@ import { swipeEnabled } from "../utils";
 
 interface IConnectedSideBarProps {
   layout: ILayout;
-  dispatch: any;
+  dispatch: Dispatch<{}>;
 }
 
 const styles = require("./styles.css");

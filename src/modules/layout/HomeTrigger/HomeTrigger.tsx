@@ -4,14 +4,16 @@ import { compose } from "react-apollo";
 import { connect } from "react-redux";
 import Ripples from "react-ripples";
 import { Link } from "react-router-dom";
+import { Dispatch } from "redux";
 
+import { IRouterReducer } from "../../../interfaces";
 import { ILayout } from "../model";
 
 const styles = require("./styles.css");
 
 interface IConnectedHomeTriggerProps {
-  router: any;
-  dispatch: any;
+  router: IRouterReducer;
+  dispatch: Dispatch<{}>;
   layout: ILayout;
 }
 

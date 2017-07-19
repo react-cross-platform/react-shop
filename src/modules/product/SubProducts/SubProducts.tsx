@@ -1,15 +1,8 @@
+import { Icon, List, WingBlank } from "antd-mobile";
 import * as React from "react";
 import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
-import {
-  Checkbox,
-  Flex,
-  Icon,
-  List,
-  Radio,
-  WhiteSpace,
-  WingBlank
-} from "antd-mobile";
 import { ACTION_SELECT_SUBPRODUCT } from "../constants";
 import { ICurrentProduct, ISubProduct } from "../model";
 
@@ -19,7 +12,7 @@ const Item = List.Item;
 const Brief = Item.Brief;
 
 interface IConnectedSubProductsProps {
-  dispatch: any;
+  dispatch: Dispatch<{}>;
   product: ICurrentProduct;
 }
 

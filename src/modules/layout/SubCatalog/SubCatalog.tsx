@@ -4,8 +4,11 @@ import { compose } from "react-apollo";
 import { connect } from "react-redux";
 import Ripples from "react-ripples";
 import { push } from "react-router-redux";
+import { Dispatch } from "redux";
 
+import { IRouterReducer } from "../../../interfaces";
 import { ACTION_ADD_VIEWED_CATEGORY } from "../../catalog/constants";
+import { ICatalog } from "../../catalog/model";
 import { ICategory } from "../../product/model";
 import { ACTION_DISABLE_CATALOG } from "../constants";
 import { ILayout } from "../model";
@@ -13,10 +16,10 @@ import { ILayout } from "../model";
 const styles = require("./styles.css");
 
 interface IConnectedSubCatalogProps {
-  catalog: any;
+  catalog: ICatalog;
   layout: ILayout;
-  dispatch: any;
-  router: any;
+  dispatch: Dispatch<{}>;
+  router: IRouterReducer;
 }
 
 interface ISubCatalogProps {

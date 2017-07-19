@@ -13,13 +13,15 @@ if (process.env.DEBUG) {
   middlewares.push(logger);
 }
 
+declare var window: { __REDUX_DEVTOOLS_EXTENSION__: () => any };
+
 const store = createStore(
   rootReducer,
   initialState,
   compose(
     applyMiddleware(...middlewares),
-    typeof (window as any).__REDUX_DEVTOOLS_EXTENSION__ !== "undefined"
-      ? (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+    typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== "undefined"
+      ? window.__REDUX_DEVTOOLS_EXTENSION__()
       : f => f
   )
 );

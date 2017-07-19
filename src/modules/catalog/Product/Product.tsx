@@ -3,9 +3,10 @@ import * as React from "react";
 import LazyLoad from "react-lazy-load";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { Dispatch } from "redux";
 
 import { scaleImageSize } from "../../product/index";
-import { IProduct } from "../../product/model";
+import { IImageWithColor, IProduct } from "../../product/model";
 import { ICatalog } from "../model";
 
 const styles = require("./styles.css");
@@ -14,20 +15,21 @@ const getMinOfArray = numArray => {
   return Math.min.apply(null, numArray);
 };
 
-interface IConnectedProductProps {
+interface IConnectedProductProps extends IProduct {
   catalog: ICatalog;
-  dispatch: any;
+  dispatch: Dispatch<{}>;
 }
 
 interface IProductProps extends IProduct {}
 
+interface IProductState {
+  titleImage: IImageWithColor;
+}
+
 class Product extends React.Component<
   IConnectedProductProps & IProductProps,
-  any
+  IProductState
 > {
-  state = {
-    titleImage: {}
-  };
 
   componentWillMount() {
     const { imagesWithColor } = this.props;
@@ -55,7 +57,7 @@ class Product extends React.Component<
       imagesWithColor,
       catalog
     } = this.props;
-    const { titleImage } = this.state as any;
+    const titleImage = this.state.titleImage;
     const subProduct = subProducts[0];
     const url = `/product/${id}`;
     const prices = subProducts.map(el => el.price);

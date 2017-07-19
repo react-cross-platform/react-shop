@@ -16,21 +16,20 @@ class ProductBuy extends React.Component<
 > {
   render() {
     const { price, oldPrice } = this.props;
-
     return (
       <Flex className={styles.buy}>
         <div className={styles.buyPrice}>
           {!!oldPrice
             ? <div>
                 <div className={styles.currentPrice}>
-                  {parseInt(price as any, 10)} грн
+                  {parseInt(String(price), 10)} грн
                 </div>
                 <div className={styles.oldPrice}>
-                  {parseInt(oldPrice as any, 10)} грн
+                  {parseInt(String(oldPrice), 10)} грн
                 </div>
               </div>
             : <div className={styles.price}>
-                {parseInt(price as any, 10)} грн
+                {parseInt(String(price), 10)} грн
               </div>}
         </div>
         <div

@@ -3,13 +3,14 @@ import * as React from "react";
 import { compose } from "react-apollo";
 import { connect } from "react-redux";
 import Ripples from "react-ripples";
+import { Dispatch } from "redux";
 
 import { toggleCatalog } from "../index";
 import { ILayout } from "../model";
 
 interface IConnectedCatalogTriggerProps {
   layout: ILayout;
-  dispatch: any;
+  dispatch: Dispatch<{}>;
 }
 
 interface ICatalogTriggerProps {

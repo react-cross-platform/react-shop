@@ -3,6 +3,7 @@ import * as React from "react";
 import { compose, gql, graphql } from "react-apollo";
 import { connect } from "react-redux";
 import Ripples from "react-ripples";
+import { Dispatch } from "redux";
 
 import { IData } from "../../../model";
 import { ACTION_ADD_VIEWED_PRODUCT } from "../../catalog/constants";
@@ -23,7 +24,7 @@ interface IDataProduct extends IData {
 interface IConnectedProductProps {
   data: IDataProduct;
   product: ICurrentProduct;
-  dispatch: any;
+  dispatch: Dispatch<{}>;
 }
 
 interface IProductProps {

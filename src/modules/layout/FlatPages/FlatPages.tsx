@@ -3,7 +3,9 @@ import * as React from "react";
 import { compose, gql, graphql } from "react-apollo";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { Dispatch } from "redux";
 
+import { IRouterReducer } from "../../../interfaces";
 import { IData } from "../../../model";
 import { Loading } from "../index";
 import { IFlatPage, ILayout } from "../model";
@@ -18,8 +20,8 @@ interface IFlatPagesData extends IData {
 
 interface IConnectedFlatPagesProps {
   layout: ILayout;
-  router: any;
-  dispatch: any;
+  router: IRouterReducer;
+  dispatch: Dispatch<{}>;
   data: IFlatPagesData;
 }
 

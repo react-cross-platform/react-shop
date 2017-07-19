@@ -6,6 +6,7 @@ import { compose, gql, graphql } from "react-apollo";
 import MasonryInfiniteScroller from "react-masonry-infinite";
 import { connect } from "react-redux";
 
+import { IRouterReducer } from "../../../interfaces";
 import { IData } from "../../../model";
 import { Loading } from "../../layout/index";
 import { Product, ProductsCounter } from "../index";
@@ -29,12 +30,17 @@ interface IDataProducts extends IData {
 
 interface IConnectedProductsProps {
   catalog: ICatalog;
-  router: any;
+  router: IRouterReducer;
   data: IDataProducts;
 }
 
 interface IProductsProps {
   categoryId: string;
+}
+
+interface IProductsState {
+  haveMoreProducts?: boolean;
+  scrolledProducts?: number;
 }
 
 const options = {
@@ -86,7 +92,7 @@ const options = {
 
 class Products extends React.Component<
   IConnectedProductsProps & IProductsProps,
-  any
+  IProductsState
 > {
   ref;
 
@@ -113,7 +119,6 @@ class Products extends React.Component<
 
   handleScroll = event => {
     const { router, data } = this.props;
-
     if (router.location.pathname.search("category") !== -1) {
       const { fetchMore, allProducts: { products, total } } = data;
 

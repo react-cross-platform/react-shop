@@ -1,7 +1,9 @@
 import * as React from "react";
 import { compose, gql, graphql } from "react-apollo";
 import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
+import { IRouterReducer } from "../../../interfaces";
 import { IData } from "../../../model";
 import { SubCatalog } from "../../layout/index";
 import { ICategory } from "../../product/model";
@@ -16,9 +18,9 @@ interface ICatalogData extends IData {
 
 interface IConnectedCatalogProps {
   data: ICatalogData;
-  dispatch: any;
+  dispatch: Dispatch<{}>;
   layout: ILayout;
-  router: any;
+  router: IRouterReducer;
 }
 
 interface ICatalogProps {
@@ -35,8 +37,8 @@ class Catalog extends React.Component<
       return <div />;
     }
     const { loading, categories } = data;
-    const startCats: any = [];
-    const childrenMap: any = {};
+    const startCats: ICategory[] = [];
+    const childrenMap = {};
     for (const cat of categories) {
       if (cat.parent) {
         const key = cat.parent.id;
@@ -75,7 +77,7 @@ const mapStateToProps: any = state => ({
   router: state.router
 });
 
-export default compose<any, any, any>(
+export default compose(
   connect<IConnectedCatalogProps, {}, ICatalogProps>(mapStateToProps),
   graphql(
     gql(CATEGORIES_QUERY),
@@ -85,4 +87,4 @@ export default compose<any, any, any>(
       })
     } as any
   )
-)(Catalog);
+)(Catalog as any);
