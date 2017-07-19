@@ -29,8 +29,7 @@ class Product extends React.Component<
     titleImage: {}
   };
 
-  constructor(props) {
-    super(props);
+  componentWillMount() {
     const { imagesWithColor } = this.props;
     this.state = {
       titleImage:

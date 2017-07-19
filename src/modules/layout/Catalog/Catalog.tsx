@@ -15,10 +15,10 @@ interface ICatalogData extends IData {
 }
 
 interface IConnectedCatalogProps {
+  data: ICatalogData;
   dispatch: any;
   layout: ILayout;
   router: any;
-  data: ICatalogData;
 }
 
 interface ICatalogProps {
@@ -27,7 +27,7 @@ interface ICatalogProps {
 
 class Catalog extends React.Component<
   IConnectedCatalogProps & ICatalogProps,
-  any
+  null
 > {
   render() {
     const { isDrawer, data } = this.props;
@@ -37,7 +37,6 @@ class Catalog extends React.Component<
     const { loading, categories } = data;
     const startCats: any = [];
     const childrenMap: any = {};
-    const style = {};
     for (const cat of categories) {
       if (cat.parent) {
         const key = cat.parent.id;
@@ -49,14 +48,9 @@ class Catalog extends React.Component<
         startCats.push(cat);
       }
     }
-
-    if (isDrawer === true) {
-      // tslint:disable-next-line:no-string-literal
-      style["width"] = window.innerWidth * 0.9;
-      // tslint:disable-next-line:no-string-literal
-      style["padding"] = 10;
-    }
-
+    const style = isDrawer
+      ? { width: window.innerWidth * 0.9, padding: 10 }
+      : {};
     return (
       <div className={styles.catalog} style={style}>
         {startCats.map((parent, i) =>
@@ -81,7 +75,7 @@ const mapStateToProps: any = state => ({
   router: state.router
 });
 
-export default compose(
+export default compose<any, any, any>(
   connect<IConnectedCatalogProps, {}, ICatalogProps>(mapStateToProps),
   graphql(
     gql(CATEGORIES_QUERY),

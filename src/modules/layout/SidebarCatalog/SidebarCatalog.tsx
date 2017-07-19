@@ -1,6 +1,7 @@
 import * as React from "react";
 import { compose } from "react-apollo";
 import { connect } from "react-redux";
+import { push } from "react-router-redux";
 import Sidebar from "react-sidebar";
 
 import { ACTION_TOOTLE_CATALOG } from "../constants";
@@ -15,23 +16,22 @@ interface IConnectedSideBarProps {
 
 const styles = require("./styles.css");
 
-class SidebarCatalog extends React.Component<IConnectedSideBarProps, any> {
-  onSetSidebarOpen = () => {
-    const { dispatch } = this.props;
-    dispatch({ type: ACTION_TOOTLE_CATALOG });
-  };
+export const toggleCatalog = (dispatch): any => {
+  dispatch({ type: ACTION_TOOTLE_CATALOG });
+};
 
+class SidebarCatalog extends React.Component<IConnectedSideBarProps, any> {
   render() {
-    const { layout } = this.props;
+    const { layout, dispatch } = this.props;
     return (
       <Sidebar
         contentClassName={styles.content}
+        dragToggleDistance={30}
+        onSetOpen={() => toggleCatalog(dispatch)}
         open={layout.openCatalog}
-        onSetOpen={this.onSetSidebarOpen as any}
         sidebar={<Catalog isDrawer={true} />}
         sidebarClassName={styles.sidebar}
         touch={swipeEnabled()}
-        dragToggleDistance={30}
         touchHandleWidth={100}
       >
         {this.props.children}

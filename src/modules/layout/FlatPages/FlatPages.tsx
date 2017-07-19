@@ -34,8 +34,7 @@ class FlatPages extends React.Component<any, any> {
       content: "",
       id: "",
       name: ""
-    },
-    showModal: false
+    }
   };
 
   getIcon = id => {

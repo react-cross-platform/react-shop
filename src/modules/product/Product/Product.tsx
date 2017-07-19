@@ -1,4 +1,4 @@
-import { Flex, Icon } from "antd-mobile";
+import { Flex, Icon, WingBlank } from "antd-mobile";
 import * as React from "react";
 import { compose, gql, graphql } from "react-apollo";
 import { connect } from "react-redux";
@@ -6,10 +6,11 @@ import Ripples from "react-ripples";
 
 import { IData } from "../../../model";
 import { ACTION_ADD_VIEWED_PRODUCT } from "../../catalog/constants";
+import { HEIGHT } from "../../layout/Header/Header";
 import { Loading } from "../../layout/index";
 import { ACTION_SELECT_SUBPRODUCT } from "../constants";
 import { Images, ProductBuy, ProductInfo } from "../index";
-import { ICurrentProduct, IProduct } from "../model";
+import { ICurrentProduct, IProduct, ISubProduct } from "../model";
 
 const PRODUCT_QUERY = require("./product.gql");
 
@@ -39,7 +40,7 @@ const options = {
   })
 };
 
-const getActiveSubProduct = (subProducts, subProductId) => {
+const getActiveSubProduct = (subProducts, subProductId): ISubProduct => {
   return subProducts.filter(sp => sp.id === subProductId)[0] || subProducts[0];
 };
 
@@ -51,9 +52,8 @@ class Product extends React.Component<
   IConnectedProductProps & IProductProps,
   any
 > {
-  constructor(props) {
-    super(props);
-    const { dispatch, id } = props;
+  componentWillMount() {
+    const { dispatch, id } = this.props;
     dispatch({ type: ACTION_ADD_VIEWED_PRODUCT, productId: id });
   }
 
@@ -78,9 +78,6 @@ class Product extends React.Component<
   back = e => {
     e.stopPropagation();
     this.props.history.goBack();
-    this.setState({
-      showModal: false
-    });
   };
 
   render() {
@@ -106,14 +103,26 @@ class Product extends React.Component<
                   onClick={this.back}
                 />
               </Ripples>
-              <div className={styles.productName}>
-                {product.name} {brand.name}
+              <div className={styles.categoryName} onClick={this.back}>
+                {product.category.name}
               </div>
             </Flex>
           : ""}
 
         <div className={styles.productContent}>
-          <Images images={images} />
+          <Flex
+            style={{ height: window.innerHeight - HEIGHT * 2 }}
+            justify="around"
+            direction="column"
+            className={styles.productMainScreen}
+          >
+            <Images images={images} />
+            <WingBlank className={styles.productName}>
+              {product.name}
+              <br />
+              {brand.name} {activeSubProduct.article}
+            </WingBlank>
+          </Flex>
           <ProductInfo
             dataProduct={product}
             activeSubProduct={activeSubProduct}

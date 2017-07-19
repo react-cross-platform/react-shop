@@ -31,7 +31,16 @@
   background: white;
 }
 
+.categoryName {
+  font-size: 0.4rem;
+  text-align: center;
+  margin-right: 0.9rem;
+  width: 100%;
+}
+
 .productName {
   text-align: center;
-  width: 80%;
+  font-size: 0.4rem;
+  font-weight: bold;
+  line-height: 0.5rem;
 }

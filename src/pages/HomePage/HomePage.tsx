@@ -9,9 +9,8 @@ import { Catalog, FlatPages } from "../../modules/layout/index";
 const styles = require("./styles.css");
 
 class HomePage extends React.Component<any, any> {
-  constructor(props) {
-    super(props);
-    props.dispatch({ type: ACTION_RESET });
+  componentWillMount() {
+    this.props.dispatch({ type: ACTION_RESET });
   }
 
   render() {

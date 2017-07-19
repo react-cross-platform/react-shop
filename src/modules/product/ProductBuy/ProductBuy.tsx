@@ -1,4 +1,4 @@
-import { Flex } from "antd-mobile";
+import { Flex, Toast } from "antd-mobile";
 import * as React from "react";
 
 const styles = require("./styles.css");
@@ -33,7 +33,12 @@ class ProductBuy extends React.Component<
                 {parseInt(price as any, 10)} грн
               </div>}
         </div>
-        <div className={styles.buyButton}>Купить</div>
+        <div
+          onClick={e => Toast.info("To Be Continued...", 2)}
+          className={styles.buyButton}
+        >
+          Купить
+        </div>
       </Flex>
     );
   }

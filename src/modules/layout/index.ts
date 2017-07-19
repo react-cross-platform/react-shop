@@ -12,7 +12,7 @@ import HomeTrigger from "./HomeTrigger/HomeTrigger";
 import Layout from "./Layout/Layout";
 import Loading from "./Loading/Loading";
 import Modal from "./Modal/Modal";
-import SidebarCatalog from "./SidebarCatalog/SidebarCatalog";
+import SidebarCatalog, { toggleCatalog } from "./SidebarCatalog/SidebarCatalog";
 import SubCatalog from "./SubCatalog/SubCatalog";
 import { swipeEnabled } from "./utils";
 
@@ -31,5 +31,6 @@ export {
   SubCatalog,
   model,
   reducer,
+  toggleCatalog,
   utils
 };

@@ -5,7 +5,12 @@ const styles = require("./styles.css");
 
 const MyModal = props => {
   return (
-    <Modal className={styles.modal} visible={true} transparent={false}>
+    <Modal
+      className={styles.modal}
+      visible={true}
+      transparent={false}
+      animated={false}
+    >
       {props.children}
     </Modal>
   );

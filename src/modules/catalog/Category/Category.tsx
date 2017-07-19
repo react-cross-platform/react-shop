@@ -41,12 +41,8 @@ class Category extends React.Component<
       return <Loading />;
     }
     return (
-      <div style={{ margin: "120px 10px 20px 10px" }}>
-        {category
-          ? <h2 className={styles.category}>
-              {category.name}
-            </h2>
-          : ""}
+      <div className={styles.category}>
+        <div className={styles.categoryName}>{category.name}</div>
         <Products categoryId={id} />
       </div>
     );

@@ -9,14 +9,17 @@
   margin: 0.2rem 0;
 }
 
-.description {
-  font-size: 0.33rem;
-  line-height: 0.45rem;
+.description,
+.description * {
+  font-size: 0.33rem !important;
+  line-height: 0.45rem !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  color: black !important;
 }
 
 .description p {
-  margin-bottom: 0;
-  margin-top: 0.1rem;
+  margin-bottom: 0 !important;
+  margin-top: 0.1rem !important;
 }
 
 .colors {
@@ -33,11 +36,6 @@
   text-align: right;
   text-transform: lowercase;
   width: 28%;
-}
-
-.productName {
-  text-align: center;
-  height: 120px;
 }
 
 .paramtName {

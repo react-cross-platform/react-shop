@@ -51,8 +51,8 @@ export interface IImageWithColor extends IImage {
 export interface ISubProduct {
   id: string;
   article: string;
-  price: string;
-  oldPrice: string;
+  price: number;
+  oldPrice: number;
   discount: string;
   attributes: [IAttribute];
 }

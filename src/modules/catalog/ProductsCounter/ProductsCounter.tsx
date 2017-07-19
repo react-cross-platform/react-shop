@@ -16,7 +16,6 @@ class ProductsCounter extends React.Component<IProductsCounterProps, any> {
         <div className={styles.productsCounter}>
           {scrolled}/{total}
         </div>
-
         <Progress
           appearTransition={true}
           className={styles.progress}

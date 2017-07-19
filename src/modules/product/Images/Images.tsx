@@ -25,7 +25,11 @@ class Images extends React.Component<IImagesProps, IImagesState> {
       ...images.map(img => scaleImageSize(img.width, img.height, 1.5).height)
     );
 
-    const height = window.innerHeight * 0.73;
+    const height = window.innerHeight * 0.65;
+    const dotStyle = {
+      position: "relative",
+      top: innerHeight * 0.02
+    };
     if (images.length > 1) {
       return (
         <Carousel
@@ -37,6 +41,8 @@ class Images extends React.Component<IImagesProps, IImagesState> {
           style={{
             height
           }}
+          dotStyle={dotStyle}
+          dotActiveStyle={dotStyle}
         >
           {this.props.images.map((image, i) =>
             <Flex

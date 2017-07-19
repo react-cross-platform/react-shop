@@ -1,3 +1,10 @@
 .category {
+  margin: 0 10px 20px;
+}
+
+.categoryName {
+  font-size: 0.4rem;
+  font-weight: bold;
+  margin: 0.3rem 0;
   text-align: center;
 }

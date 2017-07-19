@@ -53,20 +53,15 @@ class ProductInfo extends React.Component<
 
     return (
       <div className={styles.productInfo}>
-        <WhiteSpace size="lg" />
-        <WingBlank>
-          <h2 className={styles.productName}>
-            {dataProduct.name} {brand.name}
-          </h2>
-        </WingBlank>
-
         {/* Select SubProduct section */}
         {subProducts.length > 1
           ? <div>
-              <SubProducts subProducts={subProducts} />
               <hr />
+              <SubProducts subProducts={subProducts} />
             </div>
           : ""}
+
+        <hr />
 
         {/* Select Color section */}
         <WingBlank>

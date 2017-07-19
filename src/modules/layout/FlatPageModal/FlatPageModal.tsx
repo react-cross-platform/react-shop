@@ -12,23 +12,16 @@ function createMarkup(html) {
 }
 
 class FlatPageModal extends React.Component<any, any> {
-  state = {
-    showModal: true
-  };
 
   back = e => {
     e.stopPropagation();
     this.props.history.goBack();
-    this.setState({
-      showModal: false
-    });
   };
 
   render() {
     const { match, history, location: { state: { pages } } } = this.props;
     const id = match.params.id;
     const page = pages.filter(el => el.id === id);
-
     return (
       <Modal>
         <Flex className={styles.backPanel} justify="start" align="center">
@@ -43,9 +36,9 @@ class FlatPageModal extends React.Component<any, any> {
               onClick={this.back}
             />
           </Ripples>
-          <h3 className={styles.title}>
+          <div className={styles.title}>
             {page.map(el => el.name)}
-          </h3>
+          </div>
         </Flex>
         <div
           className={styles.flatpage}

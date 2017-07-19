@@ -54,8 +54,8 @@ class HomeTrigger extends React.Component<
       return <Logo height={height} isActive={true} />;
     } else {
       return (
-        <Ripples>
-          <Link to="/" style={{ height }}>
+        <Ripples style={{ height }}>
+          <Link to="/">
             <Logo height={height} isActive={false} />
           </Link>
         </Ripples>
