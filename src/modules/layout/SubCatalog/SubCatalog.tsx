@@ -2,7 +2,6 @@ import { Card, Flex } from "antd-mobile";
 import * as React from "react";
 import { compose } from "react-apollo";
 import { connect } from "react-redux";
-import Ripples from "react-ripples";
 import { push } from "react-router-redux";
 import { Dispatch } from "redux";
 
@@ -81,20 +80,18 @@ class SubCatalog extends React.Component<
                   }}
                 >
                   <Card>
-                    <Ripples>
-                      <div
-                        className={styles.category}
-                        style={{
-                          opacity: this.isCurrentCategory(cat.id) ? 0.3 : 1
-                        }}
-                        onClick={e => this.onClick(e, cat)}
-                      >
-                        <img src={cat.image.src || ""} />
-                        <div className={styles.name}>
-                          {cat.name}
-                        </div>
+                    <div
+                      className={styles.category}
+                      style={{
+                        opacity: this.isCurrentCategory(cat.id) ? 0.3 : 1
+                      }}
+                      onClick={e => this.onClick(e, cat)}
+                    >
+                      <img src={cat.image.src || ""} />
+                      <div className={styles.name}>
+                        {cat.name}
                       </div>
-                    </Ripples>
+                    </div>
                   </Card>
                 </div>
               </Flex.Item>

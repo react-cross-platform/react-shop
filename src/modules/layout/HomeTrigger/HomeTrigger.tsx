@@ -2,7 +2,6 @@ import { Flex, Icon } from "antd-mobile";
 import * as React from "react";
 import { compose } from "react-apollo";
 import { connect } from "react-redux";
-import Ripples from "react-ripples";
 import { Link } from "react-router-dom";
 import { Dispatch } from "redux";
 
@@ -56,11 +55,9 @@ class HomeTrigger extends React.Component<
       return <Logo height={height} isActive={true} />;
     } else {
       return (
-        <Ripples style={{ height }}>
-          <Link to="/">
-            <Logo height={height} isActive={false} />
-          </Link>
-        </Ripples>
+        <Link to="/">
+          <Logo height={height} isActive={false} />
+        </Link>
       );
     }
   }

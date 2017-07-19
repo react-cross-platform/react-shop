@@ -1,6 +1,5 @@
 import { Flex, Icon } from "antd-mobile";
 import * as React from "react";
-import Ripples from "react-ripples";
 
 import { Modal, utils } from "../../layout/index";
 import { HEIGHT } from "../Header/Header";
@@ -12,7 +11,6 @@ function createMarkup(html) {
 }
 
 class FlatPageModal extends React.Component<any, any> {
-
   back = e => {
     e.stopPropagation();
     this.props.history.goBack();
@@ -25,17 +23,13 @@ class FlatPageModal extends React.Component<any, any> {
     return (
       <Modal>
         <Flex className={styles.backPanel} justify="start" align="center">
-          <Ripples during={200}>
-            <Icon
-              className={styles.backIcon}
-              type={require("!svg-sprite-loader!./back.svg")}
-              size="md"
-              style={{
-                height: HEIGHT
-              }}
-              onClick={this.back}
-            />
-          </Ripples>
+          <Icon
+            className={styles.backIcon}
+            type={require("!svg-sprite-loader!./back.svg")}
+            size="md"
+            style={{ height: HEIGHT }}
+            onClick={this.back}
+          />
           <div className={styles.title}>
             {page.map(el => el.name)}
           </div>

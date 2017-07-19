@@ -2,7 +2,6 @@ import { Icon } from "antd-mobile";
 import * as React from "react";
 import { compose } from "react-apollo";
 import { connect } from "react-redux";
-import Ripples from "react-ripples";
 import { Dispatch } from "redux";
 
 import { toggleCatalog } from "../index";
@@ -25,18 +24,16 @@ class CatalogTrigger extends React.Component<
     const { layout, height, dispatch } = this.props;
 
     return (
-      <Ripples>
-        <Icon
-          type={require("!svg-sprite-loader!./catalog.svg")}
-          size="md"
-          onClick={() => toggleCatalog(dispatch)}
-          style={{
-            fill: layout.openCatalog ? "orange" : "white",
-            height,
-            padding: `0 ${height / 3}px`
-          }}
-        />
-      </Ripples>
+      <Icon
+        type={require("!svg-sprite-loader!./catalog.svg")}
+        size="md"
+        onClick={() => toggleCatalog(dispatch)}
+        style={{
+          fill: layout.openCatalog ? "orange" : "white",
+          height,
+          padding: `0 ${height / 3}px`
+        }}
+      />
     );
   }
 }

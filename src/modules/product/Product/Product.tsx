@@ -2,7 +2,6 @@ import { Flex, Icon, WingBlank } from "antd-mobile";
 import * as React from "react";
 import { compose, gql, graphql } from "react-apollo";
 import { connect } from "react-redux";
-import Ripples from "react-ripples";
 import { Dispatch } from "redux";
 
 import { IData } from "../../../model";
@@ -96,14 +95,12 @@ class Product extends React.Component<
       <div className={styles.product}>
         {isModal
           ? <Flex className={styles.productTop} justify="start" align="center">
-              <Ripples during={200}>
-                <Icon
-                  className={styles.productTopBack}
-                  type={require("!svg-sprite-loader!./back.svg")}
-                  size="md"
-                  onClick={this.back}
-                />
-              </Ripples>
+              <Icon
+                className={styles.productTopBack}
+                type={require("!svg-sprite-loader!./back.svg")}
+                size="md"
+                onClick={this.back}
+              />
               <div className={styles.categoryName} onClick={this.back}>
                 {product.category.name}
               </div>
