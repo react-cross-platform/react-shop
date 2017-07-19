@@ -18,7 +18,7 @@ const styles = require("./styles.css");
 const LIMIT = 10;
 
 // miliseconds bettwen scroll event
-const SCROLL_THROTTLE = 500;
+const SCROLL_THROTTLE = 1000;
 
 // px from bottom to start fetch more products
 const FETCH_MORE_THRESHOLD = 1500;
@@ -92,6 +92,8 @@ class Products extends React.Component<
 
   bottomHeight: number;
 
+  handleScrollThrottle: (event) => void;
+
   state = {
     haveMoreProducts: true,
     scrolledProducts: 0
@@ -111,7 +113,8 @@ class Products extends React.Component<
 
   handleScroll = event => {
     const { router, data } = this.props;
-    if (router.location.pathname.indexOf("category") !== -1) {
+
+    if (router.location.pathname.search("category") !== -1) {
       const { fetchMore, allProducts: { products, total } } = data;
 
       // Calculate scrolled products
@@ -130,12 +133,19 @@ class Products extends React.Component<
   };
 
   componentDidMount() {
-    const { loading, allProducts } = this.props.data;
-    window.addEventListener(
-      "scroll",
-      throttle(this.handleScroll, SCROLL_THROTTLE),
-      true
+    this.handleScrollThrottle = throttle(
+      event => this.handleScroll(event),
+      SCROLL_THROTTLE
     );
+
+    // tslint:disable-next-line:max-line-length
+    // TODO: Bind to some element, but not window
+    // https://stackoverflow.com/questions/36207398/not-getting-callback-after-adding-an-event-listener-for-scroll-event-in-react-js/36207913#36207913
+    window.addEventListener("scroll", this.handleScrollThrottle, true);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScrollThrottle, true);
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -186,7 +196,6 @@ class Products extends React.Component<
       padding = 10;
       gutter = 20;
     }
-
     return (
       <div style={{ padding }} ref={element => (this.ref = element)}>
         <MasonryInfiniteScroller
@@ -226,4 +235,4 @@ const mapStateToProps: any = state => ({
 export default compose(
   connect<IConnectedProductsProps, {}, IProductsProps>(mapStateToProps),
   graphql(gql(ALL_PRODUCTS_QUERY), options as any)
-)(Products);
+)(Products as any);
