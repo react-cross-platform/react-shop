@@ -19,7 +19,7 @@ const styles = require("./styles.css");
 const LIMIT = 10;
 
 // miliseconds bettwen scroll event
-const SCROLL_THROTTLE = 1000;
+const SCROLL_THROTTLE = 500;
 
 // px from bottom to start fetch more products
 const FETCH_MORE_THRESHOLD = 1500;
