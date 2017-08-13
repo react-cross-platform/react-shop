@@ -11,16 +11,13 @@ CAUTION: This code is for fun. Now it isn't stable, isn't production ready and s
 
 ## Long term idea
 
-Cross-platform front-end for
+Create shop example for ANY platform with shared front-end and single common back-end
 
-* web and mobile web ([React](https://facebook.github.io/react/))
-* mobile apps ([React Native](https://facebook.github.io/react-native/))
-* desktop apps ([React + Electron](https://electron.atom.io/))
-
-with shared common code using
-
-* [ReactXP](https://github.com/Microsoft/reactxp)
-* or [Lerna](https://github.com/lerna/lerna)
+- [ ] web ([React](https://facebook.github.io/react/)).
+- [x] mobile web ([React](https://facebook.github.io/react/)). [Project link](https://github.com/ArtemSerga/react-shop)
+- [x] mobile app for Android and iOS ([React Native](https://facebook.github.io/react-native/)). [Project link](https://github.com/ArtemSerga/react-native-shop)
+- [ ] desktop app for Windows, MacOS and Linux ([React + Electron](https://electron.atom.io/))
+- [ ] cross-platform monorepo with shared code from projects mentioned above using [ReactXP](https://github.com/Microsoft/reactxp) or [Lerna](https://github.com/lerna/lerna)
 
 Smells like future front-end!
 
@@ -173,3 +170,7 @@ Interactive GraphQL schema
 * intensively developed by Alibaba
   * Chinese? Don't panic! It almost translated in English
   * the team is great and responsive
+
+## Related projects
+
+* [react-native-shop](https://github.com/ArtemSerga/react-native-shop) - same shop example, tech stack and back-end, but for Android and iOS using React Native
