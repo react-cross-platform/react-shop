@@ -1,26 +1,23 @@
 .category {
-  height: 190px;
-  padding-bottom: 10px;
-  padding-top: 30px;
+  height: 150px;
+  padding-bottom: 2px;
+  padding-top: 7px;
+  align-items: center;
+  /* justify-content: center; */
 }
 
 .name {
-  margin: auto;
+  margin: 0.1rem 0;
   max-width: 80%;
 }
 
 .flexItem {
-  margin: 5px !important;
+  margin: 3px !important;
   text-align: center;
 }
 
-.imageContainer {
-  display: flex;
-  justify-content: center;
-}
-
-.imageContainer img {
-  height: 100%;
+.image {
+  height: 80%;
   object-fit: contain;
-  width: 100%;
+  width: 80%;
 }

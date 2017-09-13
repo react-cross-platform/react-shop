@@ -38,8 +38,7 @@ class FlatPageModal extends React.Component<any, any> {
           className={styles.flatpage}
           dangerouslySetInnerHTML={createMarkup(page.map(el => el.content))}
           style={{
-            marginTop: 100,
-            padding: utils.isSafariBrowser() ? 20 : 0,
+            padding: utils.isSafariBrowser() ? 10 : 0,
             textAlign: "left"
           }}
         />

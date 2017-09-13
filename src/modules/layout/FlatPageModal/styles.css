@@ -9,17 +9,20 @@
 }
 
 .backIcon {
-  padding: 0 20px;
+  padding: 0 10px;
 }
 
 .title {
   margin: 0;
   text-align: center;
   width: 80%;
-  font-size: 0.4rem;
+  font-size: 0.35rem;
+  line-height: 0.35rem;
 }
 
 .flatpage * {
   color: black !important;
-  font-size: 30px;
+  font-size: 0.35rem;
+  line-height: 0.35rem;
+  margin: 1rem 0.2rem 0.2rem 0.2rem;
 }

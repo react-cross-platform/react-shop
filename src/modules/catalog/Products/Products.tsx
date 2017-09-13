@@ -19,10 +19,10 @@ const styles = require("./styles.css");
 const LIMIT = 10;
 
 // miliseconds bettwen scroll event
-const SCROLL_THROTTLE = 500;
+const SCROLL_THROTTLE = 250;
 
 // px from bottom to start fetch more products
-const FETCH_MORE_THRESHOLD = 1500;
+const FETCH_MORE_THRESHOLD = 750;
 
 interface IDataProducts extends IData {
   allProducts: IAllProduct;
@@ -191,15 +191,15 @@ class Products extends React.Component<
 
     let padding: number;
     let gutter: number;
-    if (window.innerWidth <= 640) {
+    if (window.innerWidth <= 320) {
+      padding = 2;
+      gutter = 7;
+    } else if (window.innerWidth <= 375) {
       padding = 4;
-      gutter = 15;
-    } else if (window.innerWidth <= 750) {
-      padding = 8;
-      gutter = 17;
+      gutter = 8;
     } else {
-      padding = 10;
-      gutter = 20;
+      padding = 5;
+      gutter = 10;
     }
     return (
       <div style={{ padding }} ref={element => (this.ref = element)}>

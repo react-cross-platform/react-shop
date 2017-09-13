@@ -6,35 +6,36 @@
 }
 
 .product hr {
-  margin: 20px 0;
+  margin: 10px 0;
 }
 
 .productTop {
   flex: 1;
   background-color: #2474cc;
   color: white;
-  min-height: 80px;
+  min-height: 40px;
   width: 100%;
   z-index: 1000;
 }
 
 .productTopBack {
   fill: white;
-  padding: 0 20px;
-  height: 80px;
+  padding: 0 10px;
+  height: 40px;
 }
 
 .productContent {
   flex-grow: 1;
   overflow: auto;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   background: white;
 }
 
 .categoryName {
-  font-size: 0.4rem;
+  font-size: 0.35rem;
+  line-height: 0.35rem;
   text-align: center;
-  margin-right: 0.9rem;
+  margin-right: 0.5rem;
   width: 100%;
 }
 

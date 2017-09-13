@@ -51,7 +51,7 @@ class Catalog extends React.Component<
       }
     }
     const style = isDrawer
-      ? { width: window.innerWidth * 0.9, padding: 10 }
+      ? { width: window.innerWidth * 0.9, padding: 5 }
       : {};
     return (
       <div className={styles.catalog} style={style}>

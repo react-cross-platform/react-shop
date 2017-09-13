@@ -67,18 +67,18 @@ class Product extends React.Component<
     let cardPadding: number;
     let borderRadius: number;
     let width = Math.round(window.innerWidth / 2);
-    if (window.innerWidth <= 640) {
-      cardPadding = 10;
-      borderRadius = 4;
-      width -= 22;
-    } else if (window.innerWidth <= 750) {
-      cardPadding = 14;
-      borderRadius = 6;
-      width -= 28;
+    if (window.innerWidth <= 320) {
+      cardPadding = 5;
+      borderRadius = 2;
+      width -= 11;
+    } else if (window.innerWidth <= 375) {
+      cardPadding = 7;
+      borderRadius = 3;
+      width -= 14;
     } else {
-      cardPadding = 15;
-      borderRadius = 8;
-      width -= 32;
+      cardPadding = 7;
+      borderRadius = 4;
+      width -= 16;
     }
 
     const maxImageHeight = Math.max(
@@ -104,7 +104,7 @@ class Product extends React.Component<
         }}
       >
         {this.isViewed()
-          ? <div style={{ position: "absolute", top: 3, left: 10 }}>
+          ? <div style={{ position: "absolute", top: 1, left: 5 }}>
               <Icon
                 type={require("!svg-sprite-loader!./viewed.svg")}
                 size="sm"
@@ -121,7 +121,7 @@ class Product extends React.Component<
               className={styles.imageContainer}
               style={{ height: maxImageHeight }}
             >
-              <LazyLoad height={maxImageHeight} offset={1500}>
+              <LazyLoad height={maxImageHeight} offset={750}>
                 <img src={titleImage.src} />
               </LazyLoad>
             </div>
@@ -129,7 +129,7 @@ class Product extends React.Component<
 
           {/* Images */}
           {imagesWithColor.length > 1
-            ? <Flex justify="center">
+            ? <Flex justify="center" style={{height: 15}}>
                 {imagesWithColor.map((image, i) =>
                   <Icon
                     key={i}
@@ -147,12 +147,12 @@ class Product extends React.Component<
 
         <Link {...linkParams}>
           <div className={styles.info}>
-            <div className={styles.title} style={{ marginTop: cardPadding }}>
+            <div className={styles.title}>
               {name}
               <br />
               {brand.name} {subProduct.article}
             </div>
-            <div className={styles.price} style={{ marginTop: cardPadding }}>
+            <div className={styles.price}>
               <div>
                 {isSinglePrice ? "" : "от "}
                 {parseInt(minPrice, 10)} грн

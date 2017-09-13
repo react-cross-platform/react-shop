@@ -71,29 +71,26 @@ class SubCatalog extends React.Component<
         {chunk(categories, 2).map((cats, i) =>
           <Flex justify="center" key={i}>
             {cats.map((cat, index) =>
-              <Flex.Item className={styles.flexItem} key={`cat${index}`}>
-                <div
+              <Flex.Item
+                className={styles.flexItem}
+                key={`cat${index}`}
+                style={{
+                  borderColor: this.isViewed(cat.id) ? "orange" : "lightgrey"
+                }}
+                onClick={e => this.onClick(e, cat)}
+              >
+                <Card
+                  className={styles.category}
                   style={{
-                    border: `1px solid ${this.isViewed(cat.id)
-                      ? "orange"
-                      : "lightgrey"}`
+                    opacity: this.isCurrentCategory(cat.id) ? 0.3 : 1,
+                    justifyContent: "center"
                   }}
                 >
-                  <Card>
-                    <div
-                      className={styles.category}
-                      style={{
-                        opacity: this.isCurrentCategory(cat.id) ? 0.3 : 1
-                      }}
-                      onClick={e => this.onClick(e, cat)}
-                    >
-                      <img src={cat.image.src || ""} />
-                      <div className={styles.name}>
-                        {cat.name}
-                      </div>
-                    </div>
-                  </Card>
-                </div>
+                  <img className={styles.image} src={cat.image.src || ""} />
+                  <div className={styles.name}>
+                    {cat.name}
+                  </div>
+                </Card>
               </Flex.Item>
             )}
           </Flex>

@@ -1,8 +1,8 @@
 .productsCounter {
-  bottom: 15px;
+  bottom: 8px;
+  right: 10px;
   color: gray;
   position: fixed;
-  right: 30px;
 }
 
 .progress {

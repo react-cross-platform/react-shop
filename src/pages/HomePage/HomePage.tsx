@@ -1,5 +1,4 @@
-import { WhiteSpace } from "antd-mobile";
-import WingBlank from "antd-mobile/lib/wing-blank/index.web";
+import { WhiteSpace, WingBlank } from "antd-mobile";
 import * as React from "react";
 import { connect } from "react-redux";
 

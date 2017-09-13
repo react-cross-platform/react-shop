@@ -6,7 +6,7 @@ import { CatalogTrigger, HomeTrigger } from "../index";
 
 const styles = require("./styles.css");
 
-export const HEIGHT = 80;
+export const HEIGHT = 40;
 
 class Header extends React.Component<any, any> {
   handleCart = () => {

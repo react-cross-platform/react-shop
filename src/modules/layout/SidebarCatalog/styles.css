@@ -1,9 +1,9 @@
 .content {
   overflow-y: scroll;
-  top: 80px !important;
+  top: 40px !important;
   -webkit-overflow-scrolling: touch;
 }
 
 .sidebar {
-  margin-top: 80px;
+  margin-top: 40px;
 }
