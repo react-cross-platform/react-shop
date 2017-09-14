@@ -8,12 +8,13 @@
 .imageContainer {
   display: flex;
   justify-content: center;
+  text-align: center;
 }
 
 .imageContainer img {
-  height: 100%;
   object-fit: contain;
-  width: 100%;
+  width: 90%;
+  height: 90%;
 }
 
 .info {

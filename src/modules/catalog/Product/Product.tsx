@@ -30,7 +30,6 @@ class Product extends React.Component<
   IConnectedProductProps & IProductProps,
   IProductState
 > {
-
   componentWillMount() {
     const { imagesWithColor } = this.props;
     this.state = {
@@ -121,7 +120,10 @@ class Product extends React.Component<
               className={styles.imageContainer}
               style={{ height: maxImageHeight }}
             >
-              <LazyLoad height={maxImageHeight} offset={750}>
+              <LazyLoad
+                height={maxImageHeight}
+                offset={750}
+              >
                 <img src={titleImage.src} />
               </LazyLoad>
             </div>
@@ -129,7 +131,7 @@ class Product extends React.Component<
 
           {/* Images */}
           {imagesWithColor.length > 1
-            ? <Flex justify="center" style={{height: 15}}>
+            ? <Flex justify="center" style={{ height: 15 }}>
                 {imagesWithColor.map((image, i) =>
                   <Icon
                     key={i}

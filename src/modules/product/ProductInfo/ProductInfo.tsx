@@ -67,7 +67,6 @@ class ProductInfo extends React.Component<
         {/* Select Color section */}
         <WingBlank>
           <Flex justify="between">
-            <div className={styles.sectionTitle}>Цвет</div>
             <div className={styles.colors}>
               {images.filter(el => el.colorValue !== "").length > 1
                 ? images.filter(el => el.colorValue !== "").map(
@@ -115,7 +114,6 @@ class ProductInfo extends React.Component<
 
         {/* Product params section */}
         <WingBlank>
-          <div className={styles.sectionTitle}>Характеристики</div>
           {attributes.map((el, index) =>
             <Flex key={index} justify="between">
               <Flex className={styles.paramtName}>
@@ -149,7 +147,6 @@ class ProductInfo extends React.Component<
 
         {/* Product description section */}
         <WingBlank>
-          <div className={styles.sectionTitle}>О товаре</div>
           <div
             className={styles.description}
             dangerouslySetInnerHTML={createMarkup(dataProduct.description)}
