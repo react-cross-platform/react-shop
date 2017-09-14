@@ -41,7 +41,6 @@ class SubProducts extends React.Component<
 
     return (
       <div>
-        <WingBlank className={styles.title}>Модификации</WingBlank>
         <List>
           {subProducts.map((subProduct, index) =>
             <Item
