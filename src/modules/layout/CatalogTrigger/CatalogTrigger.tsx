@@ -31,7 +31,7 @@ class CatalogTrigger extends React.Component<
         style={{
           fill: layout.openCatalog ? "orange" : "white",
           height,
-          padding: `0 ${height / 3}px`
+          padding: `0 ${height / 4}px`
         }}
       />
     );

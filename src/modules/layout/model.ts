@@ -4,10 +4,6 @@ export interface ILayout {
   openCatalog: boolean;
 }
 
-export interface ICategories {
-  categories: [ICategory];
-}
-
 export interface IFlatPage {
   id: string;
   name: string;

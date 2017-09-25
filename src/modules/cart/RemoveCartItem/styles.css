@@ -1,0 +1,13 @@
+.icon {
+  width: 20px;
+  height: 20px;
+  padding: 0 0 5px 5px;
+  fill: gray;
+}
+
+.optionIcon {
+  width: 20px;
+  height: 20px;
+  fill: gray;
+  margin-right: 10px;
+}

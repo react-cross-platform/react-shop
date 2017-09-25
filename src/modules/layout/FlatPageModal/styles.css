@@ -1,28 +1,6 @@
-.backPanel {
-  background-color: #2474cc;
-  color: white;
-  left: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
-  width: 100%;
-}
-
-.backIcon {
-  padding: 0 10px;
-}
-
-.title {
-  margin: 0;
-  text-align: center;
-  width: 80%;
-  font-size: 0.35rem;
-  line-height: 0.35rem;
-}
-
 .flatpage * {
   color: black !important;
   font-size: 0.35rem;
   line-height: 0.35rem;
-  margin: 1rem 0.2rem 0.2rem 0.2rem;
+  margin: 1rem 0.2rem 0.2rem;
 }

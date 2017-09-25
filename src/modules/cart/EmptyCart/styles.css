@@ -1,0 +1,27 @@
+.emptyCart {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: fixed;
+  background: white;
+}
+
+.emptyCartImage {
+  width: 70%;
+  object-fit: contain;
+}
+
+.emptyCartTitle {
+  font-size: 0.63rem;
+  margin: 20px 0 5px;
+}
+
+.emptyCartContinue {
+  color: darkgrey;
+  padding-bottom: 30px;
+}

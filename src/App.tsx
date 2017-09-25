@@ -1,13 +1,15 @@
 import * as React from "react";
 import { ApolloProvider } from "react-apollo";
-import { Route, Router } from "react-router";
+import { Route } from "react-router";
 import { Switch } from "react-router-dom";
 import { ConnectedRouter } from "react-router-redux";
+
 import client from "./graphqlClient";
 import history from "./history";
-import { FlatPageModal, FlatPages, Layout } from "./modules/layout/index";
-import { Product, ProductModal } from "./modules/product/index";
-import { CategoryPage, HomePage, ProductPage } from "./pages/index";
+import { CartModal } from "./modules/cart/index";
+import { FlatPageModal, Layout } from "./modules/layout/index";
+import { ProductModal } from "./modules/product/index";
+import { CartPage, CategoryPage, HomePage, ProductPage } from "./pages/index";
 import store from "./store";
 
 class ModalSwitch extends React.Component<any, any> {
@@ -34,17 +36,19 @@ class ModalSwitch extends React.Component<any, any> {
     const _location = isModal ? this.previousLocation : location;
 
     return (
-      <div>
+      <div style={{ height: "100%" }}>
         <Switch location={_location}>
           <Route exact={true} path="/" component={HomePage} />
           <Route path="/category/:id" component={CategoryPage} />
           <Route path="/product/:id" component={ProductPage} />
+          <Route path="/cart/" component={CartPage} />
         </Switch>
 
         {isModal
           ? <div>
               <Route path="/flatpage/:id" component={FlatPageModal} />
               <Route path="/product/:id" component={ProductModal} />
+              <Route path="/cart/" component={CartModal} />
             </div>
           : null}
       </div>

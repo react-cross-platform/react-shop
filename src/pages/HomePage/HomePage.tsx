@@ -4,17 +4,24 @@ import { connect } from "react-redux";
 
 import { ACTION_RESET } from "../../modules/layout/constants";
 import { Catalog, FlatPages } from "../../modules/layout/index";
+import { IPage } from "../interfaces";
 
-const styles = require("./styles.css");
+interface IConnectedHomePageProps {
+  dispatch: (action) => void;
+}
+interface ICartPageProps extends IPage {}
 
-class HomePage extends React.Component<any, any> {
+class HomePage extends React.Component<
+  IConnectedHomePageProps & ICartPageProps,
+  undefined
+> {
   componentWillMount() {
     this.props.dispatch({ type: ACTION_RESET });
   }
 
   render() {
     return (
-      <div className={styles.homePage}>
+      <div>
         <WingBlank size="sm">
           <Catalog isDrawer={false} />
         </WingBlank>
@@ -25,6 +32,7 @@ class HomePage extends React.Component<any, any> {
   }
 }
 
-const mapStateToProps: any = state => ({});
-
-export default connect<any, any, any>(mapStateToProps)(HomePage);
+const mapStateToProps = state => ({} as any);
+export default connect<IConnectedHomePageProps, undefined, ICartPageProps>(
+  mapStateToProps
+)(HomePage);

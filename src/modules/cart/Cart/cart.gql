@@ -1,0 +1,29 @@
+query cart {
+  cart {
+    id
+    items {
+      id
+      amount
+      price
+      subProduct {
+        id
+        article
+        price
+        oldPrice
+        product {
+          id
+          name
+          brand {
+            id
+            name
+          }
+          images {
+            id
+            src
+            colorName
+          }
+        }
+      }
+    }
+  }
+}

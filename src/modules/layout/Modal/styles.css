@@ -11,10 +11,3 @@
   width: 100%;
   z-index: 9999 !important;
 }
-
-.modalContent {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  flex-direction: column;
-}

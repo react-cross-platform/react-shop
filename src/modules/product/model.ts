@@ -17,6 +17,13 @@ export interface ICategory {
   image: IImage;
 }
 
+export interface ISubProduct {
+  id: string;
+  article: string;
+  price: number;
+  product: IProduct;
+}
+
 export interface IProduct {
   id: string;
   name: string;
@@ -67,8 +74,4 @@ export interface IValue {
   name: string;
   value: string;
   description: string;
-}
-
-export interface ICategories {
-  products: [IProduct];
 }

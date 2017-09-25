@@ -1,12 +1,9 @@
 .product {
   display: flex;
-  height: 100%;
   flex-direction: column;
   width: 100%;
-}
-
-.product hr {
-  margin: 10px 0;
+  height: 100%;
+  background: white !important;
 }
 
 .productTop {
@@ -28,7 +25,7 @@
   flex-grow: 1;
   overflow: auto;
   margin-bottom: 15px;
-  background: white;
+  background: white !important;
 }
 
 .categoryName {

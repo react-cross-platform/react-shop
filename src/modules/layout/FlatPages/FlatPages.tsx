@@ -21,7 +21,6 @@ interface IFlatPagesData extends IData {
 interface IConnectedFlatPagesProps {
   layout: ILayout;
   router: IRouterReducer;
-  dispatch: Dispatch<{}>;
   data: IFlatPagesData;
 }
 
@@ -29,8 +28,7 @@ function createMarkup(html) {
   return { __html: html };
 }
 
-// class FlatPages extends React.Component<IConnectedFlatPagesProps, any> {
-class FlatPages extends React.Component<any, any> {
+class FlatPages extends React.Component<IConnectedFlatPagesProps, any> {
   state = {
     page: {
       content: "",
@@ -112,7 +110,11 @@ class FlatPages extends React.Component<any, any> {
               key={page.id}
               to={{
                 pathname: `/flatpage/${page.id}`,
-                state: { modal: true, pages: flatPages }
+                state: {
+                  modal: true,
+                  pages: flatPages,
+                  title: page.name
+                }
               }}
             >
               <List.Item
@@ -151,4 +153,4 @@ export default compose(
       })
     } as any
   )
-)(FlatPages);
+)(FlatPages as any);

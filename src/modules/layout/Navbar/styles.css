@@ -1,0 +1,23 @@
+.navbar {
+  flex: 1;
+  background-color: #2474cc;
+  justify-content: space-between;
+  color: white;
+  min-height: 40px;
+  width: 100%;
+  z-index: 1000;
+}
+
+.title {
+  font-size: 0.35rem;
+  line-height: 0.35rem;
+  text-align: center;
+}
+
+.back {
+  fill: white;
+  padding: 0 4px;
+  height: 40px;
+  color: white;
+  width: 0.6rem !important;
+}

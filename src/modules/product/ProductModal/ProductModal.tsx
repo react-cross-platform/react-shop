@@ -5,12 +5,23 @@ import { Product } from "../index";
 
 const styles = require("./styles.css");
 
-class ProductModal extends React.Component<any, any> {
+interface IConnectedCartModalProps {}
+
+export interface IProductModalProps {
+  location: any;
+  history: any;
+  match: any;
+}
+
+class ProductModal extends React.Component<
+  IConnectedCartModalProps & IProductModalProps,
+  any
+> {
   render() {
-    const { match, history } = this.props;
+    const { match, history, location } = this.props;
     return (
-      <Modal>
-        <Product history={history} id={match.params.id} isModal={true} />
+      <Modal location={location} history={history}>
+        <Product id={match.params.id} />
       </Modal>
     );
   }

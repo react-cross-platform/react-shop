@@ -1,4 +1,4 @@
-import { Flex, Icon, WingBlank } from "antd-mobile";
+import { Flex, WingBlank } from "antd-mobile";
 import * as React from "react";
 import { compose, gql, graphql } from "react-apollo";
 import { connect } from "react-redux";
@@ -9,7 +9,7 @@ import { ACTION_ADD_VIEWED_PRODUCT } from "../../catalog/constants";
 import { HEIGHT } from "../../layout/Header/Header";
 import { Loading } from "../../layout/index";
 import { ACTION_SELECT_SUBPRODUCT } from "../constants";
-import { Images, ProductBuy, ProductInfo } from "../index";
+import { Images, ProductInfo, ProductToCart } from "../index";
 import { ICurrentProduct, IProduct, ISubProduct } from "../model";
 
 const PRODUCT_QUERY = require("./product.gql");
@@ -28,17 +28,7 @@ interface IConnectedProductProps {
 
 interface IProductProps {
   id: string;
-  isModal: boolean;
-  history: any;
 }
-
-const options = {
-  options: props => ({
-    variables: {
-      id: props.id
-    }
-  })
-};
 
 const getActiveSubProduct = (subProducts, subProductId): ISubProduct => {
   return subProducts.filter(sp => sp.id === subProductId)[0] || subProducts[0];
@@ -64,7 +54,9 @@ class Product extends React.Component<
       const { subProducts } = product;
       const { subProductId } = nextProps.product;
       const subProductIds = subProducts.map(sp => sp.id);
-      const subProductColor = product.images.filter(el => el.colorValue !== "")[0].id;
+      const subProductColor = product.images.filter(
+        el => el.colorValue !== ""
+      )[0].id;
       if (subProductIds.indexOf(subProductId) === -1) {
         this.props.dispatch({
           colorId: subProductColor,
@@ -75,38 +67,19 @@ class Product extends React.Component<
     }
   };
 
-  back = e => {
-    e.stopPropagation();
-    this.props.history.goBack();
-  };
-
   render() {
-    const { isModal, data } = this.props;
+    const { data } = this.props;
     const { loading, product } = data;
-    const { subProductId, colorId } = this.props.product;
+    const { colorId } = this.props.product;
+    const subProductId = parseInt(this.props.product.subProductId, 0);
     if (loading === true || subProductId === null) {
       return <Loading />;
     }
     const { brand, images, subProducts } = product;
     const activeSubProduct = getActiveSubProduct(subProducts, subProductId);
     const { price, oldPrice } = activeSubProduct;
-
     return (
       <div className={styles.product}>
-        {isModal
-          ? <Flex className={styles.productTop} justify="start" align="center">
-              <Icon
-                className={styles.productTopBack}
-                type={require("!svg-sprite-loader!./back.svg")}
-                size="md"
-                onClick={this.back}
-              />
-              <div className={styles.categoryName} onClick={this.back}>
-                {product.category.name}
-              </div>
-            </Flex>
-          : ""}
-
         <div className={styles.productContent}>
           <Flex
             style={{ height: window.innerHeight - HEIGHT * 2 }}
@@ -126,7 +99,11 @@ class Product extends React.Component<
             activeSubProduct={activeSubProduct}
           />
         </div>
-        <ProductBuy price={price} oldPrice={oldPrice} />
+        <ProductToCart
+          subProductId={subProductId}
+          price={price}
+          oldPrice={oldPrice}
+        />
       </div>
     );
   }
@@ -136,7 +113,15 @@ const mapStateToProps: any = state => ({
   product: state.product
 });
 
+const options = {
+  options: props => ({
+    variables: {
+      id: props.id
+    }
+  })
+};
+
 export default compose(
   connect<IConnectedProductProps, {}, IProductProps>(mapStateToProps),
-  graphql(gql(PRODUCT_QUERY), options)
+  graphql(gql(PRODUCT_QUERY), options),
 )(Product);
