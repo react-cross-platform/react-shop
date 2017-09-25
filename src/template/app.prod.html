@@ -15,6 +15,12 @@
 <body>
   <div id="app"></div>
   <script type="text/javascript" src="/static/dist/lib/<%= htmlWebpackPlugin.options.bundleName %>"></script>
+  <script>
+    // Disable zoom in Safari on iOS
+    document.addEventListener('gesturestart', function (e) {
+      e.preventDefault();
+    });
+  </script>
 </body>
 
 </html>
