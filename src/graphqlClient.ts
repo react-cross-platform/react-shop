@@ -1,11 +1,14 @@
 import ApolloClient, { createNetworkInterface } from "apollo-client";
 
-export const GRAPHQL_URI = process.env.DEBUG_GRAPHQL
-  ? "http://localhost:8000/graphql"
-  : `https://shop.serga.name/graphql`;
+const networkInterface = createNetworkInterface({
+  uri: process.env.GRAPHQL_ENDPOINT,
+  opts: {
+    credentials: "include"
+  }
+});
 
 const client = new ApolloClient({
-  networkInterface: createNetworkInterface({ uri: GRAPHQL_URI })
+  networkInterface
 });
 
 export default client;

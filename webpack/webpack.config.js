@@ -28,7 +28,9 @@ module.exports = {
   },
   output: {
     path: DIST_PATH,
-    publicPath: __DEV__ ? "http://0.0.0.0:3000/" : "/static/dist/app/",
+    publicPath: __DEV__
+      ? `http://${process.env.LOCAL_IP}:${process.env.PORT}`
+      : "/static/dist/app/",
     filename: "[name]-[hash].js",
     chunkFilename: "[name]-[chunkhash].js"
   },
@@ -106,7 +108,9 @@ module.exports = {
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
       "process.env.DEBUG": process.env.NODE_ENV == "development",
-      "process.env.DEBUG_GRAPHQL": process.env.DEBUG_GRAPHQL
+      "process.env.GRAPHQL_ENDPOINT": JSON.stringify(
+        process.env.GRAPHQL_ENDPOINT
+      )
     }),
 
     new HtmlwebpackPlugin({
