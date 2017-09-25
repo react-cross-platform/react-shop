@@ -47,6 +47,21 @@ class Product extends React.Component<
     this.setState({ titleImage: image });
   };
 
+  getLinkParams = () => {
+    const { id, subProducts, brand } = this.props;
+    const subProduct = subProducts[0];
+    const url = `/product/${id}`;
+    return {
+      to: {
+        pathname: url,
+        state: {
+          modal: true,
+          title: `${brand.name} ${subProduct.article}`
+        }
+      }
+    };
+  };
+
   render() {
     const {
       id,
@@ -58,7 +73,6 @@ class Product extends React.Component<
     } = this.props;
     const titleImage = this.state.titleImage;
     const subProduct = subProducts[0];
-    const url = `/product/${id}`;
     const prices = subProducts.map(el => el.price);
     const isSinglePrice = prices.length === 1;
     const minPrice = getMinOfArray(prices);
@@ -86,13 +100,6 @@ class Product extends React.Component<
       )
     );
 
-    const linkParams = {
-      to: {
-        pathname: url,
-        state: { modal: true }
-      }
-    };
-
     return (
       <div
         className={styles.root}
@@ -115,15 +122,12 @@ class Product extends React.Component<
         <WhiteSpace size="sm" />
 
         <div style={{ padding: cardPadding }}>
-          <Link {...linkParams}>
+          <Link {...this.getLinkParams()}>
             <div
               className={styles.imageContainer}
               style={{ height: maxImageHeight }}
             >
-              <LazyLoad
-                height={maxImageHeight}
-                offset={750}
-              >
+              <LazyLoad height={maxImageHeight} offset={750}>
                 <img src={titleImage.src} />
               </LazyLoad>
             </div>
@@ -147,7 +151,7 @@ class Product extends React.Component<
             : ""}
         </div>
 
-        <Link {...linkParams}>
+        <Link {...this.getLinkParams()}>
           <div className={styles.info}>
             <div className={styles.title}>
               {name}

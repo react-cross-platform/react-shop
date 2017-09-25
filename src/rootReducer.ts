@@ -9,14 +9,12 @@ import product from "./modules/product/reducer";
 const apollo: any = client.reducer();
 const router: any = routerReducer;
 
-const rootReducers = combineReducers(
-  {
-    apollo,
-    catalog,
-    layout,
-    product,
-    router
-  } as any
-);
+const rootReducers = combineReducers({
+  apollo,
+  catalog,
+  layout,
+  product,
+  router
+});
 
 export default rootReducers;

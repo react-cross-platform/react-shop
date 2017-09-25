@@ -11,8 +11,7 @@
     "declaration-block-no-duplicate-properties": true,
     "function-linear-gradient-no-nonstandard-direction": true,
     "no-empty-source": null,
-    "order/properties-alphabetical-order": null,
-    "selector-no-id": true
+    "order/properties-alphabetical-order": null
   },
   "ignoreFiles": [
     "./node_modules/**",
