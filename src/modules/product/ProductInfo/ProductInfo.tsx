@@ -156,7 +156,9 @@ class ProductInfo extends React.Component<
             dangerouslySetInnerHTML={createMarkup(dataProduct.description)}
           />
         </WingBlank>
-      </div>
+        <WhiteSpace />
+        <Devider />
+        </div>
     );
   }
 }

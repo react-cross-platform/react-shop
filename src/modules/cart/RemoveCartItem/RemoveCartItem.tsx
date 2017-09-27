@@ -9,7 +9,6 @@ import { CART_QUERY, IDataCart } from "../Cart/Cart";
 const styles = require("./styles.css");
 
 let wrapProps;
-
 const isIPhone = new RegExp("\\biPhone\\b|\\biPod\\b", "i").test(
   window.navigator.userAgent
 );
@@ -21,14 +20,6 @@ if (isIPhone) {
   };
 }
 
-interface IConnectedRemoveCartItemProps {
-  submit: (id: number) => void;
-}
-
-interface IRemoveCartItemProps {
-  id: number;
-}
-
 const CONFIRM_OPTIONS = [
   <Flex align="center" justify="center">
     <Icon
@@ -37,6 +28,14 @@ const CONFIRM_OPTIONS = [
     />Удалить
   </Flex>
 ];
+
+interface IConnectedRemoveCartItemProps {
+  submit: (id: number) => void;
+}
+
+interface IRemoveCartItemProps {
+  id: number;
+}
 
 class RemoveCartItem extends React.Component<
   IConnectedRemoveCartItemProps & IRemoveCartItemProps,

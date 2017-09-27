@@ -1,8 +1,11 @@
 .cartItem {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   padding: 5px 0;
+}
+
+.remove {
+  position: absolute;
+  right: 0;
+  padding: 8px;
 }
 
 .imageContainer {
@@ -22,7 +25,8 @@
 
 .info {
   width: 65%;
-  margin: 0 10px;
+  min-height: 90px;
+  margin: 0 14px 0 10px;
 }
 
 .nameSection {
@@ -31,11 +35,9 @@
 
 .name {
   color: black;
-  padding-right: 10px;
 }
 
 .amountAndPriceSection {
-  margin-top: 5px;
   width: 100%;
 }
 

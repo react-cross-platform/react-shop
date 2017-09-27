@@ -1,4 +1,4 @@
-import { Toast } from "antd-mobile";
+import { Flex, Toast } from "antd-mobile";
 import React from "react";
 
 import { Price } from "../../common/index";
@@ -18,7 +18,7 @@ class CheckoutTrigger extends React.Component<
   render() {
     const { totalPrice } = this.props;
     return (
-      <div className={styles.checkoutTrigger}>
+      <Flex justify="center" align="center" className={styles.checkoutTrigger}>
         <div className={styles.totalPrice}>
           <Price price={totalPrice} />
         </div>
@@ -28,7 +28,7 @@ class CheckoutTrigger extends React.Component<
         >
           Оформить
         </div>
-      </div>
+      </Flex>
     );
   }
 }

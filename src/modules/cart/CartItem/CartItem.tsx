@@ -46,7 +46,8 @@ class CartItem extends React.Component<
     const totalPrice = getCartItemTotalPrice(price, amount);
     return (
       <div>
-        <div className={styles.cartItem}>
+        <RemoveCartItem id={id} />
+        <Flex justify="between" className={styles.cartItem}>
           <Link className={styles.imageContainer} to={linkTo}>
             <img
               className={styles.image}
@@ -56,7 +57,7 @@ class CartItem extends React.Component<
           <Flex
             align="start"
             direction="column"
-            justify="around"
+            justify="between"
             className={styles.info}
           >
             <Flex
@@ -69,7 +70,6 @@ class CartItem extends React.Component<
                 <br />
                 {product.brand.name} {subProduct.article}
               </Link>
-              <RemoveCartItem id={id} />
             </Flex>
             <Flex justify="between" className={styles.amountAndPriceSection}>
               <UpdateCartItem id={id} amount={amount} />
@@ -79,7 +79,7 @@ class CartItem extends React.Component<
               />
             </Flex>
           </Flex>
-        </div>
+        </Flex>
         <Devider />
       </div>
     );

@@ -21,7 +21,7 @@ def update():
         run('git reset --hard')
         run('git pull -f')
         run('git reset --hard')
-        run('git checkout test')
+        run('git checkout master')
         run('yarn')
         run('yarn run publish')
 

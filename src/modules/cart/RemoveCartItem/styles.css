@@ -1,8 +1,11 @@
 .icon {
   width: 20px;
   height: 20px;
-  padding: 0 0 5px 5px;
+  padding: 10px;
+  position: absolute;
+  right: 0;
   fill: gray;
+  z-index: 100000000;
 }
 
 .optionIcon {

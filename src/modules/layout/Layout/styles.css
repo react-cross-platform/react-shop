@@ -1,6 +1,4 @@
-.layout {
-}
-
-.layoutContent {
+.flexColumn {
+  width: 100%;
   height: 100%;
 }
