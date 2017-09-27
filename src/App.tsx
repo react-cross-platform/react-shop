@@ -1,3 +1,4 @@
+import { Flex } from "antd-mobile";
 import * as React from "react";
 import { ApolloProvider } from "react-apollo";
 import { Route } from "react-router";
@@ -7,7 +8,7 @@ import { ConnectedRouter } from "react-router-redux";
 import client from "./graphqlClient";
 import history from "./history";
 import { CartModal } from "./modules/cart/index";
-import { FlatPageModal, Layout } from "./modules/layout/index";
+import { FlatPageModal, Header, Layout } from "./modules/layout/index";
 import { ProductModal } from "./modules/product/index";
 import { CartPage, CategoryPage, HomePage, ProductPage } from "./pages/index";
 import store from "./store";
@@ -36,7 +37,7 @@ class ModalSwitch extends React.Component<any, any> {
     const _location = isModal ? this.previousLocation : location;
 
     return (
-      <div style={{ height: "100%" }}>
+      <Flex direction="column" className="full-size">
         <Switch location={_location}>
           <Route exact={true} path="/" component={HomePage} />
           <Route path="/category/:id" component={CategoryPage} />
@@ -45,13 +46,13 @@ class ModalSwitch extends React.Component<any, any> {
         </Switch>
 
         {isModal
-          ? <div>
+          ? <Flex direction="column" className="full-size">
               <Route path="/flatpage/:id" component={FlatPageModal} />
               <Route path="/product/:id" component={ProductModal} />
               <Route path="/cart/" component={CartModal} />
-            </div>
+            </Flex>
           : null}
-      </div>
+      </Flex>
     );
   }
 }
@@ -60,7 +61,7 @@ const App = () => {
   return (
     <ApolloProvider store={store} client={client}>
       <ConnectedRouter history={history}>
-        <Layout>
+        <Layout header={<Header />}>
           <Route component={ModalSwitch} />
         </Layout>
       </ConnectedRouter>

@@ -1,8 +1,7 @@
-import { Flex, Icon, Modal } from "antd-mobile";
+import { Modal } from "antd-mobile";
 import * as React from "react";
 
-import { CartTrigger } from "../../cart/index";
-import { Navbar } from "../index";
+import { Layout, Navbar } from "../index";
 
 const styles = require("./styles.css");
 
@@ -21,8 +20,11 @@ class MyModal extends React.Component<IMyModelProps, any> {
         transparent={false}
         animated={false}
       >
-        <Navbar title={location.state.title} history={history} />
-        {children}
+        <Layout
+          header={<Navbar title={location.state.title} history={history} />}
+        >
+          {children}
+        </Layout>
       </Modal>
     );
   }

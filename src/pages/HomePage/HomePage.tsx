@@ -6,6 +6,8 @@ import { ACTION_RESET } from "../../modules/layout/constants";
 import { Catalog, FlatPages } from "../../modules/layout/index";
 import { IPage } from "../interfaces";
 
+const styles = require("./styles.css");
+
 interface IConnectedHomePageProps {
   dispatch: (action) => void;
 }
@@ -21,7 +23,7 @@ class HomePage extends React.Component<
 
   render() {
     return (
-      <div>
+      <div className={styles.homePage}>
         <WingBlank size="sm">
           <Catalog isDrawer={false} />
         </WingBlank>

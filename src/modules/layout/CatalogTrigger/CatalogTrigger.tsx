@@ -4,7 +4,6 @@ import { compose } from "react-apollo";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { toggleCatalog } from "../index";
 import { ILayout } from "../model";
 
 interface IConnectedCatalogTriggerProps {
@@ -27,7 +26,7 @@ class CatalogTrigger extends React.Component<
       <Icon
         type={require("!svg-sprite-loader!./catalog.svg")}
         size="md"
-        onClick={() => toggleCatalog(dispatch)}
+        // onClick={() => toggleCatalog(dispatch)}
         style={{
           fill: layout.openCatalog ? "orange" : "white",
           height,

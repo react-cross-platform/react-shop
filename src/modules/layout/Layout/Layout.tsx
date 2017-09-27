@@ -1,20 +1,23 @@
 import { Flex } from "antd-mobile";
 import * as React from "react";
 
-import { Header, SidebarCatalog } from "../index";
+import { Header } from "../index";
 
 const styles = require("./styles.css");
 
-class Layout extends React.Component<any, any> {
+interface ILayouProps {
+  header: any;
+}
+
+class Layout extends React.Component<ILayouProps, undefined> {
   render() {
+    const { header } = this.props;
     return (
-      <Flex direction="column" className={styles.layout}>
-        <Header />
-        <SidebarCatalog>
-          <div className={styles.layoutContent}>
-            {this.props.children}
-          </div>
-        </SidebarCatalog>
+      <Flex direction="column" className="full-size">
+        {header}
+        <Flex direction="column" className="full-size">
+          {this.props.children}
+        </Flex>
       </Flex>
     );
   }

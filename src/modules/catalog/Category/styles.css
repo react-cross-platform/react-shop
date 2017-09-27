@@ -1,5 +1,7 @@
 .category {
-  margin: 0 5px 10px;
+  margin: 0 5px;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
 .categoryName {

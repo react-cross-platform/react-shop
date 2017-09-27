@@ -16,7 +16,6 @@ class Header extends React.Component<any, any> {
         className={styles.header}
         justify="between"
         align="center"
-        style={{ height: `${HEIGHT}px` }}
       >
         <CatalogTrigger height={HEIGHT} />
         <HomeTrigger height={HEIGHT} />

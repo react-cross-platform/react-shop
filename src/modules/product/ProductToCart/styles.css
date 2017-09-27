@@ -1,17 +1,17 @@
 .productToCart {
   background: white;
-  bottom: 0;
-  position: fixed;
   width: 100%;
-  height: 40px;
-  text-align: center;
-  box-shadow: 0 0 10px -3px lightgray;
+  min-height: 40px;
+  flex-shrink: 0;
+  text-align: center !important;
+  box-shadow: 0 0 11px -1px lightgrey;
+  z-index: 1;
 }
 
 .priceSection {
   color: black;
   font-weight: bold;
-  text-align: center;
+  height: 100%;
   width: 50%;
 }
 

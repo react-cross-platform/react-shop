@@ -28,14 +28,20 @@ class EmptyCart extends React.Component<IEmptyCartProps, undefined> {
 
   render() {
     return (
-      <div onClick={this.handleClick} className={styles.emptyCart}>
+      <Flex
+        direction="column"
+        justify="center"
+        align="center"
+        onPress={this.handleClick}
+        className={styles.emptyCart}
+      >
         <img
           className={styles.emptyCartImage}
           src={require("./sad_smile.png")}
         />
         <div className={styles.emptyCartTitle}>Корзина пуста</div>
         <div className={styles.emptyCartContinue}>нажмите чтобы продолжить</div>
-      </div>
+      </Flex>
     );
   }
 }

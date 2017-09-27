@@ -14,7 +14,6 @@ import Layout from "./Layout/Layout";
 import Loading from "./Loading/Loading";
 import Modal from "./Modal/Modal";
 import Navbar from "./Navbar/Navbar";
-import SidebarCatalog, { toggleCatalog } from "./SidebarCatalog/SidebarCatalog";
 import SubCatalog from "./SubCatalog/SubCatalog";
 import { swipeEnabled } from "./utils";
 
@@ -31,10 +30,8 @@ export {
   Loading,
   Modal,
   Navbar,
-  SidebarCatalog,
   SubCatalog,
   model,
   reducer,
-  toggleCatalog,
   utils
 };

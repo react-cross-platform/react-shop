@@ -1,16 +1,17 @@
-.price {
-  color: black;
-  font-weight: bold;
+.Price {
+  display: inline-block;
   text-align: center;
+  height: 40px;
 }
 
 .value {
+  font-weight: bold;
   color: black;
 }
 
 .oldValue {
+  font-weight: bold;
   color: #b94a48;
   font-size: 12px;
-  line-height: 10px;
   text-decoration: line-through;
 }

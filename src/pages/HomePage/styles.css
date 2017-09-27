@@ -1,0 +1,4 @@
+.homePage {
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}

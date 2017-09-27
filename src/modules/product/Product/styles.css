@@ -1,9 +1,17 @@
 .product {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
   height: 100%;
-  background: white !important;
+  width: 100%;
+}
+
+.productContent {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: scroll;
+  position: relative;
+  width: 100%;
+}
+
+.productFirstScreen {
+  background: white;
 }
 
 .productTop {
@@ -21,13 +29,6 @@
   height: 40px;
 }
 
-.productContent {
-  flex-grow: 1;
-  overflow: auto;
-  margin-bottom: 15px;
-  background: white !important;
-}
-
 .categoryName {
   font-size: 0.35rem;
   line-height: 0.35rem;
@@ -37,8 +38,10 @@
 }
 
 .productName {
+  width: 100%;
   text-align: center;
   font-size: 0.4rem;
   font-weight: bold;
   line-height: 0.5rem;
+  margin-bottom: 8px;
 }

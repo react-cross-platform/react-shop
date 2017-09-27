@@ -1,9 +1,12 @@
 import { Flex } from "antd-mobile";
 import * as React from "react";
 import { gql, graphql } from "react-apollo";
+import { connect } from "react-redux";
 import { compose } from "redux";
 
+import { IRouterReducer } from "../../../interfaces";
 import { IData } from "../../../model";
+import { Price } from "../../common/index";
 import { Loading } from "../../layout/index";
 import { getCartItemTotalPrice } from "../CartItem/CartItem";
 import { CartItem, CheckoutTrigger, EmptyCart } from "../index";
@@ -19,6 +22,7 @@ export interface IDataCart extends IData {
 
 interface IConnectedCartProps {
   data: IDataCart;
+  router: IRouterReducer;
 }
 
 export interface ICartProps {
@@ -56,7 +60,7 @@ class Cart extends React.Component<
   };
 
   render() {
-    const { data, isModal } = this.props;
+    const { data, isModal, router } = this.props;
     const { loading } = data;
     if (loading === true) {
       return <Loading />;
@@ -68,26 +72,24 @@ class Cart extends React.Component<
     if (amount === 0) {
       return <EmptyCart history={history} isModal={isModal} />;
     }
-
-    const style =
-      amount <= 2
-        ? {
-            overflow: "hidden",
-            position: "fixed"
-          }
-        : {};
     return (
-      <Flex direction="column" className={styles.cart} style={style}>
-        <div className={styles.cartItems}>
-          {cart.items.map((item, index) =>
-            <CartItem
-              key={index}
-              id={item.id}
-              subProduct={item.subProduct}
-              price={item.price}
-              amount={item.amount}
-            />
-          )}
+      <Flex direction="column" className={styles.cart}>
+        <div className={styles.content}>
+          <div className={styles.title}>
+            Итого к оплате: <Price price={totalPrice} />
+          </div>
+          <div className={styles.items}>
+            {cart.items.map((item, index) =>
+              <CartItem
+                key={index}
+                id={item.id}
+                subProduct={item.subProduct}
+                price={item.price}
+                amount={item.amount}
+              />
+            )}
+          </div>
+          <div className={styles.footer} />
         </div>
         <CheckoutTrigger totalPrice={totalPrice} />
       </Flex>
@@ -95,6 +97,11 @@ class Cart extends React.Component<
   }
 }
 
+const mapStateToProps: any = state => ({
+  router: state.router
+});
+
 export default compose<IConnectedCartProps>(
+  connect<IConnectedCartProps, {}, ICartProps>(mapStateToProps),
   graphql<IConnectedCartProps, ICartProps>(CART_QUERY)
 )(Cart) as any;
