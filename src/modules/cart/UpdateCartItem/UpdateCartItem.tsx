@@ -16,38 +16,30 @@ interface IUpdateCartItemProps {
   amount: number;
 }
 
-interface IUpdateCartItemState {
-  amount: number;
-}
-
 class UpdateCartItem extends React.Component<
   IConnectedUpdateCartItemProps & IUpdateCartItemProps,
-  IUpdateCartItemState
+  undefined
 > {
-  constructor(props) {
-    super(props);
-    this.state = {
-      amount: props.amount
-    };
-  }
-
-  onChange = (amount: number) => {
+  onChange = e => {
     const { id, submit } = this.props;
-    this.setState({ amount });
-    submit(id, amount);
+    submit(id, e.target.value);
   };
 
   render() {
     const { amount } = this.props;
+    const options = new Array(10).keys();
     return (
-      <Stepper
-        className={styles.updateCartItem}
-        showNumber={true}
-        max={10}
-        min={1}
-        value={this.state.amount}
+      <select
+        value={amount}
         onChange={this.onChange}
-      />
+        className={styles.updateCartItem}
+      >
+        {[...Array(10).keys()].map(i =>
+          <option key={i}>
+            {i + 1}
+          </option>
+        )}
+      </select>
     );
   }
 }
