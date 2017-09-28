@@ -1,12 +1,7 @@
 import { Flex } from "antd-mobile";
 import * as React from "react";
-import { gql, graphql } from "react-apollo";
-import { compose } from "redux";
 
-import { IData } from "../../../model";
-import { Loading } from "../../layout/index";
-import { getCartItemTotalPrice } from "../CartItem/CartItem";
-import { ICart } from "../model";
+import { PATH_NAMES } from "../../../routing";
 
 const styles = require("./styles.css");
 
@@ -22,7 +17,7 @@ class EmptyCart extends React.Component<IEmptyCartProps, undefined> {
     if (isModal) {
       history.goBack();
     } else {
-      history.push("/");
+      history.push(PATH_NAMES.home);
     }
   };
 

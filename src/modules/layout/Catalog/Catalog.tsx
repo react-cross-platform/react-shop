@@ -5,6 +5,7 @@ import { Dispatch } from "redux";
 
 import { IRouterReducer } from "../../../interfaces";
 import { IData } from "../../../model";
+import { PATH_NAMES } from "../../../routing";
 import { SubCatalog } from "../../layout/index";
 import { ICategory } from "../../product/model";
 import { ILayout } from "../model";
@@ -83,7 +84,9 @@ export default compose(
     gql(CATEGORIES_QUERY),
     {
       options: ({ layout, router }) => ({
-        skip: !(router.location.pathname === "/" || layout.openCatalog)
+        skip: !(
+          router.location.pathname === PATH_NAMES.home || layout.openCatalog
+        )
       })
     } as any
   )

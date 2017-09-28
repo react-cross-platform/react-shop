@@ -6,6 +6,7 @@ import { compose } from "redux";
 
 import { IRouterReducer } from "../../../interfaces";
 import { IData } from "../../../model";
+import { PATH_NAMES } from "../../../routing";
 import { Price } from "../../common/index";
 import { Loading } from "../../layout/index";
 import { getCartItemTotalPrice } from "../CartItem/CartItem";
@@ -55,8 +56,13 @@ class Cart extends React.Component<
     if (isModal) {
       history.goBack();
     } else {
-      history.push("/");
+      history.push(PATH_NAMES.home);
     }
+  };
+
+  isCurrentPage = () => {
+    const { router } = this.props;
+    return router.location.pathname === PATH_NAMES.cart;
   };
 
   render() {
@@ -65,16 +71,18 @@ class Cart extends React.Component<
     if (loading === true) {
       return <Loading />;
     }
-    const cart = data.cart as ICart;
-    const totalPrice = getCartTotalPrice(cart);
-    const amount = getCartAmount(cart);
 
+    const cart = data.cart as ICart;
+    const amount = getCartAmount(cart);
     if (amount === 0) {
       return <EmptyCart history={history} isModal={isModal} />;
     }
+
+    const totalPrice = getCartTotalPrice(cart);
+    const overflowY = this.isCurrentPage() ? "scroll" : "hidden";
     return (
       <Flex direction="column" className={styles.cart}>
-        <div className={styles.content}>
+        <div className={styles.content} style={{ overflowY }}>
           <div className={styles.title}>
             Итого к оплате: <Price price={totalPrice} />
           </div>

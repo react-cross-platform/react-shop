@@ -1,4 +1,5 @@
 import { Flex, Icon, WhiteSpace } from "antd-mobile";
+import { compile } from "path-to-regexp";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -46,18 +47,17 @@ class Product extends React.Component<
     this.setState({ titleImage: image });
   };
 
-  getLinkParams = () => {
+  getLinkProps = () => {
     const { id, subProducts, brand } = this.props;
     const subProduct = subProducts[0];
-    const url = `/product/${id}`;
     return {
       to: {
-        pathname: url,
+        pathname: compile(`/product/:id/`)({ id }),
         state: {
           modal: true,
           title: `${brand.name} ${subProduct.article}`
         }
-      }
+      },
     };
   };
 
@@ -121,7 +121,7 @@ class Product extends React.Component<
         <WhiteSpace size="sm" />
 
         <div style={{ padding: cardPadding }}>
-          <Link {...this.getLinkParams()}>
+          <Link {...this.getLinkProps()}>
             <div
               className={styles.imageContainer}
               style={{ height: maxImageHeight }}
@@ -153,7 +153,7 @@ class Product extends React.Component<
             : ""}
         </div>
 
-        <Link {...this.getLinkParams()}>
+        <Link {...this.getLinkProps()}>
           <div className={styles.info}>
             <div className={styles.title}>
               {name}

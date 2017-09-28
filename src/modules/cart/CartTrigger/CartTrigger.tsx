@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { compose } from "redux";
 
 import { IRouterReducer } from "../../../interfaces";
+import { PATH_NAMES } from "../../../routing";
 import { CART_QUERY, getCartAmount, IDataCart } from "../Cart/Cart";
 
 interface IConnectedCartTriggerProps {
@@ -25,13 +26,12 @@ class CartTrigger extends React.Component<
     const { data, router } = this.props;
     const { loading, cart } = data;
     const amount = getCartAmount(cart);
-    const pathname = "/cart/";
     return (
       <Link
-        disabled={router.location.pathname === pathname}
+        disabled={router.location.pathname === PATH_NAMES.cart}
         className={styles.cartTrigger}
         to={{
-          pathname,
+          pathname: PATH_NAMES.cart,
           state: { modal: true, title: "Корзина" }
         }}
       >

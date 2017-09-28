@@ -46,6 +46,12 @@
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.1.tgz#89c271e0c3b9ebb6a3756dd601336970b6228b77"
 
+"@types/path-to-regexp@^1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@types/path-to-regexp/-/path-to-regexp-1.7.0.tgz#f1af9d9c9db5f8ad80aa75ed424db665c48d6cd4"
+  dependencies:
+    path-to-regexp "*"
+
 "@types/react-redux@^4.4.40":
   version "4.4.44"
   resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-4.4.44.tgz#821c99b0eac22c3e32621bc0eba08062f1c07b63"
@@ -3916,6 +3922,10 @@ path-is-inside@^1.0.1:
 path-parse@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.5.tgz#3c1adf871ea9cd6c9431b6ea2bd74a0ff055c4c1"
+
+path-to-regexp@*, path-to-regexp@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-2.0.0.tgz#b77a8168c2e78bc31f3d312d71b1ace97df23870"
 
 path-to-regexp@0.1.7:
   version "0.1.7"

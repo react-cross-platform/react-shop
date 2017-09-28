@@ -1,4 +1,5 @@
 import { Card, Flex } from "antd-mobile";
+import { compile } from "path-to-regexp";
 import * as React from "react";
 import { compose } from "react-apollo";
 import { connect } from "react-redux";
@@ -6,6 +7,7 @@ import { push } from "react-router-redux";
 import { Dispatch } from "redux";
 
 import { IRouterReducer } from "../../../interfaces";
+import { PATH_NAMES } from "../../../routing";
 import { ACTION_ADD_VIEWED_CATEGORY } from "../../catalog/constants";
 import { ICatalog } from "../../catalog/model";
 import { ICategory } from "../../product/model";
@@ -48,7 +50,8 @@ class SubCatalog extends React.Component<
       dispatch({ type: ACTION_DISABLE_CATALOG })
     ).then(response => {
       if (!this.isCurrentCategory(cat.id)) {
-        dispatch(push(`/category/${cat.id}`));
+        const url = compile(PATH_NAMES.category)({ id: cat.id });
+        dispatch(push(url));
       }
     });
   };
@@ -60,7 +63,7 @@ class SubCatalog extends React.Component<
 
   isCurrentCategory = id => {
     const { router: { location: { pathname } } } = this.props;
-    return pathname.search(`/category/${id}`) !== -1;
+    return pathname.search(`/category/${id}/`) !== -1;
   };
 
   render() {

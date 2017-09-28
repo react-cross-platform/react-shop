@@ -1,7 +1,9 @@
 import { Flex } from "antd-mobile";
+import { compile } from "path-to-regexp";
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { PATH_NAMES } from "../../../routing";
 import { Price } from "../../common/index";
 import { Devider } from "../../layout/index";
 import { RemoveCartItem, UpdateCartItem } from "../index";
@@ -34,21 +36,21 @@ class CartItem extends React.Component<
   render() {
     const { id, subProduct, price, amount } = this.props;
     const { product } = subProduct;
-
-    const linkTo = {
-      pathname: `/product/${product.id}`,
-      state: {
-        modal: true,
-        title: this.getName()
+    const linkProps = {
+      to: {
+        pathname: compile(PATH_NAMES.product)({ id }),
+        state: {
+          modal: true,
+          title: this.getName()
+        }
       }
     };
-
     const totalPrice = getCartItemTotalPrice(price, amount);
     return (
       <div>
         <RemoveCartItem id={id} />
         <Flex justify="between" className={styles.cartItem}>
-          <Link className={styles.imageContainer} to={linkTo}>
+          <Link className={styles.imageContainer} {...linkProps}>
             <img
               className={styles.image}
               src={subProduct.product.images[0].src}
@@ -65,7 +67,7 @@ class CartItem extends React.Component<
               justify="between"
               align="start"
             >
-              <Link to={linkTo} className={styles.name}>
+              <Link className={styles.name} {...linkProps}>
                 {product.name}
                 <br />
                 {product.brand.name} {subProduct.article}

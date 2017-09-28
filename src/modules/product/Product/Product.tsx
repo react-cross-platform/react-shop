@@ -1,4 +1,5 @@
 import { Flex, WingBlank } from "antd-mobile";
+import { compile } from "path-to-regexp";
 import * as React from "react";
 import { compose, gql, graphql } from "react-apollo";
 import { connect } from "react-redux";
@@ -6,8 +7,8 @@ import { Dispatch } from "redux";
 
 import { IRouterReducer } from "../../../interfaces";
 import { IData } from "../../../model";
+import { PATH_NAMES } from "../../../routing";
 import { CART_QUERY, IDataCart } from "../../cart/Cart/Cart";
-import { ICart } from "../../cart/model";
 import { ACTION_ADD_VIEWED_PRODUCT } from "../../catalog/constants";
 import { HEIGHT } from "../../layout/Header/Header";
 import { Loading } from "../../layout/index";
@@ -82,6 +83,11 @@ class Product extends React.Component<
     }
   };
 
+  isCurrentPage = (id: string) => {
+    const { router } = this.props;
+    return router.location.pathname === compile(PATH_NAMES.product)({ id });
+  };
+
   render() {
     const { dataProduct, dataCart, router } = this.props;
     const { product } = dataProduct;
@@ -90,15 +96,15 @@ class Product extends React.Component<
     if (dataProduct.loading || !subProductId) {
       return <Loading />;
     }
+
     const { id, brand, images, subProducts } = product;
     const activeSubProduct = getActiveSubProduct(subProducts, subProductId);
     const { price, oldPrice } = activeSubProduct;
-
     const subProductIdsInCart = getSubProductIdsInCart(dataCart);
-
+    const overflowY = this.isCurrentPage(id) ? "scroll" : "hidden";
     return (
       <Flex direction="column" className={styles.product}>
-        <div className={styles.productContent}>
+        <div className={styles.productContent} style={{ overflowY }}>
           <Flex
             style={{ height: window.innerHeight - HEIGHT * 2 + 5 }}
             justify="around"

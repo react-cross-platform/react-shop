@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Dispatch } from "redux";
 
 import { IRouterReducer } from "../../../interfaces";
+import { PATH_NAMES } from "../../../routing";
 import { ILayout } from "../model";
 
 const styles = require("./styles.css");
@@ -50,12 +51,12 @@ class HomeTrigger extends React.Component<
 > {
   render() {
     const { router, height } = this.props;
-    const isActive = router.location.pathname === "/";
+    const isActive = router.location.pathname === PATH_NAMES.home;
     if (isActive) {
       return <Logo height={height} isActive={true} />;
     } else {
       return (
-        <Link to="/">
+        <Link to={PATH_NAMES.home}>
           <Logo height={height} isActive={false} />
         </Link>
       );

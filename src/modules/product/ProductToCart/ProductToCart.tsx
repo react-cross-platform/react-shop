@@ -2,7 +2,7 @@ import { Flex } from "antd-mobile";
 import * as React from "react";
 import { Link } from "react-router-dom";
 
-import { IDataCart } from "../../cart/Cart/Cart";
+import { PATH_NAMES } from "../../../routing";
 import { AddCartItem } from "../../cart/index";
 import { Price } from "../../common/index";
 
@@ -38,7 +38,7 @@ class ProductToCart extends React.Component<
             ? <Link
                 style={{ color: "white", display: "block" }}
                 to={{
-                  pathname: "/cart/",
+                  pathname: PATH_NAMES.cart,
                   state: { modal: true, title: "Корзина" }
                 }}
               >

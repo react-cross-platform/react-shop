@@ -4,4 +4,10 @@ import HomePage from "./HomePage/HomePage";
 import * as interfaces from "./interfaces";
 import ProductPage from "./ProductPage/ProductPage";
 
-export { CartPage, CategoryPage, HomePage, ProductPage, interfaces };
+export {
+  CartPage,
+  CategoryPage,
+  HomePage,
+  ProductPage,
+  interfaces
+};

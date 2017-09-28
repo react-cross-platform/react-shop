@@ -1,12 +1,13 @@
 import { Icon, List } from "antd-mobile";
+import { compile } from "path-to-regexp";
 import * as React from "react";
 import { compose, gql, graphql } from "react-apollo";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Dispatch } from "redux";
 
 import { IRouterReducer } from "../../../interfaces";
 import { IData } from "../../../model";
+import { PATH_NAMES } from "../../../routing";
 import { Loading } from "../index";
 import { IFlatPage, ILayout } from "../model";
 
@@ -91,6 +92,20 @@ class FlatPages extends React.Component<IConnectedFlatPagesProps, any> {
     }
   };
 
+  getLinkProps = (flatPage: IFlatPage) => {
+    const { id, name } = flatPage;
+    return {
+      to: {
+        pathname: compile(PATH_NAMES.flatpage)({ id }),
+        state: {
+          modal: true,
+          title: name,
+          pages: this.props.data.flatPages
+        }
+      }
+    };
+  };
+
   render() {
     const { data } = this.props;
     if (!data) {
@@ -106,17 +121,7 @@ class FlatPages extends React.Component<IConnectedFlatPagesProps, any> {
       <div>
         <List style={{ border: "none" }}>
           {flatPages.map(page =>
-            <Link
-              key={page.id}
-              to={{
-                pathname: `/flatpage/${page.id}`,
-                state: {
-                  modal: true,
-                  pages: flatPages,
-                  title: page.name
-                }
-              }}
-            >
+            <Link key={page.id} {...this.getLinkProps(page)}>
               <List.Item
                 wrap={true}
                 arrow="horizontal"
@@ -149,7 +154,7 @@ export default compose(
     gql(FLATPAGES_QUERY),
     {
       options: ({ layout, router }) => ({
-        skip: !(router.location.pathname === "/" || layout.openMenu)
+        skip: !(router.location.pathname === PATH_NAMES.home || layout.openMenu)
       })
     } as any
   )
