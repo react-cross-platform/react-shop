@@ -9,6 +9,7 @@ import { IData } from "../../../model";
 import { PATH_NAMES } from "../../../routing";
 import { Price } from "../../common/index";
 import { Loading } from "../../layout/index";
+import { getScrollableStyle } from "../../layout/Modal/Modal";
 import { getCartItemTotalPrice } from "../CartItem/CartItem";
 import { CartItem, CheckoutTrigger, EmptyCart } from "../index";
 import { ICart } from "../model";
@@ -79,10 +80,12 @@ class Cart extends React.Component<
     }
 
     const totalPrice = getCartTotalPrice(cart);
-    const overflowY = this.isCurrentPage() ? "scroll" : "hidden";
     return (
       <Flex direction="column" className={styles.cart}>
-        <div className={styles.content} style={{ overflowY }}>
+        <div
+          className={styles.content}
+          style={getScrollableStyle(this.isCurrentPage())}
+        >
           <div className={styles.title}>
             Итого к оплате: <Price price={totalPrice} />
           </div>

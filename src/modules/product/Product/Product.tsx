@@ -12,6 +12,7 @@ import { CART_QUERY, IDataCart } from "../../cart/Cart/Cart";
 import { ACTION_ADD_VIEWED_PRODUCT } from "../../catalog/constants";
 import { HEIGHT } from "../../layout/Header/Header";
 import { Loading } from "../../layout/index";
+import { getScrollableStyle } from "../../layout/Modal/Modal";
 import { ACTION_SELECT_SUBPRODUCT } from "../constants";
 import { Images, ProductInfo, ProductToCart } from "../index";
 import { ICurrentProduct, IProduct, ISubProduct } from "../model";
@@ -101,10 +102,12 @@ class Product extends React.Component<
     const activeSubProduct = getActiveSubProduct(subProducts, subProductId);
     const { price, oldPrice } = activeSubProduct;
     const subProductIdsInCart = getSubProductIdsInCart(dataCart);
-    const overflowY = this.isCurrentPage(id) ? "scroll" : "hidden";
     return (
       <Flex direction="column" className={styles.product}>
-        <div className={styles.productContent} style={{ overflowY }}>
+        <div
+          className={styles.productContent}
+          style={getScrollableStyle(this.isCurrentPage(id))}
+        >
           <Flex
             style={{ height: window.innerHeight - HEIGHT * 2 + 5 }}
             justify="around"

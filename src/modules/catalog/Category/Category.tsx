@@ -8,6 +8,7 @@ import { IRouterReducer } from "../../../interfaces";
 import { IData } from "../../../model";
 import { PATH_NAMES } from "../../../routing";
 import { Loading } from "../../layout/index";
+import { getScrollableStyle } from "../../layout/Modal/Modal";
 import { ILayout } from "../../layout/model";
 import { ICategory } from "../../product/model";
 import { Products } from "../index";
@@ -46,7 +47,7 @@ class Category extends React.Component<
 > {
   isCurrentPage = () => {
     const { id, router } = this.props;
-    return router.location.pathname === compile(PATH_NAMES.category)({id});
+    return router.location.pathname === compile(PATH_NAMES.category)({ id });
   };
 
   render() {
@@ -57,9 +58,11 @@ class Category extends React.Component<
       return <Loading />;
     }
 
-    const overflowY = this.isCurrentPage() ? "scroll" : "hidden";
     return (
-      <div className={styles.category} style={{ overflowY }}>
+      <div
+        className={styles.category}
+        style={getScrollableStyle(this.isCurrentPage())}
+      >
         <div className={styles.categoryName}>
           {category.name}
         </div>
