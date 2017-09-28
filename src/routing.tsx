@@ -16,13 +16,6 @@ export const PATH_NAMES = {
   flatpage: "/flatpage/:id/"
 };
 
-class MyRoute extends React.Component<any, any> {
-  render() {
-    return <Route {...this.props} />;
-  }
-}
-
-// tslint:disable-next-line:max-classes-per-file
 class Routing extends React.Component<any, any> {
   previousLocation = this.props.location;
 
@@ -48,17 +41,17 @@ class Routing extends React.Component<any, any> {
     return (
       <Flex direction="column" className="full-size">
         <Switch location={_location}>
-          <MyRoute exact={true} path={PATH_NAMES.home} component={HomePage} />
-          <MyRoute path={PATH_NAMES.category} component={CategoryPage} />
-          <MyRoute path={PATH_NAMES.product} component={ProductPage} />
-          <MyRoute path={PATH_NAMES.cart} component={CartPage} />
+          <Route exact={true} path={PATH_NAMES.home} component={HomePage} />
+          <Route path={PATH_NAMES.category} component={CategoryPage} />
+          <Route path={PATH_NAMES.product} component={ProductPage} />
+          <Route path={PATH_NAMES.cart} component={CartPage} />
         </Switch>
 
         {isModal
           ? <Flex direction="column" className="full-size">
-              <MyRoute path={PATH_NAMES.flatpage} component={FlatPageModal} />
-              <MyRoute path={PATH_NAMES.product} component={ProductModal} />
-              <MyRoute path={PATH_NAMES.cart} component={CartModal} />
+              <Route path={PATH_NAMES.flatpage} component={FlatPageModal} />
+              <Route path={PATH_NAMES.product} component={ProductModal} />
+              <Route path={PATH_NAMES.cart} component={CartModal} />
             </Flex>
           : null}
       </Flex>
