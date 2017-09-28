@@ -1,6 +1,5 @@
 import { Flex, Icon, WhiteSpace } from "antd-mobile";
 import * as React from "react";
-import LazyLoad from "react-lazy-load";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Dispatch } from "redux";
@@ -127,9 +126,12 @@ class Product extends React.Component<
               className={styles.imageContainer}
               style={{ height: maxImageHeight }}
             >
-              <LazyLoad height={maxImageHeight} offset={750}>
-                <img src={titleImage.src} />
-              </LazyLoad>
+              {titleImage
+                ? <img src={titleImage.src} />
+                : <Icon
+                    className={styles.noImage}
+                    type={require("!svg-sprite-loader!../../layout/HomeTrigger/logo.svg")}
+                  />}
             </div>
           </Link>
 

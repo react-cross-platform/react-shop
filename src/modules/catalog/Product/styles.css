@@ -17,6 +17,12 @@
   height: 90%;
 }
 
+.noImage {
+  width: 90%;
+  height: 90%;
+  fill: lightgray;
+}
+
 .info {
   padding: 5px;
 }
