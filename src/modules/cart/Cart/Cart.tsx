@@ -67,7 +67,7 @@ class Cart extends React.Component<
   };
 
   render() {
-    const { data, isModal, router } = this.props;
+    const { data, isModal, router, history } = this.props;
     const { loading } = data;
     if (loading === true) {
       return <Loading />;

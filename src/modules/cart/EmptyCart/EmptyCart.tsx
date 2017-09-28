@@ -11,8 +11,7 @@ export interface IEmptyCartProps {
 }
 
 class EmptyCart extends React.Component<IEmptyCartProps, undefined> {
-  handleClick = e => {
-    e.stopPropagation();
+  handleClick = () => {
     const { isModal, history } = this.props;
     if (isModal) {
       history.goBack();
@@ -27,7 +26,7 @@ class EmptyCart extends React.Component<IEmptyCartProps, undefined> {
         direction="column"
         justify="center"
         align="center"
-        onPress={this.handleClick}
+        onClick={this.handleClick}
         className={styles.emptyCart}
       >
         <img
