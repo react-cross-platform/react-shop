@@ -1,24 +1,20 @@
 import { Flex } from "antd-mobile";
 import * as React from "react";
-import { graphql } from "react-apollo";
 import { Link } from "react-router-dom";
-import { compose } from "redux";
 
-import { CART_QUERY, IDataCart } from "../../cart/Cart/Cart";
+import { IDataCart } from "../../cart/Cart/Cart";
 import { AddCartItem } from "../../cart/index";
 import { Price } from "../../common/index";
-import { Loading } from "../../layout/index";
 
 const styles = require("./styles.css");
 
-interface IConnectedProductToCartProps {
-  data: IDataCart;
-}
+interface IConnectedProductToCartProps {}
 
 interface IProductToCartProps {
   subProductId: number;
   price: number;
   oldPrice?: number;
+  inCart: boolean;
 }
 
 interface IProductBuyState {}
@@ -28,18 +24,7 @@ class ProductToCart extends React.Component<
   IProductBuyState
 > {
   render() {
-    const { subProductId, price, oldPrice, data } = this.props;
-    const { loading, cart } = data;
-    if (loading) {
-      return <Loading />;
-    }
-    const inCart =
-      cart &&
-      cart.items &&
-      cart.items.filter(
-        item => parseInt(item.subProduct.id, 0) === subProductId
-      ).length > 0;
-
+    const { subProductId, price, oldPrice, inCart } = this.props;
     return (
       <Flex className={styles.productToCart} justify="center" align="center">
         <div className={styles.priceSection}>
@@ -66,6 +51,4 @@ class ProductToCart extends React.Component<
   }
 }
 
-export default compose<IProductToCartProps & IConnectedProductToCartProps>(
-  graphql(CART_QUERY)
-)(ProductToCart) as any;
+export default ProductToCart;

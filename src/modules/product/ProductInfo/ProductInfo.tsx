@@ -22,6 +22,7 @@ interface IConnectedProductInfoProps {
 interface IProductInfoProps {
   dataProduct: IProduct;
   activeSubProduct: ISubProduct;
+  subProductIdsInCart: number[];
 }
 
 const options = {
@@ -45,7 +46,13 @@ class ProductInfo extends React.Component<
   };
 
   render() {
-    const { dataProduct, product, activeSubProduct, dispatch } = this.props;
+    const {
+      dataProduct,
+      product,
+      activeSubProduct,
+      dispatch,
+      subProductIdsInCart
+    } = this.props;
     const { brand, images, subProducts, attributes } = dataProduct;
     const { subProductId, colorId } = this.props.product;
     const activeImage =
@@ -59,7 +66,10 @@ class ProductInfo extends React.Component<
         {subProducts.length > 1
           ? <div>
               <Devider />
-              <SubProducts subProducts={subProducts} />
+              <SubProducts
+                subProducts={subProducts}
+                subProductIdsInCart={subProductIdsInCart}
+              />
             </div>
           : ""}
 
@@ -158,7 +168,7 @@ class ProductInfo extends React.Component<
         </WingBlank>
         <WhiteSpace />
         <Devider />
-        </div>
+      </div>
     );
   }
 }

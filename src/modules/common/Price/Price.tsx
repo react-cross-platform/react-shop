@@ -8,22 +8,28 @@ interface IPriceProps {
   price: number;
   oldPrice?: number;
   currency?: string;
+  style?: any;
 }
 
 class Price extends React.Component<IPriceProps, any> {
   render() {
-    const { price, oldPrice } = this.props;
+    const { price, oldPrice, style } = this.props;
     const currency = this.props.currency || "грн";
     return !!oldPrice
-      ? <Flex className={styles.Price} direction="column" justify="center">
-          <div className={styles.value}>
+      ? <Flex
+          style={style}
+          className={styles.Price}
+          direction="column"
+          justify="center"
+        >
+          <div className={styles.currentValue}>
             {prettyPrice(price)} {currency}
           </div>
           <div className={styles.oldValue}>
             {prettyPrice(oldPrice)} {currency}
           </div>
         </Flex>
-      : <span className={styles.value}>
+      : <span className={styles.singleValue} style={style}>
           {prettyPrice(price)} {currency}
         </span>;
   }

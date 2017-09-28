@@ -6,6 +6,8 @@ import { Dispatch } from "redux";
 
 import { IRouterReducer } from "../../../interfaces";
 import { IData } from "../../../model";
+import { CART_QUERY, IDataCart } from "../../cart/Cart/Cart";
+import { ICart } from "../../cart/model";
 import { ACTION_ADD_VIEWED_PRODUCT } from "../../catalog/constants";
 import { HEIGHT } from "../../layout/Header/Header";
 import { Loading } from "../../layout/index";
@@ -13,7 +15,7 @@ import { ACTION_SELECT_SUBPRODUCT } from "../constants";
 import { Images, ProductInfo, ProductToCart } from "../index";
 import { ICurrentProduct, IProduct, ISubProduct } from "../model";
 
-const PRODUCT_QUERY = require("./product.gql");
+const PRODUCT_QUERY = gql(require("./product.gql"));
 
 const styles = require("./styles.css");
 
@@ -22,7 +24,8 @@ interface IDataProduct extends IData {
 }
 
 interface IConnectedProductProps {
-  data: IDataProduct;
+  dataProduct: IDataProduct;
+  dataCart: IDataCart;
   product: ICurrentProduct;
   dispatch: Dispatch<{}>;
   router: IRouterReducer;
@@ -33,7 +36,17 @@ interface IProductProps {
 }
 
 const getActiveSubProduct = (subProducts, subProductId): ISubProduct => {
-  return subProducts.filter(sp => sp.id === subProductId)[0] || subProducts[0];
+  return (
+    subProducts.filter(sp => parseInt(sp.id, 0) === subProductId)[0] ||
+    subProducts[0]
+  );
+};
+
+const getSubProductIdsInCart = (data: IDataCart) => {
+  const { cart, loading } = data;
+  return !loading && cart && cart.items
+    ? cart.items.map(item => parseInt(item.subProduct.id, 0))
+    : [];
 };
 
 function createMarkup(html) {
@@ -50,9 +63,9 @@ class Product extends React.Component<
   }
 
   componentWillReceiveProps = nextProps => {
-    const { data } = nextProps;
-    const { loading, product } = data;
-    if (loading === false) {
+    const { dataProduct } = nextProps;
+    const { loading, product } = dataProduct;
+    if (!loading) {
       const { subProducts } = product;
       const { subProductId } = nextProps.product;
       const subProductIds = subProducts.map(sp => sp.id);
@@ -70,16 +83,18 @@ class Product extends React.Component<
   };
 
   render() {
-    const { data, router } = this.props;
-    const { loading, product } = data;
+    const { dataProduct, dataCart, router } = this.props;
+    const { product } = dataProduct;
     const { colorId } = this.props.product;
     const subProductId = parseInt(this.props.product.subProductId, 0);
-    if (loading === true || subProductId === null) {
+    if (dataProduct.loading || !subProductId) {
       return <Loading />;
     }
     const { id, brand, images, subProducts } = product;
     const activeSubProduct = getActiveSubProduct(subProducts, subProductId);
     const { price, oldPrice } = activeSubProduct;
+
+    const subProductIdsInCart = getSubProductIdsInCart(dataCart);
 
     return (
       <Flex direction="column" className={styles.product}>
@@ -100,12 +115,14 @@ class Product extends React.Component<
           <ProductInfo
             dataProduct={product}
             activeSubProduct={activeSubProduct}
+            subProductIdsInCart={subProductIdsInCart}
           />
         </div>
         <ProductToCart
           subProductId={subProductId}
           price={price}
           oldPrice={oldPrice}
+          inCart={subProductIdsInCart.indexOf(subProductId) !== -1}
         />
       </Flex>
     );
@@ -117,7 +134,8 @@ const mapStateToProps: any = state => ({
   router: state.router
 });
 
-const options = {
+const productOptions = {
+  name: "dataProduct",
   options: props => ({
     variables: {
       id: props.id
@@ -125,7 +143,12 @@ const options = {
   })
 };
 
+const cartOptions = {
+  name: "dataCart"
+};
+
 export default compose(
   connect<IConnectedProductProps, {}, IProductProps>(mapStateToProps),
-  graphql(gql(PRODUCT_QUERY), options)
+  graphql(PRODUCT_QUERY, productOptions),
+  graphql(CART_QUERY, cartOptions)
 )(Product);

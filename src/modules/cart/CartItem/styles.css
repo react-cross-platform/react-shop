@@ -35,6 +35,7 @@
 
 .name {
   color: black;
+  line-height: 18px;
 }
 
 .amountAndPriceSection {

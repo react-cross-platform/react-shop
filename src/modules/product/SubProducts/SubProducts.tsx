@@ -1,8 +1,9 @@
-import { Icon, List, WingBlank } from "antd-mobile";
+import { Icon, List } from "antd-mobile";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { Price } from "../../common/index";
 import { ACTION_SELECT_SUBPRODUCT } from "../constants";
 import { ICurrentProduct, ISubProduct } from "../model";
 
@@ -18,6 +19,7 @@ interface IConnectedSubProductsProps {
 
 interface ISubProductsProps {
   subProducts: [ISubProduct];
+  subProductIdsInCart: number[];
 }
 
 class SubProducts extends React.Component<
@@ -32,13 +34,17 @@ class SubProducts extends React.Component<
     });
   };
 
-  isActive = subProductId => {
-    return subProductId === this.props.product.subProductId;
+  isActive = (subProduct: ISubProduct) => {
+    return subProduct.id === this.props.product.subProductId;
+  };
+
+  inCart = subProduct => {
+    const { subProductIdsInCart } = this.props;
+    return subProductIdsInCart.indexOf(parseInt(subProduct.id, 0)) !== -1;
   };
 
   render() {
     const { subProducts } = this.props;
-
     return (
       <div>
         <List>
@@ -47,20 +53,36 @@ class SubProducts extends React.Component<
               key={index}
               onClick={() => this.onChangePrice(subProduct.id)}
               thumb={
-                this.isActive(subProduct.id)
+                this.isActive(subProduct)
                   ? <Icon
-                      className={styles.checkIcon}
+                      className={styles.icon}
                       type={require("svg-sprite-loader!./check-circle.svg")}
+                      style={{
+                        fill: this.inCart(subProduct) ? "green" : "orange"
+                      }}
                     />
-                  : <Icon type={require("svg-sprite-loader!./circle.svg")} />
+                  : <Icon
+                      className={styles.icon}
+                      type={require("svg-sprite-loader!./circle.svg")}
+                      style={{
+                        fill: this.inCart(subProduct) ? "green" : "gray"
+                      }}
+                    />
               }
               extra={
                 <span
                   style={{
-                    color: this.isActive(subProduct.id) ? "orange" : "grey"
+                    color: this.isActive(subProduct) ? "orange" : "grey"
                   }}
                 >
-                  {subProduct.price} грн
+                  <Price
+                    price={subProduct.price}
+                    oldPrice={subProduct.oldPrice}
+                    style={{
+                      fontWeight: this.isActive(subProduct) ? "bold" : "normal",
+                      alignItems: "flex-end"
+                    }}
+                  />
                 </span>
               }
             >

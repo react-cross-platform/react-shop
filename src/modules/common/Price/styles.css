@@ -1,17 +1,23 @@
 .Price {
   display: inline-block;
   text-align: center;
-  height: 40px;
+  /* height: 35px; */
+  line-height: 16px;
+  font-weight: bold;
 }
 
-.value {
-  font-weight: bold;
+.currentValue {
   color: black;
 }
 
 .oldValue {
-  font-weight: bold;
   color: #b94a48;
   font-size: 12px;
   text-decoration: line-through;
 }
+
+.singleValue {
+  color: black;
+  font-weight: bold;
+}
+
