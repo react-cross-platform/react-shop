@@ -1,6 +1,7 @@
+import gql from "graphql-tag";
 import { compile } from "path-to-regexp";
 import * as React from "react";
-import { compose, gql, graphql } from "react-apollo";
+import { compose, graphql } from "react-apollo";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -43,7 +44,7 @@ const options = {
 
 class Category extends React.Component<
   IConnectedCategoryProps & ICategoryProps,
-  null
+  {}
 > {
   isCurrentPage = () => {
     const { id, router } = this.props;
@@ -80,4 +81,4 @@ const mapStateToProps: any = state => ({
 export default compose(
   connect<IConnectedCategoryProps, {}, ICategoryProps>(mapStateToProps),
   graphql(gql(CATEGORY_QUERY), options)
-)(Category);
+)(Category) as any;

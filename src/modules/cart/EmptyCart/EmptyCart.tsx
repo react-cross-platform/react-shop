@@ -10,8 +10,8 @@ export interface IEmptyCartProps {
   isModal: boolean;
 }
 
-class EmptyCart extends React.Component<IEmptyCartProps, undefined> {
-  handleClick = () => {
+class EmptyCart extends React.Component<IEmptyCartProps, {}> {
+  handleClick = e => {
     const { isModal, history } = this.props;
     if (isModal) {
       history.goBack();
@@ -26,7 +26,7 @@ class EmptyCart extends React.Component<IEmptyCartProps, undefined> {
         direction="column"
         justify="center"
         align="center"
-        onClick={this.handleClick}
+        onClick={this.handleClick as any}
         className={styles.emptyCart}
       >
         <img

@@ -9,9 +9,7 @@ function createMarkup(html) {
   return { __html: html };
 }
 
-interface IFlatPageModalProps extends IPage {}
-
-class FlatPageModal extends React.Component<IFlatPageModalProps, undefined> {
+class FlatPageModal extends React.Component<IPage, {}> {
   render() {
     const { match, history, location } = this.props;
     const id = match.params.id;

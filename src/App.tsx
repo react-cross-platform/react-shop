@@ -11,7 +11,7 @@ import store from "./store";
 
 const App = () => {
   return (
-    <ApolloProvider store={store} client={client}>
+    <ApolloProvider store={store} client={client as any}>
       <ConnectedRouter history={history}>
         <Layout header={<Header />}>
           <Route component={Routing} />

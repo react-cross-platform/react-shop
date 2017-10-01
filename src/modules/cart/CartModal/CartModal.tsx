@@ -17,7 +17,7 @@ export interface ICartModalProps {
 
 class CartModal extends React.Component<
   IConnectedCartModalProps & ICartModalProps,
-  undefined
+  {}
 > {
   render() {
     const { history, location } = this.props;

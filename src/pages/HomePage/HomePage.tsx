@@ -19,7 +19,7 @@ interface IHomePageProps extends IPage {}
 
 class HomePage extends React.Component<
   IConnectedHomePageProps & IHomePageProps,
-  undefined
+  {}
 > {
   componentWillMount() {
     this.props.dispatch({ type: ACTION_RESET });
@@ -49,6 +49,6 @@ class HomePage extends React.Component<
 const mapStateToProps = state => ({
   router: state.router
 });
-export default connect<IConnectedHomePageProps, undefined, IHomePageProps>(
+export default connect<IConnectedHomePageProps, {}, IHomePageProps>(
   mapStateToProps as any
-)(HomePage);
+)(HomePage as any);

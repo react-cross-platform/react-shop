@@ -11,7 +11,7 @@ interface IPriceProps {
   style?: any;
 }
 
-class Price extends React.Component<IPriceProps, any> {
+class Price extends React.Component<IPriceProps, {}> {
   render() {
     const { price, oldPrice, style } = this.props;
     const currency = this.props.currency || "грн";

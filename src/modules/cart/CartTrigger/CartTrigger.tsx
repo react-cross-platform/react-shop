@@ -14,14 +14,9 @@ interface IConnectedCartTriggerProps {
   router: IRouterReducer;
 }
 
-interface ICartTriggerProps {}
-
 const styles = require("./styles.css");
 
-class CartTrigger extends React.Component<
-  IConnectedCartTriggerProps & ICartTriggerProps,
-  undefined
-> {
+class CartTrigger extends React.Component<IConnectedCartTriggerProps, {}> {
   render() {
     const { data, router } = this.props;
     const { loading, cart } = data;
@@ -32,7 +27,7 @@ class CartTrigger extends React.Component<
         className={styles.cartTrigger}
         to={{
           pathname: PATH_NAMES.cart,
-          state: { modal: true, title: "Корзина" }
+          state: { modal: true, title: "Корзина" } as any
         }}
       >
         {!loading && amount > 0
@@ -55,6 +50,6 @@ const mapStateToProps: any = state => ({
 });
 
 export default compose(
-  connect<IConnectedCartTriggerProps, {}, ICartTriggerProps>(mapStateToProps),
+  connect<IConnectedCartTriggerProps, {}, {}>(mapStateToProps),
   graphql(CART_QUERY)
-)(CartTrigger as any);
+)(CartTrigger as any) as any;

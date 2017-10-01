@@ -1,7 +1,8 @@
 import { Flex, WingBlank } from "antd-mobile";
+import gql from "graphql-tag";
 import { compile } from "path-to-regexp";
 import * as React from "react";
-import { compose, gql, graphql } from "react-apollo";
+import { compose, graphql } from "react-apollo";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -64,7 +65,7 @@ class Product extends React.Component<
     dispatch({ type: ACTION_ADD_VIEWED_PRODUCT, productId: id });
   }
 
-  componentWillReceiveProps = nextProps => {
+  componentWillReceiveProps(nextProps) {
     const { dataProduct } = nextProps;
     const { loading, product } = dataProduct;
     if (!loading) {
@@ -160,4 +161,4 @@ export default compose(
   connect<IConnectedProductProps, {}, IProductProps>(mapStateToProps),
   graphql(PRODUCT_QUERY, productOptions),
   graphql(CART_QUERY, cartOptions)
-)(Product);
+)(Product) as any;

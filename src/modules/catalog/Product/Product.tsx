@@ -32,10 +32,10 @@ class Product extends React.Component<
 > {
   componentWillMount() {
     const { imagesWithColor } = this.props;
-    this.state = {
+    this.setState({
       titleImage:
         imagesWithColor.filter(img => img.isTitle)[0] || imagesWithColor[0]
-    };
+    });
   }
 
   isViewed() {
@@ -57,7 +57,7 @@ class Product extends React.Component<
           modal: true,
           title: `${brand.name} ${subProduct.article}`
         }
-      },
+      }
     };
   };
 

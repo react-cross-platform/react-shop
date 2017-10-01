@@ -1,7 +1,8 @@
 import { ActionSheet, Flex, Icon } from "antd-mobile";
+import gql from "graphql-tag";
 import update from "immutability-helper";
 import React from "react";
-import { gql, graphql } from "react-apollo";
+import { graphql } from "react-apollo";
 import { compose } from "redux";
 
 import { CART_QUERY, IDataCart } from "../Cart/Cart";
@@ -39,7 +40,7 @@ interface IRemoveCartItemProps {
 
 class RemoveCartItem extends React.Component<
   IConnectedRemoveCartItemProps & IRemoveCartItemProps,
-  undefined
+  {}
 > {
   removeCartItem = () => {
     const { submit, id } = this.props;
@@ -93,4 +94,4 @@ export default compose(
       };
     }
   })
-)(RemoveCartItem) as any;
+)(RemoveCartItem as any) as any;

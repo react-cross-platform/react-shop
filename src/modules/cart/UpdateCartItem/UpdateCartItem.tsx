@@ -1,8 +1,6 @@
-import { Stepper } from "antd-mobile";
-import update from "immutability-helper";
+import gql from "graphql-tag";
 import React from "react";
-import { gql, graphql } from "react-apollo";
-import { connect } from "react-redux";
+import { graphql } from "react-apollo";
 import { compose } from "redux";
 
 const styles = require("./styles.css");
@@ -18,7 +16,7 @@ interface IUpdateCartItemProps {
 
 class UpdateCartItem extends React.Component<
   IConnectedUpdateCartItemProps & IUpdateCartItemProps,
-  undefined
+  {}
 > {
   onChange = e => {
     const { id, submit } = this.props;
@@ -31,7 +29,7 @@ class UpdateCartItem extends React.Component<
     return (
       <select
         value={amount}
-        onChange={this.onChange}
+        onChange={this.onChange as any}
         className={styles.updateCartItem}
       >
         {[...Array(10).keys()].map(i =>
@@ -56,4 +54,4 @@ export default compose(
       };
     }
   })
-)(UpdateCartItem) as any;
+)(UpdateCartItem as any) as any;

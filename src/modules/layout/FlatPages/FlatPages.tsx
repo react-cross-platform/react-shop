@@ -1,7 +1,8 @@
 import { Icon, List } from "antd-mobile";
+import gql from "graphql-tag";
 import { compile } from "path-to-regexp";
 import * as React from "react";
-import { compose, gql, graphql } from "react-apollo";
+import { compose, graphql } from "react-apollo";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -29,7 +30,7 @@ function createMarkup(html) {
   return { __html: html };
 }
 
-class FlatPages extends React.Component<IConnectedFlatPagesProps, any> {
+class FlatPages extends React.Component<IConnectedFlatPagesProps, {}> {
   state = {
     page: {
       content: "",
@@ -158,4 +159,4 @@ export default compose(
       })
     } as any
   )
-)(FlatPages as any);
+)(FlatPages as any) as any;

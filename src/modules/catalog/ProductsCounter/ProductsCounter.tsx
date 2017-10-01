@@ -8,7 +8,7 @@ interface IProductsCounterProps {
   total: number;
 }
 
-class ProductsCounter extends React.Component<IProductsCounterProps, null> {
+class ProductsCounter extends React.Component<IProductsCounterProps, {}> {
   render() {
     const { scrolled, total } = this.props;
     return (

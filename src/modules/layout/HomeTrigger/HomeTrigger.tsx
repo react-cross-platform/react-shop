@@ -71,4 +71,4 @@ const mapStateToProps: any = state => ({
 
 export default compose(
   connect<IConnectedHomeTriggerProps, {}, IHomeTriggerProps>(mapStateToProps)
-)(HomeTrigger);
+)(HomeTrigger as any);

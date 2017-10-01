@@ -1,9 +1,9 @@
+import gql from "graphql-tag";
 import update from "immutability-helper";
 import React from "react";
-import { gql, graphql } from "react-apollo";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { graphql } from "react-apollo";
 import { compose } from "redux";
+
 import { CART_QUERY } from "../Cart/Cart";
 
 const styles = require("./styles.css");
@@ -18,7 +18,7 @@ interface IAddCartItemProps {
 
 class AddCartItem extends React.Component<
   IConnectedAddCartItemProps & IAddCartItemProps,
-  undefined
+  {}
 > {
   addCartItem = () => {
     const { submit, subProductId } = this.props;
@@ -53,4 +53,4 @@ export default compose(
       };
     }
   })
-)(AddCartItem) as any;
+)(AddCartItem as any) as any;

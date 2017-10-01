@@ -153,7 +153,7 @@ class Products extends React.Component<
     window.removeEventListener("scroll", this.handleScrollThrottle, true);
   }
 
-  componentDidUpdate = (prevProps, prevState) => {
+  componentDidUpdate(prevProps, prevState) {
     const { loading, allProducts } = this.props.data;
     if (loading === false) {
       this.bottomHeight =
@@ -162,9 +162,9 @@ class Products extends React.Component<
         window.innerHeight -
         FETCH_MORE_THRESHOLD;
     }
-  };
+  }
 
-  componentWillReceiveProps = nextProps => {
+  componentWillReceiveProps(nextProps) {
     const { loading, allProducts } = nextProps.data;
     if (loading === false) {
       const { products, total } = allProducts;
@@ -174,7 +174,7 @@ class Products extends React.Component<
         });
       }
     }
-  };
+  }
 
   render() {
     const { data, catalog: { showOnlyViewed, viewedProductIds } } = this.props;
@@ -206,6 +206,7 @@ class Products extends React.Component<
         <MasonryInfiniteScroller
           className={styles.masonryInfiniteScroller}
           sizes={[{ columns: 2, gutter }]}
+          loadMore={() => ""}
         >
           {filteredProducts.map((product, i) => {
             return <Product key={i} {...product} />;
@@ -240,4 +241,4 @@ const mapStateToProps: any = state => ({
 export default compose(
   connect<IConnectedProductsProps, {}, IProductsProps>(mapStateToProps),
   graphql(gql(ALL_PRODUCTS_QUERY), options as any)
-)(Products as any);
+)(Products as any) as any;

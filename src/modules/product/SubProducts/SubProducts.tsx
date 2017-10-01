@@ -24,7 +24,7 @@ interface ISubProductsProps {
 
 class SubProducts extends React.Component<
   IConnectedSubProductsProps & ISubProductsProps,
-  any
+  {}
 > {
   onChangePrice = elId => {
     this.props.dispatch({
@@ -98,7 +98,6 @@ class SubProducts extends React.Component<
 const mapStateToProps: any = state => ({
   product: state.product
 });
-
 export default connect<IConnectedSubProductsProps, {}, ISubProductsProps>(
   mapStateToProps
-)(SubProducts);
+)(SubProducts as any);

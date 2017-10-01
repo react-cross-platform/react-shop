@@ -1,5 +1,6 @@
+import gql from "graphql-tag";
 import * as React from "react";
-import { compose, gql, graphql } from "react-apollo";
+import { compose, graphql } from "react-apollo";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -30,7 +31,7 @@ interface ICatalogProps {
 
 class Catalog extends React.Component<
   IConnectedCatalogProps & ICatalogProps,
-  null
+  {}
 > {
   render() {
     const { isDrawer, data } = this.props;
@@ -90,4 +91,4 @@ export default compose(
       })
     } as any
   )
-)(Catalog as any);
+)(Catalog as any) as any;

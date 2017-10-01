@@ -10,7 +10,7 @@ interface INavbarProps {
   history: any;
 }
 
-class Navbar extends React.Component<INavbarProps, any> {
+class Navbar extends React.Component<INavbarProps, {}> {
   goBack = e => {
     e.stopPropagation();
     const { history } = this.props;

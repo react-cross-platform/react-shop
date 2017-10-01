@@ -1,11 +1,12 @@
 import { Modal } from "antd-mobile";
 import * as React from "react";
+import { CSSProperties } from "react";
 
 import { Layout, Navbar } from "../index";
 
 const styles = require("./styles.css");
 
-export const getScrollableStyle = (isScrollable: boolean) => {
+export const getScrollableStyle = (isScrollable: boolean): CSSProperties => {
   // Hack for Safari on iOS to prevent content scrolling under Modal window
   return isScrollable
     ? {
@@ -22,7 +23,7 @@ interface IMyModelProps {
   location: any;
 }
 
-class MyModal extends React.Component<IMyModelProps, any> {
+class MyModal extends React.Component<IMyModelProps, {}> {
   render() {
     const { children, location, history } = this.props;
     return (

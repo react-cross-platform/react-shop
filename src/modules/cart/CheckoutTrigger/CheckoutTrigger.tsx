@@ -5,16 +5,11 @@ import { Price } from "../../common/index";
 
 const styles = require("./styles.css");
 
-interface IConnectedCheckoutTriggerProps {}
-
 interface ICheckoutTriggerProps {
   totalPrice: number;
 }
 
-class CheckoutTrigger extends React.Component<
-  IConnectedCheckoutTriggerProps & ICheckoutTriggerProps,
-  undefined
-> {
+class CheckoutTrigger extends React.Component<ICheckoutTriggerProps, {}> {
   render() {
     const { totalPrice } = this.props;
     return (

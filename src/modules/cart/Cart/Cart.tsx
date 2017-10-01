@@ -1,6 +1,7 @@
 import { Flex } from "antd-mobile";
+import gql from "graphql-tag";
 import * as React from "react";
-import { gql, graphql } from "react-apollo";
+import { graphql } from "react-apollo";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
@@ -47,10 +48,7 @@ export const getCartAmount = (cart: ICart): number => {
   return cart && cart.items ? cart.items.length : 0;
 };
 
-class Cart extends React.Component<
-  IConnectedCartProps & ICartProps,
-  undefined
-> {
+class Cart extends React.Component<IConnectedCartProps & ICartProps, {}> {
   handleClick = e => {
     e.stopPropagation();
     const { isModal, history } = this.props;

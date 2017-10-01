@@ -9,7 +9,7 @@ interface ILayouProps {
   header: any;
 }
 
-class Layout extends React.Component<ILayouProps, undefined> {
+class Layout extends React.Component<ILayouProps, {}> {
   render() {
     const { header } = this.props;
     return (

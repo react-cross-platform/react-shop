@@ -11,18 +11,11 @@ import { ICartItem } from "../model";
 
 const styles = require("./styles.css");
 
-interface IConnectedCartItemProps {}
-
-interface ICartItemProps extends ICartItem {}
-
 export const getCartItemTotalPrice = (price: number, amount: number) => {
   return price * amount;
 };
 
-class CartItem extends React.Component<
-  IConnectedCartItemProps & ICartItemProps,
-  undefined
-> {
+class CartItem extends React.Component<ICartItem, {}> {
   handleNavigation = (navigation, id, name) => {
     navigation.navigate("Product", { id, name });
   };
