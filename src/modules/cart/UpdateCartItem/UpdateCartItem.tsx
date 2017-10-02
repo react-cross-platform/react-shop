@@ -1,23 +1,19 @@
 import gql from "graphql-tag";
 import React from "react";
-import { graphql } from "react-apollo";
-import { compose } from "redux";
+import { graphql, OperationOption } from "react-apollo";
 
 const styles = require("./styles.css");
 
-interface IConnectedUpdateCartItemProps {
+interface GraphQLProps {
   submit: (id: number, amount: number) => void;
 }
 
-interface IUpdateCartItemProps {
+interface OwnProps {
   id: number;
   amount: number;
 }
 
-class UpdateCartItem extends React.Component<
-  IConnectedUpdateCartItemProps & IUpdateCartItemProps,
-  {}
-> {
+class UpdateCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
   onChange = e => {
     const { id, submit } = this.props;
     submit(id, e.target.value);
@@ -44,14 +40,16 @@ class UpdateCartItem extends React.Component<
 
 const UPDATE_CART_ITEM_QUERY = gql(require("./updateCartItem.gql"));
 
-export default compose(
-  graphql(UPDATE_CART_ITEM_QUERY, {
-    props: ({ ownProps, mutate }) => {
-      return {
-        submit(id: number, amount: number) {
-          return (mutate as any)({ variables: { id, amount } });
-        }
-      };
-    }
-  })
-)(UpdateCartItem as any) as any;
+const options: OperationOption<OwnProps, GraphQLProps> = {
+  props: ({ ownProps, mutate }) => {
+    return {
+      submit(id: number, amount: number) {
+        return (mutate as any)({ variables: { id, amount } });
+      }
+    };
+  }
+};
+
+export default graphql<GraphQLProps, OwnProps>(UPDATE_CART_ITEM_QUERY, options)(
+  UpdateCartItem
+);

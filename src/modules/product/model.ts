@@ -1,8 +1,3 @@
-export interface ICurrentProduct {
-  subProductId: string;
-  colorId: number;
-}
-
 export interface IParentCategory {
   id: string;
   name: string;

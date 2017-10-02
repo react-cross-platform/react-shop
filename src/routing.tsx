@@ -42,15 +42,14 @@ class Routing extends React.Component<any, any> {
       <Flex direction="column" className="full-size">
         <Switch location={_location}>
           <Route exact={true} path={PATH_NAMES.home} component={HomePage} />
-          <Route path={PATH_NAMES.category} component={CategoryPage as any} />
-          <Route path={PATH_NAMES.product} component={ProductPage as any} />
-          <Route path={PATH_NAMES.cart} component={CartPage as any} />
+          <Route path={PATH_NAMES.category} component={CategoryPage} />
+          <Route path={PATH_NAMES.product} component={ProductPage} />
+          <Route path={PATH_NAMES.cart} component={CartPage} />
         </Switch>
-
         {isModal
           ? <Flex direction="column" className="full-size">
-              <Route path={PATH_NAMES.flatpage} component={FlatPageModal as any} />
-              <Route path={PATH_NAMES.product} component={ProductModal as any} />
+              <Route path={PATH_NAMES.flatpage} component={FlatPageModal} />
+              <Route path={PATH_NAMES.product} component={ProductModal} />
               <Route path={PATH_NAMES.cart} component={CartModal} />
             </Flex>
           : null}

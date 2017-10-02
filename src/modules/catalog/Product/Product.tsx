@@ -3,11 +3,12 @@ import { compile } from "path-to-regexp";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Dispatch } from "redux";
 
+import { Dispatch } from "../../../interfaces";
+import { IRootReducer } from "../../../rootReducer";
 import { scaleImageSize } from "../../product/index";
 import { IImageWithColor, IProduct } from "../../product/model";
-import { ICatalog } from "../model";
+import { ICatalogReducer } from "../reducer";
 
 const styles = require("./styles.css");
 
@@ -15,21 +16,17 @@ const getMinOfArray = numArray => {
   return Math.min.apply(null, numArray);
 };
 
-interface IConnectedProductProps extends IProduct {
-  catalog: ICatalog;
-  dispatch: Dispatch<{}>;
+interface ConnectedProps {
+  catalog: ICatalogReducer;
 }
 
-interface IProductProps extends IProduct {}
+interface OwnProps extends IProduct {}
 
-interface IProductState {
+interface State {
   titleImage: IImageWithColor;
 }
 
-class Product extends React.Component<
-  IConnectedProductProps & IProductProps,
-  IProductState
-> {
+class Product extends React.Component<ConnectedProps & OwnProps, State> {
   componentWillMount() {
     const { imagesWithColor } = this.props;
     this.setState({
@@ -173,10 +170,8 @@ class Product extends React.Component<
   }
 }
 
-const mapStateToProps: any = state => ({
+const mapStateToProps = (state: IRootReducer) => ({
   catalog: state.catalog
 });
 
-export default connect<IConnectedProductProps, {}, IProductProps>(
-  mapStateToProps
-)(Product);
+export default connect<ConnectedProps, {}, OwnProps>(mapStateToProps)(Product);

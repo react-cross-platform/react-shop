@@ -6,7 +6,7 @@ import { Header } from "../index";
 const styles = require("./styles.css");
 
 interface ILayouProps {
-  header: any;
+  header: JSX.Element;
 }
 
 class Layout extends React.Component<ILayouProps, {}> {

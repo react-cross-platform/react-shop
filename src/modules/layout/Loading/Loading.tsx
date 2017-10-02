@@ -1,4 +1,4 @@
-import { Button, Icon, List, WingBlank } from "antd-mobile";
+import { Icon } from "antd-mobile";
 import * as React from "react";
 
 const styles = require("./styles.css");

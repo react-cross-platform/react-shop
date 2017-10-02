@@ -1,34 +1,37 @@
 import { Icon } from "antd-mobile";
 import * as React from "react";
 import { connect } from "react-redux";
+
+import { IRootReducer } from "../../../rootReducer";
 import { ACTION_TOGGLE_SHOW_ONLY_VIEWED } from "../constants";
-import { ICatalog } from "../model";
+import { ICatalogReducer } from "../reducer";
 
 const styles = require("./styles.css");
 
-interface IConnectedShowOnlyViewedProps {
-  dispatch?: any;
-  catalog: ICatalog;
+interface ConnectedProps {
+  catalog: ICatalogReducer;
+}
+
+interface DispatchedProps {
+  toggleViewed: (e) => void;
 }
 
 class ShowOnlyViewed extends React.Component<
-  IConnectedShowOnlyViewedProps,
-  null
+  ConnectedProps & DispatchedProps,
+  {}
 > {
-  toggleViewed = e => {
-    const { dispatch } = this.props;
-    dispatch({ type: ACTION_TOGGLE_SHOW_ONLY_VIEWED });
-  };
-
   render() {
-    const { catalog: { showOnlyViewed, viewedProductIds } } = this.props;
+    const {
+      toggleViewed,
+      catalog: { showOnlyViewed, viewedProductIds }
+    } = this.props;
     return (
       <div
         className={styles.showOnlyWiewed}
         style={{
           display: viewedProductIds.length === 0 ? "none" : "block"
         }}
-        onClick={this.toggleViewed}
+        onClick={toggleViewed}
       >
         <Icon
           type={require("!svg-sprite-loader!./viewed.svg")}
@@ -40,10 +43,19 @@ class ShowOnlyViewed extends React.Component<
   }
 }
 
-const mapStateToProps: any = state => ({
+const mapStateToProps = (state: IRootReducer) => ({
   catalog: state.catalog
 });
 
-export default connect(
-  mapStateToProps
-)(ShowOnlyViewed as any);
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    toggleViewed: e => {
+      dispatch({ type: ACTION_TOGGLE_SHOW_ONLY_VIEWED });
+    }
+  };
+};
+
+export default connect<ConnectedProps, DispatchedProps, {}>(
+  mapStateToProps,
+  mapDispatchToProps
+)(ShowOnlyViewed);

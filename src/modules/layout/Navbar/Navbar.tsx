@@ -5,12 +5,12 @@ import { CartTrigger } from "../../cart/index";
 
 const styles = require("./styles.css");
 
-interface INavbarProps {
+interface OwnProps {
   title: string;
   history: any;
 }
 
-class Navbar extends React.Component<INavbarProps, {}> {
+class Navbar extends React.Component<OwnProps, {}> {
   goBack = e => {
     e.stopPropagation();
     const { history } = this.props;
@@ -18,7 +18,7 @@ class Navbar extends React.Component<INavbarProps, {}> {
   };
 
   render() {
-    const { title } = this.props;
+    const { title, history } = this.props;
     return (
       <Flex className={styles.navbar} justify="between" align="center">
         <Icon

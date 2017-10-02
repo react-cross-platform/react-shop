@@ -1,12 +1,12 @@
 import { Flex } from "antd-mobile";
 import gql from "graphql-tag";
 import * as React from "react";
-import { graphql } from "react-apollo";
+import { graphql, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
 import { IRouterReducer } from "../../../interfaces";
-import { IData } from "../../../model";
+import { IRootReducer } from "../../../rootReducer";
 import { PATH_NAMES } from "../../../routing";
 import { Price } from "../../common/index";
 import { Loading } from "../../layout/index";
@@ -17,18 +17,19 @@ import { ICart } from "../model";
 
 const styles = require("./styles.css");
 
-export const CART_QUERY = gql(require("./cart.gql"));
-
-export interface IDataCart extends IData {
-  cart: ICart;
-}
-
-interface IConnectedCartProps {
-  data: IDataCart;
+interface ConnectedProps {
   router: IRouterReducer;
 }
 
-export interface ICartProps {
+export interface IDataCart extends QueryProps {
+  cart?: ICart;
+}
+
+interface GraphQLProps {
+  data: IDataCart;
+}
+
+interface OwnProps {
   history: any;
   isModal: boolean;
 }
@@ -44,11 +45,14 @@ const getCartTotalPrice = (cart: ICart): number => {
   return totalPrice;
 };
 
-export const getCartAmount = (cart: ICart): number => {
+export const getCartAmount = (cart?: ICart): number => {
   return cart && cart.items ? cart.items.length : 0;
 };
 
-class Cart extends React.Component<IConnectedCartProps & ICartProps, {}> {
+class Cart extends React.Component<
+  ConnectedProps & GraphQLProps & OwnProps,
+  {}
+> {
   handleClick = e => {
     e.stopPropagation();
     const { isModal, history } = this.props;
@@ -106,11 +110,13 @@ class Cart extends React.Component<IConnectedCartProps & ICartProps, {}> {
   }
 }
 
-const mapStateToProps: any = state => ({
+const mapStateToProps = (state: IRootReducer) => ({
   router: state.router
 });
 
-export default compose<IConnectedCartProps>(
-  connect<IConnectedCartProps, {}, ICartProps>(mapStateToProps),
-  graphql<IConnectedCartProps, ICartProps>(CART_QUERY)
-)(Cart) as any;
+export const CART_QUERY = gql(require("./cart.gql"));
+
+export default compose(
+  graphql<GraphQLProps, OwnProps>(CART_QUERY),
+  connect<ConnectedProps, {}, OwnProps>(mapStateToProps)
+)(Cart);

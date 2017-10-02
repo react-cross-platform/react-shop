@@ -3,12 +3,12 @@ import * as React from "react";
 
 const styles = require("./styles.css");
 
-interface IProductsCounterProps {
+interface OwnProps {
   scrolled: number;
   total: number;
 }
 
-class ProductsCounter extends React.Component<IProductsCounterProps, {}> {
+class ProductsCounter extends React.Component<OwnProps, {}> {
   render() {
     const { scrolled, total } = this.props;
     return (

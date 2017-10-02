@@ -2,12 +2,10 @@ import { Flex, WingBlank } from "antd-mobile";
 import gql from "graphql-tag";
 import { compile } from "path-to-regexp";
 import * as React from "react";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
 
-import { IRouterReducer } from "../../../interfaces";
-import { IData } from "../../../model";
+import { Dispatch, IRouterReducer } from "../../../interfaces";
 import { PATH_NAMES } from "../../../routing";
 import { CART_QUERY, IDataCart } from "../../cart/Cart/Cart";
 import { ACTION_ADD_VIEWED_PRODUCT } from "../../catalog/constants";
@@ -16,21 +14,22 @@ import { Loading } from "../../layout/index";
 import { getScrollableStyle } from "../../layout/Modal/Modal";
 import { ACTION_SELECT_SUBPRODUCT } from "../constants";
 import { Images, ProductInfo, ProductToCart } from "../index";
-import { ICurrentProduct, IProduct, ISubProduct } from "../model";
+import { IProduct, ISubProduct } from "../model";
+import { IProductReducer } from "../reducer";
 
 const PRODUCT_QUERY = gql(require("./product.gql"));
 
 const styles = require("./styles.css");
 
-interface IDataProduct extends IData {
+interface IDataProduct extends QueryProps {
   product: IProduct;
 }
 
 interface IConnectedProductProps {
   dataProduct: IDataProduct;
   dataCart: IDataCart;
-  product: ICurrentProduct;
-  dispatch: Dispatch<{}>;
+  product: IProductReducer;
+  dispatch: Dispatch;
   router: IRouterReducer;
 }
 
@@ -83,7 +82,7 @@ class Product extends React.Component<
         });
       }
     }
-  };
+  }
 
   isCurrentPage = (id: string) => {
     const { router } = this.props;
@@ -94,11 +93,10 @@ class Product extends React.Component<
     const { dataProduct, dataCart, router } = this.props;
     const { product } = dataProduct;
     const { colorId } = this.props.product;
-    const subProductId = parseInt(this.props.product.subProductId, 0);
-    if (dataProduct.loading || !subProductId) {
+    if (dataProduct.loading || !this.props.product.subProductId) {
       return <Loading />;
     }
-
+    const subProductId = parseInt(this.props.product.subProductId, 0);
     const { id, brand, images, subProducts } = product;
     const activeSubProduct = getActiveSubProduct(subProducts, subProductId);
     const { price, oldPrice } = activeSubProduct;
@@ -161,4 +159,4 @@ export default compose(
   connect<IConnectedProductProps, {}, IProductProps>(mapStateToProps),
   graphql(PRODUCT_QUERY, productOptions),
   graphql(CART_QUERY, cartOptions)
-)(Product) as any;
+)(Product as any) as any;

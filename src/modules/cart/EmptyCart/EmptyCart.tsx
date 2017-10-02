@@ -5,12 +5,12 @@ import { PATH_NAMES } from "../../../routing";
 
 const styles = require("./styles.css");
 
-export interface IEmptyCartProps {
+export interface OwnProps {
   history: any;
   isModal: boolean;
 }
 
-class EmptyCart extends React.Component<IEmptyCartProps, {}> {
+class EmptyCart extends React.Component<OwnProps, {}> {
   handleClick = e => {
     const { isModal, history } = this.props;
     if (isModal) {

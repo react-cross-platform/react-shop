@@ -1,8 +1,6 @@
 import { ICategory } from "../product/model";
 
-export interface ILayout {
-  openCatalog: boolean;
-}
+export interface ILayout {}
 
 export interface IFlatPage {
   id: string;

@@ -1,36 +1,35 @@
 import gql from "graphql-tag";
 import * as React from "react";
-import { compose, graphql } from "react-apollo";
+import { graphql, OperationOption, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { compose } from "redux";
 
 import { IRouterReducer } from "../../../interfaces";
-import { IData } from "../../../model";
+import { IRootReducer } from "../../../rootReducer";
 import { PATH_NAMES } from "../../../routing";
 import { SubCatalog } from "../../layout/index";
 import { ICategory } from "../../product/model";
-import { ILayout } from "../model";
 
-const CATEGORIES_QUERY = require("./categories.gql");
 const styles = require("./styles.css");
 
-interface ICatalogData extends IData {
+interface IDataCategory extends QueryProps {
   categories: [ICategory];
 }
 
-interface IConnectedCatalogProps {
-  data: ICatalogData;
-  dispatch: Dispatch<{}>;
-  layout: ILayout;
+interface ConnectedProps {
   router: IRouterReducer;
 }
 
-interface ICatalogProps {
+interface GraphQLProps {
+  data: IDataCategory;
+}
+
+interface OwnProps {
   isDrawer: boolean;
 }
 
 class Catalog extends React.Component<
-  IConnectedCatalogProps & ICatalogProps,
+  ConnectedProps & GraphQLProps & OwnProps,
   {}
 > {
   render() {
@@ -74,21 +73,18 @@ class Catalog extends React.Component<
   }
 }
 
-const mapStateToProps: any = state => ({
-  layout: state.layout,
+const mapStateToProps = (state: IRootReducer) => ({
   router: state.router
 });
 
+const CATEGORIES_QUERY = gql(require("./categories.gql"));
+const options: OperationOption<OwnProps & ConnectedProps, GraphQLProps> = {
+  options: ({ router }) => ({
+    skip: !(router.location.pathname === PATH_NAMES.home)
+  })
+};
+
 export default compose(
-  connect<IConnectedCatalogProps, {}, ICatalogProps>(mapStateToProps),
-  graphql(
-    gql(CATEGORIES_QUERY),
-    {
-      options: ({ layout, router }) => ({
-        skip: !(
-          router.location.pathname === PATH_NAMES.home || layout.openCatalog
-        )
-      })
-    } as any
-  )
+  connect<ConnectedProps, {}, OwnProps>(mapStateToProps),
+  graphql<GraphQLProps, OwnProps>(CATEGORIES_QUERY, options)
 )(Catalog as any) as any;

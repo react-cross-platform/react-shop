@@ -1,4 +1,2 @@
-export interface IData {
-  loading: boolean;
-  fetchMore: any;
-}
+import { QueryProps } from "react-apollo";
+export interface IData extends QueryProps {}

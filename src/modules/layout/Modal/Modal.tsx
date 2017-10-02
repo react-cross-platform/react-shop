@@ -2,6 +2,7 @@ import { Modal } from "antd-mobile";
 import * as React from "react";
 import { CSSProperties } from "react";
 
+import { IPage } from "../../../pages/interfaces";
 import { Layout, Navbar } from "../index";
 
 const styles = require("./styles.css");
@@ -18,12 +19,9 @@ export const getScrollableStyle = (isScrollable: boolean): CSSProperties => {
       };
 };
 
-interface IMyModelProps {
-  history: any;
-  location: any;
-}
+interface OwnProps extends IPage {}
 
-class MyModal extends React.Component<IMyModelProps, {}> {
+class MyModal extends React.Component<OwnProps, {}> {
   render() {
     const { children, location, history } = this.props;
     return (

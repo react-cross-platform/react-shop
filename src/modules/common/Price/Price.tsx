@@ -4,14 +4,14 @@ import { prettyPrice } from "../utils";
 
 const styles = require("./styles.css");
 
-interface IPriceProps {
+interface OwnProps {
   price: number;
   oldPrice?: number;
   currency?: string;
   style?: any;
 }
 
-class Price extends React.Component<IPriceProps, {}> {
+class Price extends React.Component<OwnProps, {}> {
   render() {
     const { price, oldPrice, style } = this.props;
     const currency = this.props.currency || "грн";

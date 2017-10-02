@@ -15,7 +15,9 @@ export const getCartItemTotalPrice = (price: number, amount: number) => {
   return price * amount;
 };
 
-class CartItem extends React.Component<ICartItem, {}> {
+interface OwnProps extends ICartItem {}
+
+class CartItem extends React.Component<OwnProps, {}> {
   handleNavigation = (navigation, id, name) => {
     navigation.navigate("Product", { id, name });
   };

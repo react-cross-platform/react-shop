@@ -5,11 +5,11 @@ import { Price } from "../../common/index";
 
 const styles = require("./styles.css");
 
-interface ICheckoutTriggerProps {
+interface OwnProps {
   totalPrice: number;
 }
 
-class CheckoutTrigger extends React.Component<ICheckoutTriggerProps, {}> {
+class CheckoutTrigger extends React.Component<OwnProps, {}> {
   render() {
     const { totalPrice } = this.props;
     return (

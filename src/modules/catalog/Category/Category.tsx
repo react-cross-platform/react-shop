@@ -1,16 +1,15 @@
 import gql from "graphql-tag";
 import { compile } from "path-to-regexp";
 import * as React from "react";
-import { compose, graphql } from "react-apollo";
+import { graphql, OperationOption, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { compose } from "redux";
 
 import { IRouterReducer } from "../../../interfaces";
-import { IData } from "../../../model";
+import { IRootReducer } from "../../../rootReducer";
 import { PATH_NAMES } from "../../../routing";
 import { Loading } from "../../layout/index";
 import { getScrollableStyle } from "../../layout/Modal/Modal";
-import { ILayout } from "../../layout/model";
 import { ICategory } from "../../product/model";
 import { Products } from "../index";
 
@@ -18,32 +17,24 @@ const CATEGORY_QUERY = require("./category.gql");
 
 const styles = require("./styles.css");
 
-interface IDataCategory extends IData {
+interface IDataCategory extends QueryProps {
   category: ICategory;
 }
 
-interface IConnectedCategoryProps {
-  dispatch: Dispatch<{}>;
-  layout: ILayout;
-  data: IDataCategory;
+interface ConnectedProps {
   router: IRouterReducer;
 }
 
-interface ICategoryProps {
+interface GraphQLProps {
+  data: IDataCategory;
+}
+
+interface OwnProps {
   id: string;
 }
 
-const options = {
-  options: props => ({
-    fetchPolicy: "cache-first",
-    variables: {
-      id: props.id
-    }
-  })
-};
-
 class Category extends React.Component<
-  IConnectedCategoryProps & ICategoryProps,
+  ConnectedProps & GraphQLProps & OwnProps,
   {}
 > {
   isCurrentPage = () => {
@@ -52,7 +43,7 @@ class Category extends React.Component<
   };
 
   render() {
-    const { id, dispatch, layout, data } = this.props;
+    const { id, data } = this.props;
     const { loading, category } = data;
 
     if (loading === true) {
@@ -73,12 +64,20 @@ class Category extends React.Component<
   }
 }
 
-const mapStateToProps: any = state => ({
-  layout: state.layout,
+const options: OperationOption<OwnProps, GraphQLProps> = {
+  options: props => ({
+    fetchPolicy: "cache-first",
+    variables: {
+      id: props.id
+    }
+  })
+};
+
+const mapStateToProps = (state: IRootReducer) => ({
   router: state.router
 });
 
 export default compose(
-  connect<IConnectedCategoryProps, {}, ICategoryProps>(mapStateToProps),
-  graphql(gql(CATEGORY_QUERY), options)
-)(Category) as any;
+  graphql<GraphQLProps, OwnProps>(gql(CATEGORY_QUERY), options),
+  connect<ConnectedProps, {}, OwnProps>(mapStateToProps)
+)(Category);

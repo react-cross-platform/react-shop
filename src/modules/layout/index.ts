@@ -1,9 +1,7 @@
 import * as model from "./model";
-import reducer from "./reducer";
 import * as utils from "./utils";
 
 import Catalog from "./Catalog/Catalog";
-import CatalogTrigger from "./CatalogTrigger/CatalogTrigger";
 import Devider from "./Devider/Devider";
 import FlatPageModal from "./FlatPageModal/FlatPageModal";
 import FlatPages from "./FlatPages/FlatPages";
@@ -19,7 +17,6 @@ import { swipeEnabled } from "./utils";
 
 export {
   Catalog,
-  CatalogTrigger,
   FlatPageModal,
   FlatPages,
   Footer,
@@ -32,6 +29,5 @@ export {
   Navbar,
   SubCatalog,
   model,
-  reducer,
   utils
 };

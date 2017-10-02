@@ -1,11 +1,12 @@
 import { Icon, List } from "antd-mobile";
 import * as React from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
 
+import { IRootReducer } from "../../../rootReducer";
 import { Price } from "../../common/index";
 import { ACTION_SELECT_SUBPRODUCT } from "../constants";
-import { ICurrentProduct, ISubProduct } from "../model";
+import { ISubProduct } from "../model";
+import { IProductReducer } from "../reducer";
 
 const styles = require("./styles.css");
 
@@ -13,8 +14,11 @@ const Item = List.Item;
 const Brief = Item.Brief;
 
 interface IConnectedSubProductsProps {
-  dispatch: Dispatch<{}>;
-  product: ICurrentProduct;
+  product: IProductReducer;
+}
+
+interface IDispatchedSubProductsProps {
+  changePrice: (subProductId: string) => void;
 }
 
 interface ISubProductsProps {
@@ -23,17 +27,9 @@ interface ISubProductsProps {
 }
 
 class SubProducts extends React.Component<
-  IConnectedSubProductsProps & ISubProductsProps,
+  IConnectedSubProductsProps & IDispatchedSubProductsProps & ISubProductsProps,
   {}
 > {
-  onChangePrice = elId => {
-    this.props.dispatch({
-      colorId: this.props.product.colorId,
-      subProductId: elId,
-      type: ACTION_SELECT_SUBPRODUCT
-    });
-  };
-
   isActive = (subProduct: ISubProduct) => {
     return subProduct.id === this.props.product.subProductId;
   };
@@ -44,14 +40,14 @@ class SubProducts extends React.Component<
   };
 
   render() {
-    const { subProducts } = this.props;
+    const { subProducts, changePrice } = this.props;
     return (
       <div>
         <List>
           {subProducts.map((subProduct, index) =>
             <Item
               key={index}
-              onClick={() => this.onChangePrice(subProduct.id)}
+              onClick={() => changePrice(subProduct.id)}
               thumb={
                 this.isActive(subProduct)
                   ? <Icon
@@ -95,9 +91,24 @@ class SubProducts extends React.Component<
   }
 }
 
-const mapStateToProps: any = state => ({
+const mapStateToProps = (state: IRootReducer, ownProps: ISubProductsProps) => ({
   product: state.product
 });
-export default connect<IConnectedSubProductsProps, {}, ISubProductsProps>(
-  mapStateToProps
-)(SubProducts as any);
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    changePrice: subProductId => {
+      dispatch({
+        subProductId,
+        colorId: ownProps.product.colorId,
+        type: ACTION_SELECT_SUBPRODUCT
+      });
+    }
+  };
+};
+
+export default connect<
+  IConnectedSubProductsProps,
+  IDispatchedSubProductsProps,
+  ISubProductsProps
+>(mapStateToProps, mapDispatchToProps)(SubProducts);

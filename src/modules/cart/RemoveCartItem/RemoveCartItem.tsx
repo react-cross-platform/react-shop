@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 import update from "immutability-helper";
 import React from "react";
 import { graphql } from "react-apollo";
-import { compose } from "redux";
+import { OperationOption } from "react-apollo/types";
 
 import { CART_QUERY, IDataCart } from "../Cart/Cart";
 
@@ -30,18 +30,15 @@ const CONFIRM_OPTIONS = [
   </Flex>
 ];
 
-interface IConnectedRemoveCartItemProps {
+interface GraphQLProps {
   submit: (id: number) => void;
 }
 
-interface IRemoveCartItemProps {
+interface OwnProps {
   id: number;
 }
 
-class RemoveCartItem extends React.Component<
-  IConnectedRemoveCartItemProps & IRemoveCartItemProps,
-  {}
-> {
+class RemoveCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
   removeCartItem = () => {
     const { submit, id } = this.props;
 
@@ -77,21 +74,26 @@ class RemoveCartItem extends React.Component<
 
 const REMOVE_CART_ITEM_MUTATION = gql(require("./removeCartItem.gql"));
 
-export default compose(
-  graphql(REMOVE_CART_ITEM_MUTATION, {
-    props: ({ ownProps, mutate }) => {
-      return {
-        submit(id) {
-          return (mutate as any)({
-            variables: { id },
-            update: (store, { removeCartItem }) => {
-              const data = store.readQuery({ query: CART_QUERY }) as IDataCart;
+const options: OperationOption<OwnProps, GraphQLProps> = {
+  props: ({ ownProps, mutate }) => {
+    return {
+      submit(id) {
+        return (mutate as any)({
+          variables: { id },
+          update: (store, { removeCartItem }) => {
+            const data = store.readQuery({ query: CART_QUERY }) as IDataCart;
+            if (data.cart) {
               data.cart.items = data.cart.items.filter(item => item.id !== id);
-              store.writeQuery({ query: CART_QUERY, data });
             }
-          });
-        }
-      };
-    }
-  })
-)(RemoveCartItem as any) as any;
+            store.writeQuery({ query: CART_QUERY, data });
+          }
+        });
+      }
+    };
+  }
+};
+
+export default graphql<GraphQLProps, OwnProps>(
+  REMOVE_CART_ITEM_MUTATION,
+  options
+)(RemoveCartItem);

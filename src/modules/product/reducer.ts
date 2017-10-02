@@ -2,9 +2,14 @@ import update from "immutability-helper";
 
 import { ACTION_SELECT_COLOR, ACTION_SELECT_SUBPRODUCT } from "./constants";
 
-const DEFAULT_PRODUCT = {
-  colorId: null,
-  subProductId: null
+export interface IProductReducer {
+  readonly subProductId?: string;
+  readonly colorId?: number;
+}
+
+const DEFAULT_PRODUCT: IProductReducer = {
+  colorId: undefined,
+  subProductId: undefined
 };
 
 const product = (state = DEFAULT_PRODUCT, action) => {

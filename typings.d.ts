@@ -14,14 +14,3 @@ declare module "react-lazy-load" {
     width?: string | number;
   };
 }
-
-// React16 temp huck
-declare module "react-redux" {
-  interface IReactRedux {}
-}
-declare module "react-router-redux" {
-  interface IReactRouterRedux {}
-}
-declare module "react-router-dom" {
-  interface IRectRouterDom {}
-}

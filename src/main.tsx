@@ -1,3 +1,6 @@
+// tslint:disable-next-line:no-reference
+///<reference path="../node_modules/@types/node/index.d.ts" />
+
 import { polyfill } from "es6-promise";
 import * as React from "react";
 import { render } from "react-dom";

@@ -4,9 +4,14 @@ import {
   ACTION_ADD_VIEWED_PRODUCT,
   ACTION_TOGGLE_SHOW_ONLY_VIEWED
 } from "./constants";
-import { ICatalog } from "./model";
 
-const DEFAULT_CATALOG: ICatalog = {
+export interface ICatalogReducer {
+  readonly viewedProductIds: string[];
+  readonly viewedCategoryIds: string[];
+  readonly showOnlyViewed: boolean;
+}
+
+const DEFAULT_CATALOG: ICatalogReducer = {
   showOnlyViewed: false,
   viewedCategoryIds: [],
   viewedProductIds: []

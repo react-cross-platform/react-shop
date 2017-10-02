@@ -1,56 +1,46 @@
 import { Checkbox, Flex, Icon, Tabs, WhiteSpace, WingBlank } from "antd-mobile";
 import * as React from "react";
-import { compose } from "react-apollo";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
 
+import { IRootReducer } from "../../../rootReducer";
 import { Devider } from "../../layout/index";
 import { ACTION_SELECT_COLOR } from "../constants";
 import { SubProducts } from "../index";
-import { ICurrentProduct, IProduct, ISubProduct } from "../model";
+import { IProduct, ISubProduct } from "../model";
+import { IProductReducer } from "../reducer";
 
 const styles = require("./styles.css");
 
 const { TabPane } = Tabs;
 const { AgreeItem, CheckboxItem } = Checkbox;
 
-interface IConnectedProductInfoProps {
-  product: ICurrentProduct;
-  dispatch: Dispatch<{}>;
+interface ConnectedProps {
+  product: IProductReducer;
 }
 
-interface IProductInfoProps {
+interface DispatchedProps {
+  changeColor: (colorId: number) => void;
+}
+
+interface OwnProps {
   dataProduct: IProduct;
   activeSubProduct: ISubProduct;
   subProductIdsInCart: number[];
 }
-
-const options = {
-  options: props => ({
-    variables: {
-      id: props.id
-    }
-  })
-};
 
 function createMarkup(html) {
   return { __html: html };
 }
 
 class ProductInfo extends React.Component<
-  IConnectedProductInfoProps & IProductInfoProps,
-  any
+  ConnectedProps & DispatchedProps & OwnProps,
+  {}
 > {
-  changeColor = colorId => {
-    this.props.dispatch({ type: ACTION_SELECT_COLOR, colorId });
-  };
-
   render() {
     const {
       dataProduct,
       product,
       activeSubProduct,
-      dispatch,
       subProductIdsInCart
     } = this.props;
     const { brand, images, subProducts, attributes } = dataProduct;
@@ -96,7 +86,8 @@ class ProductInfo extends React.Component<
                         : <Icon
                             className={styles.colorIcon}
                             key={i}
-                            onClick={() => this.changeColor(e.id)}
+                            onClick={() =>
+                              this.props.changeColor(e.id as number)}
                             type={require("svg-sprite-loader!./icon-circle-for-colors.svg")}
                             style={{
                               fill: e.colorValue,
@@ -173,10 +164,19 @@ class ProductInfo extends React.Component<
   }
 }
 
-const mapStateToProps: any = state => ({
+const mapStateToProps = (state: IRootReducer) => ({
   product: state.product
 });
 
-export default compose(
-  connect<IConnectedProductInfoProps, {}, IProductInfoProps>(mapStateToProps)
+const mapDispatchToProps = dispatch => {
+  return {
+    changeColor: (colorId: number) => {
+      dispatch({ type: ACTION_SELECT_COLOR, colorId });
+    }
+  };
+};
+
+export default connect<ConnectedProps, DispatchedProps, OwnProps>(
+  mapStateToProps,
+  mapDispatchToProps
 )(ProductInfo);

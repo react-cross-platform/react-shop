@@ -1,17 +1,14 @@
 import * as React from "react";
 
+import { IPage } from "../../../pages/interfaces";
 import { Modal } from "../../layout/index";
 import { Product } from "../index";
 
 const styles = require("./styles.css");
 
-export interface IProductModalProps {
-  location: any;
-  history: any;
-  match: any;
-}
+export interface OwnProps extends IPage {}
 
-class ProductModal extends React.Component<IProductModalProps, {}> {
+class ProductModal extends React.Component<OwnProps, {}> {
   render() {
     const { match, history, location } = this.props;
     return (

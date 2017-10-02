@@ -2,17 +2,22 @@ import { Icon } from "antd-mobile";
 import update from "immutability-helper";
 import { throttle } from "lodash";
 import * as React from "react";
-import { compose, gql, graphql } from "react-apollo";
+import {
+  compose,
+  gql,
+  graphql,
+  OperationOption,
+  QueryProps
+} from "react-apollo";
 import MasonryInfiniteScroller from "react-masonry-infinite";
 import { connect } from "react-redux";
 
 import { IRouterReducer } from "../../../interfaces";
-import { IData } from "../../../model";
+import { IRootReducer } from "../../../rootReducer";
 import { Loading } from "../../layout/index";
 import { Product, ProductsCounter } from "../index";
-import { IAllProduct, ICatalog } from "../model";
-
-const ALL_PRODUCTS_QUERY = require("./allProducts.gql");
+import { IAllProduct } from "../model";
+import { ICatalogReducer } from "../reducer";
 
 const styles = require("./styles.css");
 
@@ -24,75 +29,31 @@ const SCROLL_THROTTLE = 250;
 // px from bottom to start fetch more products
 const FETCH_MORE_THRESHOLD = 750;
 
-interface IDataProducts extends IData {
+interface IDataProducts extends QueryProps {
   allProducts: IAllProduct;
 }
 
-interface IConnectedProductsProps {
-  catalog: ICatalog;
-  router: IRouterReducer;
+interface GraphQLProps {
   data: IDataProducts;
 }
 
-interface IProductsProps {
+interface ConnectedProps {
+  catalog: ICatalogReducer;
+  router: IRouterReducer;
+}
+
+interface OwnProps {
   categoryId: string;
 }
 
-interface IProductsState {
+interface State {
   haveMoreProducts?: boolean;
   scrolledProducts?: number;
 }
 
-const options = {
-  options: props => ({
-    fetchPolicy: "network-only",
-    variables: {
-      categoryId: props.categoryId,
-      first: LIMIT,
-      offset: 0
-    }
-  }),
-  props({ data: { loading, allProducts, fetchMore } }) {
-    if (!loading) {
-      // This is temp hack to exclude products without subProducts
-      // TODO: Should be solved in GraphQL server
-      allProducts = update(allProducts, {
-        products: {
-          $set: allProducts.products.filter(p => p.subProducts.length !== 0)
-        }
-      });
-    }
-    return {
-      data: {
-        allProducts,
-        loading,
-        fetchMore() {
-          return fetchMore({
-            updateQuery: (prev, { fetchMoreResult }) => {
-              if (!fetchMoreResult.allProducts) {
-                return prev;
-              }
-              return update(prev, {
-                allProducts: {
-                  products: {
-                    $push: fetchMoreResult.allProducts.products
-                  }
-                }
-              });
-            },
-            variables: {
-              offset: allProducts.products.length
-            }
-          });
-        }
-      }
-    };
-  }
-};
-
 class Products extends React.Component<
-  IConnectedProductsProps & IProductsProps,
-  IProductsState
+  ConnectedProps & GraphQLProps & OwnProps,
+  State
 > {
   ref;
 
@@ -132,7 +93,7 @@ class Products extends React.Component<
       this.setState({ scrolledProducts: scrolled });
 
       if (scrollTop > this.bottomHeight && haveMoreProducts === true) {
-        fetchMore();
+        fetchMore({} as any);
       }
     }
   };
@@ -233,12 +194,66 @@ class Products extends React.Component<
   }
 }
 
-const mapStateToProps: any = state => ({
+const ALL_PRODUCTS_QUERY = gql(require("./allProducts.gql"));
+
+const options: OperationOption<OwnProps, GraphQLProps> = {
+  options: ownProps => ({
+    fetchPolicy: "network-only",
+    variables: {
+      categoryId: ownProps.categoryId,
+      first: LIMIT,
+      offset: 0
+    }
+  }),
+  props: (props: any) => {
+    const { data } = props;
+    const { loading, fetchMore } = data;
+    let allProducts;
+    if (!loading) {
+      // This is temp hack to exclude products without subProducts
+      // TODO: Should be solved in GraphQL server
+      allProducts = update(data.allProducts, {
+        products: {
+          $set: data.allProducts.products.filter(
+            p => p.subProducts.length !== 0
+          )
+        }
+      });
+    }
+    return {
+      data: {
+        allProducts,
+        loading,
+        fetchMore() {
+          return fetchMore({
+            updateQuery: (prev, { fetchMoreResult }) => {
+              if (!fetchMoreResult.allProducts) {
+                return prev;
+              }
+              return update(prev, {
+                allProducts: {
+                  products: {
+                    $push: fetchMoreResult.allProducts.products
+                  }
+                }
+              });
+            },
+            variables: {
+              offset: allProducts.products.length
+            }
+          });
+        }
+      }
+    };
+  }
+};
+
+const mapStateToProps = (state: IRootReducer) => ({
   catalog: state.catalog,
   router: state.router
 });
 
 export default compose(
-  connect<IConnectedProductsProps, {}, IProductsProps>(mapStateToProps),
-  graphql(gql(ALL_PRODUCTS_QUERY), options as any)
-)(Products as any) as any;
+  graphql<GraphQLProps, OwnProps>(ALL_PRODUCTS_QUERY, options),
+  connect<ConnectedProps, {}, OwnProps>(mapStateToProps)
+)(Products);

@@ -2,27 +2,27 @@ import { Icon, List } from "antd-mobile";
 import gql from "graphql-tag";
 import { compile } from "path-to-regexp";
 import * as React from "react";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, OperationOption, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { IRouterReducer } from "../../../interfaces";
-import { IData } from "../../../model";
+import { IRootReducer } from "../../../rootReducer";
 import { PATH_NAMES } from "../../../routing";
 import { Loading } from "../index";
-import { IFlatPage, ILayout } from "../model";
-
-const FLATPAGES_QUERY = require("./flatpages.gql");
+import { IFlatPage } from "../model";
 
 const styles = require("./styles.css");
 
-interface IFlatPagesData extends IData {
+interface IFlatPagesData extends QueryProps {
   flatPages: [IFlatPage];
 }
 
-interface IConnectedFlatPagesProps {
-  layout: ILayout;
+interface ConnectedProps {
   router: IRouterReducer;
+}
+
+interface GraphQLProps {
   data: IFlatPagesData;
 }
 
@@ -30,7 +30,7 @@ function createMarkup(html) {
   return { __html: html };
 }
 
-class FlatPages extends React.Component<IConnectedFlatPagesProps, {}> {
+class FlatPages extends React.Component<ConnectedProps & GraphQLProps, {}> {
   state = {
     page: {
       content: "",
@@ -144,19 +144,19 @@ class FlatPages extends React.Component<IConnectedFlatPagesProps, {}> {
   }
 }
 
-const mapStateToProps: any = state => ({
-  layout: state.layout,
+const mapStateToProps = (state: IRootReducer) => ({
   router: state.router
 });
 
+const FLATPAGES_QUERY = gql(require("./flatpages.gql"));
+
+const options: OperationOption<ConnectedProps, GraphQLProps> = {
+  options: ({ router }) => ({
+    skip: !(router.location.pathname === PATH_NAMES.home)
+  })
+};
+
 export default compose(
-  connect<IConnectedFlatPagesProps, {}, any>(mapStateToProps),
-  graphql(
-    gql(FLATPAGES_QUERY),
-    {
-      options: ({ layout, router }) => ({
-        skip: !(router.location.pathname === PATH_NAMES.home || layout.openMenu)
-      })
-    } as any
-  )
-)(FlatPages as any) as any;
+  connect<ConnectedProps, {}, {}>(mapStateToProps),
+  graphql<GraphQLProps, ConnectedProps>(FLATPAGES_QUERY, options)
+)(FlatPages as any);

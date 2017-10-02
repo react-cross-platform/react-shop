@@ -1,24 +1,18 @@
-import { Flex, Icon } from "antd-mobile";
+import { Flex } from "antd-mobile";
 import * as React from "react";
-import Ripples from "react-ripples";
 
 import { CartTrigger } from "../../cart/index";
-import { CatalogTrigger, HomeTrigger } from "../index";
+import { HomeTrigger } from "../index";
 
 const styles = require("./styles.css");
 
 export const HEIGHT = 40;
 
-class Header extends React.Component<any, any> {
+class Header extends React.Component<{}, {}> {
   render() {
     return (
-      <Flex
-        className={styles.header}
-        justify="between"
-        align="center"
-      >
-        <CatalogTrigger height={HEIGHT} />
-        <HomeTrigger height={HEIGHT} />
+      <Flex className={styles.header} justify="between" align="center">
+        <HomeTrigger />
         <CartTrigger />
       </Flex>
     );

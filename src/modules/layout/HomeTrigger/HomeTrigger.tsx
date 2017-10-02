@@ -3,34 +3,20 @@ import * as React from "react";
 import { compose } from "react-apollo";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Dispatch } from "redux";
 
-import { IRouterReducer } from "../../../interfaces";
+import { Dispatch, IRouterReducer } from "../../../interfaces";
+import { IRootReducer } from "../../../rootReducer";
 import { PATH_NAMES } from "../../../routing";
-import { ILayout } from "../model";
 
 const styles = require("./styles.css");
 
-interface IConnectedHomeTriggerProps {
+interface ConnectedProps {
   router: IRouterReducer;
-  dispatch: Dispatch<{}>;
-  layout: ILayout;
 }
 
-interface IHomeTriggerProps {
-  height: number;
-}
-
-const Logo = ({ height, isActive }) => {
+const Logo = ({ isActive }) => {
   return (
-    <Flex
-      className={styles.homeTrigger}
-      align="center"
-      style={{
-        height,
-        padding: `0 20px`
-      }}
-    >
+    <Flex className={styles.homeTrigger} align="center">
       REACT
       <Icon
         className={styles.logoIcon}
@@ -45,30 +31,24 @@ const Logo = ({ height, isActive }) => {
   );
 };
 
-class HomeTrigger extends React.Component<
-  IConnectedHomeTriggerProps & IHomeTriggerProps,
-  any
-> {
+class HomeTrigger extends React.Component<ConnectedProps, {}> {
   render() {
-    const { router, height } = this.props;
+    const { router } = this.props;
     const isActive = router.location.pathname === PATH_NAMES.home;
     if (isActive) {
-      return <Logo height={height} isActive={true} />;
+      return <Logo isActive={true} />;
     } else {
       return (
         <Link to={PATH_NAMES.home}>
-          <Logo height={height} isActive={false} />
+          <Logo isActive={false} />
         </Link>
       );
     }
   }
 }
 
-const mapStateToProps: any = state => ({
-  layout: state.layout,
+const mapStateToProps = (state: IRootReducer) => ({
   router: state.router
 });
 
-export default compose(
-  connect<IConnectedHomeTriggerProps, {}, IHomeTriggerProps>(mapStateToProps)
-)(HomeTrigger as any);
+export default connect<ConnectedProps, {}, {}>(mapStateToProps)(HomeTrigger);

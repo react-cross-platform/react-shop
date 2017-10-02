@@ -1,29 +1,26 @@
 import { Card, Flex } from "antd-mobile";
 import { compile } from "path-to-regexp";
 import * as React from "react";
-import { compose } from "react-apollo";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
-import { Dispatch } from "redux";
 
-import { IRouterReducer } from "../../../interfaces";
+import { Dispatch, IRouterReducer } from "../../../interfaces";
+import { IRootReducer } from "../../../rootReducer";
 import { PATH_NAMES } from "../../../routing";
 import { ACTION_ADD_VIEWED_CATEGORY } from "../../catalog/constants";
-import { ICatalog } from "../../catalog/model";
+import { ICatalogReducer } from "../../catalog/reducer";
 import { ICategory } from "../../product/model";
 import { ACTION_DISABLE_CATALOG } from "../constants";
-import { ILayout } from "../model";
 
 const styles = require("./styles.css");
 
-interface IConnectedSubCatalogProps {
-  catalog: ICatalog;
-  layout: ILayout;
-  dispatch: Dispatch<{}>;
+interface ConnectedProps {
+  catalog: ICatalogReducer;
   router: IRouterReducer;
+  dispatch: Dispatch;
 }
 
-interface ISubCatalogProps {
+interface OwnProps {
   categories: [ICategory];
   isDrawer: boolean;
 }
@@ -39,10 +36,7 @@ function chunk(arr, len = 1) {
   return chunks;
 }
 
-class SubCatalog extends React.Component<
-  IConnectedSubCatalogProps & ISubCatalogProps,
-  any
-> {
+class SubCatalog extends React.Component<ConnectedProps & OwnProps, any> {
   onClick = (event, cat) => {
     const { dispatch } = this.props;
     dispatch({ type: ACTION_ADD_VIEWED_CATEGORY, categoryId: cat.id });
@@ -67,7 +61,7 @@ class SubCatalog extends React.Component<
   };
 
   render() {
-    const { dispatch, categories, isDrawer } = this.props;
+    const { categories, isDrawer } = this.props;
     const height = window.innerWidth / 2;
     return (
       <div>
@@ -103,12 +97,11 @@ class SubCatalog extends React.Component<
   }
 }
 
-const mapStateToProps: any = state => ({
+const mapStateToProps = (state: IRootReducer) => ({
   catalog: state.catalog,
-  layout: state.layout,
   router: state.router
 });
 
-export default compose(
-  connect<IConnectedSubCatalogProps, {}, ISubCatalogProps>(mapStateToProps)
-)(SubCatalog);
+export default connect<ConnectedProps, {}, OwnProps>(mapStateToProps as any)(
+  SubCatalog
+);

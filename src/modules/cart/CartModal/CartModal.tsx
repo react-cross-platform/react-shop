@@ -1,24 +1,14 @@
 import * as React from "react";
 
-import { IData } from "../../../model";
+import { IPage } from "../../../pages/interfaces";
 import { Modal } from "../../layout/index";
-import { getCartItemTotalPrice } from "../CartItem/CartItem";
 import { Cart } from "../index";
-import { ICart } from "../model";
 
 const styles = require("./styles.css");
 
-interface IConnectedCartModalProps {}
+interface OwnProps extends IPage {}
 
-export interface ICartModalProps {
-  history: any;
-  location: any;
-}
-
-class CartModal extends React.Component<
-  IConnectedCartModalProps & ICartModalProps,
-  {}
-> {
+class CartModal extends React.Component<OwnProps, {}> {
   render() {
     const { history, location } = this.props;
     return (
@@ -29,4 +19,4 @@ class CartModal extends React.Component<
   }
 }
 
-export default CartModal as any;
+export default CartModal;

@@ -6,15 +6,15 @@ import { IImage } from "../model";
 
 const styles = require("./styles.css");
 
-interface IImagesProps {
+interface OwnProps {
   images: [IImage];
 }
 
-interface IImagesState {
+interface State {
   initialHeight: any;
 }
 
-class Images extends React.Component<IImagesProps, IImagesState> {
+class Images extends React.Component<OwnProps, State> {
   state = {
     initialHeight: 200
   };
