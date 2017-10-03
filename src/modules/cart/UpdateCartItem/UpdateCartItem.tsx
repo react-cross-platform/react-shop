@@ -38,7 +38,7 @@ class UpdateCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
   }
 }
 
-const UPDATE_CART_ITEM_QUERY = gql(require("./updateCartItem.gql"));
+const UPDATE_CART_ITEM_MUTATION = gql(require("./updateCartItem.gql"));
 
 const options: OperationOption<OwnProps, GraphQLProps> = {
   props: ({ ownProps, mutate }) => {
@@ -50,6 +50,6 @@ const options: OperationOption<OwnProps, GraphQLProps> = {
   }
 };
 
-export default graphql<GraphQLProps, OwnProps>(UPDATE_CART_ITEM_QUERY, options)(
+export default graphql<GraphQLProps, OwnProps>(UPDATE_CART_ITEM_MUTATION, options)(
   UpdateCartItem
 );

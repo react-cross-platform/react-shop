@@ -6,8 +6,6 @@ import { HomeTrigger } from "../index";
 
 const styles = require("./styles.css");
 
-export const HEIGHT = 40;
-
 class Header extends React.Component<{}, {}> {
   render() {
     return (

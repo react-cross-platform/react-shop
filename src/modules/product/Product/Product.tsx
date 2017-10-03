@@ -9,7 +9,6 @@ import { Dispatch, IRouterReducer } from "../../../interfaces";
 import { PATH_NAMES } from "../../../routing";
 import { CART_QUERY, IDataCart } from "../../cart/Cart/Cart";
 import { ACTION_ADD_VIEWED_PRODUCT } from "../../catalog/constants";
-import { HEIGHT } from "../../layout/Header/Header";
 import { Loading } from "../../layout/index";
 import { getScrollableStyle } from "../../layout/Modal/Modal";
 import { ACTION_SELECT_SUBPRODUCT } from "../constants";
@@ -108,7 +107,7 @@ class Product extends React.Component<
           style={getScrollableStyle(this.isCurrentPage(id))}
         >
           <Flex
-            style={{ height: window.innerHeight - HEIGHT * 2 + 5 }}
+            style={{ height: window.innerHeight - 40 * 2 + 5 }}
             justify="around"
             direction="column"
             className={styles.productFirstScreen}

@@ -13,7 +13,7 @@ import { getScrollableStyle } from "../../layout/Modal/Modal";
 import { ICategory } from "../../product/model";
 import { Products } from "../index";
 
-const CATEGORY_QUERY = require("./category.gql");
+const CATEGORY_QUERY = gql(require("./category.gql"));
 
 const styles = require("./styles.css");
 
@@ -78,6 +78,6 @@ const mapStateToProps = (state: IRootReducer) => ({
 });
 
 export default compose(
-  graphql<GraphQLProps, OwnProps>(gql(CATEGORY_QUERY), options),
+  graphql<GraphQLProps, OwnProps>(CATEGORY_QUERY, options),
   connect<ConnectedProps, {}, OwnProps>(mapStateToProps)
 )(Category);
