@@ -13,23 +13,22 @@ const styles = require("./styles.css");
 const Item = List.Item;
 const Brief = Item.Brief;
 
-interface IConnectedSubProductsProps {
+interface ConnectedProps {
   product: IProductReducer;
 }
 
-interface IDispatchedSubProductsProps {
+interface MergedProps {
   changePrice: (subProductId: string) => void;
 }
 
-interface ISubProductsProps {
+interface OwnProps {
   subProducts: [ISubProduct];
   subProductIdsInCart: number[];
 }
 
-class SubProducts extends React.Component<
-  IConnectedSubProductsProps & IDispatchedSubProductsProps & ISubProductsProps,
-  {}
-> {
+interface Props extends ConnectedProps, MergedProps, OwnProps {}
+
+class SubProducts extends React.Component<Props, {}> {
   isActive = (subProduct: ISubProduct) => {
     return subProduct.id === this.props.product.subProductId;
   };
@@ -91,24 +90,32 @@ class SubProducts extends React.Component<
   }
 }
 
-const mapStateToProps = (state: IRootReducer, ownProps: ISubProductsProps) => ({
+const mapStateToProps = (state: IRootReducer) => ({
   product: state.product
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch, props) => {
   return {
-    changePrice: subProductId => {
+    _changePrice: (subProductId, colorId) => {
       dispatch({
         subProductId,
-        colorId: ownProps.product.colorId,
+        colorId,
         type: ACTION_SELECT_SUBPRODUCT
       });
     }
   };
 };
 
-export default connect<
-  IConnectedSubProductsProps,
-  IDispatchedSubProductsProps,
-  ISubProductsProps
->(mapStateToProps, mapDispatchToProps)(SubProducts);
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  return {
+    ...ownProps,
+    ...stateProps,
+    changePrice: subProductId =>
+      dispatchProps._changePrice(subProductId, stateProps.product.colorId)
+  };
+};
+
+// TODO: add correct interfaces to connect
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(
+  SubProducts
+);
