@@ -1,10 +1,10 @@
-import { Flex, Icon } from 'antd-mobile';
-import { History } from 'history';
-import * as React from 'react';
+import { Flex, Icon } from "antd-mobile";
+import { History } from "history";
+import * as React from "react";
 
-import { CartTrigger } from '../../cart/index';
+import { CartTrigger } from "../../cart/index";
 
-const styles = require('./styles.css');
+const styles = require("./styles.css");
 
 interface OwnProps {
   title: string;
@@ -21,10 +21,10 @@ class Navbar extends React.Component<OwnProps, {}> {
   render() {
     const { title, history } = this.props;
     return (
-      <Flex className={styles.navbar} justify='between' align='center'>
+      <Flex className={styles.navbar} justify="between" align="center">
         <Icon
           className={styles.back}
-          type={require('!svg-sprite-loader!./back.svg')}
+          type={require("!svg-sprite-loader!./back.svg")}
           onClick={this.goBack}
         />
         <div className={styles.title} onClick={this.goBack}>

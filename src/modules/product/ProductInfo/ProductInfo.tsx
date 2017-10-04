@@ -1,15 +1,15 @@
-import { Checkbox, Flex, Icon, Tabs, WhiteSpace, WingBlank } from 'antd-mobile';
-import * as React from 'react';
-import { connect } from 'react-redux';
+import { Checkbox, Flex, Icon, Tabs, WhiteSpace, WingBlank } from "antd-mobile";
+import * as React from "react";
+import { connect } from "react-redux";
 
-import { IRootReducer } from '../../../rootReducer';
-import { Devider } from '../../layout/index';
-import { ACTION_SELECT_COLOR } from '../constants';
-import { SubProducts } from '../index';
-import { IProduct, ISubProduct } from '../model';
-import { IProductReducer } from '../reducer';
+import { IRootReducer } from "../../../rootReducer";
+import { Devider } from "../../layout/index";
+import { ACTION_SELECT_COLOR } from "../constants";
+import { SubProducts } from "../index";
+import { IProduct, ISubProduct } from "../model";
+import { IProductReducer } from "../reducer";
 
-const styles = require('./styles.css');
+const styles = require("./styles.css");
 
 const { TabPane } = Tabs;
 const { AgreeItem, CheckboxItem } = Checkbox;
@@ -61,23 +61,23 @@ class ProductInfo extends React.Component<
                 subProductIdsInCart={subProductIdsInCart}
               />
             </div>
-          : ''}
+          : ""}
 
         <Devider />
         <WhiteSpace />
 
         {/* Select Color section */}
         <WingBlank>
-          <Flex justify='between'>
+          <Flex justify="between">
             <div className={styles.colors}>
-              {images.filter(el => el.colorValue !== '').length > 1
-                ? images.filter(el => el.colorValue !== '').map(
+              {images.filter(el => el.colorValue !== "").length > 1
+                ? images.filter(el => el.colorValue !== "").map(
                     (e, i) =>
                       e.id === this.props.product.colorId
                         ? <Icon
                             className={styles.colorIcon}
                             key={i}
-                            type={require('svg-sprite-loader!./circle-check_color.svg')}
+                            type={require("svg-sprite-loader!./circle-check_color.svg")}
                             style={{
                               fill: e.colorValue,
                               color: e.colorValue
@@ -88,18 +88,18 @@ class ProductInfo extends React.Component<
                             key={i}
                             onClick={() =>
                               this.props.changeColor(e.id as number)}
-                            type={require('svg-sprite-loader!./icon-circle-for-colors.svg')}
+                            type={require("svg-sprite-loader!./icon-circle-for-colors.svg")}
                             style={{
                               fill: e.colorValue,
                               color: e.colorValue
                             }}
                           />
                   )
-                : images.filter(el => el.colorValue !== '').map((e, i) =>
+                : images.filter(el => el.colorValue !== "").map((e, i) =>
                     <Icon
                       className={styles.tabIcon}
                       key={i}
-                      type={require('svg-sprite-loader!./check-circle.svg')}
+                      type={require("svg-sprite-loader!./check-circle.svg")}
                       style={{
                         fill: e.colorValue,
                         color: e.colorValue
@@ -120,25 +120,25 @@ class ProductInfo extends React.Component<
         {/* Product params section */}
         <WingBlank>
           {attributes.map((el, index) =>
-            <Flex key={index} justify='between'>
+            <Flex key={index} justify="between">
               <Flex className={styles.paramtName}>
                 {el.name}
               </Flex>
               <Flex className={styles.paramValue}>
-                {el.values.map(v => v.name).join(', ')}
+                {el.values.map(v => v.name).join(", ")}
               </Flex>
             </Flex>
           )}
           {subProducts.length === 1
             ? subProducts.map((supProduct, i) =>
-                <Flex key={i} justify='between'>
+                <Flex key={i} justify="between">
                   <div className={styles.paramtName}>Размер, ШxВxГ</div>
                   <div className={styles.paramValue}>
                     {supProduct.attributes.length !== 0
                       ? supProduct.attributes
                           .slice(0, 3)
                           .map(e => e.values.map(v => v.value))
-                          .join('x')
+                          .join("x")
                       : supProduct.article}
                   </div>
                 </Flex>

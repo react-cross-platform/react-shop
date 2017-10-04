@@ -1,25 +1,25 @@
-import { Icon } from 'antd-mobile';
-import update from 'immutability-helper';
-import { throttle } from 'lodash';
-import * as React from 'react';
+import { Icon } from "antd-mobile";
+import update from "immutability-helper";
+import { throttle } from "lodash";
+import * as React from "react";
 import {
   compose,
   gql,
   graphql,
   OperationOption,
   QueryProps
-} from 'react-apollo';
-import MasonryInfiniteScroller from 'react-masonry-infinite';
-import { connect } from 'react-redux';
+} from "react-apollo";
+import MasonryInfiniteScroller from "react-masonry-infinite";
+import { connect } from "react-redux";
 
-import { IRouterReducer } from '../../../interfaces';
-import { IRootReducer } from '../../../rootReducer';
-import { Loading } from '../../layout/index';
-import { Product, ProductsCounter } from '../index';
-import { IAllProduct } from '../model';
-import { ICatalogReducer } from '../reducer';
+import { IRouterReducer } from "../../../interfaces";
+import { IRootReducer } from "../../../rootReducer";
+import { Loading } from "../../layout/index";
+import { Product, ProductsCounter } from "../index";
+import { IAllProduct } from "../model";
+import { ICatalogReducer } from "../reducer";
 
-const styles = require('./styles.css');
+const styles = require("./styles.css");
 
 const LIMIT = 10;
 
@@ -80,7 +80,7 @@ class Products extends React.Component<Props, State> {
 
   handleScroll = event => {
     const { router, data } = this.props;
-    if (router.location.pathname.search('category') !== -1) {
+    if (router.location.pathname.search("category") !== -1) {
       const { fetchMore, allProducts } = data;
       const { products, total } = allProducts!;
 
@@ -108,11 +108,11 @@ class Products extends React.Component<Props, State> {
     // tslint:disable-next-line:max-line-length
     // TODO: Bind to some element, but not window
     // https://stackoverflow.com/questions/36207398/not-getting-callback-after-adding-an-event-listener-for-scroll-event-in-react-js/36207913#36207913
-    window.addEventListener('scroll', this.handleScrollThrottle, true);
+    window.addEventListener("scroll", this.handleScrollThrottle, true);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScrollThrottle, true);
+    window.removeEventListener("scroll", this.handleScrollThrottle, true);
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -168,7 +168,7 @@ class Products extends React.Component<Props, State> {
         <MasonryInfiniteScroller
           className={styles.masonryInfiniteScroller}
           sizes={[{ columns: 2, gutter }]}
-          loadMore={() => ''}
+          loadMore={() => ""}
         >
           {filteredProducts.map((product, i) => {
             return <Product key={i} {...product} />;
@@ -178,10 +178,10 @@ class Products extends React.Component<Props, State> {
         <div
           className={styles.icon}
           style={{
-            display: this.state.haveMoreProducts ? 'block' : 'none'
+            display: this.state.haveMoreProducts ? "block" : "none"
           }}
         >
-          <Icon type='loading' size='lg' />
+          <Icon type="loading" size="lg" />
         </div>
 
         <ProductsCounter
@@ -195,11 +195,11 @@ class Products extends React.Component<Props, State> {
   }
 }
 
-const ALL_PRODUCTS_QUERY = gql(require('./allProducts.gql'));
+const ALL_PRODUCTS_QUERY = gql(require("./allProducts.gql"));
 
 const options: OperationOption<OwnProps, GraphQLProps> = {
   options: ownProps => ({
-    fetchPolicy: 'network-only',
+    fetchPolicy: "network-only",
     variables: {
       categoryId: ownProps.categoryId,
       first: LIMIT,

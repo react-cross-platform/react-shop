@@ -1,18 +1,18 @@
-import { Icon, List } from 'antd-mobile';
-import gql from 'graphql-tag';
-import { compile } from 'path-to-regexp';
-import * as React from 'react';
-import { compose, graphql, OperationOption, QueryProps } from 'react-apollo';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Icon, List } from "antd-mobile";
+import gql from "graphql-tag";
+import { compile } from "path-to-regexp";
+import * as React from "react";
+import { compose, graphql, OperationOption, QueryProps } from "react-apollo";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
-import { IRouterReducer } from '../../../interfaces';
-import { IRootReducer } from '../../../rootReducer';
-import { PATH_NAMES } from '../../../routing';
-import { Loading } from '../index';
-import { IFlatPage } from '../model';
+import { IRouterReducer } from "../../../interfaces";
+import { IRootReducer } from "../../../rootReducer";
+import { PATH_NAMES } from "../../../routing";
+import { Loading } from "../index";
+import { IFlatPage } from "../model";
 
-const styles = require('./styles.css');
+const styles = require("./styles.css");
 
 interface IFlatPagesData extends QueryProps {
   flatPages: [IFlatPage];
@@ -33,9 +33,9 @@ function createMarkup(html) {
 class FlatPages extends React.Component<StateProps & GraphQLProps, {}> {
   state = {
     page: {
-      content: '',
-      id: '',
-      name: ''
+      content: "",
+      id: "",
+      name: ""
     }
   };
 
@@ -45,50 +45,50 @@ class FlatPages extends React.Component<StateProps & GraphQLProps, {}> {
     switch (_id) {
       // info
       case 4: {
-        return require('!svg-sprite-loader!./about.svg');
+        return require("!svg-sprite-loader!./about.svg");
       }
       // contacts
       case 5: {
-        return require('!svg-sprite-loader!./contacts.svg');
+        return require("!svg-sprite-loader!./contacts.svg");
       }
       // exchange and return
       case 8: {
-        return require('!svg-sprite-loader!./exchange.svg');
+        return require("!svg-sprite-loader!./exchange.svg");
       }
       // make order
       case 7: {
-        return require('!svg-sprite-loader!./order.svg');
+        return require("!svg-sprite-loader!./order.svg");
       }
       // buyers
       case 10: {
-        return require('!svg-sprite-loader!./buyers.svg');
+        return require("!svg-sprite-loader!./buyers.svg");
       }
       // discount card
       case 6: {
-        return require('!svg-sprite-loader!./discount.svg');
+        return require("!svg-sprite-loader!./discount.svg");
       }
       // schedule of work
       case 14: {
-        return require('!svg-sprite-loader!./schedule.svg');
+        return require("!svg-sprite-loader!./schedule.svg");
       }
       // shipping and payment
       case 2: {
-        return require('!svg-sprite-loader!./shipping.svg');
+        return require("!svg-sprite-loader!./shipping.svg");
       }
       // rozygrish
       case 15: {
-        return require('!svg-sprite-loader!./roulette.svg');
+        return require("!svg-sprite-loader!./roulette.svg");
       }
       // suppliers
       case 11: {
-        return require('!svg-sprite-loader!./suppliers.svg');
+        return require("!svg-sprite-loader!./suppliers.svg");
       }
       // guarantee
       case 3: {
-        return require('!svg-sprite-loader!./guarantee.svg');
+        return require("!svg-sprite-loader!./guarantee.svg");
       }
       default: {
-        return require('!svg-sprite-loader!./transport.svg');
+        return require("!svg-sprite-loader!./transport.svg");
       }
     }
   };
@@ -120,17 +120,17 @@ class FlatPages extends React.Component<StateProps & GraphQLProps, {}> {
 
     return (
       <div>
-        <List style={{ border: 'none' }}>
+        <List style={{ border: "none" }}>
           {flatPages.map(page =>
             <Link key={page.id} {...this.getLinkProps(page)}>
               <List.Item
                 wrap={true}
-                arrow='horizontal'
+                arrow="horizontal"
                 thumb={
                   <Icon
                     className={styles.icon}
                     type={this.getIcon(page.id)}
-                    size='md'
+                    size="md"
                   />
                 }
               >
@@ -148,7 +148,7 @@ const mapStateToProps = (state: IRootReducer): StateProps => ({
   router: state.router
 });
 
-const FLATPAGES_QUERY = gql(require('./flatpages.gql'));
+const FLATPAGES_QUERY = gql(require("./flatpages.gql"));
 const options: OperationOption<StateProps, GraphQLProps> = {
   options: ({ router }) => ({
     skip: !(router.location.pathname === PATH_NAMES.home)

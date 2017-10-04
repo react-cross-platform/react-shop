@@ -1,12 +1,12 @@
-import { Icon } from 'antd-mobile';
-import * as React from 'react';
-import { connect } from 'react-redux';
+import { Icon } from "antd-mobile";
+import * as React from "react";
+import { connect } from "react-redux";
 
-import { IRootReducer } from '../../../rootReducer';
-import { ACTION_TOGGLE_SHOW_ONLY_VIEWED } from '../constants';
-import { ICatalogReducer } from '../reducer';
+import { IRootReducer } from "../../../rootReducer";
+import { ACTION_TOGGLE_SHOW_ONLY_VIEWED } from "../constants";
+import { ICatalogReducer } from "../reducer";
 
-const styles = require('./styles.css');
+const styles = require("./styles.css");
 
 interface StateProps {
   catalog: ICatalogReducer;
@@ -26,14 +26,14 @@ class ShowOnlyViewed extends React.Component<StateProps & DispatcProps, {}> {
       <div
         className={styles.showOnlyWiewed}
         style={{
-          display: viewedProductIds.length === 0 ? 'none' : 'block'
+          display: viewedProductIds.length === 0 ? "none" : "block"
         }}
         onClick={toggleViewed}
       >
         <Icon
-          type={require('!svg-sprite-loader!./viewed.svg')}
-          size='lg'
-          style={{ fill: showOnlyViewed ? 'orange' : 'grey' }}
+          type={require("!svg-sprite-loader!./viewed.svg")}
+          size="lg"
+          style={{ fill: showOnlyViewed ? "orange" : "grey" }}
         />
       </div>
     );

@@ -1,4 +1,4 @@
-import { ICategory } from '../product/model';
+import { ICategory } from "../product/model";
 
 export interface ILayout {}
 

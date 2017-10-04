@@ -1,15 +1,16 @@
-import { Flex, Icon, WhiteSpace } from 'antd-mobile';
-import { compile } from 'path-to-regexp';
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Flex, Icon, WhiteSpace } from "antd-mobile";
+import { compile } from "path-to-regexp";
+import * as React from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
-import { IRootReducer } from '../../../rootReducer';
-import { scaleImageSize } from '../../product/index';
-import { IImageWithColor, IProduct } from '../../product/model';
-import { ICatalogReducer } from '../reducer';
+import { Dispatch } from "../../../interfaces";
+import { IRootReducer } from "../../../rootReducer";
+import { scaleImageSize } from "../../product/index";
+import { IImageWithColor, IProduct } from "../../product/model";
+import { ICatalogReducer } from "../reducer";
 
-const styles = require('./styles.css');
+const styles = require("./styles.css");
 
 const getMinOfArray = numArray => {
   return Math.min.apply(null, numArray);
@@ -99,22 +100,22 @@ class Product extends React.Component<StateProps & OwnProps, State> {
       <div
         className={styles.root}
         style={{
-          border: `1px solid ${this.isViewed() ? 'orange' : 'lightgrey'}`,
+          border: `1px solid ${this.isViewed() ? "orange" : "lightgrey"}`,
           borderRadius,
           width
         }}
       >
         {this.isViewed()
-          ? <div style={{ position: 'absolute', top: 1, left: 5 }}>
+          ? <div style={{ position: "absolute", top: 1, left: 5 }}>
               <Icon
-                type={require('!svg-sprite-loader!./viewed.svg')}
-                size='sm'
-                style={{ fill: 'orange' }}
+                type={require("!svg-sprite-loader!./viewed.svg")}
+                size="sm"
+                style={{ fill: "orange" }}
               />
             </div>
-          : ''}
+          : ""}
 
-        <WhiteSpace size='sm' />
+        <WhiteSpace size="sm" />
 
         <div style={{ padding: cardPadding }}>
           <Link {...this.getLinkProps()}>
@@ -126,19 +127,19 @@ class Product extends React.Component<StateProps & OwnProps, State> {
                 ? <img src={titleImage.src} />
                 : <Icon
                     className={styles.noImage}
-                    type={require('!svg-sprite-loader!../../layout/HomeTrigger/logo.svg')}
+                    type={require("!svg-sprite-loader!../../layout/HomeTrigger/logo.svg")}
                   />}
             </div>
           </Link>
 
           {/* Images */}
           {imagesWithColor.length > 1
-            ? <Flex justify='center' style={{ height: 15 }}>
+            ? <Flex justify="center" style={{ height: 15 }}>
                 {imagesWithColor.map((image, i) =>
                   <Icon
                     key={i}
-                    type={require('!svg-sprite-loader!./dot.svg')}
-                    size={image.id === titleImage.id ? 'lg' : 'md'}
+                    type={require("!svg-sprite-loader!./dot.svg")}
+                    size={image.id === titleImage.id ? "lg" : "md"}
                     style={{
                       fill: image.colorValue
                     }}
@@ -146,7 +147,7 @@ class Product extends React.Component<StateProps & OwnProps, State> {
                   />
                 )}
               </Flex>
-            : ''}
+            : ""}
         </div>
 
         <Link {...this.getLinkProps()}>
@@ -158,7 +159,7 @@ class Product extends React.Component<StateProps & OwnProps, State> {
             </div>
             <div className={styles.price}>
               <div>
-                {isSinglePrice ? '' : 'от '}
+                {isSinglePrice ? "" : "от "}
                 {parseInt(minPrice, 10)} грн
               </div>
             </div>

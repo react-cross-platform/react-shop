@@ -1,10 +1,10 @@
-import { Flex } from 'antd-mobile';
-import { History } from 'history';
-import * as React from 'react';
+import { Flex } from "antd-mobile";
+import { History } from "history";
+import * as React from "react";
 
-import { PATH_NAMES } from '../../../routing';
+import { PATH_NAMES } from "../../../routing";
 
-const styles = require('./styles.css');
+const styles = require("./styles.css");
 
 export interface OwnProps {
   history: History;
@@ -24,15 +24,15 @@ class EmptyCart extends React.Component<OwnProps, {}> {
   render() {
     return (
       <Flex
-        direction='column'
-        justify='center'
-        align='center'
+        direction="column"
+        justify="center"
+        align="center"
         onClick={this.handleClick}
         className={styles.emptyCart}
       >
         <img
           className={styles.emptyCartImage}
-          src={require('./sad_smile.png')}
+          src={require("./sad_smile.png")}
         />
         <div className={styles.emptyCartTitle}>Корзина пуста</div>
         <div className={styles.emptyCartContinue}>нажмите чтобы продолжить</div>

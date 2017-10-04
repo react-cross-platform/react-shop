@@ -1,9 +1,9 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { IPage } from '../../../pages/interfaces';
-import { Modal, utils } from '../../layout/index';
+import { IPage } from "../../../pages/interfaces";
+import { Modal, utils } from "../../layout/index";
 
-const styles = require('./styles.css');
+const styles = require("./styles.css");
 
 function createMarkup(html) {
   return { __html: html };
@@ -21,7 +21,7 @@ class FlatPageModal extends React.Component<IPage, {}> {
           dangerouslySetInnerHTML={createMarkup(page.map(el => el.content))}
           style={{
             padding: utils.isSafariBrowser() ? 10 : 0,
-            textAlign: 'left'
+            textAlign: "left"
           }}
         />
       </Modal>

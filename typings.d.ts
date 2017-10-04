@@ -1,3 +1,3 @@
-declare module 'react-masonry-infinite' {
+declare module "react-masonry-infinite" {
   let MasonryInfiniteScroller: any;
 }

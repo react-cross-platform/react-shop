@@ -1,9 +1,9 @@
-import update from 'immutability-helper';
+import update from "immutability-helper";
 import {
   ACTION_ADD_VIEWED_CATEGORY,
   ACTION_ADD_VIEWED_PRODUCT,
   ACTION_TOGGLE_SHOW_ONLY_VIEWED
-} from './constants';
+} from "./constants";
 
 export interface ICatalogReducer {
   readonly viewedProductIds: string[];

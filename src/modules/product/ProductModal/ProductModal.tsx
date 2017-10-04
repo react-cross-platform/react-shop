@@ -1,10 +1,10 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { IPage } from '../../../pages/interfaces';
-import { Modal } from '../../layout/index';
-import { Product } from '../index';
+import { IPage } from "../../../pages/interfaces";
+import { Modal } from "../../layout/index";
+import { Product } from "../index";
 
-const styles = require('./styles.css');
+const styles = require("./styles.css");
 
 export interface OwnProps extends IPage {}
 

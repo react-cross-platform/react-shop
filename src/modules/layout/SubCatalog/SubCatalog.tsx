@@ -1,19 +1,19 @@
-import { Card, Flex } from 'antd-mobile';
-import { compile } from 'path-to-regexp';
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { push } from 'react-router-redux';
+import { Card, Flex } from "antd-mobile";
+import { compile } from "path-to-regexp";
+import * as React from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { push } from "react-router-redux";
 
-import { Dispatch, IRouterReducer } from '../../../interfaces';
-import { IRootReducer } from '../../../rootReducer';
-import { PATH_NAMES } from '../../../routing';
-import { ACTION_ADD_VIEWED_CATEGORY } from '../../catalog/constants';
-import { ICatalogReducer } from '../../catalog/reducer';
-import { ICategory } from '../../product/model';
-import { ACTION_DISABLE_CATALOG } from '../constants';
+import { Dispatch, IRouterReducer } from "../../../interfaces";
+import { IRootReducer } from "../../../rootReducer";
+import { PATH_NAMES } from "../../../routing";
+import { ACTION_ADD_VIEWED_CATEGORY } from "../../catalog/constants";
+import { ICatalogReducer } from "../../catalog/reducer";
+import { ICategory } from "../../product/model";
+import { ACTION_DISABLE_CATALOG } from "../constants";
 
-const styles = require('./styles.css');
+const styles = require("./styles.css");
 
 interface StateProps {
   catalog: ICatalogReducer;
@@ -44,28 +44,28 @@ class SubCatalog extends React.Component<StateProps & OwnProps, {}> {
     const { categories } = this.props;
     const height = window.innerWidth / 2;
     return (
-      <Flex wrap='wrap'>
+      <Flex wrap="wrap">
         {categories.map((category, i) =>
           <Link
             key={`cat${i}`}
             to={this.getPath(category)}
             className={styles.flexItem}
             style={{
-              borderColor: this.isViewed(category) ? 'orange' : 'lightgrey',
+              borderColor: this.isViewed(category) ? "orange" : "lightgrey",
               width:
                 categories.length % 2 !== 0 && i + 1 === categories.length
-                  ? '100%'
-                  : '50%'
+                  ? "100%"
+                  : "50%"
             }}
           >
             <Card
               className={styles.category}
               style={{
                 opacity: this.isCurrentCategory(category) ? 0.3 : 1,
-                justifyContent: 'center'
+                justifyContent: "center"
               }}
             >
-              <img className={styles.image} src={category.image.src || ''} />
+              <img className={styles.image} src={category.image.src || ""} />
               <div className={styles.name}>
                 {category.name}
               </div>

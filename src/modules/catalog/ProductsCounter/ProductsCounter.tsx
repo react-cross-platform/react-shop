@@ -1,7 +1,7 @@
-import { Progress } from 'antd-mobile';
-import * as React from 'react';
+import { Progress } from "antd-mobile";
+import * as React from "react";
 
-const styles = require('./styles.css');
+const styles = require("./styles.css");
 
 interface OwnProps {
   scrolled: number;
@@ -20,10 +20,10 @@ class ProductsCounter extends React.Component<OwnProps, {}> {
           appearTransition={true}
           className={styles.progress}
           percent={Math.round(scrolled / total * 100)}
-          position='normal'
-          unfilled='hide'
+          position="normal"
+          unfilled="hide"
           style={{
-            borderColor: scrolled === total ? '#468847' : 'orange'
+            borderColor: scrolled === total ? "#468847" : "orange"
           }}
         />
       </div>

@@ -1,7 +1,7 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { Category } from '../../modules/catalog/index';
-import { IPage } from '../interfaces';
+import { Category } from "../../modules/catalog/index";
+import { IPage } from "../interfaces";
 
 class CategoryPage extends React.Component<IPage, {}> {
   render() {

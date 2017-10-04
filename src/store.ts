@@ -1,10 +1,10 @@
-import { routerMiddleware, routerReducer } from 'react-router-redux';
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import logger from 'redux-logger';
-import thunk from 'redux-thunk';
-import client from './graphqlClient';
-import history from './history';
-import rootReducer from './rootReducer';
+import { routerMiddleware, routerReducer } from "react-router-redux";
+import { applyMiddleware, combineReducers, compose, createStore } from "redux";
+import logger from "redux-logger";
+import thunk from "redux-thunk";
+import client from "./graphqlClient";
+import history from "./history";
+import rootReducer from "./rootReducer";
 
 const initialState = {};
 
@@ -20,7 +20,7 @@ const store = createStore(
   initialState,
   compose(
     applyMiddleware(...middlewares),
-    typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined'
+    typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== "undefined"
       ? window.__REDUX_DEVTOOLS_EXTENSION__()
       : f => f
   )

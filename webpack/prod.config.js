@@ -1,23 +1,23 @@
-'use strict';
+"use strict";
 
-var webpack = require('webpack'),
-  path = require('path'),
-  SRC_PATH = path.join(__dirname, '../src'),
-  config = require('./webpack.config'),
-  ExtractTextPlugin = require('extract-text-webpack-plugin'),
-  customTheme = require('../theme.json');
+var webpack = require("webpack"),
+  path = require("path"),
+  SRC_PATH = path.join(__dirname, "../src"),
+  config = require("./webpack.config"),
+  ExtractTextPlugin = require("extract-text-webpack-plugin"),
+  customTheme = require("../theme.json");
 
 config.module.rules[1].use = ExtractTextPlugin.extract({
-  fallback: 'style-loader',
+  fallback: "style-loader",
   use: [
     {
-      loader: 'css-loader'
+      loader: "css-loader"
     },
     {
-      loader: 'postcss-loader'
+      loader: "postcss-loader"
     },
     {
-      loader: 'less-loader',
+      loader: "less-loader",
       options: {
         paths: [SRC_PATH],
         modifyVars: customTheme
