@@ -1,15 +1,15 @@
-import { Flex } from "antd-mobile";
-import { compile } from "path-to-regexp";
-import React from "react";
-import { Link } from "react-router-dom";
+import { Flex } from 'antd-mobile';
+import { compile } from 'path-to-regexp';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-import { PATH_NAMES } from "../../../routing";
-import { Price } from "../../common/index";
-import { Devider } from "../../layout/index";
-import { RemoveCartItem, UpdateCartItem } from "../index";
-import { ICartItem } from "../model";
+import { PATH_NAMES } from '../../../routing';
+import { Price } from '../../common/index';
+import { Devider } from '../../layout/index';
+import { RemoveCartItem, UpdateCartItem } from '../index';
+import { ICartItem } from '../model';
 
-const styles = require("./styles.css");
+const styles = require('./styles.css');
 
 export const getCartItemTotalPrice = (price: number, amount: number) => {
   return price * amount;
@@ -19,7 +19,7 @@ interface OwnProps extends ICartItem {}
 
 class CartItem extends React.Component<OwnProps, {}> {
   handleNavigation = (navigation, id, name) => {
-    navigation.navigate("Product", { id, name });
+    navigation.navigate('Product', { id, name });
   };
 
   getName = () => {
@@ -44,7 +44,7 @@ class CartItem extends React.Component<OwnProps, {}> {
     return (
       <div>
         <RemoveCartItem id={id} />
-        <Flex justify="between" className={styles.cartItem}>
+        <Flex justify='between' className={styles.cartItem}>
           <Link className={styles.imageContainer} {...linkProps}>
             <img
               className={styles.image}
@@ -52,15 +52,15 @@ class CartItem extends React.Component<OwnProps, {}> {
             />
           </Link>
           <Flex
-            align="start"
-            direction="column"
-            justify="between"
+            align='start'
+            direction='column'
+            justify='between'
             className={styles.info}
           >
             <Flex
               className={styles.nameSection}
-              justify="between"
-              align="start"
+              justify='between'
+              align='start'
             >
               <Link className={styles.name} {...linkProps}>
                 {product.name}
@@ -68,7 +68,7 @@ class CartItem extends React.Component<OwnProps, {}> {
                 {product.brand.name} {subProduct.article}
               </Link>
             </Flex>
-            <Flex justify="between" className={styles.amountAndPriceSection}>
+            <Flex justify='between' className={styles.amountAndPriceSection}>
               <UpdateCartItem id={id} amount={amount} />
               <Price
                 price={price * amount}

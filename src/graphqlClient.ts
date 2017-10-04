@@ -1,9 +1,9 @@
-import ApolloClient, { createNetworkInterface } from "apollo-client";
+import ApolloClient, { createNetworkInterface } from 'apollo-client';
 
 const networkInterface = createNetworkInterface({
   uri: process.env.GRAPHQL_ENDPOINT,
   opts: {
-    credentials: "include"
+    credentials: 'include'
   }
 });
 

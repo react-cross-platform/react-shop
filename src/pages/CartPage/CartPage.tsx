@@ -1,7 +1,7 @@
-import * as React from "react";
+import * as React from 'react';
 
-import { Cart } from "../../modules/cart/index";
-import { IPage } from "../interfaces";
+import { Cart } from '../../modules/cart/index';
+import { IPage } from '../interfaces';
 
 class CartPage extends React.Component<IPage, {}> {
   render() {

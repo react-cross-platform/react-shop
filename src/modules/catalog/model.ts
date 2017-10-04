@@ -1,4 +1,4 @@
-import { IProduct } from "../product/model";
+import { IProduct } from '../product/model';
 
 export interface IAllProduct {
   total: number;

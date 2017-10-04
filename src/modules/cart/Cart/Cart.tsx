@@ -1,22 +1,22 @@
-import { Flex } from "antd-mobile";
-import gql from "graphql-tag";
-import { History } from "history";
-import * as React from "react";
-import { graphql, QueryProps } from "react-apollo";
-import { connect } from "react-redux";
-import { compose } from "redux";
+import { Flex } from 'antd-mobile';
+import gql from 'graphql-tag';
+import { History } from 'history';
+import * as React from 'react';
+import { graphql, QueryProps } from 'react-apollo';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-import { IRouterReducer } from "../../../interfaces";
-import { IRootReducer } from "../../../rootReducer";
-import { PATH_NAMES } from "../../../routing";
-import { Price } from "../../common/index";
-import { Loading } from "../../layout/index";
-import { getScrollableStyle } from "../../layout/Modal/Modal";
-import { getCartItemTotalPrice } from "../CartItem/CartItem";
-import { CartItem, CheckoutTrigger, EmptyCart } from "../index";
-import { ICart } from "../model";
+import { IRouterReducer } from '../../../interfaces';
+import { IRootReducer } from '../../../rootReducer';
+import { PATH_NAMES } from '../../../routing';
+import { Price } from '../../common/index';
+import { Loading } from '../../layout/index';
+import { getScrollableStyle } from '../../layout/Modal/Modal';
+import { getCartItemTotalPrice } from '../CartItem/CartItem';
+import { CartItem, CheckoutTrigger, EmptyCart } from '../index';
+import { ICart } from '../model';
 
-const styles = require("./styles.css");
+const styles = require('./styles.css');
 
 interface StateProps {
   router: IRouterReducer;
@@ -81,7 +81,7 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
 
     const totalPrice = getCartTotalPrice(cart);
     return (
-      <Flex direction="column" className={styles.cart}>
+      <Flex direction='column' className={styles.cart}>
         <div
           className={styles.content}
           style={getScrollableStyle(this.isCurrentPage())}
@@ -112,7 +112,7 @@ const mapStateToProps = (state: IRootReducer): StateProps => ({
   router: state.router
 });
 
-export const CART_QUERY = gql(require("./cart.gql"));
+export const CART_QUERY = gql(require('./cart.gql'));
 
 export default compose(
   graphql<GraphQLProps, OwnProps>(CART_QUERY),

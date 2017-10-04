@@ -1,10 +1,10 @@
-import gql from "graphql-tag";
-import React from "react";
-import { graphql, OperationOption } from "react-apollo";
+import gql from 'graphql-tag';
+import React from 'react';
+import { graphql, OperationOption } from 'react-apollo';
 
-import { ICartItem } from "../model";
+import { ICartItem } from '../model';
 
-const styles = require("./styles.css");
+const styles = require('./styles.css');
 
 interface IUpdateCartItem {
   data: {
@@ -48,7 +48,7 @@ class UpdateCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
   }
 }
 
-const UPDATE_CART_ITEM_MUTATION = gql(require("./updateCartItem.gql"));
+const UPDATE_CART_ITEM_MUTATION = gql(require('./updateCartItem.gql'));
 
 const options: OperationOption<OwnProps, GraphQLProps> = {
   props: ({ ownProps, mutate }) => {

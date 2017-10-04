@@ -1,6 +1,6 @@
-import update from "immutability-helper";
+import update from 'immutability-helper';
 
-import { ACTION_SELECT_COLOR, ACTION_SELECT_SUB_PRODUCT } from "./constants";
+import { ACTION_SELECT_COLOR, ACTION_SELECT_SUB_PRODUCT } from './constants';
 
 export interface IProductReducer {
   readonly subProductId?: string;

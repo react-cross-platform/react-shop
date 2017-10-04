@@ -1,14 +1,14 @@
-import { Flex, Icon } from "antd-mobile";
-import * as React from "react";
-import { compose } from "react-apollo";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Flex, Icon } from 'antd-mobile';
+import * as React from 'react';
+import { compose } from 'react-apollo';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import { Dispatch, IRouterReducer } from "../../../interfaces";
-import { IRootReducer } from "../../../rootReducer";
-import { PATH_NAMES } from "../../../routing";
+import { Dispatch, IRouterReducer } from '../../../interfaces';
+import { IRootReducer } from '../../../rootReducer';
+import { PATH_NAMES } from '../../../routing';
 
-const styles = require("./styles.css");
+const styles = require('./styles.css');
 
 interface StateProps {
   router: IRouterReducer;
@@ -16,14 +16,14 @@ interface StateProps {
 
 const Logo = ({ isActive }) => {
   return (
-    <Flex className={styles.homeTrigger} align="center">
+    <Flex className={styles.homeTrigger} align='center'>
       REACT
       <Icon
         className={styles.logoIcon}
-        type={require("!svg-sprite-loader!./logo.svg")}
-        size="md"
+        type={require('!svg-sprite-loader!./logo.svg')}
+        size='md'
         style={{
-          fill: isActive ? "orange" : "white"
+          fill: isActive ? 'orange' : 'white'
         }}
       />
       SHOP

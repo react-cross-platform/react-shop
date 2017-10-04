@@ -1,20 +1,20 @@
-import { Flex } from "antd-mobile";
-import * as React from "react";
-import { Route } from "react-router";
-import { Switch } from "react-router-dom";
+import { Flex } from 'antd-mobile';
+import * as React from 'react';
+import { Route } from 'react-router';
+import { Switch } from 'react-router-dom';
 
-import { CartModal } from "./modules/cart/index";
-import { FlatPageModal } from "./modules/layout/index";
-import { ProductModal } from "./modules/product/index";
-import { CartPage, CategoryPage, HomePage, ProductPage } from "./pages/index";
-import { IPage } from "./pages/interfaces";
+import { CartModal } from './modules/cart/index';
+import { FlatPageModal } from './modules/layout/index';
+import { ProductModal } from './modules/product/index';
+import { CartPage, CategoryPage, HomePage, ProductPage } from './pages/index';
+import { IPage } from './pages/interfaces';
 
 export const PATH_NAMES = {
-  home: "/",
-  category: "/category/:id/",
-  product: "/product/:id/",
-  cart: "/cart/",
-  flatpage: "/flatpage/:id/"
+  home: '/',
+  category: '/category/:id/',
+  product: '/product/:id/',
+  cart: '/cart/',
+  flatpage: '/flatpage/:id/'
 };
 
 interface Props extends IPage {}
@@ -25,7 +25,7 @@ class Routing extends React.Component<Props, {}> {
   componentWillUpdate(nextProps: Props) {
     const { location } = this.props;
     if (
-      nextProps.history.action !== "POP" &&
+      nextProps.history.action !== 'POP' &&
       (!location.state || !location.state.modal)
     ) {
       this.previousLocation = this.props.location;
@@ -42,7 +42,7 @@ class Routing extends React.Component<Props, {}> {
     const _location = isModal ? this.previousLocation : location;
 
     return (
-      <Flex direction="column" className="full-size">
+      <Flex direction='column' className='full-size'>
         <Switch location={_location}>
           <Route exact={true} path={PATH_NAMES.home} component={HomePage} />
           <Route path={PATH_NAMES.category} component={CategoryPage} />
@@ -50,7 +50,7 @@ class Routing extends React.Component<Props, {}> {
           <Route path={PATH_NAMES.cart} component={CartPage} />
         </Switch>
         {isModal
-          ? <Flex direction="column" className="full-size">
+          ? <Flex direction='column' className='full-size'>
               <Route path={PATH_NAMES.flatpage} component={FlatPageModal} />
               <Route path={PATH_NAMES.product} component={ProductModal} />
               <Route path={PATH_NAMES.cart} component={CartModal} />

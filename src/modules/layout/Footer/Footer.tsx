@@ -1,6 +1,6 @@
-import * as React from "react";
+import * as React from 'react';
 
-const styles = require("./styles.css");
+const styles = require('./styles.css');
 
 class Footer extends React.Component<{}, {}> {
   render() {

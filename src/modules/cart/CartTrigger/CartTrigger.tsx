@@ -1,14 +1,14 @@
-import { Flex, Icon } from "antd-mobile";
-import * as React from "react";
-import { graphql } from "react-apollo";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { compose } from "redux";
+import { Flex, Icon } from 'antd-mobile';
+import * as React from 'react';
+import { graphql } from 'react-apollo';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { compose } from 'redux';
 
-import { IRouterReducer } from "../../../interfaces";
-import { IRootReducer } from "../../../rootReducer";
-import { PATH_NAMES } from "../../../routing";
-import { CART_QUERY, getCartAmount, IDataCart } from "../Cart/Cart";
+import { IRouterReducer } from '../../../interfaces';
+import { IRootReducer } from '../../../rootReducer';
+import { PATH_NAMES } from '../../../routing';
+import { CART_QUERY, getCartAmount, IDataCart } from '../Cart/Cart';
 
 interface StateProps {
   router: IRouterReducer;
@@ -18,7 +18,7 @@ interface GraphQLProps {
   data: IDataCart;
 }
 
-const styles = require("./styles.css");
+const styles = require('./styles.css');
 
 class CartTrigger extends React.Component<StateProps & GraphQLProps, {}> {
   render() {
@@ -30,18 +30,18 @@ class CartTrigger extends React.Component<StateProps & GraphQLProps, {}> {
         className={styles.cartTrigger}
         to={{
           pathname: PATH_NAMES.cart,
-          state: { modal: true, title: "Корзина" }
+          state: { modal: true, title: 'Корзина' }
         }}
       >
         {!loading && amount > 0
-          ? <Flex justify="center" align="center" className={styles.amount}>
+          ? <Flex justify='center' align='center' className={styles.amount}>
               {amount}
             </Flex>
           : null}
         <Icon
           className={styles.icon}
-          type={require("!svg-sprite-loader!./cart.svg")}
-          size="md"
+          type={require('!svg-sprite-loader!./cart.svg')}
+          size='md'
         />
       </Link>
     );

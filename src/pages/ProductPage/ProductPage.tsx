@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Product } from "../../modules/product/index";
-import { IPage } from "../interfaces";
+import * as React from 'react';
+import { Product } from '../../modules/product/index';
+import { IPage } from '../interfaces';
 
 interface IProductPageProps extends IPage {}
 

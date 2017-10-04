@@ -1,38 +1,38 @@
-"use strict";
+'use strict';
 
-require("dotenv").config();
+require('dotenv').config();
 
-const path = require("path"),
-  webpack = require("webpack"),
-  HtmlwebpackPlugin = require("html-webpack-plugin"),
-  autoprefixer = require("autoprefixer"),
-  pxtorem = require("postcss-pxtorem");
+const path = require('path'),
+  webpack = require('webpack'),
+  HtmlwebpackPlugin = require('html-webpack-plugin'),
+  autoprefixer = require('autoprefixer'),
+  pxtorem = require('postcss-pxtorem');
 
-const SRC_PATH = path.join(__dirname, "../src"),
-  STATIC_PATH = path.join(__dirname, "../static"),
-  DIST_PATH = path.join(__dirname, "../static/dist/app"),
-  RESOURCE_PATH = path.join(__dirname, "../src/resource");
+const SRC_PATH = path.join(__dirname, '../src'),
+  STATIC_PATH = path.join(__dirname, '../static'),
+  DIST_PATH = path.join(__dirname, '../static/dist/app'),
+  RESOURCE_PATH = path.join(__dirname, '../src/resource');
 
-const __DEV__ = process.env.NODE_ENV !== "production";
+const __DEV__ = process.env.NODE_ENV !== 'production';
 
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const bundleConfig = __DEV__
-  ? require(STATIC_PATH + "/cache/bundle-config.json")
-  : require(STATIC_PATH + "/dist/lib/bundle-config.json");
+  ? require(STATIC_PATH + '/cache/bundle-config.json')
+  : require(STATIC_PATH + '/dist/lib/bundle-config.json');
 
 module.exports = {
   context: SRC_PATH,
   entry: {
-    app: ["src/main.tsx"]
+    app: ['src/main.tsx']
   },
   output: {
     path: DIST_PATH,
     publicPath: __DEV__
       ? `http://${process.env.LOCAL_IP}:${process.env.PORT}`
-      : "/static/dist/app/",
-    filename: "[name]-[hash].js",
-    chunkFilename: "[name]-[chunkhash].js"
+      : '/static/dist/app/',
+    filename: '[name]-[hash].js',
+    chunkFilename: '[name]-[chunkhash].js'
   },
   module: {
     rules: [
@@ -40,12 +40,12 @@ module.exports = {
         test: /\.ts(x?)$/,
         use: [
           {
-            loader: "babel-loader"
+            loader: 'babel-loader'
           },
           {
-            loader: "ts-loader",
+            loader: 'ts-loader',
             options: {
-              configFileName: __DEV__ ? "tsconfig.json" : "tsconfig.prod.json"
+              configFileName: __DEV__ ? 'tsconfig.json' : 'tsconfig.prod.json'
             }
           }
         ]
@@ -60,29 +60,29 @@ module.exports = {
       // project styles with CSS Modules
       {
         test: /\.css$/,
-        include: [path.resolve(__dirname, "../src")],
+        include: [path.resolve(__dirname, '../src')],
         use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
+          fallback: 'style-loader',
           use: {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               modules: true,
               importLoaders: 1,
-              localIdentName: "[local]___[hash:base64:5]"
+              localIdentName: '[local]___[hash:base64:5]'
             }
           }
         })
       },
       {
         test: /\.gql$/,
-        use: "raw-loader",
+        use: 'raw-loader',
         exclude: /node_modules/
       },
       {
         test: /\.(jpg|jpeg|png|gif)(\?[a-z0-9=&.]+)?$/,
         use: [
           {
-            loader: "url-loader",
+            loader: 'url-loader',
             options: {
               limit: 8192
             }
@@ -91,35 +91,35 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        loader: "svg-sprite-loader",
-        include: [require.resolve("antd-mobile").replace(/warn\.js$/, "")]
+        loader: 'svg-sprite-loader',
+        include: [require.resolve('antd-mobile').replace(/warn\.js$/, '')]
       }
     ]
   },
   resolve: {
-    modules: [SRC_PATH, "node_modules"],
+    modules: [SRC_PATH, 'node_modules'],
     alias: {
       resource: RESOURCE_PATH,
       src: SRC_PATH
     },
-    extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
+    extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']
   },
   plugins: [
     new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
-      "process.env.DEBUG": process.env.NODE_ENV == "development",
-      "process.env.GRAPHQL_ENDPOINT": JSON.stringify(
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.DEBUG': process.env.NODE_ENV == 'development',
+      'process.env.GRAPHQL_ENDPOINT': JSON.stringify(
         process.env.GRAPHQL_ENDPOINT
       )
     }),
 
     new HtmlwebpackPlugin({
-      filename: "index.html",
-      chunks: ["app"],
+      filename: 'index.html',
+      chunks: ['app'],
       template:
-        SRC_PATH + "/template/" + (__DEV__ ? "app.dev.html" : "app.prod.html"),
+        SRC_PATH + '/template/' + (__DEV__ ? 'app.dev.html' : 'app.prod.html'),
       assets: {
-        style: "[name]-[hash].css"
+        style: '[name]-[hash].css'
       },
       bundleName: bundleConfig.bundle.js,
       minify: __DEV__
@@ -136,10 +136,10 @@ module.exports = {
     }),
 
     new webpack.DllReferencePlugin({
-      context: ".",
+      context: '.',
       manifest: __DEV__
-        ? require("../static/cache/bundle-manifest.json")
-        : require("../static/dist/lib/bundle-manifest.json")
+        ? require('../static/cache/bundle-manifest.json')
+        : require('../static/dist/lib/bundle-manifest.json')
     }),
 
     new webpack.LoaderOptionsPlugin({
@@ -147,12 +147,12 @@ module.exports = {
         context: SRC_PATH,
         output: {
           path: DIST_PATH,
-          publicPath: "",
-          filename: "[name]-[hash].js",
-          chunkFilename: "[name]-[chunkhash].js"
+          publicPath: '',
+          filename: '[name]-[hash].js',
+          chunkFilename: '[name]-[chunkhash].js'
         },
         postcss: [
-          autoprefixer({ browsers: ["> 1%", "last 4 versions"] }),
+          autoprefixer({ browsers: ['> 1%', 'last 4 versions'] }),
           pxtorem({
             rootValue: 100,
             propWhiteList: []
@@ -162,7 +162,7 @@ module.exports = {
     }),
 
     new ExtractTextPlugin({
-      filename: "[name]-[hash].css",
+      filename: '[name]-[hash].css',
       allChunks: true
     })
   ]

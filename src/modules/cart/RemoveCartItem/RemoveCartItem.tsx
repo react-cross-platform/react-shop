@@ -1,16 +1,16 @@
-import { ActionSheet, Flex, Icon } from "antd-mobile";
-import gql from "graphql-tag";
-import update from "immutability-helper";
-import React from "react";
-import { graphql } from "react-apollo";
-import { OperationOption } from "react-apollo/types";
+import { ActionSheet, Flex, Icon } from 'antd-mobile';
+import gql from 'graphql-tag';
+import update from 'immutability-helper';
+import React from 'react';
+import { graphql } from 'react-apollo';
+import { OperationOption } from 'react-apollo/types';
 
-import { CART_QUERY, IDataCart } from "../Cart/Cart";
+import { CART_QUERY, IDataCart } from '../Cart/Cart';
 
-const styles = require("./styles.css");
+const styles = require('./styles.css');
 
 let wrapProps;
-const isIPhone = new RegExp("\\biPhone\\b|\\biPod\\b", "i").test(
+const isIPhone = new RegExp('\\biPhone\\b|\\biPod\\b', 'i').test(
   window.navigator.userAgent
 );
 if (isIPhone) {
@@ -22,10 +22,10 @@ if (isIPhone) {
 }
 
 const CONFIRM_OPTIONS = [
-  <Flex align="center" justify="center">
+  <Flex align='center' justify='center'>
     <Icon
       className={styles.optionIcon}
-      type={require("!svg-sprite-loader!./remove.svg")}
+      type={require('!svg-sprite-loader!./remove.svg')}
     />Удалить
   </Flex>
 ];
@@ -56,8 +56,8 @@ class RemoveCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
         options: CONFIRM_OPTIONS,
         cancelButtonIndex: actions.length - 1,
         destructiveButtonIndex: actions.length - 2,
-        title: "",
-        message: "",
+        title: '',
+        message: '',
         maskClosable: true,
         wrapProps
       },
@@ -73,14 +73,14 @@ class RemoveCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
     return (
       <Icon
         className={styles.icon}
-        type={require("!svg-sprite-loader!./remove.svg")}
+        type={require('!svg-sprite-loader!./remove.svg')}
         onClick={this.removeCartItem}
       />
     );
   }
 }
 
-const REMOVE_CART_ITEM_MUTATION = gql(require("./removeCartItem.gql"));
+const REMOVE_CART_ITEM_MUTATION = gql(require('./removeCartItem.gql'));
 const options: OperationOption<OwnProps, GraphQLProps> = {
   props: ({ ownProps, mutate }) => {
     return {

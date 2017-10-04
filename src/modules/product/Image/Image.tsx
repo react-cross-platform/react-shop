@@ -1,5 +1,5 @@
-import { Carousel, Flex, WhiteSpace, WingBlank } from "antd-mobile";
-import * as React from "react";
+import { Carousel, Flex, WhiteSpace, WingBlank } from 'antd-mobile';
+import * as React from 'react';
 
 export const scaleImageSize = (width, height, ratio = 1) => {
   ratio = ratio || window.innerWidth / 2.4 / 360;
@@ -9,7 +9,7 @@ export const scaleImageSize = (width, height, ratio = 1) => {
   };
 };
 
-const styles = require("./styles.css");
+const styles = require('./styles.css');
 
 interface ImageProps {
   src: string;
@@ -23,7 +23,7 @@ class Image extends React.Component<ImageProps, null> {
   render() {
     const { divHeight, width, height, src, isTitle } = this.props;
     return (
-      <Flex justify="center" align="center" style={{ height: divHeight }}>
+      <Flex justify='center' align='center' style={{ height: divHeight }}>
         <img className={styles.image} src={src} />
       </Flex>
     );

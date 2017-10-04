@@ -1,16 +1,16 @@
-import { WhiteSpace, WingBlank } from "antd-mobile";
-import * as React from "react";
-import { connect } from "react-redux";
+import { WhiteSpace, WingBlank } from 'antd-mobile';
+import * as React from 'react';
+import { connect } from 'react-redux';
 
-import { Dispatch, IRouterReducer } from "../../interfaces";
-import { ACTION_RESET } from "../../modules/layout/constants";
-import { Catalog, FlatPages } from "../../modules/layout/index";
-import { getScrollableStyle } from "../../modules/layout/Modal/Modal";
-import { IRootReducer } from "../../rootReducer";
-import { PATH_NAMES } from "../../routing";
-import { IPage } from "../interfaces";
+import { Dispatch, IRouterReducer } from '../../interfaces';
+import { ACTION_RESET } from '../../modules/layout/constants';
+import { Catalog, FlatPages } from '../../modules/layout/index';
+import { getScrollableStyle } from '../../modules/layout/Modal/Modal';
+import { IRootReducer } from '../../rootReducer';
+import { PATH_NAMES } from '../../routing';
+import { IPage } from '../interfaces';
 
-const styles = require("./styles.css");
+const styles = require('./styles.css');
 
 interface StateProps {
   router: IRouterReducer;
@@ -29,7 +29,7 @@ class HomePage extends React.Component<StateProps, {}> {
         style={getScrollableStyle(this.isCurrentPage())}
       >
         <Catalog />
-        <WhiteSpace size="lg" />
+        <WhiteSpace size='lg' />
         <FlatPages />
       </div>
     );

@@ -54,7 +54,6 @@
       "check-whitespace"
     ],
     "one-variable-per-declaration": [true, "ignore-for-loop"],
-    "quotemark": [true, "double", "jsx-double"],
     "radix": true,
     "switch-default": true,
     "trailing-comma": [false],

@@ -1,24 +1,24 @@
-import { Flex, WingBlank } from "antd-mobile";
-import gql from "graphql-tag";
-import { compile } from "path-to-regexp";
-import * as React from "react";
-import { compose, graphql, OperationOption, QueryProps } from "react-apollo";
-import { connect } from "react-redux";
-import { ActionCreator } from "redux";
+import { Flex, WingBlank } from 'antd-mobile';
+import gql from 'graphql-tag';
+import { compile } from 'path-to-regexp';
+import * as React from 'react';
+import { compose, graphql, OperationOption, QueryProps } from 'react-apollo';
+import { connect } from 'react-redux';
+import { ActionCreator } from 'redux';
 
-import { IRouterReducer } from "../../../interfaces";
-import { IRootReducer } from "../../../rootReducer";
-import { PATH_NAMES } from "../../../routing";
-import { CART_QUERY, IDataCart } from "../../cart/Cart/Cart";
-import { ACTION_ADD_VIEWED_PRODUCT } from "../../catalog/constants";
-import { Loading } from "../../layout/index";
-import { getScrollableStyle } from "../../layout/Modal/Modal";
-import { ACTION_SELECT_SUB_PRODUCT } from "../constants";
-import { Images, ProductInfo, ProductToCart } from "../index";
-import { IProduct, ISubProduct } from "../model";
-import { IProductReducer } from "../reducer";
+import { IRouterReducer } from '../../../interfaces';
+import { IRootReducer } from '../../../rootReducer';
+import { PATH_NAMES } from '../../../routing';
+import { CART_QUERY, IDataCart } from '../../cart/Cart/Cart';
+import { ACTION_ADD_VIEWED_PRODUCT } from '../../catalog/constants';
+import { Loading } from '../../layout/index';
+import { getScrollableStyle } from '../../layout/Modal/Modal';
+import { ACTION_SELECT_SUB_PRODUCT } from '../constants';
+import { Images, ProductInfo, ProductToCart } from '../index';
+import { IProduct, ISubProduct } from '../model';
+import { IProductReducer } from '../reducer';
 
-const styles = require("./styles.css");
+const styles = require('./styles.css');
 
 interface IDataProduct extends QueryProps {
   product?: IProduct;
@@ -77,7 +77,7 @@ class Product extends React.Component<Props, {}> {
       const { subProductId } = nextProps.product;
       const subProductIds = subProducts.map(sp => sp.id);
       const subProductColor = product!.images.filter(
-        el => el.colorValue !== ""
+        el => el.colorValue !== ''
       )[0].id;
       if (subProductIds.indexOf(subProductId!) === -1) {
         this.props.selectSubProduct(subProductIds[0], subProductColor);
@@ -103,15 +103,15 @@ class Product extends React.Component<Props, {}> {
     const { price, oldPrice } = activeSubProduct;
     const subProductIdsInCart = getSubProductIdsInCart(dataCart);
     return (
-      <Flex direction="column" className={styles.product}>
+      <Flex direction='column' className={styles.product}>
         <div
           className={styles.productContent}
           style={getScrollableStyle(this.isCurrentPage(id))}
         >
           <Flex
             style={{ height: window.innerHeight - 40 * 2 + 5 }}
-            justify="around"
-            direction="column"
+            justify='around'
+            direction='column'
             className={styles.productFirstScreen}
           >
             <Images images={images} />
@@ -159,9 +159,9 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
   }
 });
 
-const PRODUCT_QUERY = gql(require("./product.gql"));
+const PRODUCT_QUERY = gql(require('./product.gql'));
 const productOptions: OperationOption<OwnProps, GraphQLProps> = {
-  name: "dataProduct",
+  name: 'dataProduct',
   options: props => ({
     variables: {
       id: props.id
@@ -170,7 +170,7 @@ const productOptions: OperationOption<OwnProps, GraphQLProps> = {
 };
 
 const cartOptions: OperationOption<OwnProps, GraphQLProps> = {
-  name: "dataCart"
+  name: 'dataCart'
 };
 
 export default compose(

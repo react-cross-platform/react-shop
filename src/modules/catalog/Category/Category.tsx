@@ -1,21 +1,21 @@
-import gql from "graphql-tag";
-import { compile } from "path-to-regexp";
-import * as React from "react";
-import { graphql, OperationOption, QueryProps } from "react-apollo";
-import { connect } from "react-redux";
-import { compose } from "redux";
+import gql from 'graphql-tag';
+import { compile } from 'path-to-regexp';
+import * as React from 'react';
+import { graphql, OperationOption, QueryProps } from 'react-apollo';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-import { IRouterReducer } from "../../../interfaces";
-import { IRootReducer } from "../../../rootReducer";
-import { PATH_NAMES } from "../../../routing";
-import { Loading } from "../../layout/index";
-import { getScrollableStyle } from "../../layout/Modal/Modal";
-import { ICategory } from "../../product/model";
-import { Products } from "../index";
+import { IRouterReducer } from '../../../interfaces';
+import { IRootReducer } from '../../../rootReducer';
+import { PATH_NAMES } from '../../../routing';
+import { Loading } from '../../layout/index';
+import { getScrollableStyle } from '../../layout/Modal/Modal';
+import { ICategory } from '../../product/model';
+import { Products } from '../index';
 
-const CATEGORY_QUERY = gql(require("./category.gql"));
+const CATEGORY_QUERY = gql(require('./category.gql'));
 
-const styles = require("./styles.css");
+const styles = require('./styles.css');
 
 interface IDataCategory extends QueryProps {
   category?: ICategory;
@@ -66,7 +66,7 @@ class Category extends React.Component<
 
 const options: OperationOption<OwnProps, GraphQLProps> = {
   options: props => ({
-    fetchPolicy: "cache-first",
+    fetchPolicy: 'cache-first',
     variables: {
       id: props.id
     }
