@@ -10,7 +10,7 @@ import { IRootReducer } from "../../../rootReducer";
 import { PATH_NAMES } from "../../../routing";
 import { CART_QUERY, getCartAmount, IDataCart } from "../Cart/Cart";
 
-interface ConnectedProps {
+interface StateProps {
   router: IRouterReducer;
 }
 
@@ -20,7 +20,7 @@ interface GraphQLProps {
 
 const styles = require("./styles.css");
 
-class CartTrigger extends React.Component<ConnectedProps & GraphQLProps, {}> {
+class CartTrigger extends React.Component<StateProps & GraphQLProps, {}> {
   render() {
     const { data, router } = this.props;
     const { loading, cart } = data;
@@ -30,7 +30,7 @@ class CartTrigger extends React.Component<ConnectedProps & GraphQLProps, {}> {
         className={styles.cartTrigger}
         to={{
           pathname: PATH_NAMES.cart,
-          state: { modal: true, title: "Корзина" } as any
+          state: { modal: true, title: "Корзина" }
         }}
       >
         {!loading && amount > 0
@@ -48,11 +48,11 @@ class CartTrigger extends React.Component<ConnectedProps & GraphQLProps, {}> {
   }
 }
 
-const mapStateToProps = (state: IRootReducer) => ({
+const mapStateToProps = (state: IRootReducer): StateProps => ({
   router: state.router
 });
 
 export default compose(
-  connect<ConnectedProps, {}, {}>(mapStateToProps),
-  graphql<GraphQLProps, {}>(CART_QUERY)
-)(CartTrigger as any);
+  graphql<GraphQLProps, {}>(CART_QUERY),
+  connect<StateProps, {}, {}>(mapStateToProps)
+)(CartTrigger);

@@ -18,10 +18,10 @@ const CATEGORY_QUERY = gql(require("./category.gql"));
 const styles = require("./styles.css");
 
 interface IDataCategory extends QueryProps {
-  category: ICategory;
+  category?: ICategory;
 }
 
-interface ConnectedProps {
+interface StateProps {
   router: IRouterReducer;
 }
 
@@ -34,7 +34,7 @@ interface OwnProps {
 }
 
 class Category extends React.Component<
-  ConnectedProps & GraphQLProps & OwnProps,
+  StateProps & GraphQLProps & OwnProps,
   {}
 > {
   isCurrentPage = () => {
@@ -56,7 +56,7 @@ class Category extends React.Component<
         style={getScrollableStyle(this.isCurrentPage())}
       >
         <div className={styles.categoryName}>
-          {category.name}
+          {category!.name}
         </div>
         <Products categoryId={id} />
       </div>
@@ -73,11 +73,11 @@ const options: OperationOption<OwnProps, GraphQLProps> = {
   })
 };
 
-const mapStateToProps = (state: IRootReducer) => ({
+const mapStateToProps = (state: IRootReducer): StateProps => ({
   router: state.router
 });
 
 export default compose(
   graphql<GraphQLProps, OwnProps>(CATEGORY_QUERY, options),
-  connect<ConnectedProps, {}, OwnProps>(mapStateToProps)
+  connect<StateProps, {}, OwnProps>(mapStateToProps)
 )(Category);

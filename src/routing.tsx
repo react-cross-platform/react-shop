@@ -7,6 +7,7 @@ import { CartModal } from "./modules/cart/index";
 import { FlatPageModal } from "./modules/layout/index";
 import { ProductModal } from "./modules/product/index";
 import { CartPage, CategoryPage, HomePage, ProductPage } from "./pages/index";
+import { IPage } from "./pages/interfaces";
 
 export const PATH_NAMES = {
   home: "/",
@@ -16,10 +17,12 @@ export const PATH_NAMES = {
   flatpage: "/flatpage/:id/"
 };
 
-class Routing extends React.Component<any, any> {
+interface Props extends IPage {}
+
+class Routing extends React.Component<Props, {}> {
   previousLocation = this.props.location;
 
-  componentWillUpdate(nextProps) {
+  componentWillUpdate(nextProps: Props) {
     const { location } = this.props;
     if (
       nextProps.history.action !== "POP" &&

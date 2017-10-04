@@ -1,5 +1,6 @@
 import { Flex } from "antd-mobile";
 import gql from "graphql-tag";
+import { History } from "history";
 import * as React from "react";
 import { graphql, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
@@ -17,7 +18,7 @@ import { ICart } from "../model";
 
 const styles = require("./styles.css");
 
-interface ConnectedProps {
+interface StateProps {
   router: IRouterReducer;
 }
 
@@ -30,7 +31,7 @@ interface GraphQLProps {
 }
 
 interface OwnProps {
-  history: any;
+  history: History;
   isModal: boolean;
 }
 
@@ -49,10 +50,7 @@ export const getCartAmount = (cart?: ICart): number => {
   return cart && cart.items ? cart.items.length : 0;
 };
 
-class Cart extends React.Component<
-  ConnectedProps & GraphQLProps & OwnProps,
-  {}
-> {
+class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
   handleClick = e => {
     e.stopPropagation();
     const { isModal, history } = this.props;
@@ -110,7 +108,7 @@ class Cart extends React.Component<
   }
 }
 
-const mapStateToProps = (state: IRootReducer) => ({
+const mapStateToProps = (state: IRootReducer): StateProps => ({
   router: state.router
 });
 
@@ -118,5 +116,5 @@ export const CART_QUERY = gql(require("./cart.gql"));
 
 export default compose(
   graphql<GraphQLProps, OwnProps>(CART_QUERY),
-  connect<ConnectedProps, {}, OwnProps>(mapStateToProps)
+  connect<StateProps, {}, OwnProps>(mapStateToProps)
 )(Cart);

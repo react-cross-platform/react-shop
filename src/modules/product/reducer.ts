@@ -1,6 +1,6 @@
 import update from "immutability-helper";
 
-import { ACTION_SELECT_COLOR, ACTION_SELECT_SUBPRODUCT } from "./constants";
+import { ACTION_SELECT_COLOR, ACTION_SELECT_SUB_PRODUCT } from "./constants";
 
 export interface IProductReducer {
   readonly subProductId?: string;
@@ -14,10 +14,10 @@ const DEFAULT_PRODUCT: IProductReducer = {
 
 const product = (state = DEFAULT_PRODUCT, action) => {
   switch (action.type) {
-    case ACTION_SELECT_SUBPRODUCT:
+    case ACTION_SELECT_SUB_PRODUCT:
       return update(state, {
-        colorId: { $set: action.colorId },
-        subProductId: { $set: action.subProductId }
+        subProductId: { $set: action.id },
+        colorId: { $set: action.colorId }
       });
 
     case ACTION_SELECT_COLOR:

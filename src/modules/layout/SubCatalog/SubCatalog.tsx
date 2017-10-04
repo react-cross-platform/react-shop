@@ -2,6 +2,7 @@ import { Card, Flex } from "antd-mobile";
 import { compile } from "path-to-regexp";
 import * as React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { push } from "react-router-redux";
 
 import { Dispatch, IRouterReducer } from "../../../interfaces";
@@ -14,94 +15,71 @@ import { ACTION_DISABLE_CATALOG } from "../constants";
 
 const styles = require("./styles.css");
 
-interface ConnectedProps {
+interface StateProps {
   catalog: ICatalogReducer;
   router: IRouterReducer;
-  dispatch: Dispatch;
+  dispatch?: Dispatch;
 }
 
 interface OwnProps {
   categories: [ICategory];
-  isDrawer: boolean;
 }
 
-function chunk(arr, len = 1) {
-  const chunks: any = [];
-  let i = 0;
-  const n = arr.length;
-
-  while (i < n) {
-    chunks.push(arr.slice(i, (i += len)));
-  }
-  return chunks;
-}
-
-class SubCatalog extends React.Component<ConnectedProps & OwnProps, any> {
-  onClick = (event, cat) => {
-    const { dispatch } = this.props;
-    dispatch({ type: ACTION_ADD_VIEWED_CATEGORY, categoryId: cat.id });
-    Promise.resolve(
-      dispatch({ type: ACTION_DISABLE_CATALOG })
-    ).then(response => {
-      if (!this.isCurrentCategory(cat.id)) {
-        const url = compile(PATH_NAMES.category)({ id: cat.id });
-        dispatch(push(url));
-      }
-    });
-  };
-
-  isViewed(id) {
-    const { catalog, categories } = this.props;
-    return catalog.viewedCategoryIds.indexOf(id) !== -1;
+class SubCatalog extends React.Component<StateProps & OwnProps, {}> {
+  isViewed(category: ICategory) {
+    const { catalog: { viewedCategoryIds } } = this.props;
+    return viewedCategoryIds.indexOf(category.id) !== -1;
   }
 
-  isCurrentCategory = id => {
+  getPath(category: ICategory) {
+    return compile(PATH_NAMES.category)({ id: category.id });
+  }
+
+  isCurrentCategory = (category: ICategory) => {
     const { router: { location: { pathname } } } = this.props;
-    return pathname.search(`/category/${id}/`) !== -1;
+    return pathname === this.getPath(category);
   };
 
   render() {
-    const { categories, isDrawer } = this.props;
+    const { categories } = this.props;
     const height = window.innerWidth / 2;
     return (
-      <div>
-        {chunk(categories, 2).map((cats, i) =>
-          <Flex justify="center" key={i}>
-            {cats.map((cat, index) =>
-              <Flex.Item
-                className={styles.flexItem}
-                key={`cat${index}`}
-                style={{
-                  borderColor: this.isViewed(cat.id) ? "orange" : "lightgrey"
-                }}
-                onClick={e => this.onClick(e, cat)}
-              >
-                <Card
-                  className={styles.category}
-                  style={{
-                    opacity: this.isCurrentCategory(cat.id) ? 0.3 : 1,
-                    justifyContent: "center"
-                  }}
-                >
-                  <img className={styles.image} src={cat.image.src || ""} />
-                  <div className={styles.name}>
-                    {cat.name}
-                  </div>
-                </Card>
-              </Flex.Item>
-            )}
-          </Flex>
+      <Flex wrap="wrap">
+        {categories.map((category, i) =>
+          <Link
+            key={`cat${i}`}
+            to={this.getPath(category)}
+            className={styles.flexItem}
+            style={{
+              borderColor: this.isViewed(category) ? "orange" : "lightgrey",
+              width:
+                categories.length % 2 !== 0 && i + 1 === categories.length
+                  ? "100%"
+                  : "50%"
+            }}
+          >
+            <Card
+              className={styles.category}
+              style={{
+                opacity: this.isCurrentCategory(category) ? 0.3 : 1,
+                justifyContent: "center"
+              }}
+            >
+              <img className={styles.image} src={category.image.src || ""} />
+              <div className={styles.name}>
+                {category.name}
+              </div>
+            </Card>
+          </Link>
         )}
-      </div>
+      </Flex>
     );
   }
 }
 
-const mapStateToProps = (state: IRootReducer) => ({
+const mapStateToProps = (state: IRootReducer): StateProps => ({
   catalog: state.catalog,
   router: state.router
 });
 
-export default connect<ConnectedProps, {}, OwnProps>(mapStateToProps as any)(
-  SubCatalog
-);
+export default connect<StateProps, {}, OwnProps>(mapStateToProps)(SubCatalog);

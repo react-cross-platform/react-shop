@@ -30,8 +30,16 @@ const CONFIRM_OPTIONS = [
   </Flex>
 ];
 
+interface IRemoveCartItem {
+  data: {
+    removeCartItem: {
+      totalPrice: number;
+    };
+  };
+}
+
 interface GraphQLProps {
-  submit: (id: number) => void;
+  submit: (id: number) => IRemoveCartItem;
 }
 
 interface OwnProps {
@@ -73,14 +81,13 @@ class RemoveCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
 }
 
 const REMOVE_CART_ITEM_MUTATION = gql(require("./removeCartItem.gql"));
-
 const options: OperationOption<OwnProps, GraphQLProps> = {
   props: ({ ownProps, mutate }) => {
     return {
-      submit(id) {
-        return (mutate as any)({
+      submit: id => {
+        return mutate!({
           variables: { id },
-          update: (store, { removeCartItem }) => {
+          update: (store, props: IRemoveCartItem) => {
             const data = store.readQuery({ query: CART_QUERY }) as IDataCart;
             if (data.cart) {
               data.cart.items = data.cart.items.filter(item => item.id !== id);

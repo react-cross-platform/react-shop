@@ -1,18 +1,19 @@
 .category {
+  margin: 2px;
   height: 155px;
   padding-bottom: 2px;
   padding-top: 7px;
   align-items: center;
-  /* justify-content: center; */
 }
 
 .name {
   margin: 0.1rem 0;
   max-width: 80%;
+  color: black;
 }
 
 .flexItem {
-  margin: 3px !important;
+  /* margin: 3px !important; */
   text-align: center;
 }
 

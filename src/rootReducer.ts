@@ -6,15 +6,15 @@ import { IRouterReducer } from "./interfaces";
 import { default as catalog, ICatalogReducer } from "./modules/catalog/reducer";
 import { default as product, IProductReducer } from "./modules/product/reducer";
 
-const apollo: any = client.reducer();
-const router: any = routerReducer;
-
 export interface IRootReducer {
-  apollo: any;
+  apollo: {};
   router: IRouterReducer;
   catalog: ICatalogReducer;
   product: IProductReducer;
 }
+
+const apollo = client.reducer();
+const router = routerReducer;
 
 const rootReducers = combineReducers({
   apollo,

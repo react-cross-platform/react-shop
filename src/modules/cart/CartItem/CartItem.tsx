@@ -33,7 +33,7 @@ class CartItem extends React.Component<OwnProps, {}> {
     const { product } = subProduct;
     const linkProps = {
       to: {
-        pathname: compile(PATH_NAMES.product)({ id }),
+        pathname: compile(PATH_NAMES.product)({ id: product.id }),
         state: {
           modal: true,
           title: this.getName()

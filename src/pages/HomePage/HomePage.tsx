@@ -12,11 +12,11 @@ import { IPage } from "../interfaces";
 
 const styles = require("./styles.css");
 
-interface IConnectedHomePageProps {
+interface StateProps {
   router: IRouterReducer;
 }
 
-class HomePage extends React.Component<IConnectedHomePageProps, {}> {
+class HomePage extends React.Component<StateProps, {}> {
   isCurrentPage = () => {
     const { router } = this.props;
     return router.location.pathname === PATH_NAMES.home;
@@ -28,9 +28,7 @@ class HomePage extends React.Component<IConnectedHomePageProps, {}> {
         className={styles.homePage}
         style={getScrollableStyle(this.isCurrentPage())}
       >
-        <WingBlank size="sm">
-          <Catalog isDrawer={false} />
-        </WingBlank>
+        <Catalog />
         <WhiteSpace size="lg" />
         <FlatPages />
       </div>
@@ -38,10 +36,8 @@ class HomePage extends React.Component<IConnectedHomePageProps, {}> {
   }
 }
 
-const mapStateToProps = (state: IRootReducer) => ({
+const mapStateToProps = (state: IRootReducer): StateProps => ({
   router: state.router
 });
 
-export default connect<IConnectedHomePageProps, {}, {}>(mapStateToProps)(
-  HomePage
-);
+export default connect<StateProps, {}, {}>(mapStateToProps)(HomePage);

@@ -2,39 +2,48 @@ import { Flex, WingBlank } from "antd-mobile";
 import gql from "graphql-tag";
 import { compile } from "path-to-regexp";
 import * as React from "react";
-import { compose, graphql, QueryProps } from "react-apollo";
+import { compose, graphql, OperationOption, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
+import { ActionCreator } from "redux";
 
-import { Dispatch, IRouterReducer } from "../../../interfaces";
+import { IRouterReducer } from "../../../interfaces";
+import { IRootReducer } from "../../../rootReducer";
 import { PATH_NAMES } from "../../../routing";
 import { CART_QUERY, IDataCart } from "../../cart/Cart/Cart";
 import { ACTION_ADD_VIEWED_PRODUCT } from "../../catalog/constants";
 import { Loading } from "../../layout/index";
 import { getScrollableStyle } from "../../layout/Modal/Modal";
-import { ACTION_SELECT_SUBPRODUCT } from "../constants";
+import { ACTION_SELECT_SUB_PRODUCT } from "../constants";
 import { Images, ProductInfo, ProductToCart } from "../index";
 import { IProduct, ISubProduct } from "../model";
 import { IProductReducer } from "../reducer";
 
-const PRODUCT_QUERY = gql(require("./product.gql"));
-
 const styles = require("./styles.css");
 
 interface IDataProduct extends QueryProps {
-  product: IProduct;
+  product?: IProduct;
 }
 
-interface IConnectedProductProps {
+interface GraphQLProps {
   dataProduct: IDataProduct;
   dataCart: IDataCart;
+}
+
+interface StateProps {
   product: IProductReducer;
-  dispatch: Dispatch;
   router: IRouterReducer;
 }
 
-interface IProductProps {
+interface DispatchProps {
+  addViewedSubProduct: (id: string) => void;
+  selectSubProduct: (id: string, color: number) => void;
+}
+
+interface OwnProps {
   id: string;
 }
+
+interface Props extends GraphQLProps, StateProps, DispatchProps, OwnProps {}
 
 const getActiveSubProduct = (subProducts, subProductId): ISubProduct => {
   return (
@@ -54,31 +63,24 @@ function createMarkup(html) {
   return { __html: html };
 }
 
-class Product extends React.Component<
-  IConnectedProductProps & IProductProps,
-  any
-> {
+class Product extends React.Component<Props, {}> {
   componentWillMount() {
-    const { dispatch, id } = this.props;
-    dispatch({ type: ACTION_ADD_VIEWED_PRODUCT, productId: id });
+    const { id, addViewedSubProduct } = this.props;
+    addViewedSubProduct(id);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     const { dataProduct } = nextProps;
     const { loading, product } = dataProduct;
     if (!loading) {
-      const { subProducts } = product;
+      const { subProducts } = product!;
       const { subProductId } = nextProps.product;
       const subProductIds = subProducts.map(sp => sp.id);
-      const subProductColor = product.images.filter(
+      const subProductColor = product!.images.filter(
         el => el.colorValue !== ""
       )[0].id;
-      if (subProductIds.indexOf(subProductId) === -1) {
-        this.props.dispatch({
-          colorId: subProductColor,
-          subProductId: subProductIds[0],
-          type: ACTION_SELECT_SUBPRODUCT
-        });
+      if (subProductIds.indexOf(subProductId!) === -1) {
+        this.props.selectSubProduct(subProductIds[0], subProductColor);
       }
     }
   }
@@ -96,7 +98,7 @@ class Product extends React.Component<
       return <Loading />;
     }
     const subProductId = parseInt(this.props.product.subProductId, 0);
-    const { id, brand, images, subProducts } = product;
+    const { id, brand, images, subProducts } = product!;
     const activeSubProduct = getActiveSubProduct(subProducts, subProductId);
     const { price, oldPrice } = activeSubProduct;
     const subProductIdsInCart = getSubProductIdsInCart(dataCart);
@@ -114,13 +116,13 @@ class Product extends React.Component<
           >
             <Images images={images} />
             <WingBlank className={styles.productName}>
-              {product.name}
+              {product!.name}
               <br />
               {brand.name} {activeSubProduct.article}
             </WingBlank>
           </Flex>
           <ProductInfo
-            dataProduct={product}
+            dataProduct={product!}
             activeSubProduct={activeSubProduct}
             subProductIdsInCart={subProductIdsInCart}
           />
@@ -136,12 +138,29 @@ class Product extends React.Component<
   }
 }
 
-const mapStateToProps: any = state => ({
+const mapStateToProps = (state: IRootReducer): StateProps => ({
   product: state.product,
   router: state.router
 });
 
-const productOptions = {
+const mapDispatchToProps = (dispatch): DispatchProps => ({
+  addViewedSubProduct: id => {
+    dispatch({
+      type: ACTION_ADD_VIEWED_PRODUCT,
+      subProductId: id
+    });
+  },
+  selectSubProduct: (id, colorId) => {
+    dispatch({
+      type: ACTION_SELECT_SUB_PRODUCT,
+      id,
+      colorId
+    });
+  }
+});
+
+const PRODUCT_QUERY = gql(require("./product.gql"));
+const productOptions: OperationOption<OwnProps, GraphQLProps> = {
   name: "dataProduct",
   options: props => ({
     variables: {
@@ -150,12 +169,15 @@ const productOptions = {
   })
 };
 
-const cartOptions = {
+const cartOptions: OperationOption<OwnProps, GraphQLProps> = {
   name: "dataCart"
 };
 
 export default compose(
-  connect<IConnectedProductProps, {}, IProductProps>(mapStateToProps),
+  connect<StateProps, DispatchProps, OwnProps>(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   graphql(PRODUCT_QUERY, productOptions),
   graphql(CART_QUERY, cartOptions)
-)(Product as any) as any;
+)(Product);

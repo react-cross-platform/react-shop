@@ -1,4 +1,5 @@
-import { Flex, Icon, Modal } from "antd-mobile";
+import { Flex, Icon } from "antd-mobile";
+import { History } from "history";
 import * as React from "react";
 
 import { CartTrigger } from "../../cart/index";
@@ -7,7 +8,7 @@ const styles = require("./styles.css");
 
 interface OwnProps {
   title: string;
-  history: any;
+  history: History;
 }
 
 class Navbar extends React.Component<OwnProps, {}> {

@@ -10,7 +10,7 @@ import { PATH_NAMES } from "../../../routing";
 
 const styles = require("./styles.css");
 
-interface ConnectedProps {
+interface StateProps {
   router: IRouterReducer;
 }
 
@@ -31,7 +31,7 @@ const Logo = ({ isActive }) => {
   );
 };
 
-class HomeTrigger extends React.Component<ConnectedProps, {}> {
+class HomeTrigger extends React.Component<StateProps, {}> {
   render() {
     const { router } = this.props;
     const isActive = router.location.pathname === PATH_NAMES.home;
@@ -47,8 +47,8 @@ class HomeTrigger extends React.Component<ConnectedProps, {}> {
   }
 }
 
-const mapStateToProps = (state: IRootReducer) => ({
+const mapStateToProps = (state: IRootReducer): StateProps => ({
   router: state.router
 });
 
-export default connect<ConnectedProps, {}, {}>(mapStateToProps)(HomeTrigger);
+export default connect<StateProps, {}, {}>(mapStateToProps)(HomeTrigger);

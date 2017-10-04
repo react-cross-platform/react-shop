@@ -1,5 +1,6 @@
 import { Flex } from "antd-mobile";
 import * as React from "react";
+
 import { prettyPrice } from "../utils";
 
 const styles = require("./styles.css");
@@ -8,7 +9,7 @@ interface OwnProps {
   price: number;
   oldPrice?: number;
   currency?: string;
-  style?: any;
+  style?: React.CSSProperties;
 }
 
 class Price extends React.Component<OwnProps, {}> {

@@ -10,6 +10,7 @@ class Header extends React.Component<{}, {}> {
   render() {
     return (
       <Flex className={styles.header} justify="between" align="center">
+        <div style={{ width: 40 }} />
         <HomeTrigger />
         <CartTrigger />
       </Flex>

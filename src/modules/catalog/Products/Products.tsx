@@ -30,14 +30,14 @@ const SCROLL_THROTTLE = 250;
 const FETCH_MORE_THRESHOLD = 750;
 
 interface IDataProducts extends QueryProps {
-  allProducts: IAllProduct;
+  allProducts?: IAllProduct;
 }
 
 interface GraphQLProps {
   data: IDataProducts;
 }
 
-interface ConnectedProps {
+interface StateProps {
   catalog: ICatalogReducer;
   router: IRouterReducer;
 }
@@ -51,10 +51,9 @@ interface State {
   scrolledProducts?: number;
 }
 
-class Products extends React.Component<
-  ConnectedProps & GraphQLProps & OwnProps,
-  State
-> {
+interface Props extends StateProps, GraphQLProps, OwnProps {}
+
+class Products extends React.Component<Props, State> {
   ref;
 
   bottomHeight: number;
@@ -68,7 +67,8 @@ class Products extends React.Component<
 
   refineScrolledProducts = scrolledProducts => {
     const { data } = this.props;
-    const { fetchMore, allProducts: { products, total } } = data;
+    const { fetchMore, allProducts } = data;
+    const { products, total } = allProducts!;
 
     if (scrolledProducts < LIMIT) {
       scrolledProducts = LIMIT > total ? total : LIMIT;
@@ -81,7 +81,8 @@ class Products extends React.Component<
   handleScroll = event => {
     const { router, data } = this.props;
     if (router.location.pathname.search("category") !== -1) {
-      const { fetchMore, allProducts: { products, total } } = data;
+      const { fetchMore, allProducts } = data;
+      const { products, total } = allProducts!;
 
       // Calculate scrolled products
       const scrollTop = event.srcElement.scrollTop;
@@ -114,7 +115,7 @@ class Products extends React.Component<
     window.removeEventListener("scroll", this.handleScrollThrottle, true);
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: Props, prevState: State) {
     const { loading, allProducts } = this.props.data;
     if (loading === false) {
       this.bottomHeight =
@@ -125,10 +126,10 @@ class Products extends React.Component<
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     const { loading, allProducts } = nextProps.data;
     if (loading === false) {
-      const { products, total } = allProducts;
+      const { products, total } = allProducts!;
       if (products.length >= total) {
         this.setState({
           haveMoreProducts: false
@@ -144,7 +145,7 @@ class Products extends React.Component<
     if (loading === true) {
       return <Loading />;
     }
-    const { products, total } = allProducts;
+    const { products, total } = allProducts!;
     const filteredProducts =
       showOnlyViewed === true
         ? products.filter(p => viewedProductIds.indexOf(p.id) !== -1)
@@ -248,12 +249,12 @@ const options: OperationOption<OwnProps, GraphQLProps> = {
   }
 };
 
-const mapStateToProps = (state: IRootReducer) => ({
+const mapStateToProps = (state: IRootReducer): StateProps => ({
   catalog: state.catalog,
   router: state.router
 });
 
 export default compose(
   graphql<GraphQLProps, OwnProps>(ALL_PRODUCTS_QUERY, options),
-  connect<ConnectedProps, {}, OwnProps>(mapStateToProps)
+  connect<StateProps, {}, OwnProps>(mapStateToProps)
 )(Products);

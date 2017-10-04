@@ -10,15 +10,7 @@ interface OwnProps {
   images: [IImage];
 }
 
-interface State {
-  initialHeight: any;
-}
-
-class Images extends React.Component<OwnProps, State> {
-  state = {
-    initialHeight: 200
-  };
-
+class Images extends React.Component<OwnProps, {}> {
   render() {
     const { images } = this.props;
     const maxImageHeight = Math.max(
@@ -53,16 +45,7 @@ class Images extends React.Component<OwnProps, State> {
                 height
               }}
             >
-              <img
-                className={styles.image}
-                src={image.src}
-                onLoad={() => {
-                  window.dispatchEvent(new Event("resize"));
-                  this.setState({
-                    initialHeight: null
-                  });
-                }}
-              />
+              <img className={styles.image} src={image.src} />
             </Flex>
           )}
         </Carousel>

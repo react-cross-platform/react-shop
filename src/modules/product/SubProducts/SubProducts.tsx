@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { IRootReducer } from "../../../rootReducer";
 import { Price } from "../../common/index";
-import { ACTION_SELECT_SUBPRODUCT } from "../constants";
+import { ACTION_SELECT_SUB_PRODUCT } from "../constants";
 import { ISubProduct } from "../model";
 import { IProductReducer } from "../reducer";
 
@@ -13,12 +13,16 @@ const styles = require("./styles.css");
 const Item = List.Item;
 const Brief = Item.Brief;
 
-interface ConnectedProps {
+interface StateProps {
   product: IProductReducer;
 }
 
+interface DispatchProps {
+  _selectSubProduct: (id: string, colorId: number) => void;
+}
+
 interface MergedProps {
-  changePrice: (subProductId: string) => void;
+  selectSubProduct: (id: string) => void;
 }
 
 interface OwnProps {
@@ -26,7 +30,7 @@ interface OwnProps {
   subProductIdsInCart: number[];
 }
 
-interface Props extends ConnectedProps, MergedProps, OwnProps {}
+interface Props extends StateProps, MergedProps, OwnProps {}
 
 class SubProducts extends React.Component<Props, {}> {
   isActive = (subProduct: ISubProduct) => {
@@ -39,14 +43,14 @@ class SubProducts extends React.Component<Props, {}> {
   };
 
   render() {
-    const { subProducts, changePrice } = this.props;
+    const { subProducts, selectSubProduct } = this.props;
     return (
       <div>
         <List>
           {subProducts.map((subProduct, index) =>
             <Item
               key={index}
-              onClick={() => changePrice(subProduct.id)}
+              onClick={() => selectSubProduct(subProduct.id)}
               thumb={
                 this.isActive(subProduct)
                   ? <Icon
@@ -90,32 +94,33 @@ class SubProducts extends React.Component<Props, {}> {
   }
 }
 
-const mapStateToProps = (state: IRootReducer) => ({
+const mapStateToProps = (state: IRootReducer): StateProps => ({
   product: state.product
 });
 
-const mapDispatchToProps = (dispatch, props) => {
-  return {
-    _changePrice: (subProductId, colorId) => {
-      dispatch({
-        subProductId,
-        colorId,
-        type: ACTION_SELECT_SUBPRODUCT
-      });
-    }
-  };
-};
+const mapDispatchToProps = (dispatch): DispatchProps => ({
+  _selectSubProduct: (id, colorId) => {
+    dispatch({
+      type: ACTION_SELECT_SUB_PRODUCT,
+      id,
+      colorId
+    });
+  }
+});
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
+const mergeProps = (
+  stateProps: StateProps,
+  dispatchProps,
+  ownProps: OwnProps
+): Props => {
   return {
     ...ownProps,
     ...stateProps,
-    changePrice: subProductId =>
-      dispatchProps._changePrice(subProductId, stateProps.product.colorId)
+    selectSubProduct: id =>
+      dispatchProps._selectSubProduct(id, stateProps.product.colorId)
   };
 };
 
-// TODO: add correct interfaces to connect
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(
   SubProducts
 );

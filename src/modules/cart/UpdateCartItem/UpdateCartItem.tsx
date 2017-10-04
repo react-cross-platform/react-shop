@@ -2,10 +2,20 @@ import gql from "graphql-tag";
 import React from "react";
 import { graphql, OperationOption } from "react-apollo";
 
+import { ICartItem } from "../model";
+
 const styles = require("./styles.css");
 
+interface IUpdateCartItem {
+  data: {
+    updateCartItem: {
+      cartItem: ICartItem;
+    };
+  };
+}
+
 interface GraphQLProps {
-  submit: (id: number, amount: number) => void;
+  submit: (id: number, amount: number) => IUpdateCartItem;
 }
 
 interface OwnProps {
@@ -25,7 +35,7 @@ class UpdateCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
     return (
       <select
         value={amount}
-        onChange={this.onChange as any}
+        onChange={this.onChange}
         className={styles.updateCartItem}
       >
         {[...Array(10).keys()].map(i =>
@@ -43,13 +53,14 @@ const UPDATE_CART_ITEM_MUTATION = gql(require("./updateCartItem.gql"));
 const options: OperationOption<OwnProps, GraphQLProps> = {
   props: ({ ownProps, mutate }) => {
     return {
-      submit(id: number, amount: number) {
-        return (mutate as any)({ variables: { id, amount } });
+      submit: (id: number, amount: number) => {
+        return mutate!({ variables: { id, amount } });
       }
     };
   }
 };
 
-export default graphql<GraphQLProps, OwnProps>(UPDATE_CART_ITEM_MUTATION, options)(
-  UpdateCartItem
-);
+export default graphql<GraphQLProps, OwnProps>(
+  UPDATE_CART_ITEM_MUTATION,
+  options
+)(UpdateCartItem);

@@ -16,7 +16,7 @@ const getMinOfArray = numArray => {
   return Math.min.apply(null, numArray);
 };
 
-interface ConnectedProps {
+interface StateProps {
   catalog: ICatalogReducer;
 }
 
@@ -26,7 +26,7 @@ interface State {
   titleImage: IImageWithColor;
 }
 
-class Product extends React.Component<ConnectedProps & OwnProps, State> {
+class Product extends React.Component<StateProps & OwnProps, State> {
   componentWillMount() {
     const { imagesWithColor } = this.props;
     this.setState({
@@ -170,8 +170,8 @@ class Product extends React.Component<ConnectedProps & OwnProps, State> {
   }
 }
 
-const mapStateToProps = (state: IRootReducer) => ({
+const mapStateToProps = (state: IRootReducer): StateProps => ({
   catalog: state.catalog
 });
 
-export default connect<ConnectedProps, {}, OwnProps>(mapStateToProps)(Product);
+export default connect<StateProps, {}, OwnProps>(mapStateToProps)(Product);

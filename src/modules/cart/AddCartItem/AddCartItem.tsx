@@ -3,16 +3,25 @@ import update from "immutability-helper";
 import React from "react";
 import { graphql, OperationOption } from "react-apollo";
 
-import { CART_QUERY } from "../Cart/Cart";
+import { CART_QUERY, IDataCart } from "../Cart/Cart";
+import { ICartItem } from "../model";
 
 const styles = require("./styles.css");
 
-interface GraphQLProps {
-  submit: (subProductId: number) => void;
+interface IAddCartItem {
+  data: {
+    addCartItem: {
+      cartItem: ICartItem;
+    };
+  };
 }
 
 interface OwnProps {
   subProductId: number;
+}
+
+interface GraphQLProps {
+  submit: (subProductId: number) => IAddCartItem;
 }
 
 class AddCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
@@ -27,20 +36,20 @@ class AddCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
 }
 
 const ADD_CART_ITEM_MUTATION = gql(require("./addCartItem.gql"));
-
 const options: OperationOption<OwnProps, GraphQLProps> = {
   props: ({ ownProps, mutate }) => {
     return {
-      submit(subProductId: number) {
-        return (mutate as any)({
+      submit: (subProductId: number) => {
+        mutate!({
           variables: { subProductId },
-          update: (store, { data: { addCartItem: { cartItem } } }) => {
-            const data = store.readQuery({ query: CART_QUERY });
+          update: (store, props: IAddCartItem) => {
+            const { data: { addCartItem: { cartItem } } } = props;
+            const data: IDataCart = store.readQuery({ query: CART_QUERY });
             if (!data.cart) {
               data.cart = cartItem.cart;
-              data.cart.items = [];
+              data.cart!.items = [];
             }
-            data.cart.items.push(cartItem);
+            data.cart!.items.push(cartItem);
             store.writeQuery({ query: CART_QUERY, data });
           }
         });

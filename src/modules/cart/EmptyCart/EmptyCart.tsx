@@ -1,4 +1,5 @@
 import { Flex } from "antd-mobile";
+import { History } from "history";
 import * as React from "react";
 
 import { PATH_NAMES } from "../../../routing";
@@ -6,12 +7,12 @@ import { PATH_NAMES } from "../../../routing";
 const styles = require("./styles.css");
 
 export interface OwnProps {
-  history: any;
+  history: History;
   isModal: boolean;
 }
 
 class EmptyCart extends React.Component<OwnProps, {}> {
-  handleClick = e => {
+  handleClick = () => {
     const { isModal, history } = this.props;
     if (isModal) {
       history.goBack();
@@ -26,7 +27,7 @@ class EmptyCart extends React.Component<OwnProps, {}> {
         direction="column"
         justify="center"
         align="center"
-        onClick={this.handleClick as any}
+        onClick={this.handleClick}
         className={styles.emptyCart}
       >
         <img

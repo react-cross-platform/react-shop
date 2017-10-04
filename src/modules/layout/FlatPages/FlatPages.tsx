@@ -18,7 +18,7 @@ interface IFlatPagesData extends QueryProps {
   flatPages: [IFlatPage];
 }
 
-interface ConnectedProps {
+interface StateProps {
   router: IRouterReducer;
 }
 
@@ -30,7 +30,7 @@ function createMarkup(html) {
   return { __html: html };
 }
 
-class FlatPages extends React.Component<ConnectedProps & GraphQLProps, {}> {
+class FlatPages extends React.Component<StateProps & GraphQLProps, {}> {
   state = {
     page: {
       content: "",
@@ -144,19 +144,18 @@ class FlatPages extends React.Component<ConnectedProps & GraphQLProps, {}> {
   }
 }
 
-const mapStateToProps = (state: IRootReducer) => ({
+const mapStateToProps = (state: IRootReducer): StateProps => ({
   router: state.router
 });
 
 const FLATPAGES_QUERY = gql(require("./flatpages.gql"));
-
-const options: OperationOption<ConnectedProps, GraphQLProps> = {
+const options: OperationOption<StateProps, GraphQLProps> = {
   options: ({ router }) => ({
     skip: !(router.location.pathname === PATH_NAMES.home)
   })
 };
 
 export default compose(
-  connect<ConnectedProps, {}, {}>(mapStateToProps),
-  graphql<GraphQLProps, ConnectedProps>(FLATPAGES_QUERY, options)
+  connect<StateProps, {}, {}>(mapStateToProps),
+  graphql<GraphQLProps, StateProps>(FLATPAGES_QUERY, options)
 )(FlatPages as any);

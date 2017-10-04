@@ -14,11 +14,11 @@ const styles = require("./styles.css");
 const { TabPane } = Tabs;
 const { AgreeItem, CheckboxItem } = Checkbox;
 
-interface ConnectedProps {
+interface StateProps {
   product: IProductReducer;
 }
 
-interface DispatchedProps {
+interface DispatcProps {
   changeColor: (colorId: number) => void;
 }
 
@@ -33,7 +33,7 @@ function createMarkup(html) {
 }
 
 class ProductInfo extends React.Component<
-  ConnectedProps & DispatchedProps & OwnProps,
+  StateProps & DispatcProps & OwnProps,
   {}
 > {
   render() {
@@ -164,11 +164,11 @@ class ProductInfo extends React.Component<
   }
 }
 
-const mapStateToProps = (state: IRootReducer) => ({
+const mapStateToProps = (state: IRootReducer): StateProps => ({
   product: state.product
 });
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch): DispatcProps => {
   return {
     changeColor: (colorId: number) => {
       dispatch({ type: ACTION_SELECT_COLOR, colorId });
@@ -176,7 +176,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect<ConnectedProps, DispatchedProps, OwnProps>(
+export default connect<StateProps, DispatcProps, OwnProps>(
   mapStateToProps,
   mapDispatchToProps
 )(ProductInfo);

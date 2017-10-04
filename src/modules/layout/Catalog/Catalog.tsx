@@ -13,10 +13,10 @@ import { ICategory } from "../../product/model";
 const styles = require("./styles.css");
 
 interface IDataCategory extends QueryProps {
-  categories: [ICategory];
+  categories?: [ICategory];
 }
 
-interface ConnectedProps {
+interface StateProps {
   router: IRouterReducer;
 }
 
@@ -24,23 +24,21 @@ interface GraphQLProps {
   data: IDataCategory;
 }
 
-interface OwnProps {
-  isDrawer: boolean;
-}
+interface OwnProps {}
 
 class Catalog extends React.Component<
-  ConnectedProps & GraphQLProps & OwnProps,
+  StateProps & GraphQLProps & OwnProps,
   {}
 > {
   render() {
-    const { isDrawer, data } = this.props;
-    if (!data || data.loading) {
+    const { data } = this.props;
+    if (data.loading) {
       return <div />;
     }
     const { loading, categories } = data;
     const startCats: ICategory[] = [];
     const childrenMap = {};
-    for (const cat of categories) {
+    for (const cat of categories!) {
       if (cat.parent) {
         const key = cat.parent.id;
         if (!(key in childrenMap)) {
@@ -51,21 +49,14 @@ class Catalog extends React.Component<
         startCats.push(cat);
       }
     }
-    const style = isDrawer
-      ? { width: window.innerWidth * 0.9, padding: 5 }
-      : {};
     return (
-      <div className={styles.catalog} style={style}>
+      <div className={styles.catalog}>
         {startCats.map((parent, i) =>
           <div key={i}>
             <h2>
               {parent.name}
             </h2>
-            <SubCatalog
-              key={i}
-              categories={childrenMap[parent.id]}
-              isDrawer={isDrawer}
-            />
+            <SubCatalog key={i} categories={childrenMap[parent.id]} />
           </div>
         )}
       </div>
@@ -73,18 +64,18 @@ class Catalog extends React.Component<
   }
 }
 
-const mapStateToProps = (state: IRootReducer) => ({
+const mapStateToProps = (state: IRootReducer): StateProps => ({
   router: state.router
 });
 
 const CATEGORIES_QUERY = gql(require("./categories.gql"));
-const options: OperationOption<OwnProps & ConnectedProps, GraphQLProps> = {
+const options: OperationOption<OwnProps & StateProps, GraphQLProps> = {
   options: ({ router }) => ({
     skip: !(router.location.pathname === PATH_NAMES.home)
   })
 };
 
 export default compose(
-  connect<ConnectedProps, {}, OwnProps>(mapStateToProps),
+  connect<StateProps, {}, OwnProps>(mapStateToProps),
   graphql<GraphQLProps, OwnProps>(CATEGORIES_QUERY, options)
-)(Catalog as any) as any;
+)(Catalog as any);

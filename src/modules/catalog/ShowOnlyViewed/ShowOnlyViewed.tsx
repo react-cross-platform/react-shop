@@ -8,18 +8,15 @@ import { ICatalogReducer } from "../reducer";
 
 const styles = require("./styles.css");
 
-interface ConnectedProps {
+interface StateProps {
   catalog: ICatalogReducer;
 }
 
-interface DispatchedProps {
-  toggleViewed: (e) => void;
+interface DispatcProps {
+  toggleViewed: () => void;
 }
 
-class ShowOnlyViewed extends React.Component<
-  ConnectedProps & DispatchedProps,
-  {}
-> {
+class ShowOnlyViewed extends React.Component<StateProps & DispatcProps, {}> {
   render() {
     const {
       toggleViewed,
@@ -43,19 +40,17 @@ class ShowOnlyViewed extends React.Component<
   }
 }
 
-const mapStateToProps = (state: IRootReducer) => ({
+const mapStateToProps = (state: IRootReducer): StateProps => ({
   catalog: state.catalog
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    toggleViewed: e => {
-      dispatch({ type: ACTION_TOGGLE_SHOW_ONLY_VIEWED });
-    }
-  };
-};
+const mapDispatchToProps = (dispatch): DispatcProps => ({
+  toggleViewed: () => {
+    dispatch({ type: ACTION_TOGGLE_SHOW_ONLY_VIEWED });
+  }
+});
 
-export default connect<ConnectedProps, DispatchedProps, {}>(
+export default connect<StateProps, DispatcProps, {}>(
   mapStateToProps,
   mapDispatchToProps
 )(ShowOnlyViewed);
