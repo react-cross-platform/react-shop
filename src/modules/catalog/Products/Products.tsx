@@ -1,19 +1,13 @@
-import { Icon } from "antd-mobile";
 import update from "immutability-helper";
 import { throttle } from "lodash";
 import * as React from "react";
-import {
-  compose,
-  gql,
-  graphql,
-  OperationOption,
-  QueryProps
-} from "react-apollo";
+import { compose, gql, graphql, OperationOption, QueryProps } from "react-apollo";
 import MasonryInfiniteScroller from "react-masonry-infinite";
 import { connect } from "react-redux";
 
 import { IRouterReducer } from "../../../interfaces";
 import { IRootReducer } from "../../../rootReducer";
+import { Icon } from "../../common/index";
 import { Loading } from "../../layout/index";
 import { Product, ProductsCounter } from "../index";
 import { IAllProduct } from "../model";

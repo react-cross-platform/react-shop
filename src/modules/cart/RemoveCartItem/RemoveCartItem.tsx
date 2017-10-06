@@ -1,33 +1,39 @@
-import { ActionSheet, Flex, Icon } from "antd-mobile";
+import { ActionSheet, Flex } from "antd-mobile";
 import gql from "graphql-tag";
 import update from "immutability-helper";
 import React from "react";
 import { graphql } from "react-apollo";
 import { OperationOption } from "react-apollo/types";
 
+import { Icon } from "../../common/index";
 import { CART_QUERY, IDataCart } from "../Cart/Cart";
 
 const styles = require("./styles.css");
 
-let wrapProps;
+// fix touch to scroll background page on iOS
+// https://github.com/ant-design/ant-design-mobile/issues/307
+// https://github.com/ant-design/ant-design-mobile/issues/163
 const isIPhone = new RegExp("\\biPhone\\b|\\biPod\\b", "i").test(
   window.navigator.userAgent
 );
+let wrapProps;
 if (isIPhone) {
   wrapProps = {
-    onTouchStart: e => {
-      e.preventDefault();
-    }
+    onTouchStart: e => e.preventDefault()
   };
 }
 
 const CONFIRM_OPTIONS = [
-  <Flex align="center" justify="center">
-    <Icon
-      className={styles.optionIcon}
-      type={require("!svg-sprite-loader!./remove.svg")}
-    />Удалить
-  </Flex>
+  {
+    title: "УДАЛИТЬ",
+    message: "",
+    icon: (
+      <Icon
+        className={styles.optionIcon}
+        type={require("!svg-sprite-loader!./remove.svg")}
+      />
+    )
+  }
 ];
 
 interface IRemoveCartItem {
@@ -49,16 +55,14 @@ interface OwnProps {
 class RemoveCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
   removeCartItem = () => {
     const { submit, id } = this.props;
-
     const actions = [];
-    (ActionSheet.showActionSheetWithOptions as any)(
+    (ActionSheet as any).showShareActionSheetWithOptions(
       {
-        options: CONFIRM_OPTIONS,
-        cancelButtonIndex: actions.length - 1,
-        destructiveButtonIndex: actions.length - 2,
-        title: "",
-        message: "",
         maskClosable: true,
+        message: "",
+        options: CONFIRM_OPTIONS,
+        title: "",
+        cancelButtonText: "",
         wrapProps
       },
       buttonIndex => {

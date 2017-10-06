@@ -1,8 +1,9 @@
-import { Checkbox, Flex, Icon, Tabs, WhiteSpace, WingBlank } from "antd-mobile";
+import { Checkbox, Flex, WhiteSpace, WingBlank } from "antd-mobile";
 import * as React from "react";
 import { connect } from "react-redux";
 
 import { IRootReducer } from "../../../rootReducer";
+import { Icon } from "../../common/index";
 import { Devider } from "../../layout/index";
 import { ACTION_SELECT_COLOR } from "../constants";
 import { SubProducts } from "../index";
@@ -11,7 +12,6 @@ import { IProductReducer } from "../reducer";
 
 const styles = require("./styles.css");
 
-const { TabPane } = Tabs;
 const { AgreeItem, CheckboxItem } = Checkbox;
 
 interface StateProps {
@@ -79,30 +79,25 @@ class ProductInfo extends React.Component<
                             key={i}
                             type={require("svg-sprite-loader!./circle-check_color.svg")}
                             style={{
-                              fill: e.colorValue,
-                              color: e.colorValue
+                              fill: e.colorValue
                             }}
                           />
                         : <Icon
                             className={styles.colorIcon}
                             key={i}
-                            onClick={() =>
-                              this.props.changeColor(e.id as number)}
+                            onClick={() => this.props.changeColor(e.id)}
                             type={require("svg-sprite-loader!./icon-circle-for-colors.svg")}
                             style={{
-                              fill: e.colorValue,
-                              color: e.colorValue
+                              fill: e.colorValue
                             }}
                           />
                   )
                 : images.filter(el => el.colorValue !== "").map((e, i) =>
                     <Icon
-                      className={styles.tabIcon}
                       key={i}
                       type={require("svg-sprite-loader!./check-circle.svg")}
                       style={{
-                        fill: e.colorValue,
-                        color: e.colorValue
+                        fill: e.colorValue
                       }}
                     />
                   )}

@@ -1,8 +1,8 @@
 .category {
-  margin: 2px;
-  height: 155px;
-  padding-bottom: 2px;
-  padding-top: 7px;
+  margin: .1rem;
+  height: 10rem;
+  padding-bottom: .1rem;
+  padding-top: .5rem;
   align-items: center;
 }
 
@@ -13,12 +13,11 @@
 }
 
 .flexItem {
-  /* margin: 3px !important; */
   text-align: center;
 }
 
 .image {
+  width: 80%;
   height: 80%;
   object-fit: contain;
-  width: 80%;
 }

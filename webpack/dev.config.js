@@ -38,29 +38,6 @@ config.module.rules[1].use = ExtractTextPlugin.extract({
   ]
 });
 
-// config.module.rules[1].use = [
-//   {
-//     loader: "style-loader"
-//   },
-//   {
-//     loader: "css-loader",
-//     options: {
-//       sourceMap: true,
-//     }
-//   },
-//   {
-//     loader: "postcss-loader"
-//   },
-//   {
-//     loader: "less-loader",
-//     options: {
-//       sourceMap: true,
-//       paths: [SRC_PATH],
-//       modifyVars: customTheme
-//     }
-//   },
-// ];
-
 config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
 module.exports = config;

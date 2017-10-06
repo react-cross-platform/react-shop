@@ -1,8 +1,9 @@
-import { Flex, Icon } from "antd-mobile";
+import { Flex } from "antd-mobile";
 import { History } from "history";
 import * as React from "react";
 
 import { CartTrigger } from "../../cart/index";
+import { Icon } from "../../common/index";
 
 const styles = require("./styles.css");
 
@@ -13,7 +14,7 @@ interface OwnProps {
 
 class Navbar extends React.Component<OwnProps, {}> {
   goBack = e => {
-    e.stopPropagation();
+    // e.stopPropagation();
     const { history } = this.props;
     history.goBack();
   };

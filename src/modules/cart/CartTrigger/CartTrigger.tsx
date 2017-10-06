@@ -1,4 +1,4 @@
-import { Flex, Icon } from "antd-mobile";
+import { Flex } from "antd-mobile";
 import * as React from "react";
 import { graphql } from "react-apollo";
 import { connect } from "react-redux";
@@ -8,6 +8,7 @@ import { compose } from "redux";
 import { IRouterReducer } from "../../../interfaces";
 import { IRootReducer } from "../../../rootReducer";
 import { PATH_NAMES } from "../../../routing";
+import { Icon } from "../../common/index";
 import { CART_QUERY, getCartAmount, IDataCart } from "../Cart/Cart";
 
 interface StateProps {

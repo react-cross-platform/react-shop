@@ -8,16 +8,16 @@
 }
 
 .emptyCartImage {
-  width: 70%;
+  width: 65%;
   object-fit: contain;
 }
 
 .emptyCartTitle {
-  font-size: 0.63rem;
-  margin: 20px 0 5px;
+  font-size: 1.75rem;
+  margin: 1.8rem 0 0;
 }
 
 .emptyCartContinue {
   color: darkgrey;
-  padding-bottom: 30px;
+  padding-bottom: 2.2rem;
 }

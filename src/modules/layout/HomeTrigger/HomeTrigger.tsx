@@ -1,4 +1,4 @@
-import { Flex, Icon } from "antd-mobile";
+import { Flex } from "antd-mobile";
 import * as React from "react";
 import { compose } from "react-apollo";
 import { connect } from "react-redux";
@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { Dispatch, IRouterReducer } from "../../../interfaces";
 import { IRootReducer } from "../../../rootReducer";
 import { PATH_NAMES } from "../../../routing";
+import { Icon } from "../../common/index";
 
 const styles = require("./styles.css");
 

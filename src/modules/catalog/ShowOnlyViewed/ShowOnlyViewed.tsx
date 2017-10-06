@@ -1,8 +1,8 @@
-import { Icon } from "antd-mobile";
 import * as React from "react";
 import { connect } from "react-redux";
 
 import { IRootReducer } from "../../../rootReducer";
+import { Icon } from "../../common/index";
 import { ACTION_TOGGLE_SHOW_ONLY_VIEWED } from "../constants";
 import { ICatalogReducer } from "../reducer";
 

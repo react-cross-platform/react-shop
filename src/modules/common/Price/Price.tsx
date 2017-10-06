@@ -12,7 +12,7 @@ interface OwnProps {
   style?: React.CSSProperties;
 }
 
-class Price extends React.Component<OwnProps, {}> {
+class Price extends React.Component<OwnProps, any> {
   render() {
     const { price, oldPrice, style } = this.props;
     const currency = this.props.currency || "грн";
@@ -22,6 +22,7 @@ class Price extends React.Component<OwnProps, {}> {
           className={styles.Price}
           direction="column"
           justify="center"
+          onClick={() => alert("hello")}
         >
           <div className={styles.currentValue}>
             {prettyPrice(price)} {currency}

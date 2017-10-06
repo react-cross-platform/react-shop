@@ -1,8 +1,7 @@
 .Price {
   display: inline-block;
   text-align: center;
-  /* height: 35px; */
-  line-height: 16px;
+  line-height: 1rem;
   font-weight: bold;
 }
 
@@ -12,7 +11,7 @@
 
 .oldValue {
   color: #b94a48;
-  font-size: 12px;
+  font-size: 0.8rem;
   text-decoration: line-through;
 }
 

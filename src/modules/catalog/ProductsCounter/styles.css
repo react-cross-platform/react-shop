@@ -1,6 +1,6 @@
 .productsCounter {
-  bottom: 8px;
-  right: 10px;
+  bottom: 0.7rem;
+  right: 0.8rem;
   color: gray;
   position: fixed;
 }
@@ -11,4 +11,8 @@
   position: fixed;
   right: 0;
   width: 100%;
+}
+
+.progress * {
+  border-color: orange !important;
 }

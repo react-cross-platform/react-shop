@@ -1,12 +1,10 @@
 .productToCart {
   background: white;
   width: 100%;
-  min-height: 40px;
+  min-height: 2.5rem;
   text-align: center !important;
-  box-shadow: 0 0 11px -1px lightgrey;
+  box-shadow: 0 0 0.9rem -0.1rem lightgrey;
   z-index: 1;
-  /* min-height: 40px;
-  flex-shrink: 0; */
   position: fixed;
   bottom: 0;
 }
@@ -20,7 +18,7 @@
 
 .cartSection {
   color: white;
-  line-height: 40px;
+  line-height: 2.5rem;
   width: 50%;
   transition: 0.5s;
 }

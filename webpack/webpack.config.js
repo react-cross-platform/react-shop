@@ -4,9 +4,7 @@ require("dotenv").config();
 
 const path = require("path"),
   webpack = require("webpack"),
-  HtmlwebpackPlugin = require("html-webpack-plugin"),
-  autoprefixer = require("autoprefixer"),
-  pxtorem = require("postcss-pxtorem");
+  HtmlwebpackPlugin = require("html-webpack-plugin");
 
 const SRC_PATH = path.join(__dirname, "../src"),
   STATIC_PATH = path.join(__dirname, "../static"),
@@ -151,13 +149,7 @@ module.exports = {
           filename: "[name]-[hash].js",
           chunkFilename: "[name]-[chunkhash].js"
         },
-        postcss: [
-          autoprefixer({ browsers: ["> 1%", "last 4 versions"] }),
-          pxtorem({
-            rootValue: 100,
-            propWhiteList: []
-          })
-        ]
+        postcss: []
       }
     }),
 

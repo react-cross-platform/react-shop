@@ -1,6 +1,5 @@
 .root {
   background: white;
-  /* box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24); */
   display: block;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
@@ -24,18 +23,18 @@
 }
 
 .info {
-  padding: 5px;
+  padding: 0.4rem;
 }
 
 .title {
   color: black;
-  font-size: 0.25rem;
-  line-height: 0.25rem;
+  font-size: 0.8rem;
+  line-height: 0.9rem;
 }
 
 .price {
   color: #468847;
-  font-size: 0.3rem;
+  font-size: 0.2.5rem;
   font-weight: bold;
-  margin-top: 5px;
+  margin-top: 0.4rem;
 }

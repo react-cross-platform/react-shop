@@ -1,16 +1,15 @@
 .icon {
-  width: 20px;
-  height: 20px;
-  padding: 10px;
+  width: 1rem !important;
+  height: 1rem !important;
+  padding: 0.5rem;
   position: absolute;
   right: 0;
-  fill: rgb(128, 128, 128);
+  fill: gray;
   z-index: 1;
 }
 
 .optionIcon {
-  width: 20px;
-  height: 20px;
+  width: 3rem !important;
+  height: 3rem !important;
   fill: gray;
-  margin-right: 10px;
 }

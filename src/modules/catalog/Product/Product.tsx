@@ -1,11 +1,11 @@
-import { Flex, Icon, WhiteSpace } from "antd-mobile";
+import { Flex, WhiteSpace } from "antd-mobile";
 import { compile } from "path-to-regexp";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { Dispatch } from "../../../interfaces";
 import { IRootReducer } from "../../../rootReducer";
+import { Icon } from "../../common/index";
 import { scaleImageSize } from "../../product/index";
 import { IImageWithColor, IProduct } from "../../product/model";
 import { ICatalogReducer } from "../reducer";

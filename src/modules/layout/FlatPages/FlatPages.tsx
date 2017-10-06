@@ -1,4 +1,4 @@
-import { Icon, List } from "antd-mobile";
+import { List } from "antd-mobile";
 import gql from "graphql-tag";
 import { compile } from "path-to-regexp";
 import * as React from "react";
@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { IRouterReducer } from "../../../interfaces";
 import { IRootReducer } from "../../../rootReducer";
 import { PATH_NAMES } from "../../../routing";
+import { Icon } from "../../common/index";
 import { Loading } from "../index";
 import { IFlatPage } from "../model";
 
@@ -16,10 +17,6 @@ const styles = require("./styles.css");
 
 interface IFlatPagesData extends QueryProps {
   flatPages: [IFlatPage];
-}
-
-interface StateProps {
-  router: IRouterReducer;
 }
 
 interface GraphQLProps {
@@ -30,7 +27,7 @@ function createMarkup(html) {
   return { __html: html };
 }
 
-class FlatPages extends React.Component<StateProps & GraphQLProps, {}> {
+class FlatPages extends React.Component<GraphQLProps, {}> {
   state = {
     page: {
       content: "",
@@ -120,7 +117,7 @@ class FlatPages extends React.Component<StateProps & GraphQLProps, {}> {
 
     return (
       <div>
-        <List style={{ border: "none" }}>
+        <List>
           {flatPages.map(page =>
             <Link key={page.id} {...this.getLinkProps(page)}>
               <List.Item
@@ -144,18 +141,6 @@ class FlatPages extends React.Component<StateProps & GraphQLProps, {}> {
   }
 }
 
-const mapStateToProps = (state: IRootReducer): StateProps => ({
-  router: state.router
-});
-
 const FLATPAGES_QUERY = gql(require("./flatpages.gql"));
-const options: OperationOption<StateProps, GraphQLProps> = {
-  options: ({ router }) => ({
-    skip: !(router.location.pathname === PATH_NAMES.home)
-  })
-};
 
-export default compose(
-  connect<StateProps, {}, {}>(mapStateToProps),
-  graphql<GraphQLProps, StateProps>(FLATPAGES_QUERY, options)
-)(FlatPages as any);
+export default graphql(FLATPAGES_QUERY)(FlatPages);

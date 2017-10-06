@@ -1,12 +1,7 @@
 import gql from "graphql-tag";
 import * as React from "react";
-import { graphql, OperationOption, QueryProps } from "react-apollo";
-import { connect } from "react-redux";
-import { compose } from "redux";
+import { graphql, QueryProps } from "react-apollo";
 
-import { IRouterReducer } from "../../../interfaces";
-import { IRootReducer } from "../../../rootReducer";
-import { PATH_NAMES } from "../../../routing";
 import { SubCatalog } from "../../layout/index";
 import { ICategory } from "../../product/model";
 
@@ -16,20 +11,11 @@ interface IDataCategory extends QueryProps {
   categories?: [ICategory];
 }
 
-interface StateProps {
-  router: IRouterReducer;
-}
-
 interface GraphQLProps {
   data: IDataCategory;
 }
 
-interface OwnProps {}
-
-class Catalog extends React.Component<
-  StateProps & GraphQLProps & OwnProps,
-  {}
-> {
+class Catalog extends React.Component<GraphQLProps, {}> {
   render() {
     const { data } = this.props;
     if (data.loading) {
@@ -64,18 +50,6 @@ class Catalog extends React.Component<
   }
 }
 
-const mapStateToProps = (state: IRootReducer): StateProps => ({
-  router: state.router
-});
-
 const CATEGORIES_QUERY = gql(require("./categories.gql"));
-const options: OperationOption<OwnProps & StateProps, GraphQLProps> = {
-  options: ({ router }) => ({
-    skip: !(router.location.pathname === PATH_NAMES.home)
-  })
-};
 
-export default compose(
-  connect<StateProps, {}, OwnProps>(mapStateToProps),
-  graphql<GraphQLProps, OwnProps>(CATEGORIES_QUERY, options)
-)(Catalog as any);
+export default graphql(CATEGORIES_QUERY)(Catalog);

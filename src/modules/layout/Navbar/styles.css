@@ -3,21 +3,21 @@
   background-color: #2474cc;
   justify-content: space-between;
   color: white;
-  min-height: 40px;
+  min-height: 2.5rem;
   width: 100%;
   z-index: 1000;
 }
 
 .title {
-  font-size: 0.35rem;
-  line-height: 0.35rem;
+  /* font-size: 0.35rem;
+  line-height: 0.35rem; */
   text-align: center;
+  font-size: 1rem;
 }
 
 .back {
   fill: white;
-  padding: 0 4px;
-  height: 40px;
-  color: white;
-  width: 0.6rem !important;
+  padding: 0 0.4rem;
+  width: 1.8rem !important;
+  height: 1.8rem !important;
 }
