@@ -1,7 +1,7 @@
 .checkoutTrigger {
   background: white;
   width: 100%;
-  height: 2.5rem;
+  height: 3rem;
   text-align: center !important;
   font-weight: bold;
   box-shadow: 0 0 1rem -1px lightgrey;
@@ -18,6 +18,6 @@
 .checkout {
   width: 50%;
   background: orange;
-  line-height: 2.5rem;
+  line-height: 3rem;
   color: white;
 }

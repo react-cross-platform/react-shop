@@ -22,6 +22,11 @@ interface GraphQLProps {
 const styles = require("./styles.css");
 
 class CartTrigger extends React.Component<StateProps & GraphQLProps, {}> {
+  isCartPage = () => {
+    const { router } = this.props;
+    return router.location.pathname === PATH_NAMES.cart;
+  };
+
   render() {
     const { data, router } = this.props;
     const { loading, cart } = data;
@@ -29,6 +34,7 @@ class CartTrigger extends React.Component<StateProps & GraphQLProps, {}> {
     return (
       <Link
         className={styles.cartTrigger}
+        style={{ visibility: this.isCartPage() ? "hidden" : "visible" }}
         to={{
           pathname: PATH_NAMES.cart,
           state: { modal: true, title: "Корзина" }

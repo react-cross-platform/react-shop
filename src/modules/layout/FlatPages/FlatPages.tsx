@@ -46,7 +46,7 @@ class FlatPages extends React.Component<GraphQLProps, {}> {
       }
       // contacts
       case 5: {
-        return require("!svg-sprite-loader!./contacts.svg");
+        return require("!svg-sprite-loader!./phone.svg");
       }
       // exchange and return
       case 8: {

@@ -13,12 +13,14 @@ import { Price } from "../../common/index";
 import { Loading } from "../../layout/index";
 import { getScrollableStyle } from "../../layout/Modal/Modal";
 import { getCartItemTotalPrice } from "../CartItem/CartItem";
-import { CartItem, CheckoutTrigger, EmptyCart } from "../index";
+import { CartItem, CheckoutForm, EmptyCart, FinishedCart } from "../index";
 import { ICart } from "../model";
+import { ICartReducer } from "../reducer";
 
 const styles = require("./styles.css");
 
 interface StateProps {
+  cartReducer: ICartReducer;
   router: IRouterReducer;
 }
 
@@ -67,7 +69,13 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
   };
 
   render() {
-    const { data, isModal, router, history } = this.props;
+    const {
+      data,
+      isModal,
+      router,
+      history,
+      cartReducer: { finishedId }
+    } = this.props;
     const { loading } = data;
     if (loading === true) {
       return <Loading />;
@@ -76,18 +84,21 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
     const cart = data.cart as ICart;
     const amount = getCartAmount(cart);
     if (amount === 0) {
-      return <EmptyCart history={history} isModal={isModal} />;
+      return finishedId
+        ? <FinishedCart id={finishedId} />
+        : <EmptyCart history={history} isModal={isModal} />;
     }
 
-    const totalPrice = getCartTotalPrice(cart);
     return (
-      <Flex direction="column" className={styles.cart}>
-        <div
-          className={styles.content}
-          style={getScrollableStyle(this.isCurrentPage())}
-        >
+      <Flex
+        direction="column"
+        justify="between"
+        className={styles.cart}
+        style={getScrollableStyle(this.isCurrentPage())}
+      >
+        <div className={styles.section}>
           <div className={styles.title}>
-            Итого к оплате: <Price price={totalPrice} />
+            Итого к оплате: <Price price={getCartTotalPrice(cart)} />
           </div>
           <div className={styles.items}>
             {cart.items.map((item, index) =>
@@ -100,15 +111,15 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
               />
             )}
           </div>
-          <div className={styles.footer} />
         </div>
-        <CheckoutTrigger totalPrice={totalPrice} />
+        <CheckoutForm data={data} />
       </Flex>
     );
   }
 }
 
 const mapStateToProps = (state: IRootReducer): StateProps => ({
+  cartReducer: state.cart,
   router: state.router
 });
 
@@ -116,5 +127,5 @@ export const CART_QUERY = gql(require("./cart.gql"));
 
 export default compose(
   graphql<GraphQLProps, OwnProps>(CART_QUERY),
-  connect<StateProps, {}, OwnProps>(mapStateToProps)
+  connect<StateProps, {}, OwnProps>(mapStateToProps),
 )(Cart);

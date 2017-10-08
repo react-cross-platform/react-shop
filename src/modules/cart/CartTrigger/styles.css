@@ -2,8 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 2.5rem;
-  width: 2.5rem;
+  height: 3rem;
+  width: 3rem;
   position: relative;
 }
 
@@ -11,13 +11,13 @@
   position: absolute;
   top: 0.4rem;
   right: 0.3rem;
-  border-radius: 0.4rem;
+  border-radius: 0.45rem;
   background-color: red;
-  width: 0.8rem;
-  height: 0.8rem;
+  width: 0.9rem;
+  height: 0.9rem;
   z-index: 1;
-  font-size: 0.6rem;
-  /* font-weight: 900; */
+  font-size: 0.7rem;
+  font-weight: bold;
   color: white;
 }
 

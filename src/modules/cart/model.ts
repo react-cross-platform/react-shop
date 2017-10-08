@@ -1,6 +1,16 @@
 import { ISubProduct } from "../product/model";
 
-export interface ICart {
+export interface Checkout {
+  phone: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  city: string;
+  address: string;
+  comment: string;
+}
+
+export interface ICart extends Checkout {
   id: number;
   items: ICartItem[];
 }

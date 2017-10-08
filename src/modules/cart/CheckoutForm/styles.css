@@ -1,0 +1,43 @@
+.title {
+  margin: 1rem 0;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.form {
+}
+
+.textarea {
+}
+
+.regionsLabel {
+  width: 6.3rem;
+  font-size: 1rem;
+}
+
+.regions {
+  width: 75%;
+  min-height: 26px !important;
+}
+
+.section {
+  width: 100%;
+}
+
+.countryDelivery {
+  border-bottom: 1px solid rgb(231, 231, 231);
+}
+
+.submit {
+  background-color: orange !important;
+  border-radius: 0 !important;
+  border: 0 !important;
+  bottom: 0;
+  color: white !important;
+  height: 3rem !important;
+  line-height: 3rem !important;
+  position: fixed !important;
+  width: 100%;
+  z-index: 1000;
+}

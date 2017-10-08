@@ -1,4 +1,4 @@
-import { ActionSheet, Flex } from "antd-mobile";
+import { Modal } from "antd-mobile";
 import gql from "graphql-tag";
 import update from "immutability-helper";
 import React from "react";
@@ -55,21 +55,13 @@ interface OwnProps {
 class RemoveCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
   removeCartItem = () => {
     const { submit, id } = this.props;
-    const actions = [];
-    (ActionSheet as any).showShareActionSheetWithOptions(
-      {
-        maskClosable: true,
-        message: "",
-        options: CONFIRM_OPTIONS,
-        title: "",
-        cancelButtonText: "",
-        wrapProps
-      },
-      buttonIndex => {
-        if (buttonIndex === 0) {
-          submit(id);
-        }
-      }
+    Modal.alert(
+      <div style={{ marginTop: "1rem" }}>Удалить из корзины?</div>,
+      "",
+      [
+        { text: "Нет", onPress: () => null },
+        { text: "Да", onPress: () => submit(id) }
+      ]
     );
   };
 

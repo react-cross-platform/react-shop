@@ -1,6 +1,13 @@
 query cart {
   cart {
     id
+    phone
+    email
+    firstName
+    lastName
+    city
+    address
+    comment
     items {
       id
       amount

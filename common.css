@@ -1,3 +1,7 @@
+html {
+  font-size: 14px !important;
+}
+
 html,
 body,
 #app {
@@ -7,11 +11,10 @@ body,
 body {
   overflow: hidden;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 14px !important;
 }
 
-body,
-.am-modal-body {
+/* .am-modal-body, */
+body {
   background-color: #f5f5f9;
 }
 
@@ -39,4 +42,11 @@ body,
 
 .am-action-sheet-share-cancel-button {
   display: none !important;
+}
+
+.am-textarea-label,
+.am-textarea-control textarea,
+.am-input-label,
+.am-input-control input {
+  font-size: 1rem !important;
 }

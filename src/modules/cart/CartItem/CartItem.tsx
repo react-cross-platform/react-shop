@@ -42,9 +42,9 @@ class CartItem extends React.Component<OwnProps, {}> {
     };
     const totalPrice = getCartItemTotalPrice(price, amount);
     return (
-      <div>
+      <div className={styles.cartItem}>
         <RemoveCartItem id={id} />
-        <Flex justify="between" className={styles.cartItem}>
+        <Flex justify="between" className={styles.item}>
           <Link className={styles.imageContainer} {...linkProps}>
             <img
               className={styles.image}

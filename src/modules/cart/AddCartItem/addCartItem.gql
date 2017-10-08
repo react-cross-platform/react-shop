@@ -3,6 +3,13 @@ mutation addCartItem($subProductId: Int!) {
     cartItem {
       cart {
         id
+        phone
+        email
+        firstName
+        lastName
+        city
+        address
+        comment
       }
       id
       price

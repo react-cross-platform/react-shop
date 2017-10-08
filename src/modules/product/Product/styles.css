@@ -16,7 +16,7 @@
   flex: 1;
   background-color: #2474cc;
   color: white;
-  min-height: 2.5rem;
+  min-height: 3rem;
   width: 100%;
   z-index: 1000;
 }
@@ -24,7 +24,7 @@
 .productTopBack {
   fill: white;
   padding: 0 0.8rem;
-  height: 2.5rem;
+  height: 3rem;
 }
 
 .categoryName {

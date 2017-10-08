@@ -1,0 +1,30 @@
+.finishCart {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: fixed;
+  background: white;
+}
+
+.icon {
+  width: 55%;
+  height: 55%;
+  object-fit: contain;
+  fill: orange;
+}
+
+.title {
+  font-size: 2rem;
+  margin: 1.8rem 0 0;
+  color: black;
+}
+
+.continue {
+  color: darkgrey;
+  padding-bottom: 2.2rem;
+}
