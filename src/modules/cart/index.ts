@@ -1,7 +1,6 @@
 import AddCartItem from "./AddCartItem/AddCartItem";
 import Cart from "./Cart/Cart";
 import CartItem from "./CartItem/CartItem";
-import CartModal from "./CartModal/CartModal";
 import CartTrigger from "./CartTrigger/CartTrigger";
 import CheckoutForm from "./CheckoutForm/CheckoutForm";
 import EmptyCart from "./EmptyCart/EmptyCart";
@@ -16,7 +15,6 @@ export {
   Cart,
   CheckoutForm,
   CartItem,
-  CartModal,
   CartTrigger,
   EmptyCart,
   FinishedCart,

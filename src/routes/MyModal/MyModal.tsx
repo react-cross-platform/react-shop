@@ -2,22 +2,10 @@ import { Modal } from "antd-mobile";
 import * as React from "react";
 import { CSSProperties } from "react";
 
-import { IPage } from "../../../pages/interfaces";
-import { Layout, Navbar } from "../index";
+import { Layout, Navbar } from "../../modules/layout/index";
+import { IPage } from "../interfaces";
 
 const styles = require("./styles.css");
-
-export const getScrollableStyle = (isScrollable: boolean): CSSProperties => {
-  // Hack for Safari on iOS to prevent content scrolling under Modal window
-  return isScrollable
-    ? {
-        overflowY: "scroll",
-        WebkitOverflowScrolling: "touch"
-      }
-    : {
-        overflowY: "hidden"
-      };
-};
 
 interface OwnProps extends IPage {}
 

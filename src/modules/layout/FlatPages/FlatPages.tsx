@@ -2,13 +2,10 @@ import { List } from "antd-mobile";
 import gql from "graphql-tag";
 import { compile } from "path-to-regexp";
 import * as React from "react";
-import { compose, graphql, OperationOption, QueryProps } from "react-apollo";
-import { connect } from "react-redux";
+import { graphql, QueryProps } from "react-apollo";
 import { Link } from "react-router-dom";
 
-import { IRouterReducer } from "../../../interfaces";
-import { IRootReducer } from "../../../rootReducer";
-import { PATH_NAMES } from "../../../routing";
+import { PATH_NAMES } from "../../../routes";
 import { Icon } from "../../common/index";
 import { Loading } from "../index";
 import { IFlatPage } from "../model";

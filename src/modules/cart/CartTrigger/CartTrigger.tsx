@@ -7,7 +7,7 @@ import { compose } from "redux";
 
 import { IRouterReducer } from "../../../interfaces";
 import { IRootReducer } from "../../../rootReducer";
-import { PATH_NAMES } from "../../../routing";
+import { PATH_NAMES } from "../../../routes";
 import { Icon } from "../../common/index";
 import { CART_QUERY, getCartAmount, IDataCart } from "../Cart/Cart";
 

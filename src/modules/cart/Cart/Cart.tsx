@@ -8,10 +8,10 @@ import { compose } from "redux";
 
 import { IRouterReducer } from "../../../interfaces";
 import { IRootReducer } from "../../../rootReducer";
-import { PATH_NAMES } from "../../../routing";
+import { PATH_NAMES } from "../../../routes";
 import { Price } from "../../common/index";
 import { Loading } from "../../layout/index";
-import { getScrollableStyle } from "../../layout/Modal/Modal";
+import { getScrollableStyle } from "../../layout/utils";
 import { getCartItemTotalPrice } from "../CartItem/CartItem";
 import { CartItem, CheckoutForm, EmptyCart, FinishedCart } from "../index";
 import { ICart } from "../model";
@@ -127,5 +127,5 @@ export const CART_QUERY = gql(require("./cart.gql"));
 
 export default compose(
   graphql<GraphQLProps, OwnProps>(CART_QUERY),
-  connect<StateProps, {}, OwnProps>(mapStateToProps),
+  connect<StateProps, {}, OwnProps>(mapStateToProps)
 )(Cart);

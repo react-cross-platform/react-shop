@@ -1,7 +1,8 @@
 import * as React from "react";
 
-import { IPage } from "../../../pages/interfaces";
-import { Modal, utils } from "../../layout/index";
+import { isSafariBrowser } from "../../modules/layout/utils";
+import { MyModal } from "../index";
+import { IPage } from "../interfaces";
 
 const styles = require("./styles.css");
 
@@ -15,16 +16,16 @@ class FlatPageModal extends React.Component<IPage, {}> {
     const id = match.params.id;
     const page = location.state.pages.filter(el => el.id === id);
     return (
-      <Modal location={location} history={history}>
+      <MyModal location={location} history={history}>
         <div
           className={styles.flatpage}
           dangerouslySetInnerHTML={createMarkup(page.map(el => el.content))}
           style={{
-            padding: utils.isSafariBrowser() ? 10 : 0,
+            padding: isSafariBrowser() ? 10 : 0,
             textAlign: "left"
           }}
         />
-      </Modal>
+      </MyModal>
     );
   }
 }

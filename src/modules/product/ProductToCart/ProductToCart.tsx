@@ -2,7 +2,7 @@ import { Flex } from "antd-mobile";
 import * as React from "react";
 import { Link } from "react-router-dom";
 
-import { PATH_NAMES } from "../../../routing";
+import { PATH_NAMES } from "../../../routes";
 import { AddCartItem } from "../../cart/index";
 import { Price } from "../../common/index";
 

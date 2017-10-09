@@ -3,15 +3,12 @@ import { compile } from "path-to-regexp";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { push } from "react-router-redux";
 
 import { Dispatch, IRouterReducer } from "../../../interfaces";
 import { IRootReducer } from "../../../rootReducer";
-import { PATH_NAMES } from "../../../routing";
-import { ACTION_ADD_VIEWED_CATEGORY } from "../../catalog/constants";
+import { PATH_NAMES } from "../../../routes";
 import { ICatalogReducer } from "../../catalog/reducer";
 import { ICategory } from "../../product/model";
-import { ACTION_DISABLE_CATALOG } from "../constants";
 
 const styles = require("./styles.css");
 

@@ -6,7 +6,7 @@ import { ConnectedRouter } from "react-router-redux";
 import client from "./graphqlClient";
 import history from "./history";
 import { Header, Layout } from "./modules/layout/index";
-import Routing from "./routing";
+import { RootRoute } from "./routes";
 import store from "./store";
 
 const App = () => {
@@ -14,7 +14,7 @@ const App = () => {
     <ApolloProvider store={store} client={client as any}>
       <ConnectedRouter history={history}>
         <Layout header={<Header />}>
-          <Route component={Routing} />
+          <Route component={RootRoute} />
         </Layout>
       </ConnectedRouter>
     </ApolloProvider>

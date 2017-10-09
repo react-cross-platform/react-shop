@@ -3,7 +3,7 @@ import { compile } from "path-to-regexp";
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { PATH_NAMES } from "../../../routing";
+import { PATH_NAMES } from "../../../routes";
 import { Price } from "../../common/index";
 import { Devider } from "../../layout/index";
 import { RemoveCartItem, UpdateCartItem } from "../index";

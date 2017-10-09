@@ -7,9 +7,9 @@ import { compose } from "redux";
 
 import { IRouterReducer } from "../../../interfaces";
 import { IRootReducer } from "../../../rootReducer";
-import { PATH_NAMES } from "../../../routing";
+import { PATH_NAMES } from "../../../routes";
 import { Loading } from "../../layout/index";
-import { getScrollableStyle } from "../../layout/Modal/Modal";
+import { getScrollableStyle } from "../../layout/utils";
 import { ICategory } from "../../product/model";
 import { Products } from "../index";
 
