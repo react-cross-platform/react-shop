@@ -1,8 +1,8 @@
-.productsCounter {
+.ProductsCounter {
   bottom: 0.7rem;
-  right: 0.8rem;
   color: gray;
   position: fixed;
+  right: 0.8rem;
 }
 
 .progress {

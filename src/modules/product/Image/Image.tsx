@@ -23,8 +23,8 @@ class Image extends React.Component<ImageProps, null> {
   render() {
     const { divHeight, width, height, src, isTitle } = this.props;
     return (
-      <Flex justify="center" align="center" style={{ height: divHeight }}>
-        <img className={styles.image} src={src} />
+      <Flex className={styles.Image} justify="center" align="center" style={{ height: divHeight }}>
+        <img src={src} />
       </Flex>
     );
   }

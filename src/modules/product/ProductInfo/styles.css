@@ -1,26 +1,7 @@
-.productInfo {
+.ProductInfo {
   background-color: #fff;
   box-shadow: 0 0.4rem 1.2rem -0.6rem lightgrey;
   margin-bottom: 3rem;
-}
-
-.sectionTitle {
-  color: #1296db;
-  font-size: 0.35rem;
-  margin: 0.2rem 0;
-}
-
-.description,
-.description * {
-  font-size: 1rem !important;
-  line-height: 1.2rem !important;
-  font-family: Arial, Helvetica, sans-serif !important;
-  color: black !important;
-}
-
-.description p {
-  margin-bottom: 0 !important;
-  margin-top: 0.1rem !important;
 }
 
 .colors {
@@ -28,9 +9,9 @@
 }
 
 .colorIcon {
-  width: 1.4rem !important;
   height: 1.4rem !important;
   margin-right: 0.5rem;
+  width: 1.4rem !important;
 }
 
 .colorName {
@@ -42,12 +23,22 @@
 
 .paramtName {
   font-size: 1rem;
-  /* line-height: 0.45rem; */
 }
 
 .paramValue {
   color: #8a8282;
   font-size: 1rem;
+}
 
-  /* line-height: 0.45rem; */
+.description,
+.description * {
+  color: black !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 1rem !important;
+  line-height: 1.2rem !important;
+}
+
+.description p {
+  margin-bottom: 0 !important;
+  margin-top: 0.1rem !important;
 }

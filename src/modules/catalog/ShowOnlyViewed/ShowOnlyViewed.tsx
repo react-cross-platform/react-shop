@@ -24,7 +24,7 @@ class ShowOnlyViewed extends React.Component<StateProps & DispatcProps, {}> {
     } = this.props;
     return (
       <div
-        className={styles.showOnlyWiewed}
+        className={styles.ShowOnlyViewed}
         style={{
           display: viewedProductIds.length === 0 ? "none" : "block"
         }}

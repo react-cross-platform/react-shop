@@ -1,8 +1,8 @@
 .Price {
   display: inline-block;
-  text-align: center;
-  line-height: 1rem;
   font-weight: bold;
+  line-height: 1rem;
+  text-align: center;
 }
 
 .currentValue {

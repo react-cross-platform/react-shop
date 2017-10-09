@@ -45,7 +45,7 @@ class SubCatalog extends React.Component<StateProps & OwnProps, {}> {
           <Link
             key={`cat${i}`}
             to={this.getPath(category)}
-            className={styles.flexItem}
+            className={styles.categoryContainer}
             style={{
               borderColor: this.isViewed(category) ? "orange" : "lightgrey",
               width:

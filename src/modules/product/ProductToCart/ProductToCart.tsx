@@ -25,7 +25,7 @@ class ProductToCart extends React.Component<
   render() {
     const { subProductId, price, oldPrice, inCart } = this.props;
     return (
-      <Flex className={styles.productToCart} justify="center" align="center">
+      <Flex className={styles.ProductToCart} justify="center" align="center">
         <div className={styles.priceSection}>
           <Price price={price} oldPrice={oldPrice} />
         </div>

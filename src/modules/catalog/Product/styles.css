@@ -1,4 +1,4 @@
-.root {
+.Product {
   background: white;
   display: block;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -11,15 +11,15 @@
 }
 
 .imageContainer img {
+  height: 90%;
   object-fit: contain;
   width: 90%;
-  height: 90%;
 }
 
 .noImage {
-  width: 90%;
-  height: 90%;
   fill: lightgray;
+  height: 90%;
+  width: 90%;
 }
 
 .info {

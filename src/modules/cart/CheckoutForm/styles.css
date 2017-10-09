@@ -1,28 +1,22 @@
+.CheckoutForm {
+  width: 100%;
+}
+
 .title {
-  margin: 1rem 0;
-  text-align: center;
   font-size: 1.2rem;
   font-weight: bold;
-}
-
-.form {
-}
-
-.textarea {
+  margin: 1rem 0;
+  text-align: center;
 }
 
 .regionsLabel {
-  width: 6.3rem;
   font-size: 1rem;
+  width: 6.3rem;
 }
 
 .regions {
-  width: 75%;
   min-height: 26px !important;
-}
-
-.section {
-  width: 100%;
+  width: 75%;
 }
 
 .countryDelivery {

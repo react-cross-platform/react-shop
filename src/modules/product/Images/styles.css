@@ -1,9 +1,9 @@
-.carousel {
+.Images {
   background: white;
 }
 
 .image {
+  height: 95%;
   object-fit: contain;
   width: 100%;
-  height: 95%;
 }

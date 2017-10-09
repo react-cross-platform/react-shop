@@ -1,24 +1,24 @@
-.cartTrigger {
-  display: flex;
-  justify-content: center;
+.CartTrigger {
   align-items: center;
+  display: flex;
   height: 3rem;
-  width: 3rem;
+  justify-content: center;
   position: relative;
+  width: 3rem;
 }
 
 .amount {
-  position: absolute;
-  top: 0.4rem;
-  right: 0.3rem;
-  border-radius: 0.45rem;
   background-color: red;
-  width: 0.9rem;
-  height: 0.9rem;
-  z-index: 1;
+  border-radius: 0.45rem;
+  color: white;
   font-size: 0.7rem;
   font-weight: bold;
-  color: white;
+  height: 0.9rem;
+  position: absolute;
+  right: 0.3rem;
+  top: 0.4rem;
+  width: 0.9rem;
+  z-index: 1;
 }
 
 .icon {

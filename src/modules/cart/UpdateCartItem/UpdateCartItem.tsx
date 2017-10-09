@@ -36,7 +36,7 @@ class UpdateCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
       <select
         value={amount}
         onChange={this.onChange}
-        className={styles.updateCartItem}
+        className={styles.UpdateCartItem}
       >
         {[...Array(10).keys()].map(i =>
           <option key={i}>

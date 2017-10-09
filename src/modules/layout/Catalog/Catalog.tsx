@@ -35,7 +35,7 @@ class Catalog extends React.Component<GraphQLProps, {}> {
       }
     }
     return (
-      <div className={styles.catalog}>
+      <div className={styles.Catalog}>
         {startCats.map((parent, i) =>
           <div key={i}>
             <h2>

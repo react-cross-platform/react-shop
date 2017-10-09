@@ -10,32 +10,6 @@ import { CART_QUERY, IDataCart } from "../Cart/Cart";
 
 const styles = require("./styles.css");
 
-// fix touch to scroll background page on iOS
-// https://github.com/ant-design/ant-design-mobile/issues/307
-// https://github.com/ant-design/ant-design-mobile/issues/163
-const isIPhone = new RegExp("\\biPhone\\b|\\biPod\\b", "i").test(
-  window.navigator.userAgent
-);
-let wrapProps;
-if (isIPhone) {
-  wrapProps = {
-    onTouchStart: e => e.preventDefault()
-  };
-}
-
-const CONFIRM_OPTIONS = [
-  {
-    title: "УДАЛИТЬ",
-    message: "",
-    icon: (
-      <Icon
-        className={styles.optionIcon}
-        type={require("!svg-sprite-loader!./remove.svg")}
-      />
-    )
-  }
-];
-
 interface IRemoveCartItem {
   data: {
     removeCartItem: {
@@ -68,7 +42,7 @@ class RemoveCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
   render() {
     return (
       <Icon
-        className={styles.icon}
+        className={styles.RemoveCartItem}
         type={require("!svg-sprite-loader!./remove.svg")}
         onClick={this.removeCartItem}
       />

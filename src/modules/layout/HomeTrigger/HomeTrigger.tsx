@@ -15,10 +15,10 @@ interface StateProps {
 
 const Logo = ({ isActive }) => {
   return (
-    <Flex className={styles.homeTrigger} align="center">
+    <Flex className={styles.HomeTrigger} align="center">
       REACT
       <Icon
-        className={styles.logoIcon}
+        className={styles.icon}
         type={require("!svg-sprite-loader!./logo.svg")}
         size="md"
         style={{

@@ -52,7 +52,7 @@ class Category extends React.Component<
 
     return (
       <div
-        className={styles.category}
+        className={styles.Category}
         style={getScrollableStyle(this.isCurrentPage())}
       >
         <div className={styles.name}>

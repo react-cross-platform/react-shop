@@ -1,23 +1,21 @@
-.navbar {
-  flex: 1;
+.Navbar {
   background-color: #2474cc;
-  justify-content: space-between;
   color: white;
+  flex: 1;
+  justify-content: space-between;
   min-height: 3rem;
   width: 100%;
   z-index: 1000;
 }
 
 .title {
-  /* font-size: 0.35rem;
-  line-height: 0.35rem; */
-  text-align: center;
   font-size: 1rem;
+  text-align: center;
 }
 
 .back {
   fill: white;
+  height: 1.8rem !important;
   padding: 0 0.4rem;
   width: 1.8rem !important;
-  height: 1.8rem !important;
 }

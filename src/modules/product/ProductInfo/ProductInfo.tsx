@@ -50,7 +50,7 @@ class ProductInfo extends React.Component<
         : images.filter(image => image.isTitle === true)[0];
 
     return (
-      <div className={styles.productInfo}>
+      <div className={styles.ProductInfo}>
         {/* Select SubProduct section */}
         {subProducts.length > 1
           ? <div>
@@ -76,7 +76,7 @@ class ProductInfo extends React.Component<
                         ? <Icon
                             className={styles.colorIcon}
                             key={i}
-                            type={require("svg-sprite-loader!./circle-check_color.svg")}
+                            type={require("svg-sprite-loader!./checked-circle.svg")}
                             style={{
                               fill: e.colorValue
                             }}
@@ -85,7 +85,7 @@ class ProductInfo extends React.Component<
                             className={styles.colorIcon}
                             key={i}
                             onClick={() => this.props.changeColor(e.id)}
-                            type={require("svg-sprite-loader!./icon-circle-for-colors.svg")}
+                            type={require("svg-sprite-loader!./circle.svg")}
                             style={{
                               fill: e.colorValue
                             }}
@@ -94,7 +94,8 @@ class ProductInfo extends React.Component<
                 : images.filter(el => el.colorValue !== "").map((e, i) =>
                     <Icon
                       key={i}
-                      type={require("svg-sprite-loader!./check-circle.svg")}
+                      type={require("svg-sprite-loader!./checked-circle.svg")}
+                      className={styles.colorIcon}
                       style={{
                         fill: e.colorValue
                       }}

@@ -1,12 +1,12 @@
-.productToCart {
+.ProductToCart {
   background: white;
-  width: 100%;
-  min-height: 3rem;
-  text-align: center !important;
-  box-shadow: 0 0 0.9rem -0.1rem lightgrey;
-  z-index: 100;
-  position: fixed;
   bottom: 0;
+  box-shadow: 0 0 0.9rem -0.1rem lightgrey;
+  min-height: 3rem;
+  position: fixed;
+  text-align: center !important;
+  width: 100%;
+  z-index: 100;
 }
 
 .priceSection {
@@ -19,6 +19,6 @@
 .cartSection {
   color: white;
   line-height: 3rem;
-  width: 50%;
   transition: 0.5s;
+  width: 50%;
 }

@@ -1,45 +1,22 @@
-.product {
+.Product {
   height: 100%;
   width: 100%;
 }
 
-.productContent {
+.content {
   position: relative;
   width: 100%;
 }
 
-.productFirstScreen {
+.firstScreen {
   background: white;
 }
 
-.productTop {
-  flex: 1;
-  background-color: #2474cc;
-  color: white;
-  min-height: 3rem;
-  width: 100%;
-  z-index: 1000;
-}
-
-.productTopBack {
-  fill: white;
-  padding: 0 0.8rem;
-  height: 3rem;
-}
-
-.categoryName {
-  font-size: 0.35rem;
-  line-height: 0.35rem;
-  text-align: center;
-  margin-right: 0.5rem;
-  width: 100%;
-}
-
-.productName {
-  width: 100%;
-  text-align: center;
+.name {
   font-size: 1.2rem;
   font-weight: bold;
   line-height: 1.4rem;
   margin-bottom: 0.6rem;
+  text-align: center;
+  width: 100%;
 }

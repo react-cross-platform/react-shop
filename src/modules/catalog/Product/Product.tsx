@@ -98,7 +98,7 @@ class Product extends React.Component<StateProps & OwnProps, State> {
 
     return (
       <div
-        className={styles.root}
+        className={styles.Product}
         style={{
           border: `1px solid ${this.isViewed() ? "orange" : "lightgrey"}`,
           borderRadius,

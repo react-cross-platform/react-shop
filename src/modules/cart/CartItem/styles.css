@@ -1,48 +1,44 @@
-.cartItem {
+.CartItem {
   position: relative;
 }
 
-.item {
+.remove {
+  padding: 0.5rem;
+  position: absolute;
+  right: 0;
+}
+
+.container {
   padding: 0.4rem 0;
 }
 
-.remove {
-  position: absolute;
-  right: 0;
-  padding: 0.5rem;
-}
-
 .imageContainer {
-  display: flex;
-  justify-content: center;
-  align-self: center;
   align-items: center;
+  align-self: center;
+  display: flex;
   height: 7rem;
+  justify-content: center;
   width: 35%;
 }
 
 .image {
-  width: 80%;
   height: 80%;
   object-fit: contain;
+  width: 80%;
 }
 
 .info {
-  width: 65%;
-  min-height: 5.5rem;
   margin: 0 0.8rem;
+  min-height: 5.5rem;
+  width: 65%;
 }
 
-.nameSection {
+.section {
   width: 100%;
 }
 
 .name {
   color: black;
-  line-height: 1.1rem;
   font-size: 1rem;
-}
-
-.amountAndPriceSection {
-  width: 100%;
+  line-height: 1.1rem;
 }

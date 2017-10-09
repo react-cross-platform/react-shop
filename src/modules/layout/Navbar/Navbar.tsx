@@ -21,7 +21,7 @@ class Navbar extends React.Component<OwnProps, {}> {
   render() {
     const { title, history } = this.props;
     return (
-      <Flex className={styles.navbar} justify="between" align="center">
+      <Flex className={styles.Navbar} justify="between" align="center">
         <Icon
           className={styles.back}
           type={require("!svg-sprite-loader!./back.svg")}

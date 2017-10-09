@@ -26,7 +26,7 @@ class Images extends React.Component<OwnProps, {}> {
       return (
         <Carousel
           autoplay={false}
-          className={styles.carousel}
+          className={styles.Images}
           dots={images.length > 1}
           infinite={false}
           selectedIndex={0}

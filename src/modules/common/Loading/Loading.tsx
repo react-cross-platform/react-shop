@@ -5,7 +5,7 @@ const styles = require("./styles.css");
 
 const Loading = () => {
   return (
-    <div className={styles.loading}>
+    <div className={styles.Loading}>
       <Icon type="loading" size="lg" />
     </div>
   );

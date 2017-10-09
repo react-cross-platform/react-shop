@@ -87,13 +87,12 @@ class CheckoutForm extends React.Component<Props, State> {
     const handleChange = this.handleChange;
     const isValid = Object.keys(errors).length === 0;
     return (
-      <div className={styles.section}>
+      <div className={styles.CheckoutForm}>
         <div className={styles.title}>Оформите заказ</div>
-        <div className={styles.form}>
+        <div>
           <List>
             <TextareaItem
               autoHeight={true}
-              className={styles.textarea}
               clear={true}
               name="firstName"
               onBlur={value => this.handleBlur("firstName", value)}

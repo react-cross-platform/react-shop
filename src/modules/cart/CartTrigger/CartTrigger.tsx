@@ -33,7 +33,7 @@ class CartTrigger extends React.Component<StateProps & GraphQLProps, {}> {
     const amount = getCartAmount(cart);
     return (
       <Link
-        className={styles.cartTrigger}
+        className={styles.CartTrigger}
         style={{ visibility: this.isCartPage() ? "hidden" : "visible" }}
         to={{
           pathname: PATH_NAMES.cart,

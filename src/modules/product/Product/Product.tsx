@@ -102,19 +102,19 @@ class Product extends React.Component<Props, {}> {
     const { price, oldPrice } = activeSubProduct;
     const subProductIdsInCart = getSubProductIdsInCart(dataCart);
     return (
-      <Flex direction="column" className={styles.product}>
+      <Flex direction="column" className={styles.Product}>
         <div
-          className={styles.productContent}
+          className={styles.content}
           style={getScrollableStyle(this.isCurrentPage(id))}
         >
           <Flex
             style={{ height: window.innerHeight - 40 * 2 + 5 }}
             justify="around"
             direction="column"
-            className={styles.productFirstScreen}
+            className={styles.firstScreen}
           >
             <Images images={images} />
-            <WingBlank className={styles.productName}>
+            <WingBlank className={styles.name}>
               {product!.name}
               <br />
               {brand.name} {activeSubProduct.article}

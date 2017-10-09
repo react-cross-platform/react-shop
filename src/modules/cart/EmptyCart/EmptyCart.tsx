@@ -27,14 +27,14 @@ class EmptyCart extends React.Component<OwnProps, {}> {
         justify="center"
         align="center"
         onClick={this.handleClick}
-        className={styles.emptyCart}
+        className={styles.EmptyCart}
       >
         <img
-          className={styles.emptyCartImage}
+          className={styles.icon}
           src={require("./sad_smile.png")}
         />
-        <div className={styles.emptyCartTitle}>Корзина пуста</div>
-        <div className={styles.emptyCartContinue}>нажмите чтобы продолжить</div>
+        <div className={styles.title}>Корзина пуста</div>
+        <div className={styles.continue}>нажмите чтобы продолжить</div>
       </Flex>
     );
   }

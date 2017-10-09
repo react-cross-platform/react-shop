@@ -1,15 +1,9 @@
-.icon {
-  width: 1rem !important;
+.RemoveCartItem {
+  fill: gray;
   height: 1rem !important;
   padding: 0.5rem;
   position: absolute;
   right: 0;
-  fill: gray;
+  width: 1rem !important;
   z-index: 1;
-}
-
-.optionIcon {
-  width: 3rem !important;
-  height: 3rem !important;
-  fill: gray;
 }

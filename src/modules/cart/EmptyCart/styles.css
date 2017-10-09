@@ -1,23 +1,23 @@
-.emptyCart {
-  text-align: center;
-  width: 100%;
+.EmptyCart {
+  background: white;
   height: 100%;
   overflow: hidden;
   position: fixed;
-  background: white;
+  text-align: center;
+  width: 100%;
 }
 
-.emptyCartImage {
-  width: 65%;
+.icon {
   object-fit: contain;
+  width: 65%;
 }
 
-.emptyCartTitle {
+.title {
   font-size: 1.75rem;
   margin: 1.8rem 0 0;
 }
 
-.emptyCartContinue {
+.continue {
   color: darkgrey;
   padding-bottom: 2.2rem;
 }

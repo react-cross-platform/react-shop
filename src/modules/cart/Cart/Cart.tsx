@@ -92,7 +92,7 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
       <Flex
         direction="column"
         justify="between"
-        className={styles.cart}
+        className={styles.Сart}
         style={getScrollableStyle(this.isCurrentPage())}
       >
         <div className={styles.section}>

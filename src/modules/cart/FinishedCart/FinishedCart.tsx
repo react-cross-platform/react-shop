@@ -15,7 +15,7 @@ class FinishedCart extends React.Component<OwnProps, {}> {
     const { id } = this.props;
 
     return (
-      <Link to={PATH_NAMES.home} className={styles.finishCart}>
+      <Link to={PATH_NAMES.home} className={styles.FinishedCart}>
         <Flex
           direction="column"
           justify="center"

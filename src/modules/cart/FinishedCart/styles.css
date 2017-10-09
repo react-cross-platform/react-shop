@@ -1,27 +1,27 @@
-.finishCart {
+.FinishedCart {
+  align-content: center;
+  background: white;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  text-align: center;
-  width: 100%;
   height: 100%;
+  justify-content: center;
   overflow: hidden;
   position: fixed;
-  background: white;
+  text-align: center;
+  width: 100%;
 }
 
 .icon {
-  width: 55%;
+  fill: orange;
   height: 55%;
   object-fit: contain;
-  fill: orange;
+  width: 55%;
 }
 
 .title {
+  color: black;
   font-size: 2rem;
   margin: 1.8rem 0 0;
-  color: black;
 }
 
 .continue {
