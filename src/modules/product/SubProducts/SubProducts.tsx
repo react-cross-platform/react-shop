@@ -1,10 +1,10 @@
+import { Dispatch } from "@src/interfaces";
+import { Icon, Price } from "@src/modules/common";
+import { IRootReducer } from "@src/rootReducer";
 import { List } from "antd-mobile";
 import * as React from "react";
 import { connect } from "react-redux";
 
-import { Dispatch } from "../../../interfaces";
-import { IRootReducer } from "../../../rootReducer";
-import { Icon, Price } from "../../common/index";
 import { ACTION_SELECT_SUB_PRODUCT } from "../constants";
 import { ISubProduct } from "../model";
 import { IProductReducer } from "../reducer";

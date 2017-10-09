@@ -1,9 +1,8 @@
+import { CartTrigger } from "@src/modules/cart";
+import { Icon } from "@src/modules/common";
 import { Flex } from "antd-mobile";
 import { History } from "history";
 import * as React from "react";
-
-import { CartTrigger } from "../../cart/index";
-import { Icon } from "../../common/index";
 
 const styles = require("./styles.css");
 

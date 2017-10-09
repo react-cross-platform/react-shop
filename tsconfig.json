@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
     "declaration": false,
     "jsx": "react",
     "lib": [
@@ -14,6 +15,9 @@
     "moduleResolution": "node",
     "noImplicitAny": false,
     "outDir": "./dist/",
+    "paths": {
+      "@src/*": ["src/*"]
+    },
     "pretty": true,
     "removeComments": false,
     "sourceMap": true,

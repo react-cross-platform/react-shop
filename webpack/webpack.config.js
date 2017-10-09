@@ -8,8 +8,7 @@ const path = require("path"),
 
 const SRC_PATH = path.join(__dirname, "../src"),
   STATIC_PATH = path.join(__dirname, "../static"),
-  DIST_PATH = path.join(__dirname, "../static/dist/app"),
-  RESOURCE_PATH = path.join(__dirname, "../src/resource");
+  DIST_PATH = path.join(__dirname, "../static/dist/app");
 
 const __DEV__ = process.env.NODE_ENV !== "production";
 
@@ -22,7 +21,7 @@ const bundleConfig = __DEV__
 module.exports = {
   context: SRC_PATH,
   entry: {
-    app: ["src/main.tsx"]
+    app: ["../src/main.tsx"]
   },
   output: {
     path: DIST_PATH,
@@ -97,8 +96,7 @@ module.exports = {
   resolve: {
     modules: [SRC_PATH, "node_modules"],
     alias: {
-      resource: RESOURCE_PATH,
-      src: SRC_PATH
+      "@src": SRC_PATH
     },
     extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
   },

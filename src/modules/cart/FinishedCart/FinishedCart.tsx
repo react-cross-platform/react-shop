@@ -1,9 +1,8 @@
+import { Icon } from "@src/modules/common";
+import { PATH_NAMES } from "@src/routes";
 import { Flex } from "antd-mobile";
 import * as React from "react";
 import { Link } from "react-router-dom";
-
-import { PATH_NAMES } from "../../../routes";
-import { Icon } from "../../common/index";
 
 const styles = require("./styles.css");
 

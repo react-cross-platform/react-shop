@@ -1,8 +1,8 @@
+import { Layout, Navbar } from "@src/modules/layout";
 import { Modal } from "antd-mobile";
 import * as React from "react";
 import { CSSProperties } from "react";
 
-import { Layout, Navbar } from "../../modules/layout/index";
 import { IPage } from "../interfaces";
 
 const styles = require("./styles.css");

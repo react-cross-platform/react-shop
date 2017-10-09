@@ -1,3 +1,7 @@
+import { IRouterReducer } from "@src/interfaces";
+import { Icon } from "@src/modules/common";
+import { IRootReducer } from "@src/rootReducer";
+import { PATH_NAMES } from "@src/routes";
 import { Flex } from "antd-mobile";
 import * as React from "react";
 import { graphql } from "react-apollo";
@@ -5,10 +9,6 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { compose } from "redux";
 
-import { IRouterReducer } from "../../../interfaces";
-import { IRootReducer } from "../../../rootReducer";
-import { PATH_NAMES } from "../../../routes";
-import { Icon } from "../../common/index";
 import { CART_QUERY, getCartAmount, IDataCart } from "../Cart/Cart";
 
 interface StateProps {

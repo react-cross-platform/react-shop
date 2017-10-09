@@ -1,3 +1,4 @@
+import { Icon } from "@src/modules/common";
 import { Modal } from "antd-mobile";
 import gql from "graphql-tag";
 import update from "immutability-helper";
@@ -5,7 +6,6 @@ import React from "react";
 import { graphql } from "react-apollo";
 import { OperationOption } from "react-apollo/types";
 
-import { Icon } from "../../common/index";
 import { CART_QUERY, IDataCart } from "../Cart/Cart";
 
 const styles = require("./styles.css");

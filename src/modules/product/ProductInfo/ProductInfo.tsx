@@ -1,10 +1,9 @@
+import { Devider, Icon } from "@src/modules/common";
+import { IRootReducer } from "@src/rootReducer";
 import { Checkbox, Flex, WhiteSpace, WingBlank } from "antd-mobile";
 import * as React from "react";
 import { connect } from "react-redux";
 
-import { IRootReducer } from "../../../rootReducer";
-import { Icon } from "../../common/index";
-import { Devider } from "../../layout/index";
 import { ACTION_SELECT_COLOR } from "../constants";
 import { SubProducts } from "../index";
 import { IProduct, ISubProduct } from "../model";

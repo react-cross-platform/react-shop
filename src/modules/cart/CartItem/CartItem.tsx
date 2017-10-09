@@ -1,11 +1,10 @@
+import { Devider, Price } from "@src/modules/common";
+import { PATH_NAMES } from "@src/routes";
 import { Flex } from "antd-mobile";
 import { compile } from "path-to-regexp";
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { PATH_NAMES } from "../../../routes";
-import { Price } from "../../common/index";
-import { Devider } from "../../layout/index";
 import { RemoveCartItem, UpdateCartItem } from "../index";
 import { ICartItem } from "../model";
 

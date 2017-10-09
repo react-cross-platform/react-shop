@@ -1,8 +1,7 @@
+import { PATH_NAMES } from "@src/routes";
 import { Flex } from "antd-mobile";
 import { History } from "history";
 import * as React from "react";
-
-import { PATH_NAMES } from "../../../routes";
 
 const styles = require("./styles.css");
 

@@ -1,3 +1,5 @@
+import { Icon, Loading } from "@src/modules/common";
+import { PATH_NAMES } from "@src/routes";
 import { List } from "antd-mobile";
 import gql from "graphql-tag";
 import { compile } from "path-to-regexp";
@@ -5,9 +7,6 @@ import * as React from "react";
 import { graphql, QueryProps } from "react-apollo";
 import { Link } from "react-router-dom";
 
-import { PATH_NAMES } from "../../../routes";
-import { Icon } from "../../common/index";
-import { Loading } from "../index";
 import { IFlatPage } from "../model";
 
 const styles = require("./styles.css");

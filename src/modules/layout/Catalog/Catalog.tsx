@@ -1,9 +1,8 @@
+import { SubCatalog } from "@src/modules/layout";
+import { ICategory } from "@src/modules/product/model";
 import gql from "graphql-tag";
 import * as React from "react";
 import { graphql, QueryProps } from "react-apollo";
-
-import { SubCatalog } from "../../layout/index";
-import { ICategory } from "../../product/model";
 
 const styles = require("./styles.css");
 

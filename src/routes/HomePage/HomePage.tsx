@@ -1,11 +1,11 @@
+import { IRouterReducer } from "@src/interfaces";
+import { Catalog, FlatPages } from "@src/modules/layout";
+import { getScrollableStyle } from "@src/modules/layout/utils";
+import { IRootReducer } from "@src/rootReducer";
 import { WhiteSpace } from "antd-mobile";
 import * as React from "react";
 import { connect } from "react-redux";
 
-import { IRouterReducer } from "../../interfaces";
-import { Catalog, FlatPages } from "../../modules/layout/index";
-import { getScrollableStyle } from "../../modules/layout/utils";
-import { IRootReducer } from "../../rootReducer";
 import { PATH_NAMES } from "../index";
 
 interface StateProps {

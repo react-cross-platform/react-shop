@@ -1,6 +1,6 @@
+import { Cart } from "@src/modules/cart";
 import * as React from "react";
 
-import { Cart } from "../../modules/cart/index";
 import { MyModal } from "../index";
 import { IPage } from "../interfaces";
 

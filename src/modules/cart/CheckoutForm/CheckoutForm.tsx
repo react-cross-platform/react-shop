@@ -1,12 +1,5 @@
-import {
-  Button,
-  Flex,
-  InputItem,
-  List,
-  Modal,
-  SegmentedControl,
-  TextareaItem
-} from "antd-mobile";
+import { Dispatch } from "@src/interfaces";
+import { Button, Flex, InputItem, List, Modal, SegmentedControl, TextareaItem } from "antd-mobile";
 import { FormikProps, withFormik } from "formik";
 import gql from "graphql-tag";
 import * as React from "react";
@@ -15,7 +8,6 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import Yup from "yup";
 
-import { Dispatch } from "../../../interfaces";
 import { IDataCart } from "../Cart/Cart";
 import { Checkout } from "../model";
 import { ACTION_FINISH_CART } from "../reducer";

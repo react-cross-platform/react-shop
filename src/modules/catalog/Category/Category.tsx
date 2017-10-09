@@ -1,3 +1,9 @@
+import { IRouterReducer } from "@src/interfaces";
+import { Loading } from "@src/modules/common";
+import { getScrollableStyle } from "@src/modules/layout/utils";
+import { ICategory } from "@src/modules/product/model";
+import { IRootReducer } from "@src/rootReducer";
+import { PATH_NAMES } from "@src/routes";
 import gql from "graphql-tag";
 import { compile } from "path-to-regexp";
 import * as React from "react";
@@ -5,12 +11,6 @@ import { graphql, OperationOption, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
-import { IRouterReducer } from "../../../interfaces";
-import { IRootReducer } from "../../../rootReducer";
-import { PATH_NAMES } from "../../../routes";
-import { Loading } from "../../layout/index";
-import { getScrollableStyle } from "../../layout/utils";
-import { ICategory } from "../../product/model";
 import { Products } from "../index";
 
 const CATEGORY_QUERY = gql(require("./category.gql"));

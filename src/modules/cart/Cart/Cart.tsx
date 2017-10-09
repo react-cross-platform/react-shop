@@ -1,3 +1,8 @@
+import { IRouterReducer } from "@src/interfaces";
+import { Loading, Price } from "@src/modules/common/index";
+import { getScrollableStyle } from "@src/modules/layout/utils";
+import { IRootReducer } from "@src/rootReducer";
+import { PATH_NAMES } from "@src/routes/index";
 import { Flex } from "antd-mobile";
 import gql from "graphql-tag";
 import { History } from "history";
@@ -6,12 +11,6 @@ import { graphql, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
-import { IRouterReducer } from "../../../interfaces";
-import { IRootReducer } from "../../../rootReducer";
-import { PATH_NAMES } from "../../../routes";
-import { Price } from "../../common/index";
-import { Loading } from "../../layout/index";
-import { getScrollableStyle } from "../../layout/utils";
 import { getCartItemTotalPrice } from "../CartItem/CartItem";
 import { CartItem, CheckoutForm, EmptyCart, FinishedCart } from "../index";
 import { ICart } from "../model";

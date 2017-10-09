@@ -1,3 +1,10 @@
+import { IRouterReducer } from "@src/interfaces";
+import { CART_QUERY, IDataCart } from "@src/modules/cart/Cart/Cart";
+import { ACTION_ADD_VIEWED_PRODUCT } from "@src/modules/catalog/constants";
+import { Loading } from "@src/modules/common";
+import { getScrollableStyle } from "@src/modules/layout/utils";
+import { IRootReducer } from "@src/rootReducer";
+import { PATH_NAMES } from "@src/routes";
 import { Flex, WingBlank } from "antd-mobile";
 import gql from "graphql-tag";
 import { compile } from "path-to-regexp";
@@ -5,13 +12,6 @@ import * as React from "react";
 import { compose, graphql, OperationOption, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
 
-import { IRouterReducer } from "../../../interfaces";
-import { IRootReducer } from "../../../rootReducer";
-import { PATH_NAMES } from "../../../routes";
-import { CART_QUERY, IDataCart } from "../../cart/Cart/Cart";
-import { ACTION_ADD_VIEWED_PRODUCT } from "../../catalog/constants";
-import { Loading } from "../../layout/index";
-import { getScrollableStyle } from "../../layout/utils";
 import { ACTION_SELECT_SUB_PRODUCT } from "../constants";
 import { Images, ProductInfo, ProductToCart } from "../index";
 import { IProduct, ISubProduct } from "../model";

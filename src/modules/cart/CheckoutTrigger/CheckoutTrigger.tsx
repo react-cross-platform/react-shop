@@ -1,7 +1,6 @@
+import { Price } from "@src/modules/common";
 import { Flex, Toast } from "antd-mobile";
 import React from "react";
-
-import { Price } from "../../common/index";
 
 const styles = require("./styles.css");
 

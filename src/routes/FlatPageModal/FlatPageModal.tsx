@@ -1,6 +1,6 @@
+import { isSafariBrowser } from "@src/modules/layout/utils";
 import * as React from "react";
 
-import { isSafariBrowser } from "../../modules/layout/utils";
 import { MyModal } from "../index";
 import { IPage } from "../interfaces";
 

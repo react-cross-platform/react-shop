@@ -1,13 +1,13 @@
+import { Icon } from "@src/modules/common";
+import { scaleImageSize } from "@src/modules/product";
+import { IImageWithColor, IProduct } from "@src/modules/product/model";
+import { IRootReducer } from "@src/rootReducer";
 import { Flex, WhiteSpace } from "antd-mobile";
 import { compile } from "path-to-regexp";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { IRootReducer } from "../../../rootReducer";
-import { Icon } from "../../common/index";
-import { scaleImageSize } from "../../product/index";
-import { IImageWithColor, IProduct } from "../../product/model";
 import { ICatalogReducer } from "../reducer";
 
 const styles = require("./styles.css");

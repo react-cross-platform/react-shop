@@ -1,14 +1,13 @@
+import { Dispatch, IRouterReducer } from "@src/interfaces";
+import { ICatalogReducer } from "@src/modules/catalog/reducer";
+import { ICategory } from "@src/modules/product/model";
+import { IRootReducer } from "@src/rootReducer";
+import { PATH_NAMES } from "@src/routes";
 import { Card, Flex } from "antd-mobile";
 import { compile } from "path-to-regexp";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-
-import { Dispatch, IRouterReducer } from "../../../interfaces";
-import { IRootReducer } from "../../../rootReducer";
-import { PATH_NAMES } from "../../../routes";
-import { ICatalogReducer } from "../../catalog/reducer";
-import { ICategory } from "../../product/model";
 
 const styles = require("./styles.css");
 

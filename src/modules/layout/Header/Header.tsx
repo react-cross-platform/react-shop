@@ -1,7 +1,7 @@
+import { CartTrigger } from "@src/modules/cart";
 import { Flex } from "antd-mobile";
 import * as React from "react";
 
-import { CartTrigger } from "../../cart/index";
 import { HomeTrigger } from "../index";
 
 const styles = require("./styles.css");
