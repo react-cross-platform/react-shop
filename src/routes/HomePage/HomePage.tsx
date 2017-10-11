@@ -1,6 +1,5 @@
 import { Catalog, Flatpages } from "@src/modules/layout";
 import { HomeTrigger, Layout } from "@src/modules/layout";
-import { getScrollableStyle } from "@src/modules/layout/utils";
 import { WhiteSpace } from "antd-mobile";
 import * as React from "react";
 
@@ -20,11 +19,6 @@ class HomePage extends React.Component<OwnProps, {}> {
     };
   };
 
-  isCurrentPage = () => {
-    const { location } = this.props;
-    return location.pathname === PATH_NAMES.home;
-  };
-
   render() {
     const { location, history } = this.props;
     return (
@@ -33,7 +27,7 @@ class HomePage extends React.Component<OwnProps, {}> {
         history={history}
         {...this.getLayoutOptions()}
       >
-        <div className={styles.HomePage} style={{ ...getScrollableStyle(this.isCurrentPage()) }}>
+        <div className={styles.HomePage}>
           <Catalog />
           <WhiteSpace size="lg" />
           <Flatpages />

@@ -1,3 +1,5 @@
 .FlatpagesPage {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: scroll;
   width: 100%;
 }

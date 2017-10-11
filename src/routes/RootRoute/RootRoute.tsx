@@ -25,6 +25,16 @@ const styles = require("./styles.css");
 
 interface Props extends IPage {}
 
+const Container = ({ isModal, location, children }) => {
+  return isModal
+    ? <MyModal animated={location.state && location.state.animated}>
+        {children}
+      </MyModal>
+    : <Switch location={location}>
+        {children}
+      </Switch>;
+};
+
 class RootRoute extends React.Component<Props, {}> {
   previousLocation = this.props.location;
 
@@ -54,9 +64,16 @@ class RootRoute extends React.Component<Props, {}> {
 
   render() {
     const { location } = this.props;
+    const isModal = this.isModal();
     return (
-      <div className={styles.RootRoute}>
-        <Switch location={this.getLocation()}>
+      <div
+        className={styles.RootRoute}
+        style={{ display: isModal ? "none" : "block" }}
+      >
+        <Container
+          isModal={isModal}
+          location={isModal ? location : this.previousLocation}
+        >
           <Route exact={true} path={PATH_NAMES.home} component={HomePage} />
           <Route path={PATH_NAMES.flatpages} component={FlatpagesPage} />
           <Route path={PATH_NAMES.flatpage} component={FlatpagePage} />
@@ -64,18 +81,7 @@ class RootRoute extends React.Component<Props, {}> {
           <Route path={PATH_NAMES.category} component={CategoryPage} />
           <Route path={PATH_NAMES.product} component={ProductPage} />
           <Route path={PATH_NAMES.cart} component={CartPage} />
-        </Switch>
-        {this.isModal()
-          ? <MyModal animated={location.state && location.state.animated}>
-              <Route exact={true} path={PATH_NAMES.home} component={HomePage} />
-              <Route path={PATH_NAMES.flatpages} component={FlatpagesPage} />
-              <Route path={PATH_NAMES.flatpage} component={FlatpagePage} />
-              <Route path={PATH_NAMES.catalog} component={CatalogPage} />
-              <Route path={PATH_NAMES.category} component={CategoryPage} />
-              <Route path={PATH_NAMES.product} component={ProductPage} />
-              <Route path={PATH_NAMES.cart} component={CartPage} />
-            </MyModal>
-          : null}
+        </Container>
       </div>
     );
   }

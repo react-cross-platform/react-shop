@@ -1,3 +1,5 @@
 .HomePage {
+  -webkit-overflow-scrolling: touch;
   background-color: #f5f5f9;
+  overflow-y: scroll;
 }

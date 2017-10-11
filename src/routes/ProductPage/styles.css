@@ -4,6 +4,8 @@
 }
 
 .content {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: scroll;
   position: relative;
   width: 100%;
 }

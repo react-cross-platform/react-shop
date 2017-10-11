@@ -2,7 +2,6 @@ import { CART_QUERY, IDataCart } from "@src/modules/cart/Cart/Cart";
 import { ACTION_ADD_VIEWED_PRODUCT } from "@src/modules/catalog/constants";
 import { Loading, MyIcon } from "@src/modules/common";
 import { Layout } from "@src/modules/layout";
-import { getScrollableStyle } from "@src/modules/layout/utils";
 import { Images, ProductInfo, ProductToCart } from "@src/modules/product";
 import { ACTION_SELECT_SUB_PRODUCT } from "@src/modules/product/constants";
 import { IProduct } from "@src/modules/product/model";
@@ -18,7 +17,7 @@ import { Link } from "react-router-dom";
 
 import { ISubProduct } from "../../modules/product/model";
 import { PATH_NAMES } from "../index";
-import { IPage, IRouterReducer } from "../interfaces";
+import { IPage } from "../interfaces";
 
 const styles = require("./styles.css");
 
@@ -126,11 +125,6 @@ class Product extends React.Component<Props, {}> {
     };
   };
 
-  isCurrentPage = (id: string) => {
-    const { location: { pathname } } = this.props;
-    return pathname === compile(PATH_NAMES.product)({ id });
-  };
-
   render() {
     const { location, history, dataProduct, dataCart } = this.props;
     const { product } = dataProduct;
@@ -151,10 +145,7 @@ class Product extends React.Component<Props, {}> {
     return (
       <Layout {...this.getLayoutOptions()}>
         <Flex direction="column" className={styles.ProductPage}>
-          <div
-            className={styles.content}
-            style={getScrollableStyle(this.isCurrentPage(id))}
-          >
+          <div className={styles.content}>
             <Flex
               style={{ height: window.innerHeight - 40 * 2 }}
               justify="around"

@@ -1,7 +1,6 @@
 import { Products } from "@src/modules/catalog";
 import { Loading } from "@src/modules/common";
 import { Layout } from "@src/modules/layout";
-import { getScrollableStyle } from "@src/modules/layout/utils";
 import { ICategory } from "@src/modules/product/model";
 import gql from "graphql-tag";
 import * as React from "react";
@@ -46,11 +45,6 @@ class CategoryPage extends React.Component<OwnProps & GraphQLProps, any> {
     };
   };
 
-  isCurrentPage = () => {
-    const { location } = this.props;
-    return location.pathname.indexOf("category") !== -1;
-  };
-
   render() {
     const {
       match: { params: { id } },
@@ -66,10 +60,7 @@ class CategoryPage extends React.Component<OwnProps & GraphQLProps, any> {
       >
         {loading
           ? <Loading />
-          : <div
-              className={styles.CategoryPage}
-              style={getScrollableStyle(this.isCurrentPage())}
-            >
+          : <div className={styles.CategoryPage}>
               <Products categoryId={id} />
             </div>}
       </Layout>

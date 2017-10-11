@@ -1,5 +1,7 @@
 .CategoryPage {
+  -webkit-overflow-scrolling: touch;
   background: #f5f5f9;
+  overflow-y: scroll;
   width: 100%;
 }
 
