@@ -5,17 +5,17 @@
   flex-direction: column;
   height: 100%;
   justify-content: center;
+  margin-top: 30%;
   overflow: hidden;
-  position: fixed;
   text-align: center;
   width: 100%;
 }
 
 .icon {
   fill: orange;
-  height: 55%;
+  height: 10rem;
   object-fit: contain;
-  width: 55%;
+  width: 10rem;
 }
 
 .title {

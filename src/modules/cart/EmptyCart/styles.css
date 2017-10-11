@@ -1,8 +1,6 @@
 .EmptyCart {
   background: white;
-  height: 100%;
-  overflow: hidden;
-  position: fixed;
+  margin-top: 20%;
   text-align: center;
   width: 100%;
 }

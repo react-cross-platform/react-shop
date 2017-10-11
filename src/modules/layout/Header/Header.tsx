@@ -4,9 +4,6 @@ import { IPage } from "@src/routes/interfaces";
 import { Flex } from "antd-mobile";
 import * as React from "react";
 
-import { PATH_NAMES } from "../../../routes/RootRoute/RootRoute";
-import { HomeTrigger } from "../index";
-
 const styles = require("./styles.css");
 
 interface OwnProps extends IPage {

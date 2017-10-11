@@ -46,8 +46,7 @@ class SubCatalog extends React.Component<StateProps & OwnProps, {}> {
           <Link
             key={`cat${i}`}
             to={{
-              pathname: this.getPath(category),
-              state: { title: category.name }
+              pathname: this.getPath(category)
             }}
             className={styles.categoryContainer}
             style={{
