@@ -1,7 +1,7 @@
-import { IRouterReducer } from "@src/interfaces";
-import { Icon } from "@src/modules/common";
+import { MyIcon } from "@src/modules/common";
 import { IRootReducer } from "@src/rootReducer";
 import { PATH_NAMES } from "@src/routes";
+import { IRouterReducer } from "@src/routes/interfaces";
 import { Flex } from "antd-mobile";
 import * as React from "react";
 import { connect } from "react-redux";
@@ -17,7 +17,7 @@ const Logo = ({ isActive }) => {
   return (
     <Flex className={styles.HomeTrigger} align="center">
       REACT
-      <Icon
+      <MyIcon
         className={styles.icon}
         type={require("!svg-sprite-loader!./logo.svg")}
         size="md"

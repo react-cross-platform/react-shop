@@ -1,8 +1,8 @@
+import { IRouterReducer } from "@src/routes/interfaces";
 import { routerReducer } from "react-router-redux";
 import { combineReducers } from "redux";
 
 import client from "./graphqlClient";
-import { IRouterReducer } from "./interfaces";
 import { default as cart, ICartReducer } from "./modules/cart/reducer";
 import { default as catalog, ICatalogReducer } from "./modules/catalog/reducer";
 import { default as product, IProductReducer } from "./modules/product/reducer";

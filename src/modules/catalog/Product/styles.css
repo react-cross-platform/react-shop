@@ -1,7 +1,14 @@
 .Product {
   background: white;
-  display: block;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.cart {
+  align-items: center;
+  height: 10rem;
+  margin: 0.1rem;
+  padding-bottom: 0.1rem;
+  padding-top: 0.5rem;
 }
 
 .imageContainer {

@@ -1,4 +1,4 @@
-import { Devider, Icon } from "@src/modules/common";
+import { Devider, MyIcon } from "@src/modules/common";
 import { IRootReducer } from "@src/rootReducer";
 import { Checkbox, Flex, WhiteSpace, WingBlank } from "antd-mobile";
 import * as React from "react";
@@ -68,12 +68,12 @@ class ProductInfo extends React.Component<
         {/* Select Color section */}
         <WingBlank>
           <Flex justify="between">
-            <div className={styles.colors}>
+            <Flex align="center">
               {images.filter(el => el.colorValue !== "").length > 1
                 ? images.filter(el => el.colorValue !== "").map(
                     (e, i) =>
                       e.id === this.props.product.colorId
-                        ? <Icon
+                        ? <MyIcon
                             className={styles.colorIcon}
                             key={i}
                             type={require("svg-sprite-loader!./checked-circle.svg")}
@@ -81,7 +81,7 @@ class ProductInfo extends React.Component<
                               fill: e.colorValue
                             }}
                           />
-                        : <Icon
+                        : <MyIcon
                             className={styles.colorIcon}
                             key={i}
                             onClick={() => this.props.changeColor(e.id)}
@@ -92,7 +92,7 @@ class ProductInfo extends React.Component<
                           />
                   )
                 : images.filter(el => el.colorValue !== "").map((e, i) =>
-                    <Icon
+                    <MyIcon
                       key={i}
                       type={require("svg-sprite-loader!./checked-circle.svg")}
                       className={styles.colorIcon}
@@ -101,7 +101,7 @@ class ProductInfo extends React.Component<
                       }}
                     />
                   )}
-            </div>
+            </Flex>
             <div className={styles.colorName}>
               {activeImage.colorName}
             </div>

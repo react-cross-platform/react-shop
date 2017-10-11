@@ -1,38 +1,46 @@
-import { IRouterReducer } from "@src/interfaces";
-import { Catalog, FlatPages } from "@src/modules/layout";
+import { Catalog, Flatpages } from "@src/modules/layout";
+import { HomeTrigger, Layout } from "@src/modules/layout";
 import { getScrollableStyle } from "@src/modules/layout/utils";
-import { IRootReducer } from "@src/rootReducer";
 import { WhiteSpace } from "antd-mobile";
 import * as React from "react";
-import { connect } from "react-redux";
 
 import { PATH_NAMES } from "../index";
+import { IPage } from "../interfaces";
 
-interface StateProps {
-  router: IRouterReducer;
-}
+const styles = require("./styles.css");
 
-class HomePage extends React.Component<StateProps, {}> {
+interface OwnProps extends IPage {}
+
+class HomePage extends React.Component<OwnProps, {}> {
+  getLayoutOptions = () => {
+    return {
+      header: {
+        title: <HomeTrigger />
+      }
+    };
+  };
+
   isCurrentPage = () => {
-    const { router } = this.props;
-    return router.location.pathname === PATH_NAMES.home;
+    const { location } = this.props;
+    return location.pathname === PATH_NAMES.home;
   };
 
   render() {
+    const { location, history } = this.props;
     return (
-      <div
-        style={getScrollableStyle(this.isCurrentPage())}
+      <Layout
+        location={location}
+        history={history}
+        {...this.getLayoutOptions()}
       >
-        <Catalog />
-        <WhiteSpace size="lg" />
-        <FlatPages />
-      </div>
+        <div className={styles.HomePage} style={{ ...getScrollableStyle(this.isCurrentPage()) }}>
+          <Catalog />
+          <WhiteSpace size="lg" />
+          <Flatpages />
+        </div>
+      </Layout>
     );
   }
 }
 
-const mapStateToProps = (state: IRootReducer): StateProps => ({
-  router: state.router
-});
-
-export default connect<StateProps, {}, {}>(mapStateToProps)(HomePage);
+export default HomePage;

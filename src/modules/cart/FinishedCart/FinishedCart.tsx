@@ -1,4 +1,4 @@
-import { Icon } from "@src/modules/common";
+import { MyIcon } from "@src/modules/common";
 import { PATH_NAMES } from "@src/routes";
 import { Flex } from "antd-mobile";
 import * as React from "react";
@@ -22,7 +22,7 @@ class FinishedCart extends React.Component<OwnProps, {}> {
           align="center"
           className={styles.emptyCart}
         >
-          <Icon
+          <MyIcon
             className={styles.icon}
             type={require("!svg-sprite-loader!./circle-checked.svg")}
           />

@@ -1,6 +1,6 @@
 import { ISubProduct } from "../product/model";
 
-export interface Checkout {
+export interface ICheckout {
   phone: string;
   email: string;
   firstName: string;
@@ -10,7 +10,7 @@ export interface Checkout {
   comment: string;
 }
 
-export interface ICart extends Checkout {
+export interface ICart extends ICheckout {
   id: number;
   items: ICartItem[];
 }

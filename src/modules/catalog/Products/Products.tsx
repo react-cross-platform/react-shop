@@ -1,10 +1,16 @@
-import { IRouterReducer } from "@src/interfaces";
-import { Icon, Loading } from "@src/modules/common";
+import { Loading, MyIcon } from "@src/modules/common";
 import { IRootReducer } from "@src/rootReducer";
+import { IRouterReducer } from "@src/routes/interfaces";
 import update from "immutability-helper";
 import { throttle } from "lodash";
 import * as React from "react";
-import { compose, gql, graphql, OperationOption, QueryProps } from "react-apollo";
+import {
+  compose,
+  gql,
+  graphql,
+  OperationOption,
+  QueryProps
+} from "react-apollo";
 import MasonryInfiniteScroller from "react-masonry-infinite";
 import { connect } from "react-redux";
 
@@ -144,22 +150,10 @@ class Products extends React.Component<Props, State> {
         ? products.filter(p => viewedProductIds.indexOf(p.id) !== -1)
         : products;
 
-    let padding: number;
-    let gutter: number;
-    if (window.innerWidth <= 320) {
-      padding = 2;
-      gutter = 7;
-    } else if (window.innerWidth <= 375) {
-      padding = 4;
-      gutter = 8;
-    } else {
-      padding = 5;
-      gutter = 10;
-    }
+    const gutter = 3;
     return (
-      <div style={{ padding }} ref={element => (this.ref = element)}>
+      <div className={styles.Products} ref={element => (this.ref = element)}>
         <MasonryInfiniteScroller
-          className={styles.masonryInfiniteScroller}
           sizes={[{ columns: 2, gutter }]}
           loadMore={() => ""}
         >
@@ -169,12 +163,12 @@ class Products extends React.Component<Props, State> {
         </MasonryInfiniteScroller>
 
         <div
-          className={styles.icon}
+          className={styles.loading}
           style={{
             display: this.state.haveMoreProducts ? "block" : "none"
           }}
         >
-          <Icon type="loading" size="lg" />
+          <MyIcon type="loading" size="lg" />
         </div>
 
         <ProductsCounter

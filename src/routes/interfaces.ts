@@ -1,9 +1,27 @@
 import { History, Location } from "history";
 
-import { IRouterReducer } from "../interfaces";
+export enum Left {
+  Close
+}
 
-export interface IPage extends IRouterReducer {
+export interface MyLocationState extends History.LocationState {
+  modal?: boolean;
+  animated?: boolean;
+  title?: string;
+}
+
+export interface MyLocation extends Location {
+  state: MyLocationState;
+}
+
+export interface IRouterReducer {
+  location: MyLocation;
+}
+
+export interface MyHistory extends History {}
+
+export interface IPage {
   match?: any;
-  history: History;
-  location: Location;
+  history: MyHistory;
+  location: MyLocation;
 }

@@ -27,11 +27,9 @@
   background-color: orange !important;
   border-radius: 0 !important;
   border: 0 !important;
-  bottom: 0;
   color: white !important;
   height: 3rem !important;
   line-height: 3rem !important;
-  position: fixed !important;
   width: 100%;
-  z-index: 1000;
+  /* z-index: 1000; */
 }

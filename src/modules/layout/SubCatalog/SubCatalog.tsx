@@ -1,8 +1,9 @@
-import { Dispatch, IRouterReducer } from "@src/interfaces";
+import { Dispatch } from "@src/interfaces";
 import { ICatalogReducer } from "@src/modules/catalog/reducer";
 import { ICategory } from "@src/modules/product/model";
 import { IRootReducer } from "@src/rootReducer";
 import { PATH_NAMES } from "@src/routes";
+import { IRouterReducer } from "@src/routes/interfaces";
 import { Card, Flex } from "antd-mobile";
 import { compile } from "path-to-regexp";
 import * as React from "react";
@@ -44,7 +45,10 @@ class SubCatalog extends React.Component<StateProps & OwnProps, {}> {
         {categories.map((category, i) =>
           <Link
             key={`cat${i}`}
-            to={this.getPath(category)}
+            to={{
+              pathname: this.getPath(category),
+              state: { title: category.name }
+            }}
             className={styles.categoryContainer}
             style={{
               borderColor: this.isViewed(category) ? "orange" : "lightgrey",

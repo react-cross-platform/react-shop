@@ -1,37 +1,28 @@
-import { Icon, Loading } from "@src/modules/common";
+import { Loading, MyIcon } from "@src/modules/common";
 import { PATH_NAMES } from "@src/routes";
-import { List } from "antd-mobile";
+import { Accordion, Flex } from "antd-mobile";
 import gql from "graphql-tag";
 import { compile } from "path-to-regexp";
 import * as React from "react";
 import { graphql, QueryProps } from "react-apollo";
-import { Link } from "react-router-dom";
 
-import { IFlatPage } from "../model";
+import { IFlatpage } from "../model";
 
 const styles = require("./styles.css");
 
-interface IFlatPagesData extends QueryProps {
-  flatPages: [IFlatPage];
+interface IFlatpagesData extends QueryProps {
+  flatpages?: [IFlatpage];
 }
 
 interface GraphQLProps {
-  data: IFlatPagesData;
+  data: IFlatpagesData;
 }
 
 function createMarkup(html) {
   return { __html: html };
 }
 
-class FlatPages extends React.Component<GraphQLProps, {}> {
-  state = {
-    page: {
-      content: "",
-      id: "",
-      name: ""
-    }
-  };
-
+class Flatpages extends React.Component<GraphQLProps, {}> {
   getIcon = id => {
     // tslint:disable-next-line:variable-name
     const _id = parseInt(id, 10);
@@ -86,57 +77,60 @@ class FlatPages extends React.Component<GraphQLProps, {}> {
     }
   };
 
-  getLinkProps = (flatPage: IFlatPage) => {
-    const { id, name } = flatPage;
+  getLinkProps = (flatPage: IFlatpage) => {
+    const { id, name, content } = flatPage;
     return {
       to: {
         pathname: compile(PATH_NAMES.flatpage)({ id }),
         state: {
           modal: true,
           title: name,
-          pages: this.props.data.flatPages
+          content
         }
       }
     };
   };
 
   render() {
-    const { data } = this.props;
-    if (!data) {
-      return <div />;
-    }
-
-    const { loading, flatPages } = data;
-    if (loading === true) {
+    const { data: { loading, flatpages } } = this.props;
+    if (loading) {
       return <Loading />;
     }
 
+    //   <Flex>
+    //   <Icon
+    //     className={styles.icon}
+    //     type={this.getIcon(page.id)}
+    //     size="md"
+    //   />
+    //   {page.name}
+    // </Flex>
+
     return (
-      <div>
-        <List>
-          {flatPages.map(page =>
-            <Link key={page.id} {...this.getLinkProps(page)}>
-              <List.Item
-                wrap={true}
-                arrow="horizontal"
-                thumb={
-                  <Icon
-                    className={styles.icon}
-                    type={this.getIcon(page.id)}
-                    size="md"
-                  />
-                }
-              >
-                {page.name}
-              </List.Item>
-            </Link>
-          )}
-        </List>
-      </div>
+      <Accordion accordion={true} className={styles.Flatpages}>
+        {flatpages!.map(page =>
+          <Accordion.Panel
+            key={page.id}
+            header={
+              <Flex>
+                <MyIcon className={styles.icon} type={this.getIcon(page.id)} />
+                <div>
+                  {page.name}
+                </div>
+              </Flex>
+            }
+            className={styles.header}
+          >
+            <div className={styles.content}>
+              {page.content}
+            </div>
+          </Accordion.Panel>
+        )}
+      </Accordion>
     );
   }
 }
 
 const FLATPAGES_QUERY = gql(require("./flatpages.gql"));
 
-export default graphql(FLATPAGES_QUERY)(FlatPages);
+export default graphql(FLATPAGES_QUERY)(Flatpages);

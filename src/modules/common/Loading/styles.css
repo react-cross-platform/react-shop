@@ -1,5 +1,15 @@
 .Loading {
-  left: 45%;
+  background-color: white !important;
+  color: gray;
+  font-size: 2rem;
+  left: 50%;
   position: fixed;
-  top: 45%;
+  top: 48%;
+  transform: translate(-50%, 0);
+}
+
+.icon {
+  height: 3rem !important;
+  margin: 0 0.6rem;
+  width: 3rem !important;
 }

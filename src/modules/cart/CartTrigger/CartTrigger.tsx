@@ -1,7 +1,7 @@
-import { IRouterReducer } from "@src/interfaces";
-import { Icon } from "@src/modules/common";
+import { MyIcon } from "@src/modules/common";
 import { IRootReducer } from "@src/rootReducer";
 import { PATH_NAMES } from "@src/routes";
+import { IRouterReducer } from "@src/routes/interfaces";
 import { Flex } from "antd-mobile";
 import * as React from "react";
 import { graphql } from "react-apollo";
@@ -45,7 +45,7 @@ class CartTrigger extends React.Component<StateProps & GraphQLProps, {}> {
               {amount}
             </Flex>
           : null}
-        <Icon
+        <MyIcon
           className={styles.icon}
           type={require("!svg-sprite-loader!./cart.svg")}
           size="md"

@@ -1,5 +1,13 @@
 import { Dispatch } from "@src/interfaces";
-import { Button, Flex, InputItem, List, Modal, SegmentedControl, TextareaItem } from "antd-mobile";
+import {
+  Button,
+  Flex,
+  InputItem,
+  List,
+  Modal,
+  SegmentedControl,
+  TextareaItem
+} from "antd-mobile";
 import { FormikProps, withFormik } from "formik";
 import gql from "graphql-tag";
 import * as React from "react";
@@ -9,7 +17,7 @@ import { compose } from "redux";
 import Yup from "yup";
 
 import { IDataCart } from "../Cart/Cart";
-import { Checkout } from "../model";
+import { ICheckout } from "../model";
 import { ACTION_FINISH_CART } from "../reducer";
 
 const styles = require("./styles.css");
@@ -37,7 +45,7 @@ interface State {
 interface Props
   extends OwnProps,
     DispatchProps,
-    FormikProps<Checkout>,
+    FormikProps<ICheckout>,
     GraphQLProps {}
 
 class CheckoutForm extends React.Component<Props, State> {
@@ -103,11 +111,11 @@ class CheckoutForm extends React.Component<Props, State> {
             <InputItem
               clear={true}
               error={!!errors.phone}
-              maxLength={13}
+              maxLength={12}
               name="phone"
               onBlur={value => this.handleBlur("phone", value)}
               onChange={value => this.handleChange("phone", value)}
-              placeholder="+380671234567"
+              placeholder="380671234567"
               value={values.phone}
             >
               Телефон
@@ -212,7 +220,7 @@ class CheckoutForm extends React.Component<Props, State> {
 const UPDATE_CART_MUTATION = gql(require("./updateCart.gql"));
 
 const INITIAL_VALUES = {
-  phone: "+380"
+  phone: "380"
 };
 
 export default compose<any>(
@@ -220,11 +228,17 @@ export default compose<any>(
   graphql(UPDATE_CART_MUTATION),
   withFormik({
     validationSchema: Yup.object().shape({
-      phone: Yup.string().matches(/\+\d{12}/).required(),
+      phone: Yup.string().matches(/\d{12}/).required(),
       email: Yup.string().email()
     }),
     mapPropsToValues: (props: Props) => {
-      return props.data!.cart || INITIAL_VALUES;
+      const values = { ...props.data!.cart };
+      for (const key in values) {
+        if (!values[key] && INITIAL_VALUES.hasOwnProperty(key)) {
+          values[key] = INITIAL_VALUES[key];
+        }
+      }
+      return values;
     },
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
       const { dispatch, mutate, data } = props;

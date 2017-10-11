@@ -1,7 +1,7 @@
-.Сart {
+.Cart {
   background-color: #f5f5f9;
   height: 100%;
-  margin-bottom: 3rem;
+  position: relative;
   width: 100%;
 }
 

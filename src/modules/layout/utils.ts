@@ -12,6 +12,6 @@ export const getScrollableStyle = (isScrollable: boolean): CSSProperties => {
         WebkitOverflowScrolling: "touch"
       }
     : {
-        overflowY: "hidden"
+        overflowY: "hidden",
       };
 };

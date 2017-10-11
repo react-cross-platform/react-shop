@@ -2,4 +2,21 @@
   background: #2474cc;
   height: 3rem;
   width: 100%;
+  flex-shrink: 0;
+  color: white;
+}
+
+.left {
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0.7rem;
+  fill: white;
+}
+
+.title {
+  font-size: 1.3rem;
+}
+
+.right {
+  width: 3rem;
 }

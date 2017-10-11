@@ -1,7 +1,22 @@
 .Footer {
-  background: lightblue;
-  bottom: 0;
-  position: fixed;
-  text-align: center;
+  height: 3rem;
+  border-top: 1px solid lightgray;
   width: 100%;
+  text-align: center !important;
+  flex-shrink: 0;
+  background-color: #eeeef1;
+}
+
+.item {
+  color: black;
+  line-height: 0.8rem;
+}
+
+.label {
+  font-size: 0.8rem;
+}
+
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
 }

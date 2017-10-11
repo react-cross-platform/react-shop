@@ -1,10 +1,10 @@
-import { IRouterReducer } from "@src/interfaces";
 import { CART_QUERY, IDataCart } from "@src/modules/cart/Cart/Cart";
 import { ACTION_ADD_VIEWED_PRODUCT } from "@src/modules/catalog/constants";
 import { Loading } from "@src/modules/common";
 import { getScrollableStyle } from "@src/modules/layout/utils";
 import { IRootReducer } from "@src/rootReducer";
 import { PATH_NAMES } from "@src/routes";
+import { IRouterReducer } from "@src/routes/interfaces";
 import { Flex, WingBlank } from "antd-mobile";
 import gql from "graphql-tag";
 import { compile } from "path-to-regexp";

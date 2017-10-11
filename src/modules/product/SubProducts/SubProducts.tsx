@@ -1,5 +1,5 @@
 import { Dispatch } from "@src/interfaces";
-import { Icon, Price } from "@src/modules/common";
+import { MyIcon, Price } from "@src/modules/common";
 import { IRootReducer } from "@src/rootReducer";
 import { List } from "antd-mobile";
 import * as React from "react";
@@ -56,16 +56,16 @@ class SubProducts extends React.Component<Props, {}> {
             onClick={() => this.selectSubProduct(subProduct.id)}
             thumb={
               this.isActive(subProduct)
-                ? <Icon
+                ? <MyIcon
                     className={styles.icon}
-                    type={require("svg-sprite-loader!./circle-checked.svg")}
+                    type={require("svg-sprite-loader!./checked-circle.svg")}
                     style={{
                       fill: this.inCart(subProduct) ? "green" : "orange"
                     }}
                   />
-                : <Icon
+                : <MyIcon
                     className={styles.icon}
-                    type={require("svg-sprite-loader!./circle.svg")}
+                    type={require("svg-sprite-loader!./empty-circle.svg")}
                     style={{
                       fill: this.inCart(subProduct) ? "green" : "gray"
                     }}

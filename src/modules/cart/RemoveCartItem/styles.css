@@ -1,9 +1,9 @@
 .RemoveCartItem {
   fill: gray;
-  height: 1rem !important;
+  height: 1rem;
   padding: 0.5rem;
   position: absolute;
   right: 0;
-  width: 1rem !important;
+  width: 1rem;
   z-index: 1;
 }

@@ -1,4 +1,4 @@
-import { Icon } from "@src/modules/common";
+import { MyIcon } from "@src/modules/common";
 import { IRootReducer } from "@src/rootReducer";
 import * as React from "react";
 import { connect } from "react-redux";
@@ -30,7 +30,7 @@ class ShowOnlyViewed extends React.Component<StateProps & DispatcProps, {}> {
         }}
         onClick={toggleViewed}
       >
-        <Icon
+        <MyIcon
           type={require("!svg-sprite-loader!./viewed.svg")}
           size="lg"
           style={{ fill: showOnlyViewed ? "orange" : "grey" }}

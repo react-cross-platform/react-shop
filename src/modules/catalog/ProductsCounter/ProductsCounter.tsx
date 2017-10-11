@@ -14,7 +14,7 @@ class ProductsCounter extends React.Component<OwnProps, {}> {
     return (
       <div>
         <div className={styles.ProductsCounter}>
-          {scrolled}/{total}
+          {scrolled} / {total}
         </div>
         <Progress
           className={styles.progress}

@@ -1,17 +1,14 @@
 .ProductInfo {
   background-color: #fff;
   box-shadow: 0 0.4rem 1.2rem -0.6rem lightgrey;
+  height: 100%;
   margin-bottom: 3rem;
 }
 
-.colors {
-  text-align: center;
-}
-
 .colorIcon {
-  height: 1.4rem !important;
+  height: 1.7rem;
   margin-right: 0.5rem;
-  width: 1.4rem !important;
+  width: 1.7rem;
 }
 
 .colorName {

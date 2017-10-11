@@ -1,4 +1,4 @@
-import { Icon } from "antd-mobile";
+import { Flex, Icon } from "antd-mobile";
 import * as React from "react";
 
 const styles = require("./styles.css");
@@ -6,7 +6,11 @@ const styles = require("./styles.css");
 const Loading = () => {
   return (
     <div className={styles.Loading}>
-      <Icon type="loading" size="lg" />
+      <Flex alignContent="center">
+        React
+        <Icon type="loading" className={styles.icon} />
+        Shop
+      </Flex>
     </div>
   );
 };

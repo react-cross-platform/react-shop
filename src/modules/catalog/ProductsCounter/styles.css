@@ -1,12 +1,12 @@
 .ProductsCounter {
-  bottom: 0.7rem;
+  bottom: 3.5rem;
   color: gray;
   position: fixed;
   right: 0.8rem;
 }
 
 .progress {
-  bottom: 0;
+  bottom: 3rem;
   left: 0;
   position: fixed;
   right: 0;

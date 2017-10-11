@@ -1,8 +1,9 @@
-.icon {
-  padding-top: 0.8rem;
-  text-align: center;
+.Products {
+  margin: 0.2rem 0.2rem 2.5rem;
 }
 
-.masonryInfiniteScroller {
-  margin-bottom: 3rem;
+.loading {
+  position: relative;
+  text-align: center;
+  top: 1.2rem;
 }

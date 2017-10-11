@@ -1,8 +1,7 @@
-import { IRouterReducer } from "@src/interfaces";
 import { Loading, Price } from "@src/modules/common/index";
-import { getScrollableStyle } from "@src/modules/layout/utils";
 import { IRootReducer } from "@src/rootReducer";
 import { PATH_NAMES } from "@src/routes/index";
+import { IRouterReducer } from "@src/routes/interfaces";
 import { Flex } from "antd-mobile";
 import gql from "graphql-tag";
 import { History } from "history";
@@ -62,11 +61,6 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
     }
   };
 
-  isCurrentPage = () => {
-    const { router } = this.props;
-    return router.location.pathname === PATH_NAMES.cart;
-  };
-
   render() {
     const {
       data,
@@ -89,12 +83,7 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
     }
 
     return (
-      <Flex
-        direction="column"
-        justify="between"
-        className={styles.Сart}
-        style={getScrollableStyle(this.isCurrentPage())}
-      >
+      <Flex direction="column" justify="between" className={styles.Cart}>
         <div className={styles.section}>
           <div className={styles.title}>
             Итого к оплате: <Price price={getCartTotalPrice(cart)} />

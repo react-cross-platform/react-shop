@@ -1,23 +1,30 @@
+import { IPage } from "@src/routes/interfaces";
 import { Flex } from "antd-mobile";
 import * as React from "react";
 
-import { Header } from "../index";
+import { Footer, Header } from "../index";
 
 const styles = require("./styles.css");
 
-interface ILayouProps {
-  header: JSX.Element;
+interface OwnProps extends IPage {
+  header?: {
+    title?: JSX.Element | string;
+  };
+  footer?: any;
 }
 
-class Layout extends React.Component<ILayouProps, {}> {
+class Layout extends React.Component<OwnProps, {}> {
   render() {
-    const { header } = this.props;
+    const { history, location, header, footer } = this.props;
     return (
       <Flex direction="column" className="full-size">
-        {header}
+        <Header {...header} location={location} history={history} />
         <Flex direction="column" className="full-size">
           {this.props.children}
         </Flex>
+        {footer === null
+          ? null
+          : <Footer location={location} history={history} />}
       </Flex>
     );
   }
