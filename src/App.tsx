@@ -5,14 +5,14 @@ import { ConnectedRouter } from "react-router-redux";
 
 import client from "./graphqlClient";
 import history from "./history";
-import { RootRoute } from "./routes";
+import { RouteSwitch } from "./routes";
 import store from "./store";
 
 const App = () => {
   return (
     <ApolloProvider store={store} client={client as any}>
       <ConnectedRouter history={history}>
-        <Route component={RootRoute} />
+        <Route component={RouteSwitch} />
       </ConnectedRouter>
     </ApolloProvider>
   );

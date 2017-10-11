@@ -1,4 +1,4 @@
-import { MyModal } from "@src/routes";
+import { ModalRoute } from "@src/routes";
 import { IPage } from "@src/routes/interfaces";
 import * as React from "react";
 import { Route, Switch } from "react-router";
@@ -25,17 +25,21 @@ const styles = require("./styles.css");
 
 interface Props extends IPage {}
 
-const Container = ({ isModal, location, children }) => {
-  return isModal
-    ? <MyModal animated={location.state && location.state.animated}>
-        {children}
-      </MyModal>
-    : <Switch location={location}>
-        {children}
-      </Switch>;
+const Routes = ({ Component, params }) => {
+  return (
+    <Component {...params}>
+      <Route exact={true} path={PATH_NAMES.home} component={HomePage} />
+      <Route path={PATH_NAMES.flatpages} component={FlatpagesPage} />
+      <Route path={PATH_NAMES.flatpage} component={FlatpagePage} />
+      <Route path={PATH_NAMES.catalog} component={CatalogPage} />
+      <Route path={PATH_NAMES.category} component={CategoryPage} />
+      <Route path={PATH_NAMES.product} component={ProductPage} />
+      <Route path={PATH_NAMES.cart} component={CartPage} />
+    </Component>
+  );
 };
 
-class RootRoute extends React.Component<Props, {}> {
+class RouteSwitch extends React.Component<Props, {}> {
   previousLocation = this.props.location;
 
   componentWillUpdate(nextProps: Props) {
@@ -66,25 +70,22 @@ class RootRoute extends React.Component<Props, {}> {
     const { location } = this.props;
     const isModal = this.isModal();
     return (
-      <div
-        className={styles.RootRoute}
-        style={{ display: isModal ? "none" : "block" }}
-      >
-        <Container
-          isModal={isModal}
-          location={isModal ? location : this.previousLocation}
+      <div className={styles.RouteSwitch}>
+        <div
+          className={styles.mainRoute}
+          style={{
+            display: isModal ? "none" : "block"
+          }}
         >
-          <Route exact={true} path={PATH_NAMES.home} component={HomePage} />
-          <Route path={PATH_NAMES.flatpages} component={FlatpagesPage} />
-          <Route path={PATH_NAMES.flatpage} component={FlatpagePage} />
-          <Route path={PATH_NAMES.catalog} component={CatalogPage} />
-          <Route path={PATH_NAMES.category} component={CategoryPage} />
-          <Route path={PATH_NAMES.product} component={ProductPage} />
-          <Route path={PATH_NAMES.cart} component={CartPage} />
-        </Container>
+          <Routes
+            Component={Switch}
+            params={{ location: isModal ? this.previousLocation : location }}
+          />
+        </div>
+        {isModal ? <Routes Component={ModalRoute} params={null} /> : null}
       </div>
     );
   }
 }
 
-export default RootRoute;
+export default RouteSwitch;

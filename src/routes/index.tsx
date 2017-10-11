@@ -1,5 +1,4 @@
-import MyModal from "./MyModal/MyModal";
-import { PATH_NAMES } from "./RootRoute/RootRoute";
-import RootRoute from "./RootRoute/RootRoute";
+import ModalRoute from "./ModalRoute/ModalRoute";
+import RouteSwitch, { PATH_NAMES } from "./RouteSwitch/RouteSwitch";
 
-export { MyModal, PATH_NAMES, RootRoute }
+export { ModalRoute, PATH_NAMES, RouteSwitch }
