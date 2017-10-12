@@ -21,7 +21,7 @@ class Layout extends React.Component<OwnProps, {}> {
         <Header {...header} location={location} history={history} />
         <div
           className={styles.layoutContent}
-          style={{ padding: `2.7rem 0 ${footer === null ? 0 : "2.7rem"}` }}
+          style={{ padding: `2.8rem 0 ${footer === null ? 0 : "2.8rem"}` }}
         >
           {this.props.children}
         </div>

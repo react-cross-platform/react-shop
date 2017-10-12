@@ -1,9 +1,9 @@
 .Images {
   background: white;
+  width: auto !important;
+  margin: 0 5px 0.3rem;
 }
 
 .image {
-  height: 95%;
   object-fit: contain;
-  width: 100%;
 }

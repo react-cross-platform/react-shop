@@ -1,67 +1,137 @@
+import { MyIcon } from "@src/modules/common";
+import { Div } from "@src/modules/common/utils";
 import { Carousel, Flex } from "antd-mobile";
 import * as React from "react";
+import { Link } from "react-router-dom";
 
-import { scaleImageSize } from "../Image/Image";
+import { Aux } from "../../common/utils";
 import { IImage } from "../model";
 
 const styles = require("./styles.css");
 
+const DEFAULT_OBJEFT_FIT_SIZE = {
+  width: "100%",
+  height: "95%"
+};
+
+const DEFAULT_CURRENT_IMAGE_NUMBER = 0;
+
 interface OwnProps {
+  defaultHeight: number;
   images: [IImage];
+  dotWidth: number;
+  currentImageNumber?: number;
+  objectFitSize?: {
+    width: string;
+    height: string;
+  };
+  linkProps?: {};
 }
 
-class Images extends React.Component<OwnProps, {}> {
-  render() {
-    const { images } = this.props;
-    const maxImageHeight = Math.max(
-      ...images.map(img => scaleImageSize(img.width, img.height, 1.5).height)
-    );
+interface State {
+  currentImageNumber: number;
+}
 
-    const height = window.innerHeight * 0.65;
-    const dotStyle = {
-      position: "relative",
-      top: innerHeight * 0.02
-    };
+class Images extends React.Component<OwnProps, State> {
+  state = {
+    currentImageNumber: DEFAULT_CURRENT_IMAGE_NUMBER
+  };
+
+  componentWillReceiveProps(nextProps: OwnProps) {
+    const currentImageNumber =
+      nextProps.currentImageNumber || DEFAULT_CURRENT_IMAGE_NUMBER;
+    this.setState({ currentImageNumber });
+  }
+
+  render() {
+    const { defaultHeight, images, linkProps, dotWidth } = this.props;
+    const objectFitSize = this.props.objectFitSize || DEFAULT_OBJEFT_FIT_SIZE;
+    const Component = linkProps ? Link : Div;
     if (images.length > 1) {
       return (
-        <Carousel
-          autoplay={false}
-          className={styles.Images}
-          dots={images.length > 1}
-          infinite={false}
-          selectedIndex={0}
-          style={{
-            height
-          }}
-          dotStyle={dotStyle}
-          dotActiveStyle={dotStyle}
-        >
-          {this.props.images.map((image, i) =>
-            <Flex
-              key={i}
-              justify="center"
-              align="center"
-              style={{
-                height
-              }}
+        <Aux>
+          <Component style={{ width: "100%" }} {...linkProps}>
+            <Carousel
+              autoplay={false}
+              className={styles.Images}
+              selectedIndex={
+                this.state.currentImageNumber || DEFAULT_CURRENT_IMAGE_NUMBER
+              }
+              dots={false}
+              infinite={false}
+              afterChange={currentImageNumber =>
+                this.setState({ currentImageNumber })}
+              style={{ height: defaultHeight }}
             >
-              <img className={styles.image} src={image.src} />
-            </Flex>
-          )}
-        </Carousel>
+              {this.props.images.map((image, i) =>
+                <Flex
+                  key={i}
+                  justify="center"
+                  align="center"
+                  style={{
+                    height: defaultHeight
+                  }}
+                >
+                  <img
+                    style={objectFitSize}
+                    className={styles.image}
+                    src={image.src}
+                  />
+                </Flex>
+              )}
+            </Carousel>
+          </Component>
+
+          {/* Carousel dots per image */}
+          <Flex justify="center">
+            {this.props.images.map((image, i) =>
+              <MyIcon
+                key={i}
+                type={
+                  image.colorValue
+                    ? require("!svg-sprite-loader!./circle.svg")
+                    : require("!svg-sprite-loader!./empty-circle.svg")
+                }
+                style={{
+                  fill: image.colorValue ? image.colorValue : "gray",
+                  width:
+                    i === this.state.currentImageNumber
+                      ? dotWidth * 1.3
+                      : dotWidth,
+                  height:
+                    i === this.state.currentImageNumber
+                      ? dotWidth * 1.3
+                      : dotWidth,
+                  padding: dotWidth * 0.5
+                }}
+                onClick={e => this.setState({ currentImageNumber: i })}
+              />
+            )}
+          </Flex>
+        </Aux>
       );
     } else {
-      const image = images[0];
       return (
-        <Flex
-          justify="center"
-          align="center"
-          style={{
-            height: image.height
-          }}
-        >
-          <img className={styles.image} src={image.src} />
-        </Flex>
+        <Component {...linkProps}>
+          <Flex
+            justify="center"
+            align="center"
+            style={{
+              height: defaultHeight
+            }}
+          >
+            {images.length === 0
+              ? <MyIcon
+                  type={require("!svg-sprite-loader!./no-image.svg")}
+                  style={{ fill: "lightgray" }}
+                />
+              : <img
+                  className={styles.image}
+                  style={objectFitSize}
+                  src={images[0].src}
+                />}
+          </Flex>
+        </Component>
       );
     }
   }

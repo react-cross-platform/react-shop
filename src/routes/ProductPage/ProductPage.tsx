@@ -1,13 +1,14 @@
 import { CART_QUERY, IDataCart } from "@src/modules/cart/Cart/Cart";
 import { ACTION_ADD_VIEWED_PRODUCT } from "@src/modules/catalog/constants";
-import { Loading, MyIcon } from "@src/modules/common";
+import { Devider, Loading, MyIcon } from "@src/modules/common";
 import { Layout } from "@src/modules/layout";
-import { Images, ProductInfo, ProductToCart } from "@src/modules/product";
+import { Images, ProductToCart, SubProducts } from "@src/modules/product";
 import { ACTION_SELECT_SUB_PRODUCT } from "@src/modules/product/constants";
 import { IProduct } from "@src/modules/product/model";
 import { IProductReducer } from "@src/modules/product/reducer";
 import { IRootReducer } from "@src/rootReducer";
-import { Flex, WingBlank } from "antd-mobile";
+import { Flex, WhiteSpace, WingBlank } from "antd-mobile";
+import { description } from "antd-mobile/lib/popover/demo/basic.native";
 import gql from "graphql-tag";
 import { compile } from "path-to-regexp";
 import * as React from "react";
@@ -15,6 +16,7 @@ import { compose, graphql, OperationOption, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
+import { ACTION_SELECT_COLOR } from "../../modules/product/constants";
 import { ISubProduct } from "../../modules/product/model";
 import { PATH_NAMES } from "../index";
 import { IPage } from "../interfaces";
@@ -37,22 +39,25 @@ interface StateProps {
 interface DispatchProps {
   addViewedSubProduct: (id: string) => void;
   selectSubProduct: (id: string, color: number) => void;
+  changeColor: (colorId: number) => void;
 }
 
 interface OwnProps extends IPage {
   id: string;
+  activeSubProduct: ISubProduct;
+  subProductIdsInCart: number[];
 }
 
 interface Props extends GraphQLProps, StateProps, DispatchProps, OwnProps {}
 
-const getActiveSubProduct = (subProducts, subProductId): ISubProduct => {
-  return (
-    subProducts.filter(sp => parseInt(sp.id, 0) === subProductId)[0] ||
-    subProducts[0]
-  );
+const getActiveSubProduct = (
+  subProducts,
+  subProductId: string
+): ISubProduct => {
+  return subProducts.filter(sp => sp.id === subProductId)[0] || subProducts[0];
 };
 
-const getSubProductIdsInCart = (data: IDataCart) => {
+const getSubProductIdsInCart = (data: IDataCart): number[] => {
   const { cart, loading } = data;
   return !loading && cart && cart.items
     ? cart.items.map(item => parseInt(item.subProduct.id, 0))
@@ -125,10 +130,25 @@ class Product extends React.Component<Props, {}> {
     };
   };
 
+  getCurrentImageNumber = (): number | undefined => {
+    const { images } = this.props.dataProduct.product!;
+    const { colorId } = this.props.product;
+    if (!colorId) {
+      return;
+    }
+    const filtered = images
+      .map((image, i) => ({
+        colorId: image.id,
+        number: i
+      }))
+      .filter(data => data.colorId === colorId);
+    if (filtered.length > 0) {
+      return filtered[0].number;
+    }
+  };
+
   render() {
     const { location, history, dataProduct, dataCart } = this.props;
-    const { product } = dataProduct;
-    const { colorId } = this.props.product;
     if (dataProduct.loading || !this.props.product.subProductId) {
       return (
         <Layout {...this.getLayoutOptions()}>
@@ -137,37 +157,159 @@ class Product extends React.Component<Props, {}> {
       );
     }
 
-    const subProductId = parseInt(this.props.product.subProductId, 0);
-    const { id, brand, images, subProducts } = product!;
+    const { product } = dataProduct;
+    const { colorId, subProductId } = this.props.product;
+    const {
+      id,
+      brand,
+      description,
+      attributes,
+      images,
+      subProducts
+    } = product!;
     const activeSubProduct = getActiveSubProduct(subProducts, subProductId);
-    const { price, oldPrice } = activeSubProduct;
+    const activeImage =
+      activeSubProduct.id === subProductId
+        ? images.filter(image => image.id === colorId)[0]
+        : images.filter(image => image.isTitle === true)[0];
+
     const subProductIdsInCart = getSubProductIdsInCart(dataCart);
+    const { price, oldPrice } = activeSubProduct;
+
     return (
       <Layout {...this.getLayoutOptions()}>
         <div className={styles.ProductPage}>
+          {/* First screen info */}
           <Flex
-            style={{ height: window.innerHeight - 35 * 2 }}
+            style={{ height: window.innerHeight - 37 * 2 }}
             justify="around"
             direction="column"
             className={styles.firstScreen}
           >
-            <Images images={images} />
+            <Images
+              defaultHeight={window.innerHeight * 0.65}
+              images={images}
+              currentImageNumber={this.getCurrentImageNumber()}
+              dotWidth={13}
+            />
             <WingBlank className={styles.name}>
               {product!.name}
               <br />
               {brand.name} {activeSubProduct.article}
             </WingBlank>
           </Flex>
-          <ProductInfo
-            dataProduct={product!}
-            activeSubProduct={activeSubProduct}
-            subProductIdsInCart={subProductIdsInCart}
-          />
+
+          {/* Select SubProduct section */}
+          {subProducts.length > 1
+            ? <div>
+                <Devider />
+                <SubProducts
+                  subProducts={subProducts}
+                  subProductIdsInCart={subProductIdsInCart}
+                />
+              </div>
+            : ""}
+
+          <Devider />
+          <WhiteSpace />
+
+          {/* Select Color section */}
+          <WingBlank>
+            <Flex justify="between">
+              <Flex align="center">
+                {images.filter(el => el.colorValue !== "").length > 1
+                  ? images.filter(el => el.colorValue !== "").map(
+                      (e, i) =>
+                        e.id === this.props.product.colorId
+                          ? <MyIcon
+                              className={styles.colorIcon}
+                              key={i}
+                              type={require("svg-sprite-loader!./checked-circle.svg")}
+                              style={{
+                                fill: e.colorValue
+                              }}
+                            />
+                          : <MyIcon
+                              className={styles.colorIcon}
+                              key={i}
+                              onClick={() => this.props.changeColor(e.id)}
+                              type={require("svg-sprite-loader!./circle.svg")}
+                              style={{
+                                fill: e.colorValue
+                              }}
+                            />
+                    )
+                  : images.filter(el => el.colorValue !== "").map((e, i) =>
+                      <MyIcon
+                        key={i}
+                        type={require("svg-sprite-loader!./checked-circle.svg")}
+                        className={styles.colorIcon}
+                        style={{
+                          fill: e.colorValue
+                        }}
+                      />
+                    )}
+              </Flex>
+              <div className={styles.colorName}>
+                {activeImage.colorName}
+              </div>
+            </Flex>
+          </WingBlank>
+
+          <WhiteSpace />
+          <Devider />
+          <WhiteSpace />
+
+          {/* Product params section */}
+          <WingBlank>
+            {attributes.map((el, index) =>
+              <Flex key={index} justify="between">
+                <Flex className={styles.paramtName}>
+                  {el.name}
+                </Flex>
+                <Flex className={styles.paramValue}>
+                  {el.values.map(v => v.name).join(", ")}
+                </Flex>
+              </Flex>
+            )}
+            {subProducts.length === 1
+              ? subProducts.map((supProduct, i) =>
+                  <Flex key={i} justify="between">
+                    <div className={styles.paramtName}>Размер, ШxВxГ</div>
+                    <div className={styles.paramValue}>
+                      {supProduct.attributes.length !== 0
+                        ? supProduct.attributes
+                            .slice(0, 3)
+                            .map(e => e.values.map(v => v.value))
+                            .join("x")
+                        : supProduct.article}
+                    </div>
+                  </Flex>
+                )
+              : null}
+          </WingBlank>
+
+          <WhiteSpace />
+          <Devider />
+          <WhiteSpace />
+
+          {/* Product description section */}
+          <WingBlank>
+            <div
+              className={styles.description}
+              dangerouslySetInnerHTML={createMarkup(description)}
+            />
+          </WingBlank>
+          <WhiteSpace />
+
+          {/* Add to cart */}
           <ProductToCart
-            subProductId={subProductId}
+            subProductId={parseInt(subProductId, 0)}
             price={price}
             oldPrice={oldPrice}
-            inCart={subProductIdsInCart.indexOf(subProductId) !== -1}
+            inCart={
+              subProductIdsInCart.indexOf(parseInt(subProductId, 0)) !== -1
+            }
           />
         </div>
       </Layout>
@@ -192,6 +334,9 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
       id,
       colorId
     });
+  },
+  changeColor: (colorId: number) => {
+    dispatch({ type: ACTION_SELECT_COLOR, colorId });
   }
 });
 

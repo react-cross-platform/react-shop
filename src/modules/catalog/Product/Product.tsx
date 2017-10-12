@@ -1,8 +1,8 @@
 import { MyIcon } from "@src/modules/common";
-import { scaleImageSize } from "@src/modules/product";
+import { Images, scaleImageSize } from "@src/modules/product";
 import { IImageWithColor, IProduct } from "@src/modules/product/model";
 import { IRootReducer } from "@src/rootReducer";
-import { Card, Flex, WhiteSpace } from "antd-mobile";
+import { Card, WhiteSpace } from "antd-mobile";
 import { compile } from "path-to-regexp";
 import * as React from "react";
 import { connect } from "react-redux";
@@ -96,38 +96,13 @@ class Product extends React.Component<StateProps & OwnProps, State> {
 
           <WhiteSpace size="sm" />
 
-          <div>
-            <Link {...this.getLinkProps()}>
-              <div
-                className={styles.imageContainer}
-                style={{ height: maxImageHeight }}
-              >
-                {titleImage
-                  ? <img src={titleImage.src} />
-                  : <MyIcon
-                      className={styles.noImage}
-                      type={require("!svg-sprite-loader!../../layout/HomeTrigger/logo.svg")}
-                    />}
-              </div>
-            </Link>
-
-            {/* Images */}
-            {imagesWithColor.length > 1
-              ? <Flex justify="center" style={{ height: 15 }}>
-                  {imagesWithColor.map((image, i) =>
-                    <MyIcon
-                      key={i}
-                      type={require("!svg-sprite-loader!./dot.svg")}
-                      size={image.id === titleImage.id ? "lg" : "md"}
-                      style={{
-                        fill: image.colorValue
-                      }}
-                      onClick={e => this.changeTitleImage(e, image)}
-                    />
-                  )}
-                </Flex>
-              : ""}
-          </div>
+          <Images
+            defaultHeight={200}
+            dotWidth={10}
+            linkProps={this.getLinkProps()}
+            objectFitSize={{ width: "90%", height: "100%" }}
+            images={imagesWithColor}
+          />
 
           <Link {...this.getLinkProps()}>
             <div className={styles.info}>

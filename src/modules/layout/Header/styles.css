@@ -1,14 +1,14 @@
 .Header {
   background: #2474cc;
   color: white;
-  height: 2.7rem;
+  height: 2.8rem;
   left: 0;
   opacity: 0.95;
   position: fixed;
   right: 0;
   top: 0;
   width: 100%;
-  z-index: 10;
+  z-index: 100;
 }
 
 .left {

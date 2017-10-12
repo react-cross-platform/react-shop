@@ -1,3 +1,5 @@
+import * as React from "react";
+
 export const prettyPrice = (value: number) => {
   if (!value) {
     return;
@@ -25,3 +27,8 @@ export const prettyPrice = (value: number) => {
 export const Aux = props => {
   return props.children;
 };
+
+export const Div = ({ children, ...props }) =>
+  <div {...props}>
+    {children}
+  </div>;

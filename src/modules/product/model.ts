@@ -43,6 +43,7 @@ export interface IImage {
   width: number;
   height: number;
   isTitle: boolean;
+  colorValue?: string;
 }
 
 export interface IImageWithColor extends IImage {
