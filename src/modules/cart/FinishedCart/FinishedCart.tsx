@@ -1,36 +1,50 @@
 import { MyIcon } from "@src/modules/common";
 import { PATH_NAMES } from "@src/routes";
-import { Flex } from "antd-mobile";
 import * as React from "react";
 import { Link } from "react-router-dom";
 
 const styles = require("./styles.css");
 
-export interface OwnProps {
+interface OwnProps {
   id: number;
 }
 
-class FinishedCart extends React.Component<OwnProps, {}> {
+interface State {
+  imageSize: number;
+}
+
+const initialImageSize = 170;
+
+class FinishedCart extends React.Component<OwnProps, State> {
+  state = {
+    imageSize: initialImageSize
+  };
+
+  handleScroll = event => {
+    this.setState({ imageSize: initialImageSize + window.pageYOffset });
+  };
+
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll, true);
+  }
+
   render() {
     const { id } = this.props;
 
     return (
       <Link to={PATH_NAMES.home} className={styles.FinishedCart}>
-        <Flex
-          direction="column"
-          justify="center"
-          align="center"
-          className={styles.emptyCart}
-        >
-          <MyIcon
-            className={styles.icon}
-            type={require("!svg-sprite-loader!./circle-checked.svg")}
-          />
-          <div className={styles.title}>Заказ принят!</div>
-          <div className={styles.continue}>
-            номер заказа — {id}
-          </div>
-        </Flex>
+        <MyIcon
+          className={styles.icon}
+          style={{
+            width: this.state.imageSize,
+            height: this.state.imageSize
+          }}
+          type={require("!svg-sprite-loader!./circle-checked.svg")}
+        />
+        <div className={styles.title}>Заказ принят!</div>
+        <div className={styles.continue}>
+          номер заказа — {id}
+        </div>
       </Link>
     );
   }

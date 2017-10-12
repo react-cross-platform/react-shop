@@ -2,7 +2,7 @@
   background: white;
   bottom: 0;
   box-shadow: 0 0 0.9rem -0.1rem lightgrey;
-  min-height: 3rem;
+  min-height: 2.7rem;
   position: fixed;
   text-align: center !important;
   width: 100%;
@@ -18,7 +18,7 @@
 
 .cartSection {
   color: white;
-  line-height: 3rem;
+  line-height: 2.7rem;
   transition: 0.5s;
   width: 50%;
 }

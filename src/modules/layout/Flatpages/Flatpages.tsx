@@ -1,10 +1,12 @@
 import { Loading, MyIcon } from "@src/modules/common";
 import { PATH_NAMES } from "@src/routes";
+import { IPage } from "@src/routes/interfaces";
 import { Accordion, Flex } from "antd-mobile";
 import gql from "graphql-tag";
-import { compile } from "path-to-regexp";
 import * as React from "react";
 import { graphql, QueryProps } from "react-apollo";
+import { withRouter } from "react-router";
+import { compose } from "redux";
 
 import { IFlatpage } from "../model";
 
@@ -18,11 +20,9 @@ interface GraphQLProps {
   data: IFlatpagesData;
 }
 
-function createMarkup(html) {
-  return { __html: html };
-}
+interface Props extends GraphQLProps, IPage {}
 
-class Flatpages extends React.Component<GraphQLProps, {}> {
+class Flatpages extends React.Component<Props, {}> {
   getIcon = id => {
     // tslint:disable-next-line:variable-name
     const _id = parseInt(id, 10);
@@ -77,60 +77,44 @@ class Flatpages extends React.Component<GraphQLProps, {}> {
     }
   };
 
-  getLinkProps = (flatPage: IFlatpage) => {
-    const { id, name, content } = flatPage;
-    return {
-      to: {
-        pathname: compile(PATH_NAMES.flatpage)({ id }),
-        state: {
-          modal: true,
-          title: name,
-          content
-        }
-      }
-    };
-  };
-
   render() {
-    const { data: { loading, flatpages } } = this.props;
+    const { data: { loading, flatpages }, location: { pathname } } = this.props;
     if (loading) {
       return <Loading />;
     }
 
-    //   <Flex>
-    //   <Icon
-    //     className={styles.icon}
-    //     type={this.getIcon(page.id)}
-    //     size="md"
-    //   />
-    //   {page.name}
-    // </Flex>
-
     return (
-      <Accordion accordion={true} className={styles.Flatpages}>
-        {flatpages!.map(page =>
-          <Accordion.Panel
-            key={page.id}
-            header={
-              <Flex>
-                <MyIcon className={styles.icon} type={this.getIcon(page.id)} />
-                <div>
-                  {page.name}
-                </div>
-              </Flex>
-            }
-            className={styles.header}
-          >
-            <div className={styles.content}>
-              {page.content}
-            </div>
-          </Accordion.Panel>
-        )}
-      </Accordion>
+      <div>
+        {pathname !== PATH_NAMES.flatpages &&
+          <div className={styles.title}>Инфо</div>}
+        <Accordion accordion={true} className={styles.Flatpages}>
+          {flatpages!.map(page =>
+            <Accordion.Panel
+              key={page.id}
+              header={
+                <Flex>
+                  <MyIcon
+                    className={styles.icon}
+                    type={this.getIcon(page.id)}
+                  />
+                  <div>
+                    {page.name}
+                  </div>
+                </Flex>
+              }
+              className={styles.header}
+            >
+              <div className={styles.content}>
+                {page.content}
+              </div>
+            </Accordion.Panel>
+          )}
+        </Accordion>
+      </div>
     );
   }
 }
 
 const FLATPAGES_QUERY = gql(require("./flatpages.gql"));
 
-export default graphql(FLATPAGES_QUERY)(Flatpages);
+export default compose(withRouter, graphql(FLATPAGES_QUERY))(Flatpages);

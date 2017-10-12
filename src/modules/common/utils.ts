@@ -21,3 +21,7 @@ export const prettyPrice = (value: number) => {
       return value;
   }
 };
+
+export const Aux = props => {
+  return props.children;
+};

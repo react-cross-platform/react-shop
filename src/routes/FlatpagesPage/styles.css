@@ -1,5 +1,7 @@
 .FlatpagesPage {
-  -webkit-overflow-scrolling: touch;
-  overflow-y: scroll;
-  width: 100%;
+}
+
+.header {
+  font-size: 2rem;
+  padding: 1rem;
 }

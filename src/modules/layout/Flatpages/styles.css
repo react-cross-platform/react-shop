@@ -1,5 +1,12 @@
 .Flatpages {
-  fill: #515151;
+  padding-bottom: 4rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  margin: 1.4rem 0;
+  font-weight: bold;
+  text-align: center;
 }
 
 .header {

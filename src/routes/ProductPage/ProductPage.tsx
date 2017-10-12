@@ -144,34 +144,32 @@ class Product extends React.Component<Props, {}> {
     const subProductIdsInCart = getSubProductIdsInCart(dataCart);
     return (
       <Layout {...this.getLayoutOptions()}>
-        <Flex direction="column" className={styles.ProductPage}>
-          <div className={styles.content}>
-            <Flex
-              style={{ height: window.innerHeight - 40 * 2 }}
-              justify="around"
-              direction="column"
-              className={styles.firstScreen}
-            >
-              <Images images={images} />
-              <WingBlank className={styles.name}>
-                {product!.name}
-                <br />
-                {brand.name} {activeSubProduct.article}
-              </WingBlank>
-            </Flex>
-            <ProductInfo
-              dataProduct={product!}
-              activeSubProduct={activeSubProduct}
-              subProductIdsInCart={subProductIdsInCart}
-            />
-          </div>
+        <div className={styles.ProductPage}>
+          <Flex
+            style={{ height: window.innerHeight - 35 * 2 }}
+            justify="around"
+            direction="column"
+            className={styles.firstScreen}
+          >
+            <Images images={images} />
+            <WingBlank className={styles.name}>
+              {product!.name}
+              <br />
+              {brand.name} {activeSubProduct.article}
+            </WingBlank>
+          </Flex>
+          <ProductInfo
+            dataProduct={product!}
+            activeSubProduct={activeSubProduct}
+            subProductIdsInCart={subProductIdsInCart}
+          />
           <ProductToCart
             subProductId={subProductId}
             price={price}
             oldPrice={oldPrice}
             inCart={subProductIdsInCart.indexOf(subProductId) !== -1}
           />
-        </Flex>
+        </div>
       </Layout>
     );
   }

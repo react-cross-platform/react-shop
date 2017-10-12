@@ -1,17 +1,18 @@
 .CheckoutForm {
+  margin-bottom: 2.7rem;
   width: 100%;
 }
 
 .title {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  margin: 1rem 0;
+  margin: 1.4rem 0;
   text-align: center;
 }
 
 .regionsLabel {
   font-size: 1rem;
-  width: 6.3rem;
+  width: 6.7rem;
 }
 
 .regions {
@@ -27,8 +28,11 @@
   background-color: orange !important;
   border-radius: 0 !important;
   border: 0 !important;
+  bottom: 0;
   color: white !important;
-  height: 3rem !important;
-  line-height: 3rem !important;
+  height: 2.7rem !important;
+  line-height: 2.7rem !important;
+  position: fixed !important;
   width: 100%;
+  z-index: 10000;
 }

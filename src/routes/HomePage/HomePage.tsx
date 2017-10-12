@@ -1,9 +1,7 @@
 import { Catalog, Flatpages } from "@src/modules/layout";
 import { HomeTrigger, Layout } from "@src/modules/layout";
-import { WhiteSpace } from "antd-mobile";
 import * as React from "react";
 
-import { PATH_NAMES } from "../index";
 import { IPage } from "../interfaces";
 
 const styles = require("./styles.css");
@@ -29,7 +27,6 @@ class HomePage extends React.Component<OwnProps, {}> {
       >
         <div className={styles.HomePage}>
           <Catalog />
-          <WhiteSpace size="lg" />
           <Flatpages />
         </div>
       </Layout>

@@ -38,9 +38,9 @@ class Catalog extends React.Component<GraphQLProps, {}> {
       <div className={styles.Catalog}>
         {startCats.map((parent, i) =>
           <div key={i}>
-            <h2>
+            <div className={styles.header}>
               {parent.name}
-            </h2>
+            </div>
             <SubCatalog key={i} categories={childrenMap[parent.id]} />
           </div>
         )}

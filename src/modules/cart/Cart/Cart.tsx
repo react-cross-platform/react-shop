@@ -77,9 +77,7 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
     const cart = data.cart as ICart;
     const amount = getCartAmount(cart);
     if (amount === 0) {
-      return finishedId
-        ? <FinishedCart id={finishedId} />
-        : <EmptyCart history={history} isModal={isModal} />;
+      return finishedId ? <FinishedCart id={finishedId} /> : <EmptyCart />;
     }
 
     return (

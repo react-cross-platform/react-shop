@@ -17,7 +17,8 @@ class ProductsCounter extends React.Component<OwnProps, {}> {
           {scrolled} / {total}
         </div>
         <Progress
-          className={styles.progress}
+          className={`${styles.progress} ${scrolled === total &&
+            styles.finished}`}
           percent={Math.round(scrolled / total * 100)}
           position="normal"
           unfilled={false}

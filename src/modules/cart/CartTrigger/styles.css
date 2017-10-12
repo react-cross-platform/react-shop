@@ -1,10 +1,10 @@
 .CartTrigger {
   align-items: center;
   display: flex;
-  height: 3rem;
+  height: 2.7rem;
   justify-content: center;
   position: relative;
-  width: 3rem;
+  width: 2.7rem;
 }
 
 .amount {
@@ -15,8 +15,8 @@
   font-weight: bold;
   height: 0.9rem;
   position: absolute;
-  right: 0.3rem;
-  top: 0.4rem;
+  right: 0.25rem !important;
+  top: 0.25rem;
   width: 0.9rem;
   z-index: 1;
 }

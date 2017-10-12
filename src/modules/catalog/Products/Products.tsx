@@ -26,7 +26,7 @@ const LIMIT = 10;
 const SCROLL_THROTTLE = 250;
 
 // px from bottom to start fetch more products
-const FETCH_MORE_THRESHOLD = 750;
+const FETCH_MORE_THRESHOLD = window.innerHeight;
 
 interface IDataProducts extends QueryProps {
   allProducts?: IAllProduct;
@@ -84,7 +84,7 @@ class Products extends React.Component<Props, State> {
       const { products, total } = allProducts!;
 
       // Calculate scrolled products
-      const scrollTop = event.srcElement.scrollTop;
+      const scrollTop = window.pageYOffset;
       // const scrollTop = document.body.scrollTop;
       const { scrolledProducts, haveMoreProducts } = this.state;
       const scrolled = Math.round(

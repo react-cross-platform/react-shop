@@ -6,13 +6,18 @@
 }
 
 .progress {
-  bottom: 3rem;
+  bottom: 2.7rem;
   left: 0;
   position: fixed;
   right: 0;
   width: 100%;
+  opacity: 0.7;
 }
 
 .progress * {
   border-color: orange !important;
+}
+
+.finished * {
+  border-color: green !important;
 }

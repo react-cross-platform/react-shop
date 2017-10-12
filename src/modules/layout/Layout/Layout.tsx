@@ -1,5 +1,4 @@
 import { IPage } from "@src/routes/interfaces";
-import { Flex } from "antd-mobile";
 import * as React from "react";
 
 import { Footer, Header } from "../index";
@@ -8,24 +7,26 @@ const styles = require("./styles.css");
 
 interface OwnProps extends IPage {
   header?: {
+    left?: JSX.Element;
     title?: JSX.Element | string;
   };
-  footer?: any;
+  footer?: JSX.Element | null;
 }
 
 class Layout extends React.Component<OwnProps, {}> {
   render() {
     const { history, location, header, footer } = this.props;
     return (
-      <Flex direction="column" className="full-size">
+      <div className={styles.Layout}>
         <Header {...header} location={location} history={history} />
-        <Flex direction="column" className="full-size">
+        <div
+          className={styles.layoutContent}
+          style={{ padding: `2.7rem 0 ${footer === null ? 0 : "2.7rem"}` }}
+        >
           {this.props.children}
-        </Flex>
-        {footer === null
-          ? null
-          : <Footer location={location} history={history} />}
-      </Flex>
+        </div>
+        {footer !== null && <Footer location={location} history={history} />}
+      </div>
     );
   }
 }

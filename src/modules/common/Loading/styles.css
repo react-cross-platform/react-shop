@@ -1,5 +1,4 @@
 .Loading {
-  background-color: white !important;
   color: gray;
   font-size: 2rem;
   left: 50%;
@@ -9,7 +8,7 @@
 }
 
 .icon {
-  height: 3rem !important;
+  height: 2.7rem !important;
   margin: 0 0.6rem;
-  width: 3rem !important;
+  width: 2.7rem !important;
 }

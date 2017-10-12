@@ -1,9 +1,14 @@
 .Header {
   background: #2474cc;
-  height: 3rem;
-  width: 100%;
-  flex-shrink: 0;
   color: white;
+  height: 2.7rem;
+  left: 0;
+  opacity: 0.95;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 10;
 }
 
 .left {
@@ -14,9 +19,9 @@
 }
 
 .title {
-  font-size: 1.3rem;
+  font-size: 1.2.7rem;
 }
 
 .right {
-  width: 3rem;
+  width: 2.7rem;
 }

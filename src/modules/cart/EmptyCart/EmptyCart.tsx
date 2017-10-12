@@ -1,41 +1,41 @@
 import { PATH_NAMES } from "@src/routes";
-import { Flex } from "antd-mobile";
-import { History } from "history";
 import * as React from "react";
+import { Link } from "react-router-dom";
 
 const styles = require("./styles.css");
 
-export interface OwnProps {
-  history: History;
-  isModal: boolean;
+interface OwnProps {}
+
+interface State {
+  imageSize: number;
 }
 
-class EmptyCart extends React.Component<OwnProps, {}> {
-  handleClick = () => {
-    const { isModal, history } = this.props;
-    if (isModal) {
-      history.goBack();
-    } else {
-      history.push(PATH_NAMES.home);
-    }
+const initialImageSize = 170;
+
+class EmptyCart extends React.Component<OwnProps, State> {
+  state = {
+    imageSize: initialImageSize
   };
+
+  handleScroll = event => {
+    this.setState({ imageSize: initialImageSize + window.pageYOffset });
+  };
+
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll, true);
+  }
 
   render() {
     return (
-      <Flex
-        direction="column"
-        justify="center"
-        align="center"
-        onClick={this.handleClick}
-        className={styles.EmptyCart}
-      >
+      <Link to={PATH_NAMES.home} className={styles.EmptyCart}>
         <img
+          style={{ width: this.state.imageSize }}
           className={styles.icon}
           src={require("./sad_smile.png")}
         />
         <div className={styles.title}>Корзина пуста</div>
         <div className={styles.continue}>нажмите чтобы продолжить</div>
-      </Flex>
+      </Link>
     );
   }
 }

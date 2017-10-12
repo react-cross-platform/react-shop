@@ -6,7 +6,6 @@ import { Route, Switch } from "react-router";
 import CartPage from "../CartPage/CartPage";
 import CatalogPage from "../CatalogPage/CatalogPage";
 import CategoryPage from "../CategoryPage/CategoryPage";
-import FlatpagePage from "../FlatpagePage/FlatpagePage";
 import FlatpagesPage from "../FlatpagesPage/FlatpagesPage";
 import HomePage from "../HomePage/HomePage";
 import ProductPage from "../ProductPage/ProductPage";
@@ -17,8 +16,7 @@ export const PATH_NAMES = {
   category: "/category/:id/",
   product: "/product/:id/",
   cart: "/cart/",
-  flatpages: "/flatpages/",
-  flatpage: "/flatpage/:id/"
+  flatpages: "/flatpages/"
 };
 
 const styles = require("./styles.css");
@@ -30,7 +28,6 @@ const Routes = ({ Component, params }) => {
     <Component {...params}>
       <Route exact={true} path={PATH_NAMES.home} component={HomePage} />
       <Route path={PATH_NAMES.flatpages} component={FlatpagesPage} />
-      <Route path={PATH_NAMES.flatpage} component={FlatpagePage} />
       <Route path={PATH_NAMES.catalog} component={CatalogPage} />
       <Route path={PATH_NAMES.category} component={CategoryPage} />
       <Route path={PATH_NAMES.product} component={ProductPage} />

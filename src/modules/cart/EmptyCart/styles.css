@@ -1,13 +1,19 @@
 .EmptyCart {
-  background: white;
-  margin-top: 20%;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  height: 100%;
+  background-color: white;
   text-align: center;
   width: 100%;
+  color: black;
 }
 
 .icon {
-  object-fit: contain;
-  width: 65%;
+  text-align: center;
+  margin: 0 auto;
 }
 
 .title {
