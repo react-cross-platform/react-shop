@@ -1,4 +1,5 @@
 import { MyIcon } from "@src/modules/common";
+import { MyTouchFeedback } from "@src/modules/common/utils";
 import { Images, scaleImageSize } from "@src/modules/product";
 import { IImageWithColor, IProduct } from "@src/modules/product/model";
 import { IRootReducer } from "@src/rootReducer";
@@ -83,43 +84,45 @@ class Product extends React.Component<StateProps & OwnProps, State> {
 
     return (
       <div className={styles.Product} style={{ width }}>
-        <Card className={styles.card}>
-          {this.isViewed()
-            ? <div style={{ position: "absolute", top: 1, left: 5 }}>
-                <MyIcon
-                  type={require("!svg-sprite-loader!./viewed.svg")}
-                  size="sm"
-                  style={{ fill: "orange" }}
-                />
-              </div>
-            : ""}
+        <MyTouchFeedback>
+          <Card className={styles.card}>
+            {this.isViewed()
+              ? <div style={{ position: "absolute", top: 1, left: 5 }}>
+                  <MyIcon
+                    type={require("!svg-sprite-loader!./viewed.svg")}
+                    size="sm"
+                    style={{ fill: "orange" }}
+                  />
+                </div>
+              : ""}
 
-          <WhiteSpace size="sm" />
+            <WhiteSpace size="sm" />
 
-          <Images
-            defaultHeight={200}
-            dotWidth={10}
-            linkProps={this.getLinkProps()}
-            objectFitSize={{ width: "90%", height: "100%" }}
-            images={imagesWithColor}
-          />
+            <Images
+              defaultHeight={200}
+              dotWidth={10}
+              linkProps={this.getLinkProps()}
+              objectFitSize={{ width: "90%", height: "100%" }}
+              images={imagesWithColor}
+            />
 
-          <Link {...this.getLinkProps()}>
-            <div className={styles.info}>
-              <div className={styles.title}>
-                {name}
-                <br />
-                {brand.name} {subProduct.article}
-              </div>
-              <div className={styles.price}>
-                <div>
-                  {isSinglePrice ? "" : "от "}
-                  {parseInt(minPrice, 10)} грн
+            <Link {...this.getLinkProps()}>
+              <div className={styles.info}>
+                <div className={styles.title}>
+                  {name}
+                  <br />
+                  {brand.name} {subProduct.article}
+                </div>
+                <div className={styles.price}>
+                  <div>
+                    {isSinglePrice ? "" : "от "}
+                    {parseInt(minPrice, 10)} грн
+                  </div>
                 </div>
               </div>
-            </div>
-          </Link>
-        </Card>
+            </Link>
+          </Card>
+        </MyTouchFeedback>
       </div>
     );
   }

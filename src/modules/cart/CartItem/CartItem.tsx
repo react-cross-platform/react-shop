@@ -1,4 +1,5 @@
 import { Devider, Price } from "@src/modules/common";
+import { MyTouchFeedback } from "@src/modules/common/utils";
 import { PATH_NAMES } from "@src/routes";
 import { Flex } from "antd-mobile";
 import { compile } from "path-to-regexp";
@@ -44,28 +45,24 @@ class CartItem extends React.Component<OwnProps, {}> {
       <div className={styles.CartItem}>
         <RemoveCartItem id={id} />
         <Flex justify="between" className={styles.container}>
-          <Link className={styles.imageContainer} {...linkProps}>
-            <img
-              className={styles.image}
-              src={subProduct.product.images[0].src}
-            />
-          </Link>
+          <MyTouchFeedback>
+            <Link className={styles.imageContainer} {...linkProps}>
+              <img
+                className={styles.image}
+                src={subProduct.product.images[0].src}
+              />
+            </Link>
+          </MyTouchFeedback>
           <Flex
             align="start"
             direction="column"
             justify="between"
             className={styles.info}
           >
-            <Flex
-              className={styles.section}
-              justify="between"
-              align="start"
-            >
-              <Link className={styles.name} {...linkProps}>
-                {product.name}
-                <br />
-                {product.brand.name} {subProduct.article}
-              </Link>
+            <Flex className={styles.section} justify="between" align="start">
+              {product.name}
+              <br />
+              {product.brand.name} {subProduct.article}
             </Flex>
             <Flex justify="between" className={styles.section}>
               <UpdateCartItem id={id} amount={amount} />

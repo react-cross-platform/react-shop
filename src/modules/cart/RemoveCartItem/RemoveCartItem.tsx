@@ -1,4 +1,5 @@
 import { MyIcon } from "@src/modules/common";
+import { MyTouchFeedback } from "@src/modules/common/utils";
 import { Modal } from "antd-mobile";
 import gql from "graphql-tag";
 import update from "immutability-helper";
@@ -41,11 +42,13 @@ class RemoveCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
 
   render() {
     return (
-      <MyIcon
-        className={styles.RemoveCartItem}
-        type={require("!svg-sprite-loader!./remove.svg")}
-        onClick={this.removeCartItem}
-      />
+      <MyTouchFeedback>
+        <MyIcon
+          className={styles.RemoveCartItem}
+          type={require("!svg-sprite-loader!./remove.svg")}
+          onClick={this.removeCartItem}
+        />
+      </MyTouchFeedback>
     );
   }
 }

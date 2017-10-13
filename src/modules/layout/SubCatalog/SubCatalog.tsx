@@ -1,5 +1,6 @@
 import { Dispatch } from "@src/interfaces";
 import { ICatalogReducer } from "@src/modules/catalog/reducer";
+import { MyTouchFeedback } from "@src/modules/common/utils";
 import { ICategory } from "@src/modules/product/model";
 import { IRootReducer } from "@src/rootReducer";
 import { PATH_NAMES } from "@src/routes";
@@ -57,18 +58,20 @@ class SubCatalog extends React.Component<StateProps & OwnProps, {}> {
                   : "50%"
             }}
           >
-            <Card
-              className={styles.category}
-              style={{
-                opacity: this.isCurrentCategory(category) ? 0.3 : 1,
-                justifyContent: "center"
-              }}
-            >
-              <img className={styles.image} src={category.image.src || ""} />
-              <div className={styles.name}>
-                {category.name}
-              </div>
-            </Card>
+            <MyTouchFeedback>
+              <Card
+                className={styles.category}
+                style={{
+                  opacity: this.isCurrentCategory(category) ? 0.3 : 1,
+                  justifyContent: "center"
+                }}
+              >
+                <img className={styles.image} src={category.image.src || ""} />
+                <div className={styles.name}>
+                  {category.name}
+                </div>
+              </Card>
+            </MyTouchFeedback>
           </Link>
         )}
       </Flex>

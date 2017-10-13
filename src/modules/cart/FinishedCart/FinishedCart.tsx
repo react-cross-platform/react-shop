@@ -1,4 +1,5 @@
 import { MyIcon } from "@src/modules/common";
+import { MyTouchFeedback } from "@src/modules/common/utils";
 import { PATH_NAMES } from "@src/routes";
 import * as React from "react";
 import { Link } from "react-router-dom";
@@ -32,20 +33,22 @@ class FinishedCart extends React.Component<OwnProps, State> {
     const { id } = this.props;
 
     return (
-      <Link to={PATH_NAMES.home} className={styles.FinishedCart}>
-        <MyIcon
-          className={styles.icon}
-          style={{
-            width: this.state.imageSize,
-            height: this.state.imageSize
-          }}
-          type={require("!svg-sprite-loader!./circle-checked.svg")}
-        />
-        <div className={styles.title}>Заказ принят!</div>
-        <div className={styles.continue}>
-          номер заказа — {id}
-        </div>
-      </Link>
+      <MyTouchFeedback>
+        <Link to={PATH_NAMES.home} className={styles.FinishedCart}>
+          <MyIcon
+            className={styles.icon}
+            style={{
+              width: this.state.imageSize,
+              height: this.state.imageSize
+            }}
+            type={require("!svg-sprite-loader!./circle-checked.svg")}
+          />
+          <div className={styles.title}>Заказ принят!</div>
+          <div className={styles.continue}>
+            номер заказа — {id}
+          </div>
+        </Link>
+      </MyTouchFeedback>
     );
   }
 }

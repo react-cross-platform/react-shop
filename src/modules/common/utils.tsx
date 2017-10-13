@@ -1,4 +1,5 @@
 import * as React from "react";
+import TouchFeedback from "rmc-feedback/lib/TouchFeedback";
 
 export const prettyPrice = (value: number) => {
   if (!value) {
@@ -32,3 +33,12 @@ export const Div = ({ children, ...props }) =>
   <div {...props}>
     {children}
   </div>;
+
+export const MyTouchFeedback = ({ children, ...props }) =>
+  <TouchFeedback
+    activeStyle={{
+      opacity: 0.5
+    }}
+  >
+    {children}
+  </TouchFeedback>;

@@ -1,5 +1,6 @@
 import { AddCartItem } from "@src/modules/cart";
 import { Price } from "@src/modules/common";
+import { MyTouchFeedback } from "@src/modules/common/utils";
 import { PATH_NAMES } from "@src/routes";
 import { Flex } from "antd-mobile";
 import * as React from "react";
@@ -29,22 +30,24 @@ class ProductToCart extends React.Component<
         <div className={styles.priceSection}>
           <Price price={price} oldPrice={oldPrice} />
         </div>
-        <div
-          className={styles.cartSection}
-          style={{ background: inCart ? "green" : "orange" }}
-        >
-          {inCart
-            ? <Link
-                style={{ color: "white", display: "block" }}
-                to={{
-                  pathname: PATH_NAMES.cart,
-                  state: { modal: true, title: "Корзина" }
-                }}
-              >
-                В корзину
-              </Link>
-            : <AddCartItem subProductId={subProductId} />}
-        </div>
+        <MyTouchFeedback>
+          <div
+            className={styles.cartSection}
+            style={{ background: inCart ? "green" : "orange" }}
+          >
+            {inCart
+              ? <Link
+                  style={{ color: "white", display: "block" }}
+                  to={{
+                    pathname: PATH_NAMES.cart,
+                    state: { modal: true, title: "Корзина" }
+                  }}
+                >
+                  В корзину
+                </Link>
+              : <AddCartItem subProductId={subProductId} />}
+          </div>
+        </MyTouchFeedback>
       </Flex>
     );
   }

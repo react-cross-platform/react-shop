@@ -1,3 +1,4 @@
+import { MyTouchFeedback } from "@src/modules/common/utils";
 import gql from "graphql-tag";
 import React from "react";
 import { graphql, OperationOption } from "react-apollo";
@@ -33,17 +34,19 @@ class UpdateCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
     const { amount } = this.props;
     const options = new Array(10).keys();
     return (
-      <select
-        value={amount}
-        onChange={this.onChange}
-        className={styles.UpdateCartItem}
-      >
-        {[...Array(10).keys()].map(i =>
-          <option key={i}>
-            {i + 1}
-          </option>
-        )}
-      </select>
+      <MyTouchFeedback>
+        <select
+          value={amount}
+          onChange={this.onChange}
+          className={styles.UpdateCartItem}
+        >
+          {[...Array(10).keys()].map(i =>
+            <option key={i}>
+              {i + 1}
+            </option>
+          )}
+        </select>
+      </MyTouchFeedback>
     );
   }
 }

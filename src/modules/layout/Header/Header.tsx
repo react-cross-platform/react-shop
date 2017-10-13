@@ -1,5 +1,6 @@
 import { CartTrigger } from "@src/modules/cart";
 import { MyIcon } from "@src/modules/common";
+import { MyTouchFeedback } from "@src/modules/common/utils";
 import { IPage } from "@src/routes/interfaces";
 import { Flex } from "antd-mobile";
 import * as React from "react";
@@ -23,15 +24,19 @@ class Header extends React.Component<OwnProps, {}> {
     const { location, left, title, right } = this.props;
     return (
       <Flex className={styles.Header} justify="between" align="center">
-        {left === undefined ? <MyIcon
-              className={styles.left}
-              type={
-                location.state && location.state.modal
-                  ? require("!svg-sprite-loader!./close.svg")
-                  : require("!svg-sprite-loader!./back.svg")
-              }
-              onClick={this.goBack}
-            /> : left}
+        {left === undefined
+          ? <MyTouchFeedback>
+              <MyIcon
+                className={styles.left}
+                type={
+                  location.state && location.state.modal
+                    ? require("!svg-sprite-loader!./close.svg")
+                    : require("!svg-sprite-loader!./back.svg")
+                }
+                onClick={this.goBack}
+              />
+            </MyTouchFeedback>
+          : left}
         <div className={styles.title}>
           {(location.state && location.state.title) || title}
         </div>

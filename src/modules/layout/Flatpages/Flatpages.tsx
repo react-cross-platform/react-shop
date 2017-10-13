@@ -1,4 +1,5 @@
 import { Loading, MyIcon } from "@src/modules/common";
+import { MyTouchFeedback } from "@src/modules/common/utils";
 import { PATH_NAMES } from "@src/routes";
 import { IPage } from "@src/routes/interfaces";
 import { Accordion, Flex } from "antd-mobile";
@@ -92,15 +93,17 @@ class Flatpages extends React.Component<Props, {}> {
             <Accordion.Panel
               key={page.id}
               header={
-                <Flex>
-                  <MyIcon
-                    className={styles.icon}
-                    type={this.getIcon(page.id)}
-                  />
-                  <div>
-                    {page.name}
-                  </div>
-                </Flex>
+                <MyTouchFeedback>
+                  <Flex>
+                    <MyIcon
+                      className={styles.icon}
+                      type={this.getIcon(page.id)}
+                    />
+                    <div>
+                      {page.name}
+                    </div>
+                  </Flex>
+                </MyTouchFeedback>
               }
               className={styles.header}
             >

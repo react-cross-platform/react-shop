@@ -22,7 +22,6 @@ class Price extends React.Component<OwnProps, any> {
           className={styles.Price}
           direction="column"
           justify="center"
-          onClick={() => alert("hello")}
         >
           <div className={styles.currentValue}>
             {prettyPrice(price)} {currency}

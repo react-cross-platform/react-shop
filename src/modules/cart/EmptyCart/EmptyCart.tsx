@@ -1,3 +1,4 @@
+import { MyTouchFeedback } from "@src/modules/common/utils";
 import { PATH_NAMES } from "@src/routes";
 import * as React from "react";
 import { Link } from "react-router-dom";
@@ -27,15 +28,17 @@ class EmptyCart extends React.Component<OwnProps, State> {
 
   render() {
     return (
-      <Link to={PATH_NAMES.home} className={styles.EmptyCart}>
-        <img
-          style={{ width: this.state.imageSize }}
-          className={styles.icon}
-          src={require("./sad_smile.png")}
-        />
-        <div className={styles.title}>Корзина пуста</div>
-        <div className={styles.continue}>нажмите чтобы продолжить</div>
-      </Link>
+      <MyTouchFeedback>
+        <Link to={PATH_NAMES.home} className={styles.EmptyCart}>
+          <img
+            style={{ width: this.state.imageSize }}
+            className={styles.icon}
+            src={require("./sad_smile.png")}
+          />
+          <div className={styles.title}>Корзина пуста</div>
+          <div className={styles.continue}>нажмите чтобы продолжить</div>
+        </Link>
+      </MyTouchFeedback>
     );
   }
 }

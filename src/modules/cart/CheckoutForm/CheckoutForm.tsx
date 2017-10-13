@@ -1,4 +1,5 @@
 import { Dispatch } from "@src/interfaces";
+import { MyTouchFeedback } from "@src/modules/common/utils";
 import {
   Button,
   Flex,
@@ -202,14 +203,16 @@ class CheckoutForm extends React.Component<Props, State> {
               title="Детали"
               value={values.comment}
             />
-            <Button
-              className={styles.submit}
-              disabled={!isValid || isSubmitting}
-              loading={isSubmitting}
-              onClick={handleSubmit}
-            >
-              Завершить оформление
-            </Button>
+            <MyTouchFeedback>
+              <Button
+                className={styles.submit}
+                disabled={!isValid || isSubmitting}
+                loading={isSubmitting}
+                onClick={handleSubmit}
+              >
+                Завершить оформление
+              </Button>
+            </MyTouchFeedback>
           </List>
         </div>
       </div>

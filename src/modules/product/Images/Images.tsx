@@ -4,7 +4,7 @@ import { Carousel, Flex } from "antd-mobile";
 import * as React from "react";
 import { Link } from "react-router-dom";
 
-import { Aux } from "../../common/utils";
+import { Aux, MyTouchFeedback } from "../../common/utils";
 import { IImage } from "../model";
 
 const styles = require("./styles.css");
@@ -85,27 +85,28 @@ class Images extends React.Component<OwnProps, State> {
           {/* Carousel dots per image */}
           <Flex justify="center">
             {this.props.images.map((image, i) =>
-              <MyIcon
-                key={i}
-                type={
-                  image.colorValue
-                    ? require("!svg-sprite-loader!./circle.svg")
-                    : require("!svg-sprite-loader!./empty-circle.svg")
-                }
-                style={{
-                  fill: image.colorValue ? image.colorValue : "gray",
-                  width:
-                    i === this.state.currentImageNumber
-                      ? dotWidth * 1.3
-                      : dotWidth,
-                  height:
-                    i === this.state.currentImageNumber
-                      ? dotWidth * 1.3
-                      : dotWidth,
-                  padding: dotWidth * 0.5
-                }}
-                onClick={e => this.setState({ currentImageNumber: i })}
-              />
+              <MyTouchFeedback key={i}>
+                <MyIcon
+                  type={
+                    image.colorValue
+                      ? require("!svg-sprite-loader!./circle.svg")
+                      : require("!svg-sprite-loader!./empty-circle.svg")
+                  }
+                  style={{
+                    fill: image.colorValue ? image.colorValue : "gray",
+                    width:
+                      i === this.state.currentImageNumber
+                        ? dotWidth * 1.3
+                        : dotWidth,
+                    height:
+                      i === this.state.currentImageNumber
+                        ? dotWidth * 1.3
+                        : dotWidth,
+                    padding: dotWidth * 0.5
+                  }}
+                  onClick={e => this.setState({ currentImageNumber: i })}
+                />
+              </MyTouchFeedback>
             )}
           </Flex>
         </Aux>

@@ -1,4 +1,5 @@
 import { MyIcon } from "@src/modules/common";
+import { MyTouchFeedback } from "@src/modules/common/utils";
 import { IRootReducer } from "@src/rootReducer";
 import { PATH_NAMES } from "@src/routes";
 import { IRouterReducer } from "@src/routes/interfaces";
@@ -32,25 +33,27 @@ class CartTrigger extends React.Component<StateProps & GraphQLProps, {}> {
     const { loading, cart } = data;
     const amount = getCartAmount(cart);
     return (
-      <Link
-        className={styles.CartTrigger}
-        style={{ visibility: this.isCartPage() ? "hidden" : "visible" }}
-        to={{
-          pathname: PATH_NAMES.cart,
-          state: { modal: true, title: "Корзина" }
-        }}
-      >
-        {!loading && amount > 0
-          ? <Flex justify="center" align="center" className={styles.amount}>
-              {amount}
-            </Flex>
-          : null}
-        <MyIcon
-          className={styles.icon}
-          type={require("!svg-sprite-loader!./cart.svg")}
-          size="md"
-        />
-      </Link>
+      <MyTouchFeedback>
+        <Link
+          className={styles.CartTrigger}
+          style={{ visibility: this.isCartPage() ? "hidden" : "visible" }}
+          to={{
+            pathname: PATH_NAMES.cart,
+            state: { modal: true, title: "Корзина" }
+          }}
+        >
+          {!loading && amount > 0
+            ? <Flex justify="center" align="center" className={styles.amount}>
+                {amount}
+              </Flex>
+            : null}
+          <MyIcon
+            className={styles.icon}
+            type={require("!svg-sprite-loader!./cart.svg")}
+            size="md"
+          />
+        </Link>
+      </MyTouchFeedback>
     );
   }
 }

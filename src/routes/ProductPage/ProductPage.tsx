@@ -16,7 +16,11 @@ import { compose, graphql, OperationOption, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { ACTION_SELECT_COLOR } from "../../modules/product/constants";
+import { MyTouchFeedback } from "../../modules/common/utils";
+import {
+  ACTION_SELECT_COLOR,
+  ACTION_UNSELECT_ALL
+} from "../../modules/product/constants";
 import { ISubProduct } from "../../modules/product/model";
 import { PATH_NAMES } from "../index";
 import { IPage } from "../interfaces";
@@ -39,7 +43,8 @@ interface StateProps {
 interface DispatchProps {
   addViewedSubProduct: (id: string) => void;
   selectSubProduct: (id: string, color: number) => void;
-  changeColor: (colorId: number) => void;
+  selectColor: (colorId: number) => void;
+  unselectAll: () => void;
 }
 
 interface OwnProps extends IPage {
@@ -77,6 +82,10 @@ class Product extends React.Component<Props, {}> {
   componentWillMount() {
     const { id, addViewedSubProduct } = this.props;
     addViewedSubProduct(id);
+  }
+
+  componentWillUnmount() {
+    this.props.unselectAll();
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -218,12 +227,11 @@ class Product extends React.Component<Props, {}> {
             <Flex justify="between">
               <Flex align="center">
                 {images.filter(el => el.colorValue !== "").length > 1
-                  ? images.filter(el => el.colorValue !== "").map(
-                      (e, i) =>
-                        e.id === this.props.product.colorId
+                  ? images.filter(el => el.colorValue !== "").map((e, i) =>
+                      <MyTouchFeedback key={i}>
+                        {e.id === this.props.product.colorId
                           ? <MyIcon
                               className={styles.colorIcon}
-                              key={i}
                               type={require("svg-sprite-loader!./checked-circle.svg")}
                               style={{
                                 fill: e.colorValue
@@ -231,13 +239,13 @@ class Product extends React.Component<Props, {}> {
                             />
                           : <MyIcon
                               className={styles.colorIcon}
-                              key={i}
-                              onClick={() => this.props.changeColor(e.id)}
+                              onClick={() => this.props.selectColor(e.id)}
                               type={require("svg-sprite-loader!./circle.svg")}
                               style={{
                                 fill: e.colorValue
                               }}
-                            />
+                            />}
+                      </MyTouchFeedback>
                     )
                   : images.filter(el => el.colorValue !== "").map((e, i) =>
                       <MyIcon
@@ -335,8 +343,13 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
       colorId
     });
   },
-  changeColor: (colorId: number) => {
+  selectColor: (colorId: number) => {
     dispatch({ type: ACTION_SELECT_COLOR, colorId });
+  },
+  unselectAll: () => {
+    dispatch({
+      type: ACTION_UNSELECT_ALL
+    });
   }
 });
 

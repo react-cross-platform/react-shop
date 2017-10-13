@@ -1,4 +1,5 @@
 import { MyIcon } from "@src/modules/common";
+import { MyTouchFeedback } from "@src/modules/common/utils";
 import { IRootReducer } from "@src/rootReducer";
 import { PATH_NAMES } from "@src/routes";
 import { IPage, IRouterReducer } from "@src/routes/interfaces";
@@ -39,28 +40,32 @@ class Footer extends React.Component<OwnProps & StateProps, {}> {
         </div>
       </div>
     );
-    return isCurrent
-      ? <div
-          className={styles.item}
-          onClick={e => {
-            e.stopPropagation();
-            history.goBack();
-          }}
-        >
-          {content}
-        </div>
-      : <Link
-          to={{
-            pathname,
-            state: {
-              modal: true,
-              animated: true
-            }
-          }}
-          className={styles.item}
-        >
-          {content}
-        </Link>;
+    return (
+      <MyTouchFeedback>
+        {isCurrent
+          ? <div
+              className={styles.item}
+              onClick={e => {
+                e.stopPropagation();
+                history.goBack();
+              }}
+            >
+              {content}
+            </div>
+          : <Link
+              to={{
+                pathname,
+                state: {
+                  modal: true,
+                  animated: true
+                }
+              }}
+              className={styles.item}
+            >
+              {content}
+            </Link>}
+      </MyTouchFeedback>
+    );
   };
 
   render() {
