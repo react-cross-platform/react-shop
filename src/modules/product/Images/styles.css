@@ -1,7 +1,14 @@
 .Images {
   background: white;
   width: auto !important;
-  margin: 0 5px 0.3rem;
+  margin: 5px;
+}
+
+.dots {
+  overflow-y: visible;
+  position: relative;
+  bottom: 0.5rem;
+  padding: 0 5px;
 }
 
 .image {

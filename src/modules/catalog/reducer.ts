@@ -6,8 +6,8 @@ import {
 } from "./constants";
 
 export interface ICatalogReducer {
-  readonly viewedProductIds: string[];
-  readonly viewedCategoryIds: string[];
+  readonly viewedProductIds: number[];
+  readonly viewedCategoryIds: number[];
   readonly showOnlyViewed: boolean;
 }
 
@@ -18,21 +18,20 @@ const DEFAULT_CATALOG: ICatalogReducer = {
 };
 
 const catalog = (state = DEFAULT_CATALOG, action) => {
-  const { productId } = action;
-  const { categoryId } = action;
+  const { id } = action;
   switch (action.type) {
     case ACTION_ADD_VIEWED_PRODUCT:
-      if (state.viewedProductIds.indexOf(productId) === -1) {
+      if (state.viewedProductIds.indexOf(id) === -1) {
         return update(state, {
-          viewedProductIds: { $push: [productId] }
+          viewedProductIds: { $push: [id] }
         });
       } else {
         return state;
       }
     case ACTION_ADD_VIEWED_CATEGORY:
-      if (state.viewedCategoryIds.indexOf(categoryId) === -1) {
+      if (state.viewedCategoryIds.indexOf(id) === -1) {
         return update(state, {
-          viewedCategoryIds: { $push: [action.categoryId] }
+          viewedCategoryIds: { $push: [action.id] }
         });
       } else {
         return state;

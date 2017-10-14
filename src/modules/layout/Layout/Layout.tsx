@@ -1,5 +1,6 @@
 import { IPage } from "@src/routes/interfaces";
 import * as React from "react";
+import { withRouter } from "react-router";
 
 import { Footer, Header } from "../index";
 

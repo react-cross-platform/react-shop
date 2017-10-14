@@ -29,16 +29,16 @@ interface State {
 
 class Product extends React.Component<StateProps & OwnProps, State> {
   componentWillMount() {
-    const { imagesWithColor } = this.props;
+    const { images } = this.props;
     this.setState({
       titleImage:
-        imagesWithColor.filter(img => img.isTitle)[0] || imagesWithColor[0]
+        images.filter(img => img.isTitle)[0] || images[0]
     });
   }
 
   isViewed() {
     const { catalog, id } = this.props;
-    return catalog.viewedProductIds.indexOf(id) !== -1;
+    return catalog.viewedProductIds.indexOf(parseInt(id, 0)) !== -1;
   }
 
   changeTitleImage = (e, image) => {
@@ -65,7 +65,7 @@ class Product extends React.Component<StateProps & OwnProps, State> {
       name,
       subProducts,
       brand,
-      imagesWithColor,
+      images,
       catalog
     } = this.props;
     const titleImage = this.state.titleImage;
@@ -76,34 +76,21 @@ class Product extends React.Component<StateProps & OwnProps, State> {
 
     const width = Math.round(window.innerWidth / 2) - 5;
 
-    const maxImageHeight = Math.max(
-      ...imagesWithColor.map(
-        img => scaleImageSize(img.width, img.height).height
-      )
-    );
-
     return (
       <div className={styles.Product} style={{ width }}>
         <MyTouchFeedback>
-          <Card className={styles.card}>
-            {this.isViewed()
-              ? <div style={{ position: "absolute", top: 1, left: 5 }}>
-                  <MyIcon
-                    type={require("!svg-sprite-loader!./viewed.svg")}
-                    size="sm"
-                    style={{ fill: "orange" }}
-                  />
-                </div>
-              : ""}
-
-            <WhiteSpace size="sm" />
-
+          <Card>
+            {this.isViewed() &&
+              <MyIcon
+                type={require("!svg-sprite-loader!./viewed.svg")}
+                size="sm"
+                className={styles.isViewed}
+              />}
             <Images
-              defaultHeight={200}
+              images={images}
+              objectFitSize={{ width: "90%", height: "90%" }}
               dotWidth={10}
               linkProps={this.getLinkProps()}
-              objectFitSize={{ width: "90%", height: "100%" }}
-              images={imagesWithColor}
             />
 
             <Link {...this.getLinkProps()}>

@@ -24,8 +24,9 @@
   font-size: 1.4rem;
   font-weight: bold;
   line-height: 1.6rem;
-  padding: 0.7rem 0 1rem;
   text-align: center;
+  min-height: 4.5rem;
+  margin: auto 0;
   width: 100%;
 }
 
@@ -36,6 +37,7 @@
 }
 
 .colorName {
+  font-size: 1rem;
   color: gray;
   text-align: right;
   text-transform: lowercase;

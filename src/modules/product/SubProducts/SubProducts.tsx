@@ -28,15 +28,15 @@ interface Props extends StateProps, DispatchProps, OwnProps {}
 
 class SubProducts extends React.Component<Props, {}> {
   isActive = (subProduct: ISubProduct) => {
-    return subProduct.id === this.props.product.subProductId;
+    return parseInt(subProduct.id, 0) === this.props.product.subProductId;
   };
 
-  inCart = subProduct => {
+  inCart = (subProduct: ISubProduct) => {
     const { subProductIdsInCart } = this.props;
     return subProductIdsInCart.indexOf(parseInt(subProduct.id, 0)) !== -1;
   };
 
-  selectSubProduct = id => {
+  selectSubProduct = (id: number) => {
     const { dispatch, product: { colorId } } = this.props;
     dispatch({
       type: ACTION_SELECT_SUB_PRODUCT,
@@ -53,7 +53,7 @@ class SubProducts extends React.Component<Props, {}> {
           <List.Item
             key={index}
             platform="android"
-            onClick={() => this.selectSubProduct(subProduct.id)}
+            onClick={() => this.selectSubProduct(parseInt(subProduct.id, 0))}
             thumb={
               this.isActive(subProduct)
                 ? <MyIcon

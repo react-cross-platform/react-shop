@@ -145,10 +145,9 @@ class Products extends React.Component<Props, State> {
       return <Loading />;
     }
     const { products, total } = allProducts!;
-    const filteredProducts =
-      showOnlyViewed === true
-        ? products.filter(p => viewedProductIds.indexOf(p.id) !== -1)
-        : products;
+    const filteredProducts = showOnlyViewed
+      ? products.filter(p => viewedProductIds.indexOf(parseInt(p.id, 0)) !== -1)
+      : products;
 
     const gutter = 3;
     return (

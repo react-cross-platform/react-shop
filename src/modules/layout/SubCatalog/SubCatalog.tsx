@@ -26,7 +26,7 @@ interface OwnProps {
 class SubCatalog extends React.Component<StateProps & OwnProps, {}> {
   isViewed(category: ICategory) {
     const { catalog: { viewedCategoryIds } } = this.props;
-    return viewedCategoryIds.indexOf(category.id) !== -1;
+    return viewedCategoryIds.indexOf(parseInt(category.id, 0)) !== -1;
   }
 
   getPath(category: ICategory) {

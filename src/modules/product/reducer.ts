@@ -7,7 +7,7 @@ import {
 } from "./constants";
 
 export interface IProductReducer {
-  readonly subProductId?: string;
+  readonly subProductId?: number;
   readonly colorId?: number;
 }
 

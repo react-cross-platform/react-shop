@@ -4,6 +4,7 @@ import { Devider, Loading, MyIcon } from "@src/modules/common";
 import { Layout } from "@src/modules/layout";
 import { Images, ProductToCart, SubProducts } from "@src/modules/product";
 import { ACTION_SELECT_SUB_PRODUCT } from "@src/modules/product/constants";
+import { getImagesWithColor } from "@src/modules/product/Images/Images";
 import { IProduct } from "@src/modules/product/model";
 import { IProductReducer } from "@src/modules/product/reducer";
 import { IRootReducer } from "@src/rootReducer";
@@ -16,7 +17,7 @@ import { compose, graphql, OperationOption, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { MyTouchFeedback } from "../../modules/common/utils";
+import { Aux, MyTouchFeedback } from "../../modules/common/utils";
 import {
   ACTION_SELECT_COLOR,
   ACTION_UNSELECT_ALL
@@ -41,8 +42,8 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  addViewedSubProduct: (id: string) => void;
-  selectSubProduct: (id: string, color: number) => void;
+  addViewedProduct: (id: number) => void;
+  selectSubProduct: (id: number, color?: number) => void;
   selectColor: (colorId: number) => void;
   unselectAll: () => void;
 }
@@ -56,10 +57,13 @@ interface OwnProps extends IPage {
 interface Props extends GraphQLProps, StateProps, DispatchProps, OwnProps {}
 
 const getActiveSubProduct = (
-  subProducts,
-  subProductId: string
+  subProducts: ISubProduct[],
+  subProductId: number
 ): ISubProduct => {
-  return subProducts.filter(sp => sp.id === subProductId)[0] || subProducts[0];
+  return (
+    subProducts.filter(sp => parseInt(sp.id, 0) === subProductId)[0] ||
+    subProducts[0]
+  );
 };
 
 const getSubProductIdsInCart = (data: IDataCart): number[] => {
@@ -80,8 +84,8 @@ class Product extends React.Component<Props, {}> {
   };
 
   componentWillMount() {
-    const { id, addViewedSubProduct } = this.props;
-    addViewedSubProduct(id);
+    const { match: { params: { id } }, addViewedProduct } = this.props;
+    addViewedProduct(parseInt(id, 0));
   }
 
   componentWillUnmount() {
@@ -94,10 +98,7 @@ class Product extends React.Component<Props, {}> {
     if (!loading) {
       const { subProducts, category } = product!;
       const { subProductId } = nextProps.product;
-      const subProductIds = subProducts.map(sp => sp.id);
-      const subProductColor = product!.images.filter(
-        el => el.colorValue !== ""
-      )[0].id;
+      const subProductIds = subProducts.map(sp => parseInt(sp.id, 0));
       if (location.state && location.state.modal) {
         this.setState({
           title: product!.name
@@ -120,7 +121,13 @@ class Product extends React.Component<Props, {}> {
         });
       }
 
-      if (subProductIds.indexOf(subProductId!) === -1) {
+      // if (subProductIds.indexOf(subProductId!) === -1) {
+      if (!subProductId) {
+        const imagesWithColor = getImagesWithColor(product!.images);
+        const subProductColor =
+          imagesWithColor.length === 0
+            ? undefined
+            : parseInt(imagesWithColor[0].id, 0);
         this.props.selectSubProduct(subProductIds[0], subProductColor);
       }
     }
@@ -139,7 +146,7 @@ class Product extends React.Component<Props, {}> {
     };
   };
 
-  getCurrentImageNumber = (): number | undefined => {
+  getselectedImageIndex = (): number | undefined => {
     const { images } = this.props.dataProduct.product!;
     const { colorId } = this.props.product;
     if (!colorId) {
@@ -147,7 +154,7 @@ class Product extends React.Component<Props, {}> {
     }
     const filtered = images
       .map((image, i) => ({
-        colorId: image.id,
+        colorId: parseInt(image.id, 0),
         number: i
       }))
       .filter(data => data.colorId === colorId);
@@ -178,27 +185,28 @@ class Product extends React.Component<Props, {}> {
     } = product!;
     const activeSubProduct = getActiveSubProduct(subProducts, subProductId);
     const activeImage =
-      activeSubProduct.id === subProductId
-        ? images.filter(image => image.id === colorId)[0]
+      parseInt(activeSubProduct.id, 0) === subProductId
+        ? images.filter(image => parseInt(image.id, 0) === colorId)[0]
         : images.filter(image => image.isTitle === true)[0];
 
     const subProductIdsInCart = getSubProductIdsInCart(dataCart);
     const { price, oldPrice } = activeSubProduct;
 
+    const imagesWithColor = getImagesWithColor(images);
     return (
       <Layout {...this.getLayoutOptions()}>
         <div className={styles.ProductPage}>
           {/* First screen info */}
           <Flex
             style={{ height: window.innerHeight - 37 * 2 }}
-            justify="around"
+            justify="center"
             direction="column"
             className={styles.firstScreen}
           >
             <Images
-              defaultHeight={window.innerHeight * 0.65}
+              containerHeight={window.innerHeight * 0.65}
               images={images}
-              currentImageNumber={this.getCurrentImageNumber()}
+              selectedImageIndex={this.getselectedImageIndex()}
               dotWidth={13}
             />
             <WingBlank className={styles.name}>
@@ -207,117 +215,112 @@ class Product extends React.Component<Props, {}> {
               {brand.name} {activeSubProduct.article}
             </WingBlank>
           </Flex>
+          <Devider />
 
           {/* Select SubProduct section */}
-          {subProducts.length > 1
-            ? <div>
-                <Devider />
-                <SubProducts
-                  subProducts={subProducts}
-                  subProductIdsInCart={subProductIdsInCart}
-                />
-              </div>
-            : ""}
-
-          <Devider />
-          <WhiteSpace />
+          {subProducts.length > 1 &&
+            <Aux>
+              <SubProducts
+                subProducts={subProducts}
+                subProductIdsInCart={subProductIdsInCart}
+              />
+              <Devider />
+            </Aux>}
 
           {/* Select Color section */}
-          <WingBlank>
-            <Flex justify="between">
-              <Flex align="center">
-                {images.filter(el => el.colorValue !== "").length > 1
-                  ? images.filter(el => el.colorValue !== "").map((e, i) =>
-                      <MyTouchFeedback key={i}>
-                        {e.id === this.props.product.colorId
+          {imagesWithColor.length > 0 &&
+            <Aux>
+              <WhiteSpace />
+              <WingBlank>
+                <Flex justify="between">
+                  <Flex align="center">
+                    {imagesWithColor.map(
+                      (image, i) =>
+                        parseInt(image.id, 0) === this.props.product.colorId
                           ? <MyIcon
+                              key={i}
                               className={styles.colorIcon}
                               type={require("svg-sprite-loader!./checked-circle.svg")}
                               style={{
-                                fill: e.colorValue
+                                fill: image.colorValue
                               }}
                             />
-                          : <MyIcon
-                              className={styles.colorIcon}
-                              onClick={() => this.props.selectColor(e.id)}
-                              type={require("svg-sprite-loader!./circle.svg")}
-                              style={{
-                                fill: e.colorValue
-                              }}
-                            />}
-                      </MyTouchFeedback>
-                    )
-                  : images.filter(el => el.colorValue !== "").map((e, i) =>
-                      <MyIcon
-                        key={i}
-                        type={require("svg-sprite-loader!./checked-circle.svg")}
-                        className={styles.colorIcon}
-                        style={{
-                          fill: e.colorValue
-                        }}
-                      />
+                          : <MyTouchFeedback key={i}>
+                              <MyIcon
+                                className={styles.colorIcon}
+                                onClick={() =>
+                                  this.props.selectColor(parseInt(image.id, 0))}
+                                type={require("svg-sprite-loader!./circle.svg")}
+                                style={{
+                                  fill: image.colorValue
+                                }}
+                              />
+                            </MyTouchFeedback>
                     )}
-              </Flex>
-              <div className={styles.colorName}>
-                {activeImage.colorName}
-              </div>
-            </Flex>
-          </WingBlank>
-
-          <WhiteSpace />
-          <Devider />
-          <WhiteSpace />
+                  </Flex>
+                  <div className={styles.colorName}>
+                    {activeImage && activeImage.colorName}
+                  </div>
+                </Flex>
+              </WingBlank>
+              <WhiteSpace />
+              <Devider />
+            </Aux>}
 
           {/* Product params section */}
-          <WingBlank>
-            {attributes.map((el, index) =>
-              <Flex key={index} justify="between">
-                <Flex className={styles.paramtName}>
-                  {el.name}
-                </Flex>
-                <Flex className={styles.paramValue}>
-                  {el.values.map(v => v.name).join(", ")}
-                </Flex>
-              </Flex>
-            )}
-            {subProducts.length === 1
-              ? subProducts.map((supProduct, i) =>
-                  <Flex key={i} justify="between">
-                    <div className={styles.paramtName}>Размер, ШxВxГ</div>
-                    <div className={styles.paramValue}>
-                      {supProduct.attributes.length !== 0
-                        ? supProduct.attributes
-                            .slice(0, 3)
-                            .map(e => e.values.map(v => v.value))
-                            .join("x")
-                        : supProduct.article}
-                    </div>
+          {(attributes.length > 0 || subProducts.length === 1) &&
+            <Aux>
+              <WhiteSpace />
+              <WingBlank>
+                {attributes.map((el, index) =>
+                  <Flex key={index} justify="between">
+                    <Flex className={styles.paramtName}>
+                      {el.name}
+                    </Flex>
+                    <Flex className={styles.paramValue}>
+                      {el.values.map(v => v.name).join(", ")}
+                    </Flex>
                   </Flex>
-                )
-              : null}
-          </WingBlank>
-
-          <WhiteSpace />
-          <Devider />
-          <WhiteSpace />
+                )}
+                {subProducts.length === 1
+                  ? subProducts.map((supProduct, i) =>
+                      <Flex key={i} justify="between">
+                        <div className={styles.paramtName}>Размер, ШxВxГ</div>
+                        <div className={styles.paramValue}>
+                          {supProduct.attributes.length !== 0
+                            ? supProduct.attributes
+                                .slice(0, 3)
+                                .map(e => e.values.map(v => v.value))
+                                .join("x")
+                            : supProduct.article}
+                        </div>
+                      </Flex>
+                    )
+                  : null}
+              </WingBlank>
+              <WhiteSpace />
+              <Devider />
+            </Aux>}
 
           {/* Product description section */}
-          <WingBlank>
-            <div
-              className={styles.description}
-              dangerouslySetInnerHTML={createMarkup(description)}
-            />
-          </WingBlank>
-          <WhiteSpace />
+          {description &&
+            <Aux>
+              <WhiteSpace />
+              <WingBlank>
+                <div
+                  className={styles.description}
+                  dangerouslySetInnerHTML={createMarkup(description)}
+                />
+              </WingBlank>
+              <WhiteSpace />
+            </Aux>}
 
           {/* Add to cart */}
           <ProductToCart
-            subProductId={parseInt(subProductId, 0)}
+            subProductId={subProductId}
             price={price}
             oldPrice={oldPrice}
-            inCart={
-              subProductIdsInCart.indexOf(parseInt(subProductId, 0)) !== -1
-            }
+            inCart={subProductIdsInCart.indexOf(subProductId) !== -1}
           />
         </div>
       </Layout>
@@ -330,13 +333,13 @@ const mapStateToProps = (state: IRootReducer): StateProps => ({
 });
 
 const mapDispatchToProps = (dispatch): DispatchProps => ({
-  addViewedSubProduct: id => {
+  addViewedProduct: (id: number) => {
     dispatch({
       type: ACTION_ADD_VIEWED_PRODUCT,
-      subProductId: id
+      id
     });
   },
-  selectSubProduct: (id, colorId) => {
+  selectSubProduct: (id: number, colorId?: number) => {
     dispatch({
       type: ACTION_SELECT_SUB_PRODUCT,
       id,

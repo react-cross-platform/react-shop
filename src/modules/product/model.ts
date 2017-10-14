@@ -38,7 +38,7 @@ export interface IBrand {
 }
 
 export interface IImage {
-  id: number;
+  id: string;
   src: string;
   width: number;
   height: number;

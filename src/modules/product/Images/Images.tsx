@@ -1,6 +1,7 @@
 import { MyIcon } from "@src/modules/common";
 import { Div } from "@src/modules/common/utils";
 import { Carousel, Flex } from "antd-mobile";
+import { defaultProps } from "antd-mobile/lib/search-bar/PropsType";
 import * as React from "react";
 import { Link } from "react-router-dom";
 
@@ -9,18 +10,24 @@ import { IImage } from "../model";
 
 const styles = require("./styles.css");
 
+export const getImagesWithColor = (images: IImage[]): IImage[] => {
+  return images.filter(image => image.colorValue !== "");
+};
+
 const DEFAULT_OBJEFT_FIT_SIZE = {
   width: "100%",
   height: "95%"
 };
 
-const DEFAULT_CURRENT_IMAGE_NUMBER = 0;
+const DEFAULT_SELECTED_IMAGE_INDEX = 0;
+
+const LAZY_OFFSET = 400;
 
 interface OwnProps {
-  defaultHeight: number;
+  containerHeight?: number;
   images: [IImage];
   dotWidth: number;
-  currentImageNumber?: number;
+  selectedImageIndex?: number;
   objectFitSize?: {
     width: string;
     height: string;
@@ -29,22 +36,41 @@ interface OwnProps {
 }
 
 interface State {
-  currentImageNumber: number;
+  selectedImageIndex: number;
+  maxLoadedImageIndex: number;
 }
 
 class Images extends React.Component<OwnProps, State> {
+  static defaultProps = {
+    selectedImageIndex: DEFAULT_SELECTED_IMAGE_INDEX
+  };
+
   state = {
-    currentImageNumber: DEFAULT_CURRENT_IMAGE_NUMBER
+    selectedImageIndex: DEFAULT_SELECTED_IMAGE_INDEX,
+    maxLoadedImageIndex: DEFAULT_SELECTED_IMAGE_INDEX
   };
 
   componentWillReceiveProps(nextProps: OwnProps) {
-    const currentImageNumber =
-      nextProps.currentImageNumber || DEFAULT_CURRENT_IMAGE_NUMBER;
-    this.setState({ currentImageNumber });
+    const selectedImageIndex =
+      nextProps.selectedImageIndex || DEFAULT_SELECTED_IMAGE_INDEX;
+    this.setState({ selectedImageIndex });
   }
 
+  getHeight = (image: IImage): number => {
+    const { containerHeight } = this.props;
+    if (containerHeight) {
+      return containerHeight;
+    }
+    let squareHeight = window.innerWidth / 2;
+    const { width, height } = image;
+    if (width > height) {
+      squareHeight *= height / width;
+    }
+    return squareHeight * 1.2;
+  };
+
   render() {
-    const { defaultHeight, images, linkProps, dotWidth } = this.props;
+    const { images, linkProps, dotWidth } = this.props;
     const objectFitSize = this.props.objectFitSize || DEFAULT_OBJEFT_FIT_SIZE;
     const Component = linkProps ? Link : Div;
     if (images.length > 1) {
@@ -54,36 +80,53 @@ class Images extends React.Component<OwnProps, State> {
             <Carousel
               autoplay={false}
               className={styles.Images}
-              selectedIndex={
-                this.state.currentImageNumber || DEFAULT_CURRENT_IMAGE_NUMBER
-              }
+              selectedIndex={this.state.selectedImageIndex}
               dots={false}
               infinite={false}
-              afterChange={currentImageNumber =>
-                this.setState({ currentImageNumber })}
-              style={{ height: defaultHeight }}
+              afterChange={selectedImageIndex => {
+                this.setState({
+                  selectedImageIndex,
+                  maxLoadedImageIndex:
+                    selectedImageIndex + 1 > this.state.maxLoadedImageIndex
+                      ? selectedImageIndex + 1
+                      : this.state.maxLoadedImageIndex
+                });
+              }}
+              style={{ height: this.getHeight(images[0]) }}
             >
-              {this.props.images.map((image, i) =>
+              {this.props.images.map((image, index) =>
                 <Flex
-                  key={i}
+                  key={index}
                   justify="center"
                   align="center"
                   style={{
-                    height: defaultHeight
+                    height: this.getHeight(images[0])
                   }}
                 >
-                  <img
-                    style={objectFitSize}
-                    className={styles.image}
-                    src={image.src}
-                  />
+                  {index <= this.state.maxLoadedImageIndex
+                    ? index === 0
+                      ? <img
+                          style={objectFitSize}
+                          className={styles.image}
+                          src={image.src}
+                        />
+                      : <img
+                          style={objectFitSize}
+                          className={styles.image}
+                          src={image.src}
+                        />
+                    : <MyIcon type="loading" size="lg" />}
                 </Flex>
               )}
             </Carousel>
           </Component>
 
           {/* Carousel dots per image */}
-          <Flex justify="center">
+          <Flex
+            justify="center"
+            className={styles.dots}
+            style={{ minHeight: dotWidth * 1.5 }}
+          >
             {this.props.images.map((image, i) =>
               <MyTouchFeedback key={i}>
                 <MyIcon
@@ -95,16 +138,16 @@ class Images extends React.Component<OwnProps, State> {
                   style={{
                     fill: image.colorValue ? image.colorValue : "gray",
                     width:
-                      i === this.state.currentImageNumber
-                        ? dotWidth * 1.3
+                      i === this.state.selectedImageIndex
+                        ? dotWidth * 1.4
                         : dotWidth,
                     height:
-                      i === this.state.currentImageNumber
-                        ? dotWidth * 1.3
+                      i === this.state.selectedImageIndex
+                        ? dotWidth * 1.5
                         : dotWidth,
                     padding: dotWidth * 0.5
                   }}
-                  onClick={e => this.setState({ currentImageNumber: i })}
+                  onClick={e => this.setState({ selectedImageIndex: i })}
                 />
               </MyTouchFeedback>
             )}
@@ -118,7 +161,7 @@ class Images extends React.Component<OwnProps, State> {
             justify="center"
             align="center"
             style={{
-              height: defaultHeight
+              height: this.getHeight(images[0])
             }}
           >
             {images.length === 0

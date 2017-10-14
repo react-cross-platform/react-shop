@@ -30,7 +30,7 @@
 }
 
 .info {
-  padding: 0.4rem;
+  padding: 0 0.6rem 0.4rem;
 }
 
 .title {
@@ -44,4 +44,12 @@
   font-size: 1rem;
   font-weight: bold;
   margin-top: 0.4rem;
+}
+
+.isViewed {
+  z-index: 1;
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  fill: orange;
 }

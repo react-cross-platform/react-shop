@@ -3,10 +3,12 @@ import { Loading } from "@src/modules/common";
 import { Layout } from "@src/modules/layout";
 import { ICategory } from "@src/modules/product/model";
 import gql from "graphql-tag";
+import { compile } from "path-to-regexp";
 import * as React from "react";
 import { graphql, OperationOption, QueryProps } from "react-apollo";
 
 import { IPage, IRouterReducer } from "../interfaces";
+import { PATH_NAMES } from "../RouteSwitch/RouteSwitch";
 
 const styles = require("./styles.css");
 
@@ -26,7 +28,11 @@ interface OwnProps extends IPage {}
 
 interface Props extends OwnProps, GraphQLProps {}
 
-class CategoryPage extends React.Component<OwnProps & GraphQLProps, any> {
+interface State {
+  title: string;
+}
+
+class CategoryPage extends React.Component<Props, State> {
   state = { title: "" };
 
   componentWillReceiveProps(nextProps: Props) {
@@ -34,6 +40,27 @@ class CategoryPage extends React.Component<OwnProps & GraphQLProps, any> {
     if (!loading) {
       this.setState({ title: category!.name });
     }
+  }
+
+  shouldComponentUpdate(nextProps: Props, nextState: State) {
+    // FIXME: Temp hack https://github.com/FormidableLabs/nuka-carousel/issues/103
+    const {
+      data: { loading },
+      history,
+      match: { params: { id } },
+      location
+    } = nextProps;
+    const pathname = compile(PATH_NAMES.category)({ id });
+    if (
+      !loading &&
+      history.location.pathname === pathname &&
+      history.location.pathname === location.pathname
+    ) {
+      setTimeout(() => {
+        window.dispatchEvent(new Event("resize"));
+      }, 0);
+    }
+    return true;
   }
 
   getLayoutOptions = () => {
@@ -79,5 +106,5 @@ const options: OperationOption<OwnProps, GraphQLProps> = {
 };
 
 export default graphql<GraphQLProps, any>(CATEGORY_QUERY, options)(
-  CategoryPage
-);
+  CategoryPage as any
+) as any;
