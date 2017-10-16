@@ -31,8 +31,7 @@ class Product extends React.Component<StateProps & OwnProps, State> {
   componentWillMount() {
     const { images } = this.props;
     this.setState({
-      titleImage:
-        images.filter(img => img.isTitle)[0] || images[0]
+      titleImage: images.filter(img => img.isTitle)[0] || images[0]
     });
   }
 
@@ -60,14 +59,7 @@ class Product extends React.Component<StateProps & OwnProps, State> {
   };
 
   render() {
-    const {
-      id,
-      name,
-      subProducts,
-      brand,
-      images,
-      catalog
-    } = this.props;
+    const { id, name, subProducts, brand, images, catalog } = this.props;
     const titleImage = this.state.titleImage;
     const subProduct = subProducts[0];
     const prices = subProducts.map(el => el.price);
@@ -78,21 +70,21 @@ class Product extends React.Component<StateProps & OwnProps, State> {
 
     return (
       <div className={styles.Product} style={{ width }}>
-        <MyTouchFeedback>
-          <Card>
-            {this.isViewed() &&
-              <MyIcon
-                type={require("!svg-sprite-loader!./viewed.svg")}
-                size="sm"
-                className={styles.isViewed}
-              />}
-            <Images
-              images={images}
-              objectFitSize={{ width: "90%", height: "90%" }}
-              dotWidth={10}
-              linkProps={this.getLinkProps()}
-            />
+        <Card>
+          {this.isViewed() &&
+            <MyIcon
+              type={require("!svg-sprite-loader!./viewed.svg")}
+              size="sm"
+              className={styles.isViewed}
+            />}
+          <Images
+            images={images}
+            objectFitSize={{ width: "90%", height: "90%" }}
+            dotHeight={10}
+            linkProps={this.getLinkProps()}
+          />
 
+          <MyTouchFeedback>
             <Link {...this.getLinkProps()}>
               <div className={styles.info}>
                 <div className={styles.title}>
@@ -108,8 +100,8 @@ class Product extends React.Component<StateProps & OwnProps, State> {
                 </div>
               </div>
             </Link>
-          </Card>
-        </MyTouchFeedback>
+          </MyTouchFeedback>
+        </Card>
       </div>
     );
   }

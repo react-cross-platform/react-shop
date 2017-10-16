@@ -207,7 +207,7 @@ class Product extends React.Component<Props, {}> {
               containerHeight={window.innerHeight * 0.65}
               images={images}
               selectedImageIndex={this.getselectedImageIndex()}
-              dotWidth={13}
+              dotHeight={13}
             />
             <WingBlank className={styles.name}>
               {product!.name}

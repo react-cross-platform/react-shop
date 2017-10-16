@@ -20,13 +20,13 @@ import { ICatalogReducer } from "../reducer";
 
 const styles = require("./styles.css");
 
-const LIMIT = 10;
+const LIMIT = 15;
 
 // miliseconds bettwen scroll event
 const SCROLL_THROTTLE = 250;
 
 // px from bottom to start fetch more products
-const FETCH_MORE_THRESHOLD = window.innerHeight;
+const FETCH_MORE_THRESHOLD = window.innerHeight * 2;
 
 interface IDataProducts extends QueryProps {
   allProducts?: IAllProduct;

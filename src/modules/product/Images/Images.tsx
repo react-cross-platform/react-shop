@@ -26,7 +26,7 @@ const LAZY_OFFSET = 400;
 interface OwnProps {
   containerHeight?: number;
   images: [IImage];
-  dotWidth: number;
+  dotHeight: number;
   selectedImageIndex?: number;
   objectFitSize?: {
     width: string;
@@ -56,10 +56,10 @@ class Images extends React.Component<OwnProps, State> {
     this.setState({ selectedImageIndex });
   }
 
-  getHeight = (image: IImage): number => {
+  getHeight = (image?: IImage): number => {
     const { containerHeight } = this.props;
-    if (containerHeight) {
-      return containerHeight;
+    if (!image || containerHeight) {
+      return containerHeight!;
     }
     let squareHeight = window.innerWidth / 2;
     const { width, height } = image;
@@ -70,27 +70,30 @@ class Images extends React.Component<OwnProps, State> {
   };
 
   render() {
-    const { images, linkProps, dotWidth } = this.props;
+    const { images, linkProps, dotHeight } = this.props;
     const objectFitSize = this.props.objectFitSize || DEFAULT_OBJEFT_FIT_SIZE;
     const Component = linkProps ? Link : Div;
     if (images.length > 1) {
       return (
         <Aux>
-          <Component style={{ width: "100%" }} {...linkProps}>
+          <Component className={styles.Images} {...linkProps}>
             <Carousel
               autoplay={false}
-              className={styles.Images}
+              className={styles.Carousel}
               selectedIndex={this.state.selectedImageIndex}
               dots={false}
               infinite={false}
-              afterChange={selectedImageIndex => {
-                this.setState({
-                  selectedImageIndex,
-                  maxLoadedImageIndex:
-                    selectedImageIndex + 1 > this.state.maxLoadedImageIndex
-                      ? selectedImageIndex + 1
-                      : this.state.maxLoadedImageIndex
-                });
+              beforeChange={(from, index) => {
+                const { selectedImageIndex, maxLoadedImageIndex } = this.state;
+                if (index !== selectedImageIndex) {
+                  this.setState({
+                    selectedImageIndex: index,
+                    maxLoadedImageIndex:
+                      index + 1 > maxLoadedImageIndex
+                        ? index + 1
+                        : maxLoadedImageIndex
+                  });
+                }
               }}
               style={{ height: this.getHeight(images[0]) }}
             >
@@ -103,18 +106,13 @@ class Images extends React.Component<OwnProps, State> {
                     height: this.getHeight(images[0])
                   }}
                 >
-                  {index <= this.state.maxLoadedImageIndex
-                    ? index === 0
-                      ? <img
-                          style={objectFitSize}
-                          className={styles.image}
-                          src={image.src}
-                        />
-                      : <img
-                          style={objectFitSize}
-                          className={styles.image}
-                          src={image.src}
-                        />
+                  {index <= this.state.maxLoadedImageIndex ||
+                  index === this.state.selectedImageIndex
+                    ? <img
+                        style={objectFitSize}
+                        className={styles.image}
+                        src={image.src}
+                      />
                     : <MyIcon type="loading" size="lg" />}
                 </Flex>
               )}
@@ -123,33 +121,39 @@ class Images extends React.Component<OwnProps, State> {
 
           {/* Carousel dots per image */}
           <Flex
+            // justify="between"
             justify="center"
             className={styles.dots}
-            style={{ minHeight: dotWidth * 1.5 }}
+            style={{ minHeight: dotHeight * 1.5 }}
           >
             {this.props.images.map((image, i) =>
-              <MyTouchFeedback key={i}>
-                <MyIcon
-                  type={
-                    image.colorValue
-                      ? require("!svg-sprite-loader!./circle.svg")
-                      : require("!svg-sprite-loader!./empty-circle.svg")
-                  }
-                  style={{
-                    fill: image.colorValue ? image.colorValue : "gray",
-                    width:
-                      i === this.state.selectedImageIndex
-                        ? dotWidth * 1.4
-                        : dotWidth,
-                    height:
-                      i === this.state.selectedImageIndex
-                        ? dotWidth * 1.5
-                        : dotWidth,
-                    padding: dotWidth * 0.5
-                  }}
-                  onClick={e => this.setState({ selectedImageIndex: i })}
-                />
-              </MyTouchFeedback>
+              <MyIcon
+                key={i}
+                className={styles.dot}
+                type={
+                  image.colorValue
+                    ? require("!svg-sprite-loader!./circle.svg")
+                    : require("!svg-sprite-loader!./empty-circle.svg")
+                }
+                style={{
+                  fill: image.colorValue
+                    ? image.colorValue
+                    : i === this.state.selectedImageIndex
+                      ? "gray"
+                      : "lightgray",
+                  minWidth:
+                    i === this.state.selectedImageIndex ? "0.5rem" : "auto",
+                  width:
+                    i === this.state.selectedImageIndex
+                      ? dotHeight * 2 * 1.5
+                      : dotHeight * 2,
+                  height:
+                    i === this.state.selectedImageIndex
+                      ? dotHeight * 1.5
+                      : dotHeight
+                }}
+                onClick={e => this.setState({ selectedImageIndex: i })}
+              />
             )}
           </Flex>
         </Aux>
@@ -166,8 +170,8 @@ class Images extends React.Component<OwnProps, State> {
           >
             {images.length === 0
               ? <MyIcon
+                  className={styles.noImage}
                   type={require("!svg-sprite-loader!./no-image.svg")}
-                  style={{ fill: "lightgray" }}
                 />
               : <img
                   className={styles.image}

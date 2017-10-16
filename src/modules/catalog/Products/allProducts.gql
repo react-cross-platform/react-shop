@@ -13,7 +13,7 @@ query allProducts($categoryId: Int, $offset: Int, $first: Int) {
         id
         name
       }
-      images {
+      images(size:SM, withColorOnly:true) {
         id
         src
         width

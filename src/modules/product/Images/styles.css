@@ -1,4 +1,8 @@
 .Images {
+  width: 100%;
+}
+
+.Carousel {
   background: white;
   width: auto !important;
   margin: 5px;
@@ -6,11 +10,25 @@
 
 .dots {
   overflow-y: visible;
+  overflow-x: scroll;
+  width: 90%;
   position: relative;
   bottom: 0.5rem;
-  padding: 0 5px;
+  margin: auto;
+  padding: auto;
+  min-width: 30%;
+}
+
+.dot {
 }
 
 .image {
   object-fit: contain;
+}
+
+.noImage {
+  object-fit: contain;
+  width: 70%;
+  height: 70%;
+  fill: lightgray;
 }

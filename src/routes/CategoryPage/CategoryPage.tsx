@@ -50,11 +50,17 @@ class CategoryPage extends React.Component<Props, State> {
       match: { params: { id } },
       location
     } = nextProps;
+
+    if (history.location.pathname !== location.pathname) {
+      // Prevent rerender cause two active routes (main and modal in RouteSwitch)
+      return false;
+    }
+
     const pathname = compile(PATH_NAMES.category)({ id });
     if (
       !loading &&
       history.location.pathname === pathname &&
-      history.location.pathname === location.pathname
+      location.pathname === pathname
     ) {
       setTimeout(() => {
         window.dispatchEvent(new Event("resize"));
