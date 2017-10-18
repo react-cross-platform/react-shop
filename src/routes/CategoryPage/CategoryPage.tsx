@@ -57,11 +57,7 @@ class CategoryPage extends React.Component<Props, State> {
     }
 
     const pathname = compile(PATH_NAMES.category)({ id });
-    if (
-      !loading &&
-      history.location.pathname === pathname &&
-      location.pathname === pathname
-    ) {
+    if (!loading && history.location.pathname === location.pathname) {
       setTimeout(() => {
         window.dispatchEvent(new Event("resize"));
       }, 0);

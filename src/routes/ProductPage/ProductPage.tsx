@@ -1,10 +1,13 @@
 import { CART_QUERY, IDataCart } from "@src/modules/cart/Cart/Cart";
 import { ACTION_ADD_VIEWED_PRODUCT } from "@src/modules/catalog/constants";
 import { Devider, Loading, MyIcon } from "@src/modules/common";
+import { Aux, MyTouchFeedback } from "@src/modules/common/utils";
 import { Layout } from "@src/modules/layout";
 import { Images, ProductToCart, SubProducts } from "@src/modules/product";
 import { ACTION_SELECT_SUB_PRODUCT } from "@src/modules/product/constants";
+import { ACTION_SELECT_COLOR, ACTION_UNSELECT_ALL } from "@src/modules/product/constants";
 import { getImagesWithColor } from "@src/modules/product/Images/Images";
+import { ISubProduct } from "@src/modules/product/model";
 import { IProduct } from "@src/modules/product/model";
 import { IProductReducer } from "@src/modules/product/reducer";
 import { IRootReducer } from "@src/rootReducer";
@@ -17,12 +20,7 @@ import { compose, graphql, OperationOption, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { Aux, MyTouchFeedback } from "../../modules/common/utils";
-import {
-  ACTION_SELECT_COLOR,
-  ACTION_UNSELECT_ALL
-} from "../../modules/product/constants";
-import { ISubProduct } from "../../modules/product/model";
+import ScrollToTop from "../../utils/ScrollToTop";
 import { PATH_NAMES } from "../index";
 import { IPage } from "../interfaces";
 
@@ -106,16 +104,18 @@ class Product extends React.Component<Props, {}> {
       } else {
         this.setState({
           left: (
-            <Link
-              className={styles.headerLeft}
-              to={compile(PATH_NAMES.category)({ id: category.id })}
-            >
-              <MyIcon
-                className={styles.headerLeftIcon}
-                type={require("!svg-sprite-loader!./back.svg")}
-              />
-              {category.name}
-            </Link>
+            <MyTouchFeedback>
+              <Link
+                className={styles.headerLeft}
+                to={compile(PATH_NAMES.category)({ id: category.id })}
+              >
+                <MyIcon
+                  className={styles.headerLeftIcon}
+                  type={require("!svg-sprite-loader!./back.svg")}
+                />
+                {category.name}
+              </Link>
+            </MyTouchFeedback>
           ),
           title: ""
         });
@@ -194,136 +194,140 @@ class Product extends React.Component<Props, {}> {
 
     const imagesWithColor = getImagesWithColor(images);
     return (
-      <Layout {...this.getLayoutOptions()}>
-        <div className={styles.ProductPage}>
-          {/* First screen info */}
-          <Flex
-            style={{ height: window.innerHeight - 37 * 2 }}
-            justify="center"
-            direction="column"
-            className={styles.firstScreen}
-          >
-            <Images
-              containerHeight={window.innerHeight * 0.65}
-              images={images}
-              selectedImageIndex={this.getselectedImageIndex()}
-              dotHeight={13}
-            />
-            <WingBlank className={styles.name}>
-              {product!.name}
-              <br />
-              {brand.name} {activeSubProduct.article}
-            </WingBlank>
-          </Flex>
-          <Devider />
-
-          {/* Select SubProduct section */}
-          {subProducts.length > 1 &&
-            <Aux>
-              <SubProducts
-                subProducts={subProducts}
-                subProductIdsInCart={subProductIdsInCart}
+      <ScrollToTop>
+        <Layout {...this.getLayoutOptions()}>
+          <div className={styles.ProductPage}>
+            {/* First screen info */}
+            <Flex
+              style={{ height: window.innerHeight - 37 * 2 }}
+              justify="center"
+              direction="column"
+              className={styles.firstScreen}
+            >
+              <Images
+                containerHeight={window.innerHeight * 0.65}
+                images={images}
+                selectedImageIndex={this.getselectedImageIndex()}
+                dotHeight={13}
               />
-              <Devider />
-            </Aux>}
+              <WingBlank className={styles.name}>
+                {product!.name}
+                <br />
+                {brand.name} {activeSubProduct.article}
+              </WingBlank>
+            </Flex>
+            <Devider />
 
-          {/* Select Color section */}
-          {imagesWithColor.length > 0 &&
-            <Aux>
-              <WhiteSpace />
-              <WingBlank>
-                <Flex justify="between">
-                  <Flex align="center">
-                    {imagesWithColor.map(
-                      (image, i) =>
-                        parseInt(image.id, 0) === this.props.product.colorId
-                          ? <MyIcon
-                              key={i}
-                              className={styles.colorIcon}
-                              type={require("svg-sprite-loader!./checked-circle.svg")}
-                              style={{
-                                fill: image.colorValue
-                              }}
-                            />
-                          : <MyTouchFeedback key={i}>
-                              <MyIcon
+            {/* Select SubProduct section */}
+            {subProducts.length > 1 &&
+              <Aux>
+                <SubProducts
+                  subProducts={subProducts}
+                  subProductIdsInCart={subProductIdsInCart}
+                />
+                <Devider />
+              </Aux>}
+
+            {/* Select Color section */}
+            {imagesWithColor.length > 0 &&
+              <Aux>
+                <WhiteSpace />
+                <WingBlank>
+                  <Flex justify="between">
+                    <Flex align="center">
+                      {imagesWithColor.map(
+                        (image, i) =>
+                          parseInt(image.id, 0) === this.props.product.colorId
+                            ? <MyIcon
+                                key={i}
                                 className={styles.colorIcon}
-                                onClick={() =>
-                                  this.props.selectColor(parseInt(image.id, 0))}
-                                type={require("svg-sprite-loader!./circle.svg")}
+                                type={require("svg-sprite-loader!./checked-circle.svg")}
                                 style={{
                                   fill: image.colorValue
                                 }}
                               />
-                            </MyTouchFeedback>
-                    )}
+                            : <MyTouchFeedback key={i}>
+                                <MyIcon
+                                  className={styles.colorIcon}
+                                  onClick={() =>
+                                    this.props.selectColor(
+                                      parseInt(image.id, 0)
+                                    )}
+                                  type={require("svg-sprite-loader!./circle.svg")}
+                                  style={{
+                                    fill: image.colorValue
+                                  }}
+                                />
+                              </MyTouchFeedback>
+                      )}
+                    </Flex>
+                    <div className={styles.colorName}>
+                      {activeImage && activeImage.colorName}
+                    </div>
                   </Flex>
-                  <div className={styles.colorName}>
-                    {activeImage && activeImage.colorName}
-                  </div>
-                </Flex>
-              </WingBlank>
-              <WhiteSpace />
-              <Devider />
-            </Aux>}
+                </WingBlank>
+                <WhiteSpace />
+                <Devider />
+              </Aux>}
 
-          {/* Product params section */}
-          {(attributes.length > 0 || subProducts.length === 1) &&
-            <Aux>
-              <WhiteSpace />
-              <WingBlank>
-                {attributes.map((el, index) =>
-                  <Flex key={index} justify="between">
-                    <Flex className={styles.paramtName}>
-                      {el.name}
-                    </Flex>
-                    <Flex className={styles.paramValue}>
-                      {el.values.map(v => v.name).join(", ")}
-                    </Flex>
-                  </Flex>
-                )}
-                {subProducts.length === 1
-                  ? subProducts.map((supProduct, i) =>
-                      <Flex key={i} justify="between">
-                        <div className={styles.paramtName}>Размер, ШxВxГ</div>
-                        <div className={styles.paramValue}>
-                          {supProduct.attributes.length !== 0
-                            ? supProduct.attributes
-                                .slice(0, 3)
-                                .map(e => e.values.map(v => v.value))
-                                .join("x")
-                            : supProduct.article}
-                        </div>
+            {/* Product params section */}
+            {(attributes.length > 0 || subProducts.length === 1) &&
+              <Aux>
+                <WhiteSpace />
+                <WingBlank>
+                  {attributes.map((el, index) =>
+                    <Flex key={index} justify="between">
+                      <Flex className={styles.paramtName}>
+                        {el.name}
                       </Flex>
-                    )
-                  : null}
-              </WingBlank>
-              <WhiteSpace />
-              <Devider />
-            </Aux>}
+                      <Flex className={styles.paramValue}>
+                        {el.values.map(v => v.name).join(", ")}
+                      </Flex>
+                    </Flex>
+                  )}
+                  {subProducts.length === 1
+                    ? subProducts.map((supProduct, i) =>
+                        <Flex key={i} justify="between">
+                          <div className={styles.paramtName}>Размер, ШxВxГ</div>
+                          <div className={styles.paramValue}>
+                            {supProduct.attributes.length !== 0
+                              ? supProduct.attributes
+                                  .slice(0, 3)
+                                  .map(e => e.values.map(v => v.value))
+                                  .join("x")
+                              : supProduct.article}
+                          </div>
+                        </Flex>
+                      )
+                    : null}
+                </WingBlank>
+                <WhiteSpace />
+                <Devider />
+              </Aux>}
 
-          {/* Product description section */}
-          {description &&
-            <Aux>
-              <WhiteSpace />
-              <WingBlank>
-                <div
-                  className={styles.description}
-                  dangerouslySetInnerHTML={createMarkup(description)}
-                />
-              </WingBlank>
-              <WhiteSpace />
-            </Aux>}
+            {/* Product description section */}
+            {description &&
+              <Aux>
+                <WhiteSpace />
+                <WingBlank>
+                  <div
+                    className={styles.description}
+                    dangerouslySetInnerHTML={createMarkup(description)}
+                  />
+                </WingBlank>
+                <WhiteSpace />
+              </Aux>}
 
-          {/* Add to cart */}
-          <ProductToCart
-            subProductId={subProductId}
-            price={price}
-            oldPrice={oldPrice}
-            inCart={subProductIdsInCart.indexOf(subProductId) !== -1}
-          />
-        </div>
-      </Layout>
+            {/* Add to cart */}
+            <ProductToCart
+              subProductId={subProductId}
+              price={price}
+              oldPrice={oldPrice}
+              inCart={subProductIdsInCart.indexOf(subProductId) !== -1}
+            />
+          </div>
+        </Layout>
+      </ScrollToTop>
     );
   }
 }
@@ -375,6 +379,6 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  graphql(PRODUCT_QUERY, productOptions),
-  graphql(CART_QUERY, cartOptions)
+  graphql(CART_QUERY, cartOptions),
+  graphql(PRODUCT_QUERY, productOptions)
 )(Product);

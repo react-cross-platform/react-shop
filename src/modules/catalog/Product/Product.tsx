@@ -69,40 +69,42 @@ class Product extends React.Component<StateProps & OwnProps, State> {
     const width = Math.round(window.innerWidth / 2) - 5;
 
     return (
-      <div className={styles.Product} style={{ width }}>
-        <Card>
-          {this.isViewed() &&
-            <MyIcon
-              type={require("!svg-sprite-loader!./viewed.svg")}
-              size="sm"
-              className={styles.isViewed}
-            />}
-          <Images
-            images={images}
-            objectFitSize={{ width: "90%", height: "90%" }}
-            dotHeight={10}
-            linkProps={this.getLinkProps()}
-          />
+      <MyTouchFeedback>
+        <div className={styles.Product} style={{ width }}>
+          <Card>
+            {this.isViewed() &&
+              <MyIcon
+                type={require("!svg-sprite-loader!./viewed.svg")}
+                size="sm"
+                className={styles.isViewed}
+              />}
+            <Images
+              images={images}
+              objectFitSize={{ width: "90%", height: "90%" }}
+              dotHeight={10}
+              linkProps={this.getLinkProps()}
+            />
 
-          <MyTouchFeedback>
-            <Link {...this.getLinkProps()}>
-              <div className={styles.info}>
-                <div className={styles.title}>
-                  {name}
-                  <br />
-                  {brand.name} {subProduct.article}
-                </div>
-                <div className={styles.price}>
-                  <div>
-                    {isSinglePrice ? "" : "от "}
-                    {parseInt(minPrice, 10)} грн
+            <MyTouchFeedback>
+              <Link {...this.getLinkProps()}>
+                <div className={styles.info}>
+                  <div className={styles.title}>
+                    {name}
+                    <br />
+                    {brand.name} {subProduct.article}
+                  </div>
+                  <div className={styles.price}>
+                    <div>
+                      {isSinglePrice ? "" : "от "}
+                      {parseInt(minPrice, 10)} грн
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          </MyTouchFeedback>
-        </Card>
-      </div>
+              </Link>
+            </MyTouchFeedback>
+          </Card>
+        </div>
+      </MyTouchFeedback>
     );
   }
 }

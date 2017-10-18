@@ -83,7 +83,7 @@ class Images extends React.Component<OwnProps, State> {
               selectedIndex={this.state.selectedImageIndex}
               dots={false}
               infinite={false}
-              beforeChange={(from, index) => {
+              afterChange={index => {
                 const { selectedImageIndex, maxLoadedImageIndex } = this.state;
                 if (index !== selectedImageIndex) {
                   this.setState({
