@@ -1,9 +1,10 @@
 .HomeTrigger {
-  color: white;
   height: 2.7rem;
   padding: 0 1.8rem;
 }
 
 .icon {
   margin: 0 0.2.7rem 0.2.7rem;
+  width: 2.2rem;
+  fill: orange;
 }

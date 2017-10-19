@@ -11,9 +11,14 @@ interface OwnProps extends IPage {
   left?: JSX.Element | string;
   title?: JSX.Element | string;
   right?: JSX.Element;
+  onTop: boolean;
 }
 
-class Header extends React.Component<OwnProps, {}> {
+interface StateProps {}
+
+interface Props extends OwnProps, StateProps {}
+
+class Header extends React.Component<Props, {}> {
   goBack = e => {
     e.stopPropagation();
     const { history } = this.props;
@@ -21,13 +26,21 @@ class Header extends React.Component<OwnProps, {}> {
   };
 
   render() {
-    const { location, left, title, right } = this.props;
+    const { location, left, title, right, onTop } = this.props;
     return (
-      <Flex className={styles.Header} justify="between" align="center">
+      <Flex
+        className={styles.Header}
+        justify="between"
+        align="center"
+        style={{
+          background: onTop ? "none" : "#2474cc"
+        }}
+      >
         {left === undefined
           ? <MyTouchFeedback>
               <MyIcon
                 className={styles.left}
+                style={{ fill: onTop ? "black" : "white" }}
                 type={
                   location.state && location.state.modal
                     ? require("!svg-sprite-loader!./close.svg")
@@ -36,11 +49,29 @@ class Header extends React.Component<OwnProps, {}> {
                 onClick={this.goBack}
               />
             </MyTouchFeedback>
-          : left}
-        <div className={styles.title}>
+          : <div
+              style={{
+                color: onTop ? "black" : "white",
+                fill: onTop ? "black" : "white"
+              }}
+            >
+              {left}
+            </div>}
+
+        <div
+          style={{
+            color: onTop ? "black" : "white",
+            opacity:
+              location.pathname.indexOf("product") !== -1 && onTop ? 0 : 1
+          }}
+          className={styles.title}
+        >
           {(location.state && location.state.title) || title}
         </div>
-        {right === null ? <div className={styles.right} /> : <CartTrigger />}
+
+        {right === null
+          ? <div className={styles.right} />
+          : <CartTrigger onTop={onTop} />}
       </Flex>
     );
   }

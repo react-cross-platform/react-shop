@@ -21,9 +21,6 @@ const Logo = ({ isActive }) => {
         className={styles.icon}
         type={require("!svg-sprite-loader!./logo.svg")}
         size="md"
-        style={{
-          fill: isActive ? "orange" : "white"
-        }}
       />
       SHOP
     </Flex>

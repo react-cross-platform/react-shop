@@ -199,13 +199,13 @@ class Product extends React.Component<Props, {}> {
           <div className={styles.ProductPage}>
             {/* First screen info */}
             <Flex
-              style={{ height: window.innerHeight - 37 * 2 }}
+              style={{ height: window.innerHeight - 37 }}
               justify="center"
               direction="column"
               className={styles.firstScreen}
             >
               <Images
-                containerHeight={window.innerHeight * 0.65}
+                containerHeight={window.innerHeight * 0.78}
                 images={images}
                 selectedImageIndex={this.getselectedImageIndex()}
                 dotHeight={13}

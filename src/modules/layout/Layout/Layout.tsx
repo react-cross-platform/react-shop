@@ -1,10 +1,12 @@
 import { IPage } from "@src/routes/interfaces";
+import { throttle } from "lodash";
 import * as React from "react";
-import { withRouter } from "react-router";
 
 import { Footer, Header } from "../index";
 
 const styles = require("./styles.css");
+
+const SCROLL_THROTTLE = 250;
 
 interface OwnProps extends IPage {
   header?: {
@@ -14,15 +16,55 @@ interface OwnProps extends IPage {
   footer?: JSX.Element | null;
 }
 
-class Layout extends React.Component<OwnProps, {}> {
+interface Props extends OwnProps {}
+
+interface State {
+  onTop: boolean;
+}
+
+class Layout extends React.Component<Props, State> {
+  state = {
+    onTop: true
+  };
+
+  setOnTopWithThrottle: (event) => void;
+
+  setOnTop = event => {
+    const onTop = window.pageYOffset < 40;
+    if (onTop !== this.state.onTop) {
+      this.setState({ onTop });
+    }
+  };
+
+  componentDidMount() {
+    this.setOnTopWithThrottle = throttle(
+      event => this.setOnTop(event),
+      SCROLL_THROTTLE
+    );
+    window.addEventListener("scroll", this.setOnTopWithThrottle, true);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.setOnTopWithThrottle, true);
+  }
+
   render() {
     const { history, location, header, footer } = this.props;
     return (
       <div className={styles.Layout}>
-        <Header {...header} location={location} history={history} />
+        <Header
+          onTop={this.state.onTop}
+          {...header}
+          location={location}
+          history={history}
+        />
         <div
           className={styles.layoutContent}
-          style={{ padding: `2.8rem 0 ${footer === null ? 0 : "2.8rem"}` }}
+          style={{
+            padding: `${location.pathname.indexOf("product") !== -1
+              ? 0
+              : "2.8rem"} 0 ${footer === null ? 0 : "2.8rem"}`
+          }}
         >
           {this.props.children}
         </div>

@@ -12,6 +12,10 @@ import { compose } from "redux";
 
 import { CART_QUERY, getCartAmount, IDataCart } from "../Cart/Cart";
 
+interface OwnProps {
+  onTop: boolean;
+}
+
 interface StateProps {
   router: IRouterReducer;
 }
@@ -20,16 +24,18 @@ interface GraphQLProps {
   data: IDataCart;
 }
 
+interface Props extends OwnProps, StateProps, GraphQLProps {}
+
 const styles = require("./styles.css");
 
-class CartTrigger extends React.Component<StateProps & GraphQLProps, {}> {
+class CartTrigger extends React.Component<Props, {}> {
   isCartPage = () => {
     const { router } = this.props;
     return router.location.pathname === PATH_NAMES.cart;
   };
 
   render() {
-    const { data, router } = this.props;
+    const { data, router, onTop } = this.props;
     const { loading, cart } = data;
     const amount = getCartAmount(cart);
     return (
@@ -48,7 +54,7 @@ class CartTrigger extends React.Component<StateProps & GraphQLProps, {}> {
               </Flex>
             : null}
           <MyIcon
-            className={styles.icon}
+            style={{ fill: onTop ? "black" : "white" }}
             type={require("!svg-sprite-loader!./cart.svg")}
             size="md"
           />
@@ -63,6 +69,6 @@ const mapStateToProps = (state: IRootReducer): StateProps => ({
 });
 
 export default compose(
-  graphql<GraphQLProps, {}>(CART_QUERY),
-  connect<StateProps, {}, {}>(mapStateToProps)
+  graphql<GraphQLProps, OwnProps>(CART_QUERY),
+  connect<StateProps, {}, OwnProps>(mapStateToProps)
 )(CartTrigger);

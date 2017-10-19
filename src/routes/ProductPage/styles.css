@@ -5,15 +5,16 @@
 
 .headerLeft {
   align-items: center;
-  color: white;
   display: flex;
+  color: inherit;
+  fill: inherit;
 }
 
 .headerLeftIcon {
   width: 1.5rem;
   height: 1.5rem;
   padding: 0.7rem;
-  fill: white;
+  fill: inherit;
 }
 
 .firstScreen {
