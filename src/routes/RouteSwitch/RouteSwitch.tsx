@@ -13,7 +13,7 @@ import ProductPage from "../ProductPage/ProductPage";
 export const PATH_NAMES = {
   home: "/",
   catalog: "/catalog/",
-  category: "/category/:id/",
+  category: "/category/:id",
   product: "/product/:id/",
   cart: "/cart/",
   flatpages: "/flatpages/"
@@ -71,7 +71,7 @@ class RouteSwitch extends React.Component<Props, {}> {
         <div
           className={styles.mainRoute}
           style={{
-            display: isModal ? "none" : "block"
+            display: isModal ? "none" : "block",
           }}
         >
           <Routes

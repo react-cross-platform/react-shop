@@ -1,0 +1,36 @@
+.LoadingMask {
+  opacity: 0.2;
+  top: 0;
+  position: absolute;
+  background-color: black;
+  transition: 1s;
+  width: 100%;
+  height: 100%;
+  z-index: 100000;
+}
+
+.loading {
+  position: fixed;
+  top: 45%;
+  left: 45%;
+  opacity: 1 !important;
+  z-index: 1000001;
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg) rotate(90deg);
+  }
+
+  100% {
+    transform: rotate(0deg) rotate(357deg);
+  }
+}
+
+.icon {
+  opacity: 1 !important;
+  fill: whitesmoke;
+  width: 3rem;
+  height: 3rem;
+  animation: spinner 1000ms linear infinite;
+}

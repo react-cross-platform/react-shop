@@ -26,6 +26,10 @@ class EmptyCart extends React.Component<OwnProps, State> {
     window.addEventListener("scroll", this.handleScroll, true);
   }
 
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll, false);
+  }
+
   render() {
     return (
       <MyTouchFeedback>

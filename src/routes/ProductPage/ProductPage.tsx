@@ -2,13 +2,15 @@ import { CART_QUERY, IDataCart } from "@src/modules/cart/Cart/Cart";
 import { ACTION_ADD_VIEWED_PRODUCT } from "@src/modules/catalog/constants";
 import { Devider, Loading, MyIcon } from "@src/modules/common";
 import { Aux, MyTouchFeedback } from "@src/modules/common/utils";
-import { Layout } from "@src/modules/layout";
+import { Layout, LoadingMask } from "@src/modules/layout";
 import { Images, ProductToCart, SubProducts } from "@src/modules/product";
+import {
+  ACTION_SELECT_COLOR,
+  ACTION_UNSELECT_ALL
+} from "@src/modules/product/constants";
 import { ACTION_SELECT_SUB_PRODUCT } from "@src/modules/product/constants";
-import { ACTION_SELECT_COLOR, ACTION_UNSELECT_ALL } from "@src/modules/product/constants";
 import { getImagesWithColor } from "@src/modules/product/Images/Images";
 import { ISubProduct } from "@src/modules/product/model";
-import { IProduct } from "@src/modules/product/model";
 import { IProductReducer } from "@src/modules/product/reducer";
 import { IRootReducer } from "@src/rootReducer";
 import { Flex, WhiteSpace, WingBlank } from "antd-mobile";
@@ -20,7 +22,8 @@ import { compose, graphql, OperationOption, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import ScrollToTop from "../../utils/ScrollToTop";
+import { IProduct } from "@src/modules/product/model";
+import ScrollToTop from "@src/utils/ScrollToTop";
 import { PATH_NAMES } from "../index";
 import { IPage } from "../interfaces";
 
@@ -107,7 +110,9 @@ class Product extends React.Component<Props, {}> {
             <MyTouchFeedback>
               <Link
                 className={styles.headerLeft}
-                to={compile(PATH_NAMES.category)({ id: category.id })}
+                to={compile(PATH_NAMES.category)({
+                  id: category.id
+                })}
               >
                 <MyIcon
                   className={styles.headerLeftIcon}
@@ -163,12 +168,19 @@ class Product extends React.Component<Props, {}> {
     }
   };
 
+  shouldComponentUpdate(nextProps: Props, nextState) {
+    if (nextProps.dataCart.loading || nextProps.dataProduct.loading) {
+      return false;
+    }
+    return true;
+  }
+
   render() {
     const { location, history, dataProduct, dataCart } = this.props;
     if (dataProduct.loading || !this.props.product.subProductId) {
       return (
         <Layout {...this.getLayoutOptions()}>
-          <Loading />
+          <LoadingMask />
         </Layout>
       );
     }
@@ -183,7 +195,7 @@ class Product extends React.Component<Props, {}> {
       images,
       subProducts
     } = product!;
-    const activeSubProduct = getActiveSubProduct(subProducts, subProductId);
+    const activeSubProduct = getActiveSubProduct(subProducts, subProductId!);
     const activeImage =
       parseInt(activeSubProduct.id, 0) === subProductId
         ? images.filter(image => parseInt(image.id, 0) === colorId)[0]
@@ -320,10 +332,10 @@ class Product extends React.Component<Props, {}> {
 
             {/* Add to cart */}
             <ProductToCart
-              subProductId={subProductId}
+              subProductId={subProductId!}
               price={price}
               oldPrice={oldPrice}
-              inCart={subProductIdsInCart.indexOf(subProductId) !== -1}
+              inCart={subProductIdsInCart.indexOf(subProductId!) !== -1}
             />
           </div>
         </Layout>

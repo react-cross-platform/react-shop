@@ -1,5 +1,7 @@
 .Products {
-  margin: 0.2rem 0.2rem 2.5rem;
+  width: 100%;
+  margin-top: 0.4rem;
+  margin-bottom: 0.5rem;
 }
 
 .loading {

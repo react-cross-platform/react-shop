@@ -9,7 +9,7 @@ interface OwnProps {
   price: number;
   oldPrice?: number;
   currency?: string;
-  style?: React.CSSProperties;
+  style?: React.CSSProperties | any;
 }
 
 class Price extends React.Component<OwnProps, any> {

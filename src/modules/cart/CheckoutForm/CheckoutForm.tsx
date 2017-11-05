@@ -66,8 +66,15 @@ class CheckoutForm extends React.Component<Props, State> {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+  }
+
   handleChange = (name, value) => {
     this.props.setFieldValue(name, value);
+  };
+
+  handleFocus = () => {
+    // window.scrollTo(0, 1000000);
   };
 
   handleBlur = (name, value) => {
@@ -102,6 +109,7 @@ class CheckoutForm extends React.Component<Props, State> {
           <List>
             <TextareaItem
               autoHeight={true}
+              onFocus={this.handleFocus}
               clear={true}
               name="firstName"
               onBlur={value => this.handleBlur("firstName", value)}
@@ -111,6 +119,7 @@ class CheckoutForm extends React.Component<Props, State> {
             />
             <InputItem
               clear={true}
+              onFocus={this.handleFocus}
               error={!!errors.phone}
               maxLength={12}
               name="phone"
@@ -126,6 +135,7 @@ class CheckoutForm extends React.Component<Props, State> {
               clear={true}
               error={!!errors.email}
               name="email"
+              onFocus={this.handleFocus}
               onBlur={value => this.handleBlur("email", value)}
               onChange={value => this.handleChange("email", value)}
               placeholder="для акций, скидок"
@@ -151,6 +161,7 @@ class CheckoutForm extends React.Component<Props, State> {
                   autoHeight={true}
                   clear={true}
                   name="address"
+                  onFocus={this.handleFocus}
                   onBlur={value => this.handleBlur("address", value)}
                   onChange={value => this.handleChange("address", value)}
                   placeholder="дом, улица, квартира"
@@ -165,6 +176,7 @@ class CheckoutForm extends React.Component<Props, State> {
                     autoHeight={true}
                     clear={true}
                     name="city"
+                    onFocus={this.handleFocus}
                     onBlur={value => this.handleBlur("city", value)}
                     onChange={value => this.handleChange("city", value)}
                     title="Город"
@@ -174,6 +186,7 @@ class CheckoutForm extends React.Component<Props, State> {
                     clear={true}
                     error={!!errors.address}
                     name="address"
+                    onFocus={this.handleFocus}
                     onBlur={value => this.handleBlur("address", value)}
                     onChange={value => this.handleChange("address", value)}
                     placeholder="№ отделения Новой Почты"
@@ -185,6 +198,7 @@ class CheckoutForm extends React.Component<Props, State> {
                     clear={true}
                     error={!!errors.lastName}
                     name="lastName"
+                    onFocus={this.handleFocus}
                     onBlur={value => this.handleBlur("lastName", value)}
                     onChange={value => this.handleChange("lastName", value)}
                     placeholder="получателя на Новой Почте"
@@ -197,6 +211,7 @@ class CheckoutForm extends React.Component<Props, State> {
               autoHeight={true}
               clear={true}
               name="comment"
+              onFocus={this.handleFocus}
               onBlur={value => this.handleBlur("comment", value)}
               onChange={value => this.handleChange("comment", value)}
               placeholder="комментарий к заказу"

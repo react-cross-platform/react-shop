@@ -1,5 +1,6 @@
 import { Catalog } from "@src/modules/layout";
 import { Layout } from "@src/modules/layout";
+import { ScrollToTop } from "@src/utils";
 import * as React from "react";
 
 import { IPage } from "../interfaces";
@@ -22,13 +23,16 @@ class CatalogPage extends React.Component<OwnProps, {}> {
   };
 
   render() {
+    window.scrollTo(0, 0);
     const { location, history } = this.props;
     return (
-      <Layout {...this.getLayoutOptions()}>
-        <div className={styles.CatalogPage}>
-          <Catalog />
-        </div>
-      </Layout>
+      <ScrollToTop>
+        <Layout {...this.getLayoutOptions()}>
+          <div className={styles.CatalogPage}>
+            <Catalog />
+          </div>
+        </Layout>
+      </ScrollToTop>
     );
   }
 }

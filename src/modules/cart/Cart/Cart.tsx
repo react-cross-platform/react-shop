@@ -1,4 +1,4 @@
-import { Loading, Price } from "@src/modules/common/index";
+import { Price } from "@src/modules/common/index";
 import { IRootReducer } from "@src/rootReducer";
 import { PATH_NAMES } from "@src/routes/index";
 import { IRouterReducer } from "@src/routes/interfaces";
@@ -10,6 +10,7 @@ import { graphql, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
+import LoadingMask from "../../layout/LoadingMask/LoadingMask";
 import { getCartItemTotalPrice } from "../CartItem/CartItem";
 import { CartItem, CheckoutForm, EmptyCart, FinishedCart } from "../index";
 import { ICart } from "../model";
@@ -71,7 +72,7 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
     } = this.props;
     const { loading } = data;
     if (loading === true) {
-      return <Loading />;
+      return <LoadingMask />;
     }
 
     const cart = data.cart as ICart;

@@ -1,5 +1,6 @@
 import { Flatpages } from "@src/modules/layout";
 import { Layout } from "@src/modules/layout";
+import { ScrollToTop } from "@src/utils";
 import * as React from "react";
 
 import { IPage } from "../interfaces";
@@ -24,11 +25,13 @@ class FlatpagesPage extends React.Component<OwnProps, {}> {
   render() {
     const { location, history } = this.props;
     return (
-      <Layout {...this.getLayoutOptions()}>
-        <div className={styles.FlatpagesPage}>
-          <Flatpages />
-        </div>
-      </Layout>
+      <ScrollToTop>
+        <Layout {...this.getLayoutOptions()}>
+          <div className={styles.FlatpagesPage}>
+            <Flatpages />
+          </div>
+        </Layout>
+      </ScrollToTop>
     );
   }
 }

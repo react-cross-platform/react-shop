@@ -1,5 +1,5 @@
-import { Catalog, Flatpages } from "@src/modules/layout";
-import { HomeTrigger, Layout } from "@src/modules/layout";
+import { Catalog, Flatpages, HomeTrigger, Layout } from "@src/modules/layout";
+import { ScrollToTop } from "@src/utils";
 import * as React from "react";
 
 import { IPage } from "../interfaces";
@@ -20,16 +20,18 @@ class HomePage extends React.Component<OwnProps, {}> {
   render() {
     const { location, history } = this.props;
     return (
-      <Layout
-        location={location}
-        history={history}
-        {...this.getLayoutOptions()}
-      >
-        <div className={styles.HomePage}>
-          <Catalog />
-          <Flatpages />
-        </div>
-      </Layout>
+      <ScrollToTop>
+        <Layout
+          location={location}
+          history={history}
+          {...this.getLayoutOptions()}
+        >
+          <div className={styles.HomePage}>
+            <Catalog />
+            <Flatpages />
+          </div>
+        </Layout>
+      </ScrollToTop>
     );
   }
 }

@@ -1,0 +1,26 @@
+.Sorting {
+}
+
+.navSorting {
+  margin-left: 0.5rem;
+}
+
+.sortingItem {
+  z-index: 10000000;
+}
+
+.sortIcon {
+  padding: 0 5px;
+  height: 1.2rem;
+  width: 1.2rem;
+  fill: black;
+}
+
+.navName {
+}
+
+.navValue {
+  margin-top: 0.1rem;
+  font-size: 0.7rem;
+  color: gray;
+}

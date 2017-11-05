@@ -12,6 +12,7 @@ interface OwnProps extends IPage {
   header?: {
     left?: JSX.Element;
     title?: JSX.Element | string;
+    style?: any;
   };
   footer?: JSX.Element | null;
 }
@@ -30,7 +31,7 @@ class Layout extends React.Component<Props, State> {
   setOnTopWithThrottle: (event) => void;
 
   setOnTop = event => {
-    const onTop = window.pageYOffset < 40;
+    const onTop = window.pageYOffset < 100;
     if (onTop !== this.state.onTop) {
       this.setState({ onTop });
     }
@@ -41,11 +42,11 @@ class Layout extends React.Component<Props, State> {
       event => this.setOnTop(event),
       SCROLL_THROTTLE
     );
-    window.addEventListener("scroll", this.setOnTopWithThrottle, true);
+    window.addEventListener("scroll", this.setOnTopWithThrottle, false);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this.setOnTopWithThrottle, true);
+    window.removeEventListener("scroll", this.setOnTopWithThrottle, false);
   }
 
   render() {

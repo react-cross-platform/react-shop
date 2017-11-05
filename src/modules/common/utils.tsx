@@ -34,13 +34,12 @@ export const Div = ({ children, ...props }) =>
     {children}
   </div>;
 
-export const MyTouchFeedback = ({ disabled = false, children, ...props }) =>
-  <TouchFeedback
-    activeStyle={
-      !disabled && {
-        opacity: 0.5
-      }
-    }
-  >
+export const MyTouchFeedback = ({
+  style = { opacity: 0.5 } as any,
+  disabled = false,
+  children,
+  ...props
+}) =>
+  <TouchFeedback activeStyle={!disabled && style}>
     {children}
   </TouchFeedback>;

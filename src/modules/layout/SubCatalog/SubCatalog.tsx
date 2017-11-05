@@ -30,7 +30,9 @@ class SubCatalog extends React.Component<StateProps & OwnProps, {}> {
   }
 
   getPath(category: ICategory) {
-    return compile(PATH_NAMES.category)({ id: category.id });
+    return compile(PATH_NAMES.category)({
+      id: category.id,
+    });
   }
 
   isCurrentCategory = (category: ICategory) => {
@@ -47,7 +49,7 @@ class SubCatalog extends React.Component<StateProps & OwnProps, {}> {
           <Link
             key={`cat${i}`}
             to={{
-              pathname: this.getPath(category)
+              pathname: this.getPath(category),
             }}
             className={styles.categoryContainer}
             style={{

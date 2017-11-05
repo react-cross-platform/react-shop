@@ -23,49 +23,51 @@ class Footer extends React.Component<OwnProps & StateProps, {}> {
     return location!.pathname.indexOf("flatpage") !== -1;
   };
 
-  renderSection = (title, icon, pathname) => {
+  renderSection = (title, icon, pathname, modal) => {
     const { router: { location }, history } = this.props;
     const isCurrent = location!.pathname === pathname;
     const content = (
-      <div>
-        <MyIcon
-          className={styles.icon}
-          type={icon}
-          style={{
-            fill: isCurrent ? "orange" : "black"
-          }}
-        />
-        <div className={styles.label}>
-          {title}
-        </div>
-      </div>
-    );
-    return (
-      <MyTouchFeedback>
-        {isCurrent
-          ? <div
-              className={styles.item}
-              onClick={e => {
-                e.stopPropagation();
-                history.goBack();
-              }}
-            >
-              {content}
-            </div>
-          : <Link
-              to={{
-                pathname,
-                state: {
-                  modal: true,
-                  animated: true
-                }
-              }}
-              className={styles.item}
-            >
-              {content}
-            </Link>}
+      <MyTouchFeedback style={{ backgroundColor: "lightgray" }}>
+        <Flex
+          justify="center"
+          direction="column"
+          style={{ height: "100%", padding: "0 1rem" }}
+        >
+          <MyIcon
+            className={styles.icon}
+            type={icon}
+            style={{
+              fill: isCurrent ? "orange" : "black"
+            }}
+          />
+          <div className={styles.label}>
+            {title}
+          </div>
+        </Flex>
       </MyTouchFeedback>
     );
+    return isCurrent
+      ? <div
+          className={styles.item}
+          onClick={e => {
+            e.stopPropagation();
+            history.goBack();
+          }}
+        >
+          {content}
+        </div>
+      : <Link
+          to={{
+            pathname,
+            state: {
+              modal,
+              animated: true
+            }
+          }}
+          className={styles.item}
+        >
+          {content}
+        </Link>;
   };
 
   render() {
@@ -77,12 +79,14 @@ class Footer extends React.Component<OwnProps & StateProps, {}> {
           {this.renderSection(
             "Каталог",
             require("!svg-sprite-loader!./catalog.svg"),
-            PATH_NAMES.catalog
+            PATH_NAMES.catalog,
+            false
           )}
           {this.renderSection(
             "Инфо",
             require("!svg-sprite-loader!./info.svg"),
-            PATH_NAMES.flatpages
+            PATH_NAMES.flatpages,
+            true
           )}
         </Flex>
       );

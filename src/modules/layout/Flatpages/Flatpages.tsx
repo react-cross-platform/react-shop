@@ -1,5 +1,6 @@
-import { Loading, MyIcon } from "@src/modules/common";
+import { MyIcon } from "@src/modules/common";
 import { MyTouchFeedback } from "@src/modules/common/utils";
+import { LoadingMask } from "@src/modules/layout";
 import { PATH_NAMES } from "@src/routes";
 import { IPage } from "@src/routes/interfaces";
 import { Accordion, Flex } from "antd-mobile";
@@ -10,6 +11,8 @@ import { withRouter } from "react-router";
 import { compose } from "redux";
 
 import { IFlatpage } from "../model";
+
+const renderHTML = require("react-render-html");
 
 const styles = require("./styles.css");
 
@@ -81,14 +84,17 @@ class Flatpages extends React.Component<Props, {}> {
   render() {
     const { data: { loading, flatpages }, location: { pathname } } = this.props;
     if (loading) {
-      return <Loading />;
+      return <LoadingMask />;
     }
-
     return (
       <div>
         {pathname !== PATH_NAMES.flatpages &&
           <div className={styles.title}>Инфо</div>}
-        <Accordion accordion={true} className={styles.Flatpages}>
+        <Accordion
+          accordion={true}
+          className={styles.Flatpages}
+          // defaultActiveKey={flatpages![0].id}
+        >
           {flatpages!.map(page =>
             <Accordion.Panel
               key={page.id}
@@ -108,7 +114,7 @@ class Flatpages extends React.Component<Props, {}> {
               className={styles.header}
             >
               <div className={styles.content}>
-                {page.content}
+                {renderHTML(page.content)}
               </div>
             </Accordion.Panel>
           )}

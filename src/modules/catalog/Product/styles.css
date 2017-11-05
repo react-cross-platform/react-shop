@@ -30,7 +30,7 @@
 }
 
 .info {
-  padding: 0 0.6rem 0.4rem;
+  padding: 0 0.6rem;
 }
 
 .title {
@@ -40,9 +40,6 @@
 }
 
 .price {
-  color: #468847;
-  font-size: 1rem;
-  font-weight: bold;
   margin-top: 0.4rem;
 }
 

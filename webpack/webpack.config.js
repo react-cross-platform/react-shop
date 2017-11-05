@@ -103,6 +103,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+      "process.env.PROJECT_NAME": JSON.stringify(process.env.PROJECT_NAME),
       "process.env.DEBUG": process.env.NODE_ENV == "development",
       "process.env.GRAPHQL_ENDPOINT": JSON.stringify(
         process.env.GRAPHQL_ENDPOINT

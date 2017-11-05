@@ -2,6 +2,7 @@ import { CartTrigger } from "@src/modules/cart";
 import { MyIcon } from "@src/modules/common";
 import { MyTouchFeedback } from "@src/modules/common/utils";
 import { IPage } from "@src/routes/interfaces";
+import { PATH_NAMES } from "@src/routes/RouteSwitch/RouteSwitch";
 import { Flex } from "antd-mobile";
 import * as React from "react";
 
@@ -12,6 +13,7 @@ interface OwnProps extends IPage {
   title?: JSX.Element | string;
   right?: JSX.Element;
   onTop: boolean;
+  style?: any;
 }
 
 interface StateProps {}
@@ -25,22 +27,32 @@ class Header extends React.Component<Props, {}> {
     history.goBack();
   };
 
+  isTransporant = () => {
+    const { location, onTop } = this.props;
+    return onTop && location.pathname.indexOf("product") !== -1;
+  };
+
   render() {
-    const { location, left, title, right, onTop } = this.props;
-    return (
+    const { location, left, title, right, onTop, style } = this.props;
+    return(
       <Flex
         className={styles.Header}
         justify="between"
         align="center"
         style={{
-          background: onTop ? "none" : "#2474cc"
+          ...style,
+          background: this.isTransporant() ? "none" : "#2474cc"
         }}
       >
         {left === undefined
-          ? <MyTouchFeedback>
+          ? <MyTouchFeedback
+              style={{
+                background: this.isTransporant() ? "lightgray" : "#19599e"
+              }}
+            >
               <MyIcon
                 className={styles.left}
-                style={{ fill: onTop ? "black" : "white" }}
+                style={{ fill: this.isTransporant() ? "black" : "white" }}
                 type={
                   location.state && location.state.modal
                     ? require("!svg-sprite-loader!./close.svg")
@@ -51,8 +63,8 @@ class Header extends React.Component<Props, {}> {
             </MyTouchFeedback>
           : <div
               style={{
-                color: onTop ? "black" : "white",
-                fill: onTop ? "black" : "white"
+                color: this.isTransporant() ? "black" : "white",
+                fill: this.isTransporant() ? "black" : "white"
               }}
             >
               {left}
@@ -60,9 +72,12 @@ class Header extends React.Component<Props, {}> {
 
         <div
           style={{
-            color: onTop ? "black" : "white",
+            color: this.isTransporant() ? "black" : "white",
             opacity:
-              location.pathname.indexOf("product") !== -1 && onTop ? 0 : 1
+              location.pathname.indexOf("product") !== -1 &&
+              this.isTransporant()
+                ? 0
+                : 1
           }}
           className={styles.title}
         >
@@ -71,7 +86,7 @@ class Header extends React.Component<Props, {}> {
 
         {right === null
           ? <div className={styles.right} />
-          : <CartTrigger onTop={onTop} />}
+          : <CartTrigger isTransporant={this.isTransporant()} />}
       </Flex>
     );
   }

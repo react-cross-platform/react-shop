@@ -1,4 +1,5 @@
 .CategoryPage {
+  /* width: 100%; */
 }
 
 .name {
@@ -6,4 +7,45 @@
   font-weight: bold;
   margin: 1rem 0;
   text-align: center;
+}
+
+.sidebar {
+  position: fixed !important;
+  top: 0;
+  right: 0;
+  width: 80%;
+  z-index: 10000000 !important;
+}
+
+.loading {
+  width: 100%;
+  height: 4.1rem;
+  text-align: center;
+  position: relative;
+  top: 0.6rem;
+}
+
+.sidebarContent {
+  padding-top: 6.05rem;
+  padding-bottom: 3rem;
+  width: 100%;
+  position: relative !important;
+  overflow-y: hidden;
+  transition: left 0.3s ease-out, right 0.3s ease-out;
+}
+
+.overlay {
+}
+
+.root {
+  /* overflow: scroll !important;
+  position: relative !important; */
+}
+
+.rootOpened {
+  /* position: absolute !important; */
+}
+
+.content {
+  /* position: relative !important; */
 }

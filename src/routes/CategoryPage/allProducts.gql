@@ -1,0 +1,71 @@
+query allProducts($categoryId: Int, $filters: String, $sorting: String, $offset: Int, $first: Int) {
+  allProducts(categoryId: $categoryId, filters: $filters, sorting: $sorting, offset: $offset, first: $first) {
+    found
+    total
+    sorting {
+      icon
+      name
+      value
+      isSelected
+      __typename
+    }
+    filters {
+      id
+      name
+      isColor
+      hasChecked
+      help
+      type
+      position
+      resetUrl
+      values {
+        id
+        name
+        isChecked
+        filterValue
+        help
+        count
+        position
+        url
+        value
+        __typename
+      }
+      __typename
+    }
+    products {
+      id
+      name
+      shortDescription
+      brand {
+        id
+        name
+        __typename
+      }
+      category {
+        id
+        name
+        __typename
+      }
+      images(size: SM, withColorOnly: true, first: 6) {
+        id
+        src
+        width
+        height
+        colorName
+        colorValue
+        isTitle
+        __typename
+      }
+      subProducts {
+        id
+        article
+        price
+        oldPrice
+        discount
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+}

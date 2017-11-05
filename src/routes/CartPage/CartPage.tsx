@@ -1,6 +1,6 @@
 import { Cart } from "@src/modules/cart";
 import { Layout } from "@src/modules/layout";
-import { PATH_NAMES } from "@src/routes";
+import { ScrollToTop } from "@src/utils";
 import * as React from "react";
 
 import { IPage } from "../interfaces";
@@ -17,7 +17,9 @@ class CartPage extends React.Component<OwnProps, {}> {
       history,
       header: {
         title: "Корзина",
-        right: null
+        style: {
+          position: "absolute"
+        }
       },
       footer: null
     };
@@ -26,11 +28,13 @@ class CartPage extends React.Component<OwnProps, {}> {
   render() {
     const { location, history } = this.props;
     return (
-      <Layout {...this.getLayoutOptions()}>
-        <div className={styles.CartPage}>
-          <Cart history={history} isModal={false} />
-        </div>
-      </Layout>
+      <ScrollToTop>
+        <Layout {...this.getLayoutOptions()}>
+          <div className={styles.CartPage}>
+            <Cart history={history} isModal={false} />
+          </div>
+        </Layout>
+      </ScrollToTop>
     );
   }
 }

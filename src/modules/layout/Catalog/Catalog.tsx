@@ -4,6 +4,8 @@ import gql from "graphql-tag";
 import * as React from "react";
 import { graphql, QueryProps } from "react-apollo";
 
+import LoadingMask from "../LoadingMask/LoadingMask";
+
 const styles = require("./styles.css");
 
 interface IDataCategory extends QueryProps {
@@ -18,7 +20,7 @@ class Catalog extends React.Component<GraphQLProps, {}> {
   render() {
     const { data } = this.props;
     if (data.loading) {
-      return <div />;
+      return <LoadingMask />;
     }
     const { loading, categories } = data;
     const startCats: ICategory[] = [];

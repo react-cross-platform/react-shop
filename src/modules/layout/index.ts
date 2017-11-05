@@ -7,6 +7,7 @@ import Footer from "./Footer/Footer";
 import Header from "./Header/Header";
 import HomeTrigger from "./HomeTrigger/HomeTrigger";
 import Layout from "./Layout/Layout";
+import LoadingMask from "./LoadingMask/LoadingMask";
 import SubCatalog from "./SubCatalog/SubCatalog";
 
 export {
@@ -16,6 +17,7 @@ export {
   Header,
   HomeTrigger,
   Layout,
+  LoadingMask,
   SubCatalog,
   model,
   utils
