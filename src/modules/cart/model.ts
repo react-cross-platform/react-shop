@@ -1,4 +1,4 @@
-import { ISubProduct } from "../product/model";
+import { IAttributeValue, ISubProduct } from "../product/model";
 
 export interface ICheckout {
   phone: string;
@@ -22,4 +22,5 @@ export interface ICartItem {
   subProduct: ISubProduct;
   amount: number;
   cart?: ICart;
+  attributeValues?: [IAttributeValue];
 }

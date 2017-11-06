@@ -7,12 +7,14 @@ import { Link } from "react-router-dom";
 import ReactCarousel from "rmc-nuka-carousel";
 
 import { Aux } from "../../common/utils";
-import { IImages } from "../model";
+import { IImage } from "../model";
 
 const styles = require("./styles.css");
 
-export const getImagesWithColor = (images: IImages[]): IImages[] => {
-  return images.filter(image => image.colorValue !== "");
+export const getImagesWithColor = (images: IImage[]): IImage[] => {
+  return images.filter(
+    image => image.attributeValue && image.attributeValue.value !== ""
+  );
 };
 
 const DEFAULT_OBJEFT_FIT_SIZE = {
@@ -26,7 +28,7 @@ const LAZY_OFFSET = 400;
 
 interface OwnProps {
   containerHeight?: number;
-  images: [IImages];
+  images: [IImage];
   dotHeight: number;
   selectedImageIndex?: number;
   objectFitSize?: {
@@ -63,7 +65,7 @@ class Images extends React.Component<Props, State> {
     this.setState({ selectedImageIndex });
   }
 
-  getHeight = (image?: IImages): number => {
+  getHeight = (image?: IImage): number => {
     const { containerHeight } = this.props;
     if (!image || containerHeight) {
       return containerHeight!;
@@ -174,13 +176,13 @@ class Images extends React.Component<Props, State> {
                 key={i}
                 className={styles.dot}
                 type={
-                  image.colorValue
+                  image.attributeValue && image.attributeValue.value
                     ? require("!svg-sprite-loader!./circle.svg")
                     : require("!svg-sprite-loader!./empty-circle.svg")
                 }
                 style={{
-                  fill: image.colorValue
-                    ? image.colorValue
+                  fill: image.attributeValue && image.attributeValue.value
+                    ? image.attributeValue.value
                     : i === this.state.selectedImageIndex
                       ? "gray"
                       : "lightgray",

@@ -1,5 +1,8 @@
-mutation addCartItem($subProductId: Int!) {
-  addCartItem(subProductId: $subProductId) {
+mutation addCartItem($subProductId: Int!, $attributeValueIds: [Int]) {
+  addCartItem(
+    subProductId: $subProductId
+    attributeValueIds: $attributeValueIds
+  ) {
     cartItem {
       cart {
         id
@@ -14,6 +17,11 @@ mutation addCartItem($subProductId: Int!) {
       id
       price
       amount
+      attributeValues {
+        id
+        name
+        value
+      }
       subProduct {
         id
         article
@@ -26,10 +34,17 @@ mutation addCartItem($subProductId: Int!) {
             id
             name
           }
-          images {
+          images(size: SM, withColorOnly: true) {
             id
             src
-            colorName
+            width
+            height
+            isTitle
+            attributeValue {
+              id
+              name
+              value
+            }
           }
         }
       }

@@ -12,6 +12,11 @@ query cart {
       id
       amount
       price
+      attributeValues {
+        id
+        name
+        value
+      }
       subProduct {
         id
         article
@@ -24,10 +29,17 @@ query cart {
             id
             name
           }
-          images {
+          images(size: SM, withColorOnly: true) {
             id
             src
-            colorName
+            width
+            height
+            isTitle
+            attributeValue {
+              id
+              name
+              value
+            }
           }
         }
       }

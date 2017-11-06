@@ -35,6 +35,7 @@
 
 .section {
   width: 100%;
+  font-size: 1rem;
 }
 
 .name {
@@ -42,3 +43,10 @@
   font-size: 0.8rem;
   line-height: 0.8rem;
 }
+
+.icon {
+  height: 1.7rem;
+  margin-top: 0.2rem;
+  width: 1.7rem;
+}
+

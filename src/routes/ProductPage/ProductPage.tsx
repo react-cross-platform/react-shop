@@ -1,31 +1,33 @@
 import { CART_QUERY, IDataCart } from "@src/modules/cart/Cart/Cart";
 import { ACTION_ADD_VIEWED_PRODUCT } from "@src/modules/catalog/constants";
-import { Devider, Loading, MyIcon } from "@src/modules/common";
+import { Devider, MyIcon } from "@src/modules/common";
 import { Aux, MyTouchFeedback } from "@src/modules/common/utils";
 import { Layout, LoadingMask } from "@src/modules/layout";
 import { Images, ProductToCart, SubProducts } from "@src/modules/product";
+import { ACTION_SET_SUB_PRODUCT_ID } from "@src/modules/product/constants";
 import {
-  ACTION_SELECT_COLOR,
-  ACTION_UNSELECT_ALL
+  ACTION_RESET,
+  ACTION_SET_ATTRIBUTE_VALUE_IDS
 } from "@src/modules/product/constants";
-import { ACTION_SELECT_SUB_PRODUCT } from "@src/modules/product/constants";
 import { getImagesWithColor } from "@src/modules/product/Images/Images";
+import { IProduct } from "@src/modules/product/model";
 import { ISubProduct } from "@src/modules/product/model";
 import { IProductReducer } from "@src/modules/product/reducer";
 import { IRootReducer } from "@src/rootReducer";
+import ScrollToTop from "@src/utils/ScrollToTop";
 import { Flex, WhiteSpace, WingBlank } from "antd-mobile";
 import { description } from "antd-mobile/lib/popover/demo/basic.native";
 import gql from "graphql-tag";
 import { compile } from "path-to-regexp";
+import * as queryString from "query-string";
 import * as React from "react";
 import { compose, graphql, OperationOption, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-
-import { IProduct } from "@src/modules/product/model";
-import ScrollToTop from "@src/utils/ScrollToTop";
 import { PATH_NAMES } from "../index";
 import { IPage } from "../interfaces";
+
+const renderHTML = require("react-render-html");
 
 const styles = require("./styles.css");
 
@@ -44,15 +46,13 @@ interface StateProps {
 
 interface DispatchProps {
   addViewedProduct: (id: number) => void;
-  selectSubProduct: (id: number, color?: number) => void;
-  selectColor: (colorId: number) => void;
+  setSubProduct: (subProductId: number, attributeValueIds?: number[]) => void;
+  setAttributeValueIds: (attributeValueIds: number[]) => void;
   unselectAll: () => void;
 }
 
 interface OwnProps extends IPage {
   id: string;
-  activeSubProduct: ISubProduct;
-  subProductIdsInCart: number[];
 }
 
 interface Props extends GraphQLProps, StateProps, DispatchProps, OwnProps {}
@@ -74,10 +74,6 @@ const getSubProductIdsInCart = (data: IDataCart): number[] => {
     : [];
 };
 
-function createMarkup(html) {
-  return { __html: html };
-}
-
 class Product extends React.Component<Props, {}> {
   state = {
     left: undefined,
@@ -89,17 +85,14 @@ class Product extends React.Component<Props, {}> {
     addViewedProduct(parseInt(id, 0));
   }
 
-  componentWillUnmount() {
-    this.props.unselectAll();
-  }
-
   componentWillReceiveProps(nextProps: Props) {
     const { location, dataProduct } = nextProps;
     const { loading, product } = dataProduct;
+    let subProductIds;
     if (!loading) {
       const { subProducts, category } = product!;
-      const { subProductId } = nextProps.product;
-      const subProductIds = subProducts.map(sp => parseInt(sp.id, 0));
+      let { subProductId, attributeValueIds } = nextProps.product;
+      subProductIds = subProducts.map(sp => parseInt(sp.id, 0));
       if (location.state && location.state.modal) {
         this.setState({
           title: product!.name
@@ -126,53 +119,42 @@ class Product extends React.Component<Props, {}> {
         });
       }
 
-      // if (subProductIds.indexOf(subProductId!) === -1) {
       if (!subProductId) {
         const imagesWithColor = getImagesWithColor(product!.images);
-        const subProductColor =
-          imagesWithColor.length === 0
-            ? undefined
-            : parseInt(imagesWithColor[0].id, 0);
-        this.props.selectSubProduct(subProductIds[0], subProductColor);
+        const GET = queryString.parse(location.search);
+
+        subProductId = GET.sub_product_id
+          ? parseInt(GET.sub_product_id, 0)
+          : subProductIds[0];
+
+        if (!attributeValueIds && GET.attribute_value_ids) {
+          attributeValueIds = GET.attribute_value_ids
+            .split(",")
+            .map(id => parseInt(id, 0));
+        }
+        if (!attributeValueIds) {
+          const filtered = imagesWithColor.filter(
+            image => image.attributeValue
+          );
+          if (filtered.length > 0) {
+            attributeValueIds = [filtered[0].attributeValue!.id];
+          }
+        }
+
+        this.props.setSubProduct(subProductId!, attributeValueIds);
       }
     }
   }
-
-  getLayoutOptions = () => {
-    const { location, history } = this.props;
-    return {
-      location,
-      history,
-      header: {
-        left: this.state.left,
-        title: this.state.title
-      },
-      footer: null
-    };
-  };
-
-  getselectedImageIndex = (): number | undefined => {
-    const { images } = this.props.dataProduct.product!;
-    const { colorId } = this.props.product;
-    if (!colorId) {
-      return;
-    }
-    const filtered = images
-      .map((image, i) => ({
-        colorId: parseInt(image.id, 0),
-        number: i
-      }))
-      .filter(data => data.colorId === colorId);
-    if (filtered.length > 0) {
-      return filtered[0].number;
-    }
-  };
 
   shouldComponentUpdate(nextProps: Props, nextState) {
     if (nextProps.dataCart.loading || nextProps.dataProduct.loading) {
       return false;
     }
     return true;
+  }
+
+  componentWillUnmount() {
+    this.props.unselectAll();
   }
 
   render() {
@@ -186,7 +168,7 @@ class Product extends React.Component<Props, {}> {
     }
 
     const { product } = dataProduct;
-    const { colorId, subProductId } = this.props.product;
+    const { attributeValueIds, subProductId } = this.props.product;
     const {
       id,
       brand,
@@ -198,13 +180,19 @@ class Product extends React.Component<Props, {}> {
     const activeSubProduct = getActiveSubProduct(subProducts, subProductId!);
     const activeImage =
       parseInt(activeSubProduct.id, 0) === subProductId
-        ? images.filter(image => parseInt(image.id, 0) === colorId)[0]
+        ? images.filter(
+            image =>
+              image.attributeValue &&
+              attributeValueIds &&
+              attributeValueIds!.indexOf(image.attributeValue.id) !== -1
+          )[0]
         : images.filter(image => image.isTitle === true)[0];
 
     const subProductIdsInCart = getSubProductIdsInCart(dataCart);
     const { price, oldPrice } = activeSubProduct;
 
     const imagesWithColor = getImagesWithColor(images);
+    const selectedImageIndex = this.getSelectedImageIndex();
     return (
       <ScrollToTop>
         <Layout {...this.getLayoutOptions()}>
@@ -219,7 +207,7 @@ class Product extends React.Component<Props, {}> {
               <Images
                 containerHeight={window.innerHeight * 0.78}
                 images={images}
-                selectedImageIndex={this.getselectedImageIndex()}
+                selectedImageIndex={selectedImageIndex}
                 dotHeight={13}
               />
               <WingBlank className={styles.name}>
@@ -249,32 +237,37 @@ class Product extends React.Component<Props, {}> {
                     <Flex align="center">
                       {imagesWithColor.map(
                         (image, i) =>
-                          parseInt(image.id, 0) === this.props.product.colorId
+                          attributeValueIds &&
+                          image.attributeValue &&
+                          attributeValueIds.indexOf(image.attributeValue.id) !==
+                            -1
                             ? <MyIcon
                                 key={i}
                                 className={styles.colorIcon}
                                 type={require("svg-sprite-loader!./checked-circle.svg")}
                                 style={{
-                                  fill: image.colorValue
+                                  fill: image.attributeValue.value
                                 }}
                               />
                             : <MyTouchFeedback key={i}>
                                 <MyIcon
                                   className={styles.colorIcon}
                                   onClick={() =>
-                                    this.props.selectColor(
-                                      parseInt(image.id, 0)
-                                    )}
+                                    this.props.setAttributeValueIds([
+                                      image.attributeValue!.id
+                                    ])}
                                   type={require("svg-sprite-loader!./circle.svg")}
                                   style={{
-                                    fill: image.colorValue
+                                    fill: image.attributeValue!.value
                                   }}
                                 />
                               </MyTouchFeedback>
                       )}
                     </Flex>
                     <div className={styles.colorName}>
-                      {activeImage && activeImage.colorName}
+                      {activeImage &&
+                        activeImage.attributeValue &&
+                        activeImage.attributeValue.name}
                     </div>
                   </Flex>
                 </WingBlank>
@@ -322,10 +315,9 @@ class Product extends React.Component<Props, {}> {
               <Aux>
                 <WhiteSpace />
                 <WingBlank>
-                  <div
-                    className={styles.description}
-                    dangerouslySetInnerHTML={createMarkup(description)}
-                  />
+                  <div className={styles.description}>
+                    {renderHTML(description)}
+                  </div>
                 </WingBlank>
                 <WhiteSpace />
               </Aux>}
@@ -333,6 +325,7 @@ class Product extends React.Component<Props, {}> {
             {/* Add to cart */}
             <ProductToCart
               subProductId={subProductId!}
+              attributeValueIds={attributeValueIds}
               price={price}
               oldPrice={oldPrice}
               inCart={subProductIdsInCart.indexOf(subProductId!) !== -1}
@@ -342,6 +335,39 @@ class Product extends React.Component<Props, {}> {
       </ScrollToTop>
     );
   }
+
+  getLayoutOptions = () => {
+    const { location, history } = this.props;
+    return {
+      location,
+      history,
+      header: {
+        left: this.state.left,
+        title: this.state.title
+      },
+      footer: null
+    };
+  };
+
+  getSelectedImageIndex = (): number | undefined => {
+    const { images } = this.props.dataProduct.product!;
+    const { attributeValueIds } = this.props.product;
+    if (!attributeValueIds) {
+      return 0;
+    }
+    const filtered = images
+      .map((image, i) => ({
+        attributeValue: image.attributeValue,
+        index: i
+      }))
+      .filter(
+        ({ attributeValue, index }) =>
+          attributeValue && attributeValueIds.indexOf(attributeValue.id) !== -1
+      );
+    if (filtered.length > 0) {
+      return filtered[0].index;
+    }
+  };
 }
 
 const mapStateToProps = (state: IRootReducer): StateProps => ({
@@ -355,19 +381,19 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
       id
     });
   },
-  selectSubProduct: (id: number, colorId?: number) => {
+  setSubProduct: (subProductId: number, attributeValueIds?: number[]) => {
     dispatch({
-      type: ACTION_SELECT_SUB_PRODUCT,
-      id,
-      colorId
+      type: ACTION_SET_SUB_PRODUCT_ID,
+      subProductId,
+      attributeValueIds
     });
   },
-  selectColor: (colorId: number) => {
-    dispatch({ type: ACTION_SELECT_COLOR, colorId });
+  setAttributeValueIds: (attributeValueIds: number[]) => {
+    dispatch({ type: ACTION_SET_ATTRIBUTE_VALUE_IDS, attributeValueIds });
   },
   unselectAll: () => {
     dispatch({
-      type: ACTION_UNSELECT_ALL
+      type: ACTION_RESET
     });
   }
 });

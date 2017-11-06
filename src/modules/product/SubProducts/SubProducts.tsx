@@ -5,7 +5,7 @@ import { List } from "antd-mobile";
 import * as React from "react";
 import { connect } from "react-redux";
 
-import { ACTION_SELECT_SUB_PRODUCT } from "../constants";
+import { ACTION_SET_SUB_PRODUCT_ID } from "../constants";
 import { ISubProduct } from "../model";
 import { IProductReducer } from "../reducer";
 
@@ -37,11 +37,11 @@ class SubProducts extends React.Component<Props, {}> {
   };
 
   selectSubProduct = (id: number) => {
-    const { dispatch, product: { colorId } } = this.props;
+    const { dispatch, product: { attributeValueIds } } = this.props;
     dispatch({
-      type: ACTION_SELECT_SUB_PRODUCT,
-      id,
-      colorId
+      type: ACTION_SET_SUB_PRODUCT_ID,
+      subProductId: id,
+      attributeValueIds
     });
   };
 

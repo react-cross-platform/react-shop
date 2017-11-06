@@ -9,7 +9,7 @@ export interface ICategory {
   alias: string;
   products: [IProduct];
   parent: IParentCategory;
-  image: IImages;
+  image: IImage;
 }
 
 export interface ISubProduct {
@@ -26,8 +26,8 @@ export interface IProduct {
   description: string;
   brand: IBrand;
   category: ICategory;
-  images: [IImages];
-  imagesWithColor: [IImages];
+  images: [IImage];
+  imagesWithColor: [IImage];
   subProducts: [ISubProduct];
   attributes: [IAttribute];
 }
@@ -37,14 +37,15 @@ export interface IBrand {
   name: string;
 }
 
-export interface IImages {
+export interface IImage {
   id: string;
   src: string;
   width: number;
   height: number;
   isTitle: boolean;
-  colorValue: string;
-  colorName: string;
+  // colorValue: string;
+  // colorName: string;
+  attributeValue?: IAttributeValue;
 }
 
 export interface ISubProduct {
@@ -58,10 +59,10 @@ export interface ISubProduct {
 
 export interface IAttribute {
   name: string;
-  values: [IValue];
+  values: [IAttributeValue];
 }
 
-export interface IValue {
+export interface IAttributeValue {
   id: number;
   name: string;
   value: string;

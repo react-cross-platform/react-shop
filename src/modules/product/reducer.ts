@@ -1,33 +1,41 @@
 import update from "immutability-helper";
 
 import {
-  ACTION_SELECT_COLOR,
-  ACTION_SELECT_SUB_PRODUCT,
-  ACTION_UNSELECT_ALL
+  ACTION_RESET,
+  ACTION_SET_ATTRIBUTE_VALUE_IDS,
+  ACTION_SET_SUB_PRODUCT_ID
 } from "./constants";
 
 export interface IProductReducer {
   readonly subProductId?: number;
-  readonly colorId?: number;
+  readonly attributeValueIds?: number[];
 }
 
 const DEFAULT_PRODUCT: IProductReducer = {
-  colorId: undefined,
-  subProductId: undefined
+  subProductId: undefined,
+  attributeValueIds: undefined,
 };
+
+export interface IProductActionParams {
+  subProductId?: number;
+  attributeValueIds?: number[];
+  type?: string;
+}
 
 const product = (state = DEFAULT_PRODUCT, action) => {
   switch (action.type) {
-    case ACTION_SELECT_SUB_PRODUCT:
+    case ACTION_SET_SUB_PRODUCT_ID:
       return update(state, {
-        subProductId: { $set: action.id },
-        colorId: { $set: action.colorId }
+        subProductId: { $set: action.subProductId },
+        attributeValueIds: { $set: action.attributeValueIds }
       });
 
-    case ACTION_SELECT_COLOR:
-      return update(state, { colorId: { $set: action.colorId } });
+    case ACTION_SET_ATTRIBUTE_VALUE_IDS:
+      return update(state, {
+        attributeValueIds: { $set: action.attributeValueIds }
+      });
 
-    case ACTION_UNSELECT_ALL:
+    case ACTION_RESET:
       return DEFAULT_PRODUCT;
 
     default:

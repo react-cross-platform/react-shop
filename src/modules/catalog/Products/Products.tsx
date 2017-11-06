@@ -52,12 +52,12 @@ class Products extends React.Component<Props, State> {
 
     const gutter = 3;
 
-    let colorValues: string[] = [];
+    let attributeValueIds: number[] = [];
     filters.forEach(filter => {
       if (filter.isColor) {
-        colorValues = filter.values
+        attributeValueIds = filter.values
           .filter(value => value.isChecked)
-          .map(value => value.value);
+          .map(value => value.id);
       }
     });
 
@@ -71,7 +71,13 @@ class Products extends React.Component<Props, State> {
           loadMore={() => ""}
         >
           {products.map((product, i) => {
-            return <Product colorValues={colorValues} key={i} {...product} />;
+            return (
+              <Product
+                attributeValueIds={attributeValueIds}
+                key={i}
+                {...product}
+              />
+            );
           })}
         </MasonryInfiniteScroller>
         {/*<ShowOnlyViewed/>*/}

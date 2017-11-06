@@ -1,5 +1,6 @@
+import { IAttribute, IAttributeValue } from "../product/model";
 export interface IImage {
   id: string;
   src: string;
-  colorName: string;
+  attributeValue: IAttributeValue;
 }

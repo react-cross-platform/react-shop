@@ -20,6 +20,11 @@ query product($id: Int) {
       colorValue
       colorName
       isTitle
+      attributeValue {
+        id
+        name
+        value
+      }
     }
     subProducts {
       id

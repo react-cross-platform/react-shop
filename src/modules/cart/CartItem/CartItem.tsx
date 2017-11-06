@@ -1,4 +1,4 @@
-import { Devider, Price } from "@src/modules/common";
+import { Devider, MyIcon, Price } from "@src/modules/common";
 import { MyTouchFeedback } from "@src/modules/common/utils";
 import { PATH_NAMES } from "@src/routes";
 import { Flex } from "antd-mobile";
@@ -29,7 +29,7 @@ class CartItem extends React.Component<OwnProps, {}> {
   };
 
   render() {
-    const { id, subProduct, price, amount } = this.props;
+    const { id, subProduct, price, amount, attributeValues } = this.props;
     const { product } = subProduct;
     const linkProps = {
       to: {
@@ -41,16 +41,25 @@ class CartItem extends React.Component<OwnProps, {}> {
       }
     };
     const totalPrice = getCartItemTotalPrice(price, amount);
+    let titleImage;
+    if (attributeValues) {
+      const filtered = subProduct.product.images.filter(
+        image =>
+          image.attributeValue &&
+          image.attributeValue.id === attributeValues[0].id
+      );
+      titleImage = filtered[0];
+    } else {
+      titleImage = subProduct.product.images[0];
+    }
+    const color = attributeValues ? attributeValues[0] : null;
     return (
       <div className={styles.CartItem}>
         <RemoveCartItem id={id} />
         <Flex justify="between" className={styles.container}>
           <MyTouchFeedback>
             <Link className={styles.imageContainer} {...linkProps}>
-              <img
-                className={styles.image}
-                src={subProduct.product.images[0].src}
-              />
+              <img className={styles.image} src={titleImage.src} />
             </Link>
           </MyTouchFeedback>
           <Flex
@@ -59,13 +68,27 @@ class CartItem extends React.Component<OwnProps, {}> {
             justify="between"
             className={styles.info}
           >
-            <Flex className={styles.section} justify="between" align="start">
+            <Flex
+              className={styles.section}
+              style={{ width: "90%", marginBottom: "0.5rem" }}
+              justify="between"
+              align="start"
+            >
               {product.name}
               <br />
               {product.brand.name} {subProduct.article}
+              {color && color.name}
             </Flex>
             <Flex justify="between" className={styles.section}>
               <UpdateCartItem id={id} amount={amount} />
+              {color &&
+                <MyIcon
+                  className={styles.icon}
+                  type={require("svg-sprite-loader!./checked-circle.svg")}
+                  style={{
+                    fill: color.value
+                  }}
+                />}
               <Price
                 price={price * amount}
                 oldPrice={(subProduct.oldPrice || 0) * amount}

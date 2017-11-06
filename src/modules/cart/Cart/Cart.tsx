@@ -93,6 +93,7 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
                 key={index}
                 id={item.id}
                 subProduct={item.subProduct}
+                attributeValues={item.attributeValues}
                 price={item.price}
                 amount={item.amount}
               />

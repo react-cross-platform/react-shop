@@ -18,16 +18,17 @@ interface IAddCartItem {
 
 interface OwnProps {
   subProductId: number;
+  attributeValueIds?: number[];
 }
 
 interface GraphQLProps {
-  submit: (subProductId: number) => IAddCartItem;
+  submit: () => IAddCartItem;
 }
 
 class AddCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
   addCartItem = () => {
-    const { submit, subProductId } = this.props;
-    submit(subProductId);
+    const { submit } = this.props;
+    submit();
   };
 
   render() {
@@ -38,10 +39,14 @@ class AddCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
 const ADD_CART_ITEM_MUTATION = gql(require("./addCartItem.gql"));
 const options: OperationOption<OwnProps, GraphQLProps> = {
   props: ({ ownProps, mutate }) => {
+    const { subProductId, attributeValueIds } = ownProps;
     return {
-      submit: (subProductId: number) => {
+      submit: () => {
         mutate!({
-          variables: { subProductId },
+          variables: {
+            subProductId,
+            attributeValueIds
+          },
           update: (store, props: IAddCartItem) => {
             const { data: { addCartItem: { cartItem } } } = props;
             const data: IDataCart = store.readQuery({ query: CART_QUERY });

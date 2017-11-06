@@ -1,7 +1,7 @@
 import { MyIcon, Price } from "@src/modules/common";
 import { MyTouchFeedback } from "@src/modules/common/utils";
 import { Images } from "@src/modules/product";
-import { IImages } from "@src/modules/product/model";
+import { IImage } from "@src/modules/product/model";
 import { IRootReducer } from "@src/rootReducer";
 import { Card } from "antd-mobile";
 import { compile } from "path-to-regexp";
@@ -10,7 +10,6 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { IProduct } from "../../product/model";
-import { ICatalogReducer } from "../reducer";
 
 const styles = require("./styles.css");
 
@@ -23,11 +22,11 @@ interface StateProps {
 }
 
 interface OwnProps extends IProduct {
-  colorValues: string[];
+  attributeValueIds: number[];
 }
 
 interface State {
-  titleImage: IImages;
+  titleImage: IImage;
 }
 
 interface Props extends OwnProps, StateProps {}
@@ -97,11 +96,13 @@ class Product extends React.Component<Props, State> {
   }
 
   setTitleImage = (props: Props) => {
-    const { images, colorValues } = props;
+    const { images, attributeValueIds } = props;
     let titleImage;
-    if (colorValues.length > 0) {
+    if (attributeValueIds.length > 0) {
       const titleImages = images.filter(
-        img => colorValues.indexOf(img.colorValue) !== -1
+        image =>
+          image.attributeValue &&
+          attributeValueIds.indexOf(image.attributeValue.id) !== -1
       );
       if (titleImages.length > 0) {
         titleImage = titleImages[0];
@@ -126,17 +127,22 @@ class Product extends React.Component<Props, State> {
   };
 
   getLinkProps = () => {
-    const { id, subProducts, brand } = this.props;
+    const { id, subProducts, brand, attributeValueIds } = this.props;
     const subProduct = subProducts[0];
-    return {
+    const params = {
       to: {
         pathname: compile(`/product/:id/`)({ id }),
+        search:
+          attributeValueIds.length > 0
+            ? `?attribute_value_ids=${attributeValueIds.join(",")}`
+            : "",
         state: {
           modal: true,
           title: `${brand.name} ${subProduct.article}`
         }
       }
     };
+    return params;
   };
 }
 
