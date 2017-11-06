@@ -3,6 +3,7 @@ import { MyTouchFeedback } from "@src/modules/common/utils";
 import { PATH_NAMES } from "@src/routes";
 import { Flex } from "antd-mobile";
 import { compile } from "path-to-regexp";
+import * as queryString from "query-string";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -31,9 +32,14 @@ class CartItem extends React.Component<OwnProps, {}> {
   render() {
     const { id, subProduct, price, amount, attributeValues } = this.props;
     const { product } = subProduct;
+
     const linkProps = {
       to: {
         pathname: compile(PATH_NAMES.product)({ id: product.id }),
+        search: queryString.stringify({
+          sub_product_id: subProduct.id,
+          attribute_value_ids: attributeValues ? attributeValues[0].id : "",
+        }),
         state: {
           modal: true,
           title: this.getName()
@@ -77,7 +83,6 @@ class CartItem extends React.Component<OwnProps, {}> {
               {product.name}
               <br />
               {product.brand.name} {subProduct.article}
-              {color && color.name}
             </Flex>
             <Flex justify="between" className={styles.section}>
               <UpdateCartItem id={id} amount={amount} />

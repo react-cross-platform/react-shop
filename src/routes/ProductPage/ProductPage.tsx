@@ -153,6 +153,15 @@ class Product extends React.Component<Props, {}> {
     return true;
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    // Fix nuka-carousel resize bag
+    // https://github.com/FormidableLabs/nuka-carousel/issues/103
+    // if (history.location.pathname === location.pathname) {
+    setTimeout(() => {
+      window.dispatchEvent(new Event("resize"));
+    }, 0);
+  }
+
   componentWillUnmount() {
     this.props.unselectAll();
   }

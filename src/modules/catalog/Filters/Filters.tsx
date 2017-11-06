@@ -122,7 +122,7 @@ class Filters extends React.Component<Props, State> {
         {this.state.checkedValueIds.length > 0 &&
           <MyTouchFeedback style={{ backgroundColor: "lightgray" }}>
             <Flex
-              onClick={() => this.handleClick(undefined)}
+              onClick={() => this.handleReset()}
               justify="center"
               align="center"
               className={styles.clearButton}
@@ -155,7 +155,7 @@ class Filters extends React.Component<Props, State> {
     return ids;
   };
 
-  handleClick = (value?: IFilterValue) => {
+  handleSelect = (value?: IFilterValue) => {
     const { categoryId, dataAllProducts: { refetch }, history } = this.props;
     let checkedValueIds;
     let url;
@@ -185,19 +185,13 @@ class Filters extends React.Component<Props, State> {
               id: categoryId
             })}?${queryString.stringify(GET)}`
           );
-          // if (!value) {
-          //   this.setState(
-          //     {
-          //       loading: false
-          //     },
-          //     () => {
-          //       this.props.toggleFilters();
-          //     }
-          //   );
-          // }
         }
       );
     }
+  };
+
+  handleReset = () => {
+    this.handleSelect();
   };
 
   renderFilter = (filter: IFilter, found) => {
@@ -231,7 +225,7 @@ class Filters extends React.Component<Props, State> {
                   <div
                     key={i}
                     className={styles.colorItem}
-                    onClick={() => this.handleClick(value)}
+                    onClick={() => this.handleSelect(value)}
                   >
                     <div className={styles.colorCount}>
                       {filter.hasChecked && !value.isChecked && "+"}
@@ -245,19 +239,24 @@ class Filters extends React.Component<Props, State> {
                         fill: value.value
                       }}
                     />
-                    {checkedValueIds.indexOf(value.id) !== -1 &&
-                      <MyIcon
-                        className={styles.color}
-                        type={require("svg-sprite-loader!./checked-circle.svg")}
-                        style={{
-                          fill: "orange",
-                          width: "1.1rem",
-                          height: "1.1rem",
-                          position: "absolute",
-                          top: -4,
-                          right: -4
-                        }}
-                      />}
+                    <MyIcon
+                      className={styles.color}
+                      type={require("svg-sprite-loader!./checked-circle.svg")}
+                      style={{
+                        opacity:
+                          checkedValueIds.indexOf(value.id) !== -1 ? 1 : 0,
+                        transition:
+                          checkedValueIds.indexOf(value.id) !== -1
+                            ? "0.8s"
+                            : "0.1s",
+                        fill: "orange",
+                        width: "1.1rem",
+                        height: "1.1rem",
+                        position: "absolute",
+                        top: -4,
+                        right: -4
+                      }}
+                    />
                   </div>
                 )}
             </Flex>
@@ -276,7 +275,7 @@ class Filters extends React.Component<Props, State> {
             <Flex
               justify="between"
               style={{ paddingLeft: 0, marginRight: "-20px" }}
-              onClick={() => this.handleClick(filter.values[0])}
+              onClick={() => this.handleSelect(filter.values[0])}
             >
               <div>
                 {filter.name}
@@ -288,7 +287,7 @@ class Filters extends React.Component<Props, State> {
                 color="orange"
                 checked={checkedValueIds.indexOf(filter.values[0].id) !== -1}
                 onChange={() => {
-                  this.handleClick(filter.values[0]);
+                  this.handleSelect(filter.values[0]);
                 }}
               />
             </Flex>
@@ -312,7 +311,7 @@ class Filters extends React.Component<Props, State> {
               .map((value, ii) =>
                 <List.Item
                   disabled={!value.isChecked && value.count === found}
-                  onClick={() => this.handleClick(value)}
+                  onClick={() => this.handleSelect(value)}
                   key={ii}
                   className={styles.value}
                   thumb={
