@@ -3,6 +3,10 @@
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+.Product :global .am-card {
+  padding-bottom: 0 !important;
+}
+
 .cart {
   align-items: center;
   height: 10rem;

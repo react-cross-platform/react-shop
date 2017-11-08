@@ -1,4 +1,5 @@
 .EmptyCart {
+  top: 2.8rem;
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -14,6 +15,7 @@
 .icon {
   text-align: center;
   margin: 0 auto;
+  height: 170px;
 }
 
 .title {

@@ -1,5 +1,5 @@
 .CheckoutForm {
-  margin-bottom: 2.7rem;
+  /* margin-bottom: 2.7rem; */
   width: 100%;
 }
 
@@ -32,7 +32,7 @@
   color: white !important;
   height: 2.7rem !important;
   line-height: 2.7rem !important;
-  position: fixed !important;
+  /* position: fixed !important; */
   width: 100%;
   z-index: 10000;
 }

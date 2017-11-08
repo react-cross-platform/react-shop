@@ -96,7 +96,7 @@ class Filters extends React.Component<Props, State> {
           <MyTouchFeedback style={{ background: "#19599e" }}>
             <MyIcon
               className={styles.closeIcon}
-              type={require("!svg-sprite-loader!./close.svg")}
+              type={require("!svg-sprite-loader!./back.svg")}
               onClick={toggleFilters}
             />
           </MyTouchFeedback>
@@ -120,25 +120,26 @@ class Filters extends React.Component<Props, State> {
         </Accordion>
 
         {this.state.checkedValueIds.length > 0 &&
-          <MyTouchFeedback style={{ backgroundColor: "lightgray" }}>
-            <Flex
-              onClick={() => this.handleReset()}
-              justify="center"
-              align="center"
-              className={styles.clearButton}
-              style={{
-                background:
-                  filters.filter(filter => filter.hasChecked).length > 0
-                    ? "orange"
-                    : "lightgray"
-              }}
-            >
+          <Flex
+            onClick={() => this.handleReset()}
+            justify="center"
+            align="center"
+            className={styles.resetButton}
+            style={{}}
+          >
+            <MyTouchFeedback style={{ borderRadius: "1.5rem", backgroundColor: "lightgray" }}>
               <MyIcon
-                className={styles.clearIcon}
-                type={require("svg-sprite-loader!./clear.svg")}
+                className={styles.resetIcon}
+                type={require("svg-sprite-loader!./remove-circle.svg")}
+                style={{
+                  fill:
+                    filters.filter(filter => filter.hasChecked).length > 0
+                      ? "orange"
+                      : "lightgray"
+                }}
               />
-            </Flex>
-          </MyTouchFeedback>}
+            </MyTouchFeedback>
+          </Flex>}
       </Flex>
     );
   }
@@ -267,6 +268,9 @@ class Filters extends React.Component<Props, State> {
 
     /* Bolean */
     if (filter.type === "B") {
+      const ICONS_MAP = {
+        discount: require("!svg-sprite-loader!./discount.svg")
+      };
       return (
         <Accordion.Panel
           key={String(filter.id)}
@@ -277,6 +281,15 @@ class Filters extends React.Component<Props, State> {
               style={{ paddingLeft: 0, marginRight: "-20px" }}
               onClick={() => this.handleSelect(filter.values[0])}
             >
+              {filter.icon &&
+                <MyIcon
+                  type={ICONS_MAP[filter.icon]}
+                  size="md"
+                  style={{
+                    fill: filter.iconColor
+                  }}
+                />}
+
               <div>
                 {filter.name}
                 <div className={styles.count}>

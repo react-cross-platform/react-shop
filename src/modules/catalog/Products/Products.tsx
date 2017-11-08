@@ -1,14 +1,13 @@
 import { IRootReducer } from "@src/rootReducer";
 import { MyLocation } from "@src/routes/interfaces";
+// import { deepDiffMapper } from "@src/utils";
 import * as React from "react";
 import { compose } from "react-apollo";
 import MasonryInfiniteScroller from "react-masonry-infinite";
 import { connect } from "react-redux";
 
-import { LIMIT } from "../../../routes/CategoryPage/CategoryPage";
 import { Product } from "../index";
 import { IAllProducts } from "../model";
-import { ICatalogReducer } from "../reducer";
 
 const styles = require("./styles.css");
 
@@ -30,6 +29,8 @@ interface State {}
 interface Props extends StateProps, OwnProps {}
 
 class Products extends React.Component<Props, State> {
+  ref;
+
   shouldComponentUpdate(nextProps: Props, nextState: State) {
     if (this.props.openFilters !== nextProps.openFilters) {
       // Prevent re-render when sidebar is opened
@@ -40,6 +41,8 @@ class Products extends React.Component<Props, State> {
 
   componentDidUpdate(prevProps: Props, prezvState: State) {
     const { products } = this.props.allProducts;
+    // deepDiffMapper();
+    this.ref.forcePack();
   }
 
   render() {
@@ -69,6 +72,9 @@ class Products extends React.Component<Props, State> {
           packed="data-packed"
           sizes={[{ columns: 2, gutter }]}
           loadMore={() => ""}
+          ref={node => {
+            this.ref = node;
+          }}
         >
           {products.map((product, i) => {
             return (

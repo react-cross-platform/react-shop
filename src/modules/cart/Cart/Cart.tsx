@@ -78,14 +78,14 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
     const cart = data.cart as ICart;
     const amount = getCartAmount(cart);
     if (amount === 0) {
-      return finishedId ? <FinishedCart id={finishedId} /> : <EmptyCart />;
+      return finishedId ? <FinishedCart id={finishedId} /> : <EmptyCart history={history} />;
     }
 
     return (
       <Flex direction="column" justify="between" className={styles.Cart}>
         <div className={styles.section}>
           <div className={styles.title}>
-            Итого к оплате: <Price price={getCartTotalPrice(cart)} />
+            Итого к оплате: <Price isSinglePrice={true} price={getCartTotalPrice(cart)} />
           </div>
           <div className={styles.items}>
             {cart.items.map((item, index) =>

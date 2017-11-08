@@ -27,6 +27,8 @@ query allProducts(
       hasChecked
       help
       type
+      icon
+      iconColor
       position
       resetUrl
       values {

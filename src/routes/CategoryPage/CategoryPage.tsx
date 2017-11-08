@@ -111,6 +111,13 @@ class CategoryPage extends React.Component<Props, State> {
     }
 
     if (
+      this.props.history.location.pathname !==
+      nextProps.history.location.pathname
+    ) {
+      this.removeScrollListener();
+    }
+
+    if (
       nextProps.dataAllProducts.allProducts &&
       this.props.dataAllProducts.allProducts
     ) {
@@ -146,9 +153,18 @@ class CategoryPage extends React.Component<Props, State> {
       location
     } = nextProps;
 
-    // if (nextProps.dataAllProducts && nextProps.dataAllProducts !== this.props.dataAllProducts) {
-    //   return true;
-    // }
+    if (this.props.location !== nextProps.history.location) {
+      if (
+        nextProps.history.location.pathname ===
+        compile(PATH_NAMES.category)({ id })
+      ) {
+        this.addScrollListener();
+      } else {
+        this.removeScrollListener();
+      }
+      // Prevent main route re-render after modal route closed
+      return false;
+    }
 
     if (
       dataCategory.loading ||
@@ -344,7 +360,7 @@ class CategoryPage extends React.Component<Props, State> {
       location,
       dataAllProducts: { allProducts, loading, fetchMore }
     } = this.props;
-
+    console.log("handleScroll");
     if (!loading && location.pathname.search("category") !== -1) {
       const { products, found } = allProducts;
 

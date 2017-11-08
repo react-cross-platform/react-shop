@@ -18,7 +18,7 @@ class CartPage extends React.Component<OwnProps, {}> {
       header: {
         title: "Корзина",
         style: {
-          position: "absolute"
+          position: "initial"
         }
       },
       footer: null

@@ -65,9 +65,11 @@
 
 .closeIcon {
   fill: white;
-  height: 100%;
+  /* height: 100%; */
   /* height: 1.4rem; */
-  width: 1.4rem;
+  width: 1.5rem;
+  width: 1.5rem;
+  transform: rotate(180deg);
   padding: 0.4rem;
   margin-right: 0.5rem;
 }
@@ -113,20 +115,15 @@
   z-index: 1000001;
 }
 
-.clearButton {
-  /* top: 1.8rem; */
+.resetButton {
   position: fixed;
   right: 0.7rem;
   bottom: 0.7rem;
-  border-radius: 1.5rem;
-  width: 3rem;
-  height: 3rem;
   z-index: 10000;
 }
 
-.clearIcon {
-  width: 1.8rem;
-  height: 1.8rem;
-  fill: white;
+.resetIcon {
+  width: 3rem;
+  height: 3rem;
   margin-right: 3px;
 }

@@ -38,7 +38,7 @@ class CartItem extends React.Component<OwnProps, {}> {
         pathname: compile(PATH_NAMES.product)({ id: product.id }),
         search: queryString.stringify({
           sub_product_id: subProduct.id,
-          attribute_value_ids: attributeValues ? attributeValues[0].id : "",
+          attribute_value_ids: attributeValues ? attributeValues[0].id : ""
         }),
         state: {
           modal: true,
@@ -55,7 +55,8 @@ class CartItem extends React.Component<OwnProps, {}> {
           image.attributeValue.id === attributeValues[0].id
       );
       titleImage = filtered[0];
-    } else {
+    }
+    if (!titleImage) {
       titleImage = subProduct.product.images[0];
     }
     const color = attributeValues ? attributeValues[0] : null;

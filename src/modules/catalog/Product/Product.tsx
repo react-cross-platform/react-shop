@@ -78,7 +78,7 @@ class Product extends React.Component<Props, State> {
                   </div>
                   <Price
                     style={{
-                      height: subProduct.oldPrice ? "3.5rem" : "3rem",
+                      height: subProduct.oldPrice ? "3.2rem" : "2.7rem",
                       justifyContent: subProduct.oldPrice ? "center" : "left",
                       display: "flex",
                       alignItems: subProduct.oldPrice ? "left" : "center"

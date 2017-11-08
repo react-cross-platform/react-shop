@@ -25,14 +25,16 @@ class Price extends React.Component<OwnProps, any> {
           justify="center"
         >
           <div className={styles.currentValue}>
-            {!isSinglePrice && "от "}{prettyPrice(price)} {currency}
+            {!isSinglePrice && "от "}
+            {prettyPrice(price)} {currency}
           </div>
           <div className={styles.oldValue}>
             {prettyPrice(oldPrice)} {currency}
           </div>
         </Flex>
       : <span className={styles.singleValue} style={style}>
-          {!isSinglePrice && "от "}{prettyPrice(price)} {currency}
+          {!isSinglePrice && "от "}
+          {prettyPrice(price)} {currency}
         </span>;
   }
 }

@@ -1,12 +1,13 @@
 .FinishedCart {
+  top: 2.8rem;
   position: fixed;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-content: center;
   text-align: center;
-  width: 100%;
-  height: 100%;
   background-color: white;
 }
 
@@ -14,6 +15,8 @@
   fill: orange;
   object-fit: contain;
   margin: 0 auto;
+  width: 170px;
+  height: 170px;
 }
 
 .title {

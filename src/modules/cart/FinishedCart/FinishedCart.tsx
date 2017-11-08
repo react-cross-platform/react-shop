@@ -10,29 +10,9 @@ interface OwnProps {
   id: number;
 }
 
-interface State {
-  imageSize: number;
-}
-
-const initialImageSize = 170;
+interface State {}
 
 class FinishedCart extends React.Component<OwnProps, State> {
-  state = {
-    imageSize: initialImageSize
-  };
-
-  handleScroll = event => {
-    this.setState({ imageSize: initialImageSize + window.pageYOffset });
-  };
-
-  componentDidMount() {
-    window.addEventListener("scroll", this.handleScroll, true);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("scroll", this.handleScroll, false);
-  }
-
   render() {
     const { id } = this.props;
 
@@ -41,10 +21,6 @@ class FinishedCart extends React.Component<OwnProps, State> {
         <Link to={PATH_NAMES.home} className={styles.FinishedCart}>
           <MyIcon
             className={styles.icon}
-            style={{
-              width: this.state.imageSize,
-              height: this.state.imageSize
-            }}
             type={require("!svg-sprite-loader!./circle-checked.svg")}
           />
           <div className={styles.title}>Заказ принят!</div>
