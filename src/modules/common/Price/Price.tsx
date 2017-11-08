@@ -10,11 +10,12 @@ interface OwnProps {
   oldPrice?: number;
   currency?: string;
   style?: React.CSSProperties | any;
+  isSinglePrice: boolean;
 }
 
 class Price extends React.Component<OwnProps, any> {
   render() {
-    const { price, oldPrice, style } = this.props;
+    const { price, oldPrice, style, isSinglePrice } = this.props;
     const currency = this.props.currency || "грн";
     return !!oldPrice
       ? <Flex
@@ -24,14 +25,14 @@ class Price extends React.Component<OwnProps, any> {
           justify="center"
         >
           <div className={styles.currentValue}>
-            {prettyPrice(price)} {currency}
+            {!isSinglePrice && "от "}{prettyPrice(price)} {currency}
           </div>
           <div className={styles.oldValue}>
             {prettyPrice(oldPrice)} {currency}
           </div>
         </Flex>
       : <span className={styles.singleValue} style={style}>
-          {prettyPrice(price)} {currency}
+          {!isSinglePrice && "от "}{prettyPrice(price)} {currency}
         </span>;
   }
 }

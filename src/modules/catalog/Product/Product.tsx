@@ -83,6 +83,7 @@ class Product extends React.Component<Props, State> {
                       display: "flex",
                       alignItems: subProduct.oldPrice ? "left" : "center"
                     }}
+                    isSinglePrice={isSinglePrice}
                     price={subProduct.price}
                     oldPrice={subProduct.oldPrice}
                   />

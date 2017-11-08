@@ -78,6 +78,7 @@ class SubProducts extends React.Component<Props, {}> {
                 }}
               >
                 <Price
+                  isSinglePrice={true}
                   price={subProduct.price}
                   oldPrice={subProduct.oldPrice}
                   style={{

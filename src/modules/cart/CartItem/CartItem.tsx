@@ -97,6 +97,7 @@ class CartItem extends React.Component<OwnProps, {}> {
               <Price
                 price={price * amount}
                 oldPrice={(subProduct.oldPrice || 0) * amount}
+                isSinglePrice={true}
               />
             </Flex>
           </Flex>

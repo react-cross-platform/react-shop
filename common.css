@@ -29,3 +29,7 @@ body {
 .am-input-control input {
   font-size: 1rem !important;
 }
+
+.am-list-content {
+  font-size: 1rem !important;
+}

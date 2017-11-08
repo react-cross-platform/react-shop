@@ -35,7 +35,7 @@ class ProductToCart extends React.Component<
     return (
       <Flex className={styles.ProductToCart} justify="center" align="center">
         <div className={styles.priceSection}>
-          <Price price={price} oldPrice={oldPrice} />
+          <Price isSinglePrice={true} price={price} oldPrice={oldPrice} />
         </div>
         <MyTouchFeedback>
           <div
