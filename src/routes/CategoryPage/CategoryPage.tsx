@@ -1,5 +1,5 @@
 import { Dispatch } from "@src/interfaces";
-import { Filters, Nav, Products, SelectedFilters } from "@src/modules/catalog";
+import { Filters, Nav, Product, SelectedFilters } from "@src/modules/catalog";
 import { ACTION_SET_SCROLLED_PRODUCTS } from "@src/modules/catalog/constants";
 import { IFilter, ISort } from "@src/modules/catalog/model";
 import { getSelectedFilters } from "@src/modules/catalog/SelectedFilters/SelectedFilters";
@@ -17,6 +17,7 @@ import { compile } from "path-to-regexp";
 import * as queryString from "query-string";
 import * as React from "react";
 import { graphql, OperationOption, QueryProps } from "react-apollo";
+import MasonryInfiniteScroller from "react-masonry-infinite";
 import { connect } from "react-redux";
 import Sidebar from "react-sidebar";
 import { compose } from "redux";
@@ -224,6 +225,8 @@ class CategoryPage extends React.Component<Props, State> {
       dataAllProducts
     } = this.props;
 
+    const gutter = 3;
+
     return (
       <Layout
         location={location}
@@ -277,23 +280,44 @@ class CategoryPage extends React.Component<Props, State> {
                         flexDirection: this.state.openFilters ? "column" : "row"
                       }}
                     />
-                    <Products
-                      allProducts={dataAllProducts.allProducts}
-                      location={location}
-                      style={{
-                        marginTop:
-                          getSelectedFilters(
-                            dataAllProducts.allProducts.filters
-                          ).length > 0
-                            ? "2.4rem"
-                            : "0.2rem"
-                      }}
-                      openFilters={this.state.openFilters}
-                    />
+                    <div className={styles.Products}>
+                      <MasonryInfiniteScroller
+                        style={{
+                          marginTop:
+                            getSelectedFilters(
+                              dataAllProducts.allProducts.filters
+                            ).length > 0
+                              ? "2.4rem"
+                              : "0.2rem"
+                        }}
+                        pack={true}
+                        packed="data-packed"
+                        sizes={[{ columns: 2, gutter }]}
+                        loadMore={() => ""}
+                        ref={node => {
+                          this.ref = node;
+                        }}
+                      >
+                        {dataAllProducts.allProducts.products.map(
+                          (product, i) => {
+                            return (
+                              <Product
+                                attributeValueIds={this.getCheckedAttributeValueIds()}
+                                key={i}
+                                {...product}
+                              />
+                            );
+                          }
+                        )}
+                      </MasonryInfiniteScroller>
+                    </div>
+
                     {hasMore(dataAllProducts.allProducts as any) &&
-                      <div className={styles.loading}>
-                        <MyIcon type="loading" size="lg" />
-                      </div>}
+                      <MyIcon
+                        type={require("!svg-sprite-loader!./loader.svg")}
+                        size="lg"
+                        className={styles.loading}
+                      />}
                   </div>
                 </Sidebar>
               </div>
@@ -301,6 +325,19 @@ class CategoryPage extends React.Component<Props, State> {
       </Layout>
     );
   }
+
+  getCheckedAttributeValueIds = () => {
+    const { dataAllProducts: { allProducts: { filters } } } = this.props;
+    let attributeValueIds: number[] = [];
+    filters.forEach(filter => {
+      if (filter.isColor) {
+        attributeValueIds = filter.values
+          .filter(value => value.isChecked)
+          .map(value => value.id);
+      }
+    });
+    return attributeValueIds;
+  };
 
   refineScrolledProducts = scrolledProducts => {
     const { dataAllProducts } = this.props;
