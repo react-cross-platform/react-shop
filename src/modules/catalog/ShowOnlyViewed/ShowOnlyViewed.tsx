@@ -34,7 +34,7 @@ class ShowOnlyViewed extends React.Component<StateProps & DispatcProps, {}> {
           type={require("!svg-sprite-loader!./viewed.svg")}
           size="lg"
           style={{ fill: showOnlyViewed ? "orange" : "grey" }}
-        />
+          />
       </div>
     );
   }

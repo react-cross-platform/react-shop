@@ -94,7 +94,7 @@ class Filter extends React.Component<Props, State> {
                         className={styles.color}
                         type={require("svg-sprite-loader!./checked-circle.svg")}
                         style={{
-                          fill: "green",
+                          fill: "#17a017",
                           width: "1.1rem",
                           height: "1.1rem",
                           position: "absolute",
@@ -129,7 +129,7 @@ class Filter extends React.Component<Props, State> {
                 </div>
               </div>
               <Switch
-                color="orange"
+                color="blue"
                 checked={this.isChecked(filter.values[0])}
                 onChange={() => {
                   this.handleClick(filter.values[0]);
@@ -164,7 +164,7 @@ class Filter extends React.Component<Props, State> {
                           className={styles.checkIcon}
                           type={require("svg-sprite-loader!./checked-circle.svg")}
                           style={{
-                            fill: "orange"
+                            fill: "blue"
                           }}
                         />
                       : <MyIcon

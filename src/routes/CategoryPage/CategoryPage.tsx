@@ -41,13 +41,7 @@ interface IDataCategory extends QueryProps {
 }
 
 export interface IDataAllProduct extends QueryProps {
-  allProducts: {
-    filters: [IFilter];
-    sorting: [ISort];
-    products: IProduct[];
-    found: number;
-    total: number;
-  };
+  allProducts: IAllProducts;
 }
 
 interface StateProps {}
@@ -70,11 +64,14 @@ interface State {
   openFilters: boolean;
 }
 
-const hasMore = (allProducts?: IAllProducts): boolean => {
+const hasMore = (allProducts: IAllProducts): boolean => {
   if (!allProducts) {
     return false;
   }
-  return allProducts!.products.length % LIMIT === 0;
+  return (
+    allProducts.products.length % LIMIT === 0 &&
+    allProducts.products.length >= LIMIT
+  );
 };
 
 class CategoryPage extends React.Component<Props, State> {
@@ -118,21 +115,24 @@ class CategoryPage extends React.Component<Props, State> {
       this.removeScrollListener();
     }
 
-    if (
-      nextProps.dataAllProducts.allProducts &&
-      this.props.dataAllProducts.allProducts
-    ) {
-      const loadedProducts = this.refineScrolledProducts(
-        nextProps.dataAllProducts.allProducts.products.length
+    if (nextProps.dataAllProducts.allProducts) {
+      const loadedSubProducts = this.getSubProductsLength(
+        nextProps.dataAllProducts.allProducts.products
       );
+      // const loadedSubProducts = this.refineScrolledProducts(
+      //   nextProps.dataAllProducts.allProducts.products.length
+      // );
       if (
-        loadedProducts !==
-        this.props.dataAllProducts.allProducts.products.length
+        !this.props.dataAllProducts.allProducts ||
+        loadedSubProducts !==
+          this.getSubProductsLength(
+            this.props.dataAllProducts.allProducts.products
+          )
       ) {
         const { allProducts } = this.props.dataAllProducts;
         this.props.dispatch({
           type: ACTION_SET_SCROLLED_PRODUCTS,
-          value: loadedProducts
+          value: loadedSubProducts
         });
       }
     }
@@ -167,6 +167,10 @@ class CategoryPage extends React.Component<Props, State> {
       return false;
     }
 
+    if (dataAllProducts.allProducts && !hasMore(dataAllProducts.allProducts)) {
+      this.removeScrollListener();
+    }
+
     if (
       dataCategory.loading ||
       dataAllProducts.loading ||
@@ -198,9 +202,9 @@ class CategoryPage extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
-    if (!hasMore(this.props.dataAllProducts.allProducts as any)) {
-      this.removeScrollListener();
-    }
+    // if (!hasMore(this.props.dataAllProducts.allProducts as any)) {
+    //   this.removeScrollListener();
+    // }
 
     const { loading, allProducts } = this.props.dataAllProducts;
     if (!loading) {
@@ -312,7 +316,8 @@ class CategoryPage extends React.Component<Props, State> {
                       </MasonryInfiniteScroller>
                     </div>
 
-                    {hasMore(dataAllProducts.allProducts as any) &&
+                    {dataAllProducts.allProducts &&
+                      hasMore(dataAllProducts.allProducts) &&
                       <MyIcon
                         type={require("!svg-sprite-loader!./loader.svg")}
                         size="lg"
@@ -392,6 +397,14 @@ class CategoryPage extends React.Component<Props, State> {
     );
   };
 
+  getSubProductsLength = (products: IProduct[]) => {
+    let count = 0;
+    products.forEach(product => {
+      count += product.subProducts.length;
+    });
+    return count;
+  };
+
   handleScroll = event => {
     const {
       location,
@@ -399,7 +412,7 @@ class CategoryPage extends React.Component<Props, State> {
     } = this.props;
     console.log("handleScroll");
     if (!loading && location.pathname.search("category") !== -1) {
-      const { products, found } = allProducts;
+      const { products } = allProducts;
 
       // Calculate scrolled products
       // const scrollTop = window.pageYOffset;
@@ -414,7 +427,10 @@ class CategoryPage extends React.Component<Props, State> {
       if (scrollTop > this.bottomHeight) {
         this.removeScrollListener();
         fetchMore({} as any).then(res => {
-          this.addScrollListener();
+          // if (found !== total) {
+          if (hasMore(res.data.allProducts)) {
+            this.addScrollListener();
+          }
         });
       }
     }

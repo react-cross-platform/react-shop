@@ -41,6 +41,7 @@
 .sidebarContent {
   padding-top: 6.05rem;
   padding-bottom: 3rem;
+  margin-bottom: 0.2rem;
   width: 100%;
   position: relative !important;
   overflow-y: hidden;

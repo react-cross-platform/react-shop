@@ -1,9 +1,11 @@
 import { IProduct } from "../product/model";
 
 export interface IAllProducts {
-  total: number;
-  products: [IProduct];
   filters: [IFilter];
+  sorting: [ISort];
+  products: IProduct[];
+  found: number;
+  total: number;
 }
 
 export interface IFilterValue {

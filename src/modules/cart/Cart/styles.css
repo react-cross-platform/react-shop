@@ -1,8 +1,21 @@
 .Cart {
 }
 
+.checkout {
+  flex-shrink: 0;
+  width: 100%;
+  line-height: 2.8rem;
+  background: orange;
+  text-align: center;
+  color: white;
+  position: absolute;
+  bottom: 0;
+  z-index: 1000;
+}
+
 .section {
   width: 100%;
+  height: 100%;
 }
 
 .title {
@@ -17,4 +30,5 @@
   border-top: 1px solid lightgray;
   box-shadow: 0 5px 10px 0 rgb(235, 234, 234);
   width: 100%;
+  height: 100%;
 }

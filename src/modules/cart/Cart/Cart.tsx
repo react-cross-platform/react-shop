@@ -1,18 +1,20 @@
 import { Price } from "@src/modules/common/index";
+import { MyTouchFeedback } from "@src/modules/common/utils";
 import { IRootReducer } from "@src/rootReducer";
 import { PATH_NAMES } from "@src/routes/index";
 import { IRouterReducer } from "@src/routes/interfaces";
-import { Flex } from "antd-mobile";
+import { Button, Flex } from "antd-mobile";
 import gql from "graphql-tag";
 import { History } from "history";
 import * as React from "react";
 import { graphql, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { compose } from "redux";
 
 import LoadingMask from "../../layout/LoadingMask/LoadingMask";
 import { getCartItemTotalPrice } from "../CartItem/CartItem";
-import { CartItem, CheckoutForm, EmptyCart, FinishedCart } from "../index";
+import { CartItem, EmptyCart, FinishedCart, CheckoutForm } from "../index";
 import { ICart } from "../model";
 import { ICartReducer } from "../reducer";
 
@@ -52,16 +54,6 @@ export const getCartAmount = (cart?: ICart): number => {
 };
 
 class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
-  handleClick = e => {
-    e.stopPropagation();
-    const { isModal, history } = this.props;
-    if (isModal) {
-      history.goBack();
-    } else {
-      history.push(PATH_NAMES.home);
-    }
-  };
-
   render() {
     const {
       data,
@@ -78,14 +70,17 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
     const cart = data.cart as ICart;
     const amount = getCartAmount(cart);
     if (amount === 0) {
-      return finishedId ? <FinishedCart id={finishedId} /> : <EmptyCart history={history} />;
+      return finishedId
+        ? <FinishedCart id={finishedId} />
+        : <EmptyCart history={history} />;
     }
 
     return (
       <Flex direction="column" justify="between" className={styles.Cart}>
         <div className={styles.section}>
           <div className={styles.title}>
-            Итого к оплате: <Price isSinglePrice={true} price={getCartTotalPrice(cart)} />
+            Итого к оплате:{" "}
+            <Price isSinglePrice={true} price={getCartTotalPrice(cart)} />
           </div>
           <div className={styles.items}>
             {cart.items.map((item, index) =>
@@ -100,10 +95,21 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
             )}
           </div>
         </div>
-        <CheckoutForm data={data} />
+
+        <CheckoutForm />
       </Flex>
     );
   }
+
+  handleClick = e => {
+    e.stopPropagation();
+    const { isModal, history } = this.props;
+    if (isModal) {
+      history.goBack();
+    } else {
+      history.push(PATH_NAMES.home);
+    }
+  };
 }
 
 const mapStateToProps = (state: IRootReducer): StateProps => ({

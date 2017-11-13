@@ -33,3 +33,9 @@ body {
 .am-list-content {
   font-size: 1rem !important;
 }
+
+input,
+textarea {
+  /* -webkit-user-select: none !important; */
+  user-select: none !important;
+}

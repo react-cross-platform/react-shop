@@ -12,7 +12,7 @@ query product($id: Int) {
       id
       name
     }
-    images(size:MD, withColorOnly:false) {
+    images(size: MD, withColorOnly: false) {
       id
       src
       width

@@ -41,7 +41,7 @@ class ProductToCart extends React.Component<
           <div
             className={styles.cartSection}
             style={{ background: inCart ? "green" : "orange" }}
-          >
+            >
             {inCart
               ? <Link
                   style={{ color: "white", display: "block" }}

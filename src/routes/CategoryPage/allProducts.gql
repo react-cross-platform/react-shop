@@ -55,7 +55,7 @@ query allProducts(
         id
         name
       }
-      images(size: SM, withColorOnly: true) {
+      images(size: SM, withColorOnly: true, first: 5) {
         id
         src
         width

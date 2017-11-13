@@ -6,6 +6,7 @@
   left: 0;
   opacity: 0.95;
   position: fixed;
+  /* position: absolute; */
   right: 0;
   text-align: center !important;
   width: 100%;

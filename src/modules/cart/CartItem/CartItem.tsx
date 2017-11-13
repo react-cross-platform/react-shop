@@ -38,7 +38,10 @@ class CartItem extends React.Component<OwnProps, {}> {
         pathname: compile(PATH_NAMES.product)({ id: product.id }),
         search: queryString.stringify({
           sub_product_id: subProduct.id,
-          attribute_value_ids: attributeValues ? attributeValues[0].id : ""
+          attribute_value_ids:
+            attributeValues && attributeValues.length > 0
+              ? attributeValues[0].id
+              : ""
         }),
         state: {
           modal: true,
@@ -52,6 +55,8 @@ class CartItem extends React.Component<OwnProps, {}> {
       const filtered = subProduct.product.images.filter(
         image =>
           image.attributeValue &&
+          attributeValues &&
+          attributeValues.length > 0 &&
           image.attributeValue.id === attributeValues[0].id
       );
       titleImage = filtered[0];
@@ -72,7 +77,8 @@ class CartItem extends React.Component<OwnProps, {}> {
           <Flex
             align="start"
             direction="column"
-            justify="between"
+            // justify="between"
+            justify="start"
             className={styles.info}
           >
             <Flex

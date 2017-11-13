@@ -26,7 +26,7 @@
   font-weight: bold;
   line-height: 1.6rem;
   text-align: center;
-  min-height: 4.5rem;
+  min-height: 6rem;
   margin: auto 0;
   width: 100%;
 }
@@ -45,7 +45,7 @@
   width: 28%;
 }
 
-.paramtName {
+.paramName {
   font-size: 1rem;
 }
 

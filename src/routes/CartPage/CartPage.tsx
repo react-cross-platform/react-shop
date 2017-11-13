@@ -16,10 +16,10 @@ class CartPage extends React.Component<OwnProps, {}> {
       location,
       history,
       header: {
-        title: "Корзина",
-        style: {
-          position: "initial"
-        }
+        title: "Корзина"
+        // style: {
+        //   position: "initial"
+        // }
       },
       footer: null
     };

@@ -17,7 +17,8 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import Yup from "yup";
 
-import { IDataCart } from "../Cart/Cart";
+import { Aux } from "../../common/utils";
+import { CART_QUERY, IDataCart } from "../Cart/Cart";
 import { ICheckout } from "../model";
 import { ACTION_FINISH_CART } from "../reducer";
 
@@ -25,6 +26,7 @@ const styles = require("./styles.css");
 
 const BY_KIEV = "по Киеву";
 const BY_COUNTRY = "по Украине";
+
 const REGIONS = [BY_KIEV, BY_COUNTRY];
 
 interface GraphQLProps {
@@ -50,8 +52,13 @@ interface Props
     GraphQLProps {}
 
 class CheckoutForm extends React.Component<Props, State> {
+  addressField;
+  cityField;
+  submitRef;
+
   state = {
     region: BY_KIEV
+    // region: BY_COUNTRY
   };
 
   componentWillMount() {
@@ -65,29 +72,6 @@ class CheckoutForm extends React.Component<Props, State> {
       }
     }
   }
-
-  componentWillReceiveProps(nextProps) {
-  }
-
-  handleChange = (name, value) => {
-    this.props.setFieldValue(name, value);
-  };
-
-  handleFocus = () => {
-    // window.scrollTo(0, 1000000);
-  };
-
-  handleBlur = (name, value) => {
-    const { mutate, values, data } = this.props;
-    if (!data!.cart || data!.cart![name] !== value) {
-      mutate({ variables: values });
-    }
-  };
-
-  changeRegion = region => {
-    this.setState({ region });
-    this.handleChange("city", "");
-  };
 
   render() {
     const {
@@ -105,134 +89,161 @@ class CheckoutForm extends React.Component<Props, State> {
     return (
       <div className={styles.CheckoutForm}>
         <div className={styles.title}>Оформите заказ</div>
-        <div>
-          <List>
-            <TextareaItem
-              autoHeight={true}
-              onFocus={this.handleFocus}
-              clear={true}
-              name="firstName"
-              onBlur={value => this.handleBlur("firstName", value)}
-              onChange={value => this.handleChange("firstName", value)}
-              title="Имя"
-              value={values.firstName}
-            />
-            <InputItem
-              clear={true}
-              onFocus={this.handleFocus}
-              error={!!errors.phone}
-              maxLength={12}
-              name="phone"
-              onBlur={value => this.handleBlur("phone", value)}
-              onChange={value => this.handleChange("phone", value)}
-              placeholder="380671234567"
-              value={values.phone}
-            >
-              Телефон
-            </InputItem>
-
-            <TextareaItem
-              clear={true}
-              error={!!errors.email}
-              name="email"
-              onFocus={this.handleFocus}
-              onBlur={value => this.handleBlur("email", value)}
-              onChange={value => this.handleChange("email", value)}
-              placeholder="для акций, скидок"
-              title="Email"
-              value={values.email}
-            />
-
-            <List.Item>
-              <Flex>
-                <div className={styles.regionsLabel}>Доставка</div>
-                <SegmentedControl
-                  className={styles.regions}
-                  onValueChange={region => this.changeRegion(region)}
-                  selectedIndex={REGIONS.indexOf(this.state.region)}
-                  tintColor="orange"
-                  values={REGIONS}
-                />
-              </Flex>
-            </List.Item>
-
-            {this.state.region === BY_KIEV
-              ? <TextareaItem
+        <List className={styles.CheckoutForm}>
+          <TextareaItem
+            autoHeight={true}
+            onFocus={() => this.handleFocus("firstName")}
+            clear={true}
+            name="firstName"
+            onBlur={value => this.handleBlur("firstName", value)}
+            onChange={value => this.handleChange("firstName", value)}
+            title="Имя"
+            value={values.firstName}
+          />
+          <InputItem
+            clear={true}
+            onFocus={() => this.handleFocus("phone")}
+            error={!!errors.phone}
+            maxLength={12}
+            name="phone"
+            onBlur={value => this.handleBlur("phone", value)}
+            onChange={value => this.handleChange("phone", value)}
+            placeholder="380671234567"
+            value={values.phone}
+          >
+            Телефон
+          </InputItem>
+          <TextareaItem
+            clear={true}
+            error={!!errors.email}
+            name="email"
+            onFocus={() => this.handleFocus("email")}
+            onBlur={value => this.handleBlur("email", value)}
+            onChange={value => this.handleChange("email", value)}
+            placeholder="для акций, скидок"
+            title="Email"
+            value={values.email}
+          />
+          <List.Item>
+            <Flex>
+              <div className={styles.regionsLabel}>Доставка</div>
+              <SegmentedControl
+                className={styles.regions}
+                onValueChange={region => this.changeRegion(region)}
+                selectedIndex={REGIONS.indexOf(this.state.region)}
+                tintColor="orange"
+                values={REGIONS}
+              />
+            </Flex>
+          </List.Item>
+          {this.state.region === BY_KIEV
+            ? <TextareaItem
+                autoHeight={true}
+                clear={true}
+                name="address"
+                onFocus={() => this.handleFocus("address")}
+                onBlur={value => this.handleBlur("address", value)}
+                onChange={value => this.handleChange("address", value)}
+                ref={input => {
+                  this.addressField = input;
+                }}
+                placeholder="дом, улица, квартира"
+                title="Адрес"
+                value={values.address}
+              />
+            : <div />}
+          {this.state.region === BY_COUNTRY
+            ? <div className={styles.countryDelivery}>
+                <TextareaItem
                   autoHeight={true}
                   clear={true}
+                  name="city"
+                  ref={input => {
+                    this.cityField = input;
+                  }}
+                  onFocus={() => this.handleFocus("city")}
+                  onBlur={value => this.handleBlur("city", value)}
+                  onChange={value => this.handleChange("city", value)}
+                  title="Город"
+                  value={values.city}
+                />
+                <TextareaItem
+                  clear={true}
+                  error={!!errors.address}
                   name="address"
-                  onFocus={this.handleFocus}
+                  onFocus={() => this.handleFocus("address")}
                   onBlur={value => this.handleBlur("address", value)}
                   onChange={value => this.handleChange("address", value)}
-                  placeholder="дом, улица, квартира"
-                  title="Адрес"
+                  placeholder="№ отделения Новой Почты"
+                  title="НП"
                   value={values.address}
                 />
-              : <div />}
-
-            {this.state.region === BY_COUNTRY
-              ? <div className={styles.countryDelivery}>
-                  <TextareaItem
-                    autoHeight={true}
-                    clear={true}
-                    name="city"
-                    onFocus={this.handleFocus}
-                    onBlur={value => this.handleBlur("city", value)}
-                    onChange={value => this.handleChange("city", value)}
-                    title="Город"
-                    value={values.city}
-                  />
-                  <TextareaItem
-                    clear={true}
-                    error={!!errors.address}
-                    name="address"
-                    onFocus={this.handleFocus}
-                    onBlur={value => this.handleBlur("address", value)}
-                    onChange={value => this.handleChange("address", value)}
-                    placeholder="№ отделения Новой Почты"
-                    title="НП"
-                    value={values.address}
-                  />
-                  <TextareaItem
-                    autoHeight={true}
-                    clear={true}
-                    error={!!errors.lastName}
-                    name="lastName"
-                    onFocus={this.handleFocus}
-                    onBlur={value => this.handleBlur("lastName", value)}
-                    onChange={value => this.handleChange("lastName", value)}
-                    placeholder="получателя на Новой Почте"
-                    title="Фамилия"
-                    value={values.lastName}
-                  />
-                </div>
-              : <div />}
-            <TextareaItem
-              autoHeight={true}
-              clear={true}
-              name="comment"
-              onFocus={this.handleFocus}
-              onBlur={value => this.handleBlur("comment", value)}
-              onChange={value => this.handleChange("comment", value)}
-              placeholder="комментарий к заказу"
-              title="Детали"
-              value={values.comment}
-            />
-            <MyTouchFeedback>
-              <Button
-                className={styles.submit}
-                disabled={!isValid || isSubmitting}
-                loading={isSubmitting}
-                onClick={handleSubmit}
-              >
-                Завершить оформление
-              </Button>
-            </MyTouchFeedback>
-          </List>
-        </div>
+                <TextareaItem
+                  autoHeight={true}
+                  clear={true}
+                  error={!!errors.lastName}
+                  name="lastName"
+                  onFocus={() => this.handleFocus("lastName")}
+                  onBlur={value => this.handleBlur("lastName", value)}
+                  onChange={value => this.handleChange("lastName", value)}
+                  placeholder="получателя на Новой Почте"
+                  title="Фамилия"
+                  value={values.lastName}
+                />
+              </div>
+            : <div />}
+          <TextareaItem
+            autoHeight={true}
+            clear={true}
+            name="comment"
+            onFocus={() => this.handleFocus("comment")}
+            onBlur={value => this.handleBlur("comment", value)}
+            onChange={value => this.handleChange("comment", value)}
+            placeholder="комментарий к заказу"
+            title="Детали"
+            value={values.comment}
+          />
+        </List>
+        <MyTouchFeedback>
+          <Button
+            className={styles.submit}
+            disabled={!isValid || isSubmitting}
+            loading={isSubmitting}
+            onClick={handleSubmit}
+          >
+            Завершить оформление
+          </Button>
+        </MyTouchFeedback>
       </div>
     );
   }
+
+  handleChange = (name, value) => {
+    this.props.setFieldValue(name, value);
+  };
+
+  handleFocus = name => {
+    document.getElementsByName(name)[0].scrollIntoView();
+  };
+
+  handleBlur = (name, value) => {
+    const { mutate, values, data } = this.props;
+    if (!data!.cart || data!.cart![name] !== value) {
+      mutate({ variables: values });
+    }
+    console.log("handleBlur");
+  };
+
+  changeRegion = region => {
+    this.setState({ region }, () => {
+      this.handleChange("city", "");
+      // if (region === BY_KIEV) {
+      //   this.addressField.focus();
+      // } else {
+      //   this.cityField.focus();
+      // }
+    });
+  };
 }
 
 const UPDATE_CART_MUTATION = gql(require("./updateCart.gql"));
@@ -243,6 +254,7 @@ const INITIAL_VALUES = {
 
 export default compose<any>(
   connect(),
+  graphql<GraphQLProps, OwnProps>(CART_QUERY),
   graphql(UPDATE_CART_MUTATION),
   withFormik({
     validationSchema: Yup.object().shape({

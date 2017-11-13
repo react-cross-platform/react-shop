@@ -284,11 +284,22 @@ class Product extends React.Component<Props, {}> {
                 <Devider />
               </Aux>}
 
-            {/* Product params section */}
-            {(attributes.length > 0 || subProducts.length === 1) &&
+            {/* active SubProduct and Product params section */}
+            {(attributes.length > 0 ||
+              activeSubProduct.attributes.length > 0) &&
               <Aux>
                 <WhiteSpace />
                 <WingBlank>
+                  {activeSubProduct.attributes.map((el, index) =>
+                    <Flex key={index} justify="between">
+                      <Flex className={styles.paramName}>
+                        {el.name}
+                      </Flex>
+                      <Flex className={styles.paramValue}>
+                        {el.values.map(v => v.name).join(", ")}
+                      </Flex>
+                    </Flex>
+                  )}
                   {attributes.map((el, index) =>
                     <Flex key={index} justify="between">
                       <Flex className={styles.paramtName}>
@@ -299,21 +310,6 @@ class Product extends React.Component<Props, {}> {
                       </Flex>
                     </Flex>
                   )}
-                  {subProducts.length === 1
-                    ? subProducts.map((supProduct, i) =>
-                        <Flex key={i} justify="between">
-                          <div className={styles.paramtName}>Размер, ШxВxГ</div>
-                          <div className={styles.paramValue}>
-                            {supProduct.attributes.length !== 0
-                              ? supProduct.attributes
-                                  .slice(0, 3)
-                                  .map(e => e.values.map(v => v.value))
-                                  .join("x")
-                              : supProduct.article}
-                          </div>
-                        </Flex>
-                      )
-                    : null}
                 </WingBlank>
                 <WhiteSpace />
                 <Devider />

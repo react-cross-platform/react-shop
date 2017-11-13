@@ -25,14 +25,13 @@
 }
 
 .submit {
-  background-color: orange !important;
+  background-color: #17a017 !important;
   border-radius: 0 !important;
   border: 0 !important;
   bottom: 0;
   color: white !important;
-  height: 2.7rem !important;
-  line-height: 2.7rem !important;
-  /* position: fixed !important; */
+  height: 2.8rem !important;
+  line-height: 2.8rem !important;
+  /* position: absolute !important; */
   width: 100%;
-  z-index: 10000;
 }

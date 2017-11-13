@@ -127,7 +127,9 @@ class Filters extends React.Component<Props, State> {
             className={styles.resetButton}
             style={{}}
           >
-            <MyTouchFeedback style={{ borderRadius: "1.5rem", backgroundColor: "lightgray" }}>
+            <MyTouchFeedback
+              style={{ borderRadius: "1.5rem", backgroundColor: "lightgray" }}
+            >
               <MyIcon
                 className={styles.resetIcon}
                 type={require("svg-sprite-loader!./remove-circle.svg")}
