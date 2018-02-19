@@ -53,7 +53,7 @@ export interface ISubProduct {
   article: string;
   price: number;
   oldPrice: number;
-  discount: string;
+  discount: number;
   attributes: [IAttribute];
 }
 

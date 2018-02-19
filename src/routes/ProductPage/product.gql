@@ -17,8 +17,6 @@ query product($id: Int) {
       src
       width
       height
-      colorValue
-      colorName
       isTitle
       attributeValue {
         id

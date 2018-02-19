@@ -1,5 +1,6 @@
 query allProducts(
   $categoryId: Int
+  $withDiscountOnly: Boolean
   $filters: String
   $sorting: String
   $offset: Int
@@ -7,6 +8,7 @@ query allProducts(
 ) {
   allProducts(
     categoryId: $categoryId
+    withDiscountOnly: $withDiscountOnly
     filters: $filters
     sorting: $sorting
     offset: $offset
@@ -29,7 +31,6 @@ query allProducts(
       type
       icon
       iconColor
-      position
       resetUrl
       values {
         id
@@ -38,7 +39,6 @@ query allProducts(
         filterValue
         help
         count
-        position
         url
         value
       }

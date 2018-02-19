@@ -26,6 +26,8 @@ import { IAllProducts } from "../../modules/catalog/model";
 
 const styles = require("./styles.css");
 
+const SALE_TITLE = "Скидки";
+
 export const LIMIT = 20;
 
 // miliseconds bettwen scroll event
@@ -74,17 +76,26 @@ const hasMore = (allProducts: IAllProducts): boolean => {
   );
 };
 
-class CategoryPage extends React.Component<Props, State> {
-  state = {
-    title: "",
-    openFilters: false
-  };
+export const getPathName = (categoryId?) => {
+  return categoryId
+    ? compile(PATH_NAMES.category)({ id: categoryId })
+    : PATH_NAMES.sale;
+};
 
+class CategoryPage extends React.Component<Props, State> {
   ref;
 
   bottomHeight: number;
 
   handleScrollThrottle: (event) => void;
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      title: !!props.match.params.id ? "" : SALE_TITLE,
+      openFilters: false
+    };
+  }
 
   componentDidMount() {
     // tslint:disable-next-line:max-line-length
@@ -137,11 +148,12 @@ class CategoryPage extends React.Component<Props, State> {
       }
     }
 
-    if (
-      !dataCategory.loading &&
-      dataCategory.category!.name !== this.state.title
-    ) {
-      this.setState({ title: dataCategory.category!.name });
+    const title =
+      dataCategory && !dataCategory.loading
+        ? dataCategory.category!.name
+        : "Скидки";
+    if (title !== this.state.title) {
+      this.setState({ title });
     }
   }
 
@@ -155,10 +167,8 @@ class CategoryPage extends React.Component<Props, State> {
     } = nextProps;
 
     if (this.props.location !== nextProps.history.location) {
-      if (
-        nextProps.history.location.pathname ===
-        compile(PATH_NAMES.category)({ id })
-      ) {
+      const nextUrl = nextProps.history.location.pathname;
+      if (nextUrl === getPathName(id)) {
         this.addScrollListener();
       } else {
         this.removeScrollListener();
@@ -172,15 +182,14 @@ class CategoryPage extends React.Component<Props, State> {
     }
 
     if (
-      dataCategory.loading ||
+      (dataCategory && dataCategory.loading) ||
       dataAllProducts.loading ||
       !dataAllProducts.allProducts
     ) {
       return false;
     }
 
-    const pathname = compile(PATH_NAMES.category)({ id });
-
+    // const pathname = compile(PATH_NAMES.category)({ id });
     // Fix nuka-carousel resize bag
     // https://github.com/FormidableLabs/nuka-carousel/issues/103
     // if (history.location.pathname === location.pathname) {
@@ -237,7 +246,7 @@ class CategoryPage extends React.Component<Props, State> {
         history={history}
         {...this.getLayoutOptions()}
       >
-        {dataCategory.loading ||
+        {(dataCategory && dataCategory.loading) ||
         dataAllProducts.loading ||
         !dataAllProducts.allProducts
           ? <LoadingMask />
@@ -359,11 +368,10 @@ class CategoryPage extends React.Component<Props, State> {
 
   isLoading = () => {
     const { dataCategory, dataAllProducts } = this.props;
-    return dataCategory.loading || dataAllProducts.loading;
+    return (dataCategory && dataCategory.loading) || dataAllProducts.loading;
   };
 
   getLayoutOptions = () => {
-    const { location, dataCategory: { category } } = this.props;
     return {
       header: {
         title: this.state.title
@@ -408,10 +416,12 @@ class CategoryPage extends React.Component<Props, State> {
   handleScroll = event => {
     const {
       location,
+      match: { params: { id } },
       dataAllProducts: { allProducts, loading, fetchMore }
     } = this.props;
     console.log("handleScroll");
-    if (!loading && location.pathname.search("category") !== -1) {
+    const pathname = getPathName(id);
+    if (!loading && location.pathname === pathname) {
       const { products } = allProducts;
 
       // Calculate scrolled products
@@ -440,6 +450,7 @@ class CategoryPage extends React.Component<Props, State> {
 const CATEGORY_QUERY = gql(require("./category.gql"));
 const categoryOptions: OperationOption<OwnProps, GraphQLProps> = {
   options: props => ({
+    skip: !props.match.params.id,
     fetchPolicy: "cache-first",
     variables: {
       id: parseInt(props.match.params.id, 0)
@@ -453,15 +464,23 @@ export const ALL_PRODUCTS_QUERY = gql(require("./allProducts.gql"));
 export const allProductsOptions: OperationOption<OwnProps, GraphQLProps> = {
   options: ownProps => {
     const GET = queryString.parse(ownProps.location.search);
+    const categoryId = ownProps.match.params.id;
+    const variables = {
+      filters: GET.filters,
+      sorting: GET.sorting,
+      first: LIMIT,
+      offset: 0
+    } as any;
+    if (!!categoryId) {
+      variables.categoryId = categoryId;
+      variables.withDiscountOnly = false;
+    } else {
+      variables.withDiscountOnly = true; // sale page
+      variables.categoryId = null;
+    }
     return {
       fetchPolicy: "network-only", // it's important!
-      variables: {
-        categoryId: ownProps.match.params.id,
-        filters: GET.filters,
-        sorting: GET.sorting,
-        first: LIMIT,
-        offset: 0
-      }
+      variables
     };
   },
   props: (ownProps: any) => {

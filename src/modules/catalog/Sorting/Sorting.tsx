@@ -1,12 +1,10 @@
 import { MyIcon } from "@src/modules/common";
 import { MyTouchFeedback } from "@src/modules/common/utils";
+import { getPathName } from "@src/routes/CategoryPage/CategoryPage";
+import { MyHistory } from "@src/routes/interfaces";
 import { Flex, Popover } from "antd-mobile";
-import { compile } from "path-to-regexp";
 import * as queryString from "query-string";
 import * as React from "react";
-
-import { MyHistory } from "../../../routes/interfaces";
-import { PATH_NAMES } from "../../../routes/RouteSwitch/RouteSwitch";
 
 const styles = require("./styles.css");
 
@@ -43,11 +41,8 @@ class Sorting extends React.Component<Props, State> {
       onSelect: (node, index) => {
         if (GET.sorting !== node.props.value) {
           GET.sorting = node.props.value;
-          history.push(
-            `${compile(PATH_NAMES.category)({
-              id: categoryId
-            })}?${queryString.stringify(GET)}`
-          );
+          const pathName = getPathName(categoryId);
+          history.push(`${pathName}?${queryString.stringify(GET)}`);
         }
         this.toggleSorting();
       }

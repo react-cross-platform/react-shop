@@ -3,7 +3,7 @@ import { MyTouchFeedback } from "@src/modules/common/utils";
 import { Images } from "@src/modules/product";
 import { IImage } from "@src/modules/product/model";
 import { IRootReducer } from "@src/rootReducer";
-import { Card } from "antd-mobile";
+import { Card, Flex } from "antd-mobile";
 import { compile } from "path-to-regexp";
 import * as React from "react";
 import { connect } from "react-redux";
@@ -76,17 +76,23 @@ class Product extends React.Component<Props, State> {
                     <br />
                     {brand.name} {subProduct.article}
                   </div>
-                  <Price
-                    style={{
-                      height: subProduct.oldPrice ? "3.2rem" : "2.7rem",
-                      justifyContent: subProduct.oldPrice ? "center" : "left",
-                      display: "flex",
-                      alignItems: subProduct.oldPrice ? "left" : "center"
-                    }}
-                    isSinglePrice={isSinglePrice}
-                    price={subProduct.price}
-                    oldPrice={subProduct.oldPrice}
-                  />
+                  <Flex justify="between">
+                    <Price
+                      style={{
+                        height: subProduct.oldPrice ? "3.2rem" : "2.7rem",
+                        justifyContent: subProduct.oldPrice ? "center" : "left",
+                        display: "flex",
+                        alignItems: subProduct.oldPrice ? "left" : "center"
+                      }}
+                      isSinglePrice={isSinglePrice}
+                      price={subProduct.price}
+                      oldPrice={subProduct.oldPrice}
+                    />
+                    {subProduct.discount > 0 &&
+                      <div className={styles.discount}>
+                        -{subProduct.discount}%
+                      </div>}
+                  </Flex>
                 </div>
               </Link>
             </MyTouchFeedback>

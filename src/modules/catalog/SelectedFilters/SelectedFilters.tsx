@@ -1,7 +1,6 @@
 import { MyIcon } from "@src/modules/common";
-import { PATH_NAMES } from "@src/routes";
+import { getPathName } from "@src/routes/CategoryPage/CategoryPage";
 import { Flex } from "antd-mobile";
-import { compile } from "path-to-regexp";
 import * as queryString from "query-string";
 import * as React from "react";
 import { Link } from "react-router-dom";
@@ -29,7 +28,6 @@ interface State {}
 interface Props extends OwnProps {}
 
 class SelectedFilters extends React.Component<Props, State> {
-
   shouldComponentUpdate(nextProps: Props, nextState: State) {
     return true;
   }
@@ -38,9 +36,8 @@ class SelectedFilters extends React.Component<Props, State> {
     const { categoryId, history } = this.props;
     const GET = queryString.parse(history.location.search);
     GET.filters = filter.resetUrl;
-    return `${compile(PATH_NAMES.category)({
-      id: categoryId
-    })}?${queryString.stringify(GET)}`;
+    const pathName = getPathName(categoryId);
+    return `${pathName}?${queryString.stringify(GET)}`;
   };
 
   render() {

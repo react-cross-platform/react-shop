@@ -9,11 +9,13 @@ import CategoryPage from "../CategoryPage/CategoryPage";
 import FlatpagesPage from "../FlatpagesPage/FlatpagesPage";
 import HomePage from "../HomePage/HomePage";
 import ProductPage from "../ProductPage/ProductPage";
+import SalePage from "../SalePage/SalePage";
 
 export const PATH_NAMES = {
   home: "/",
   catalog: "/catalog/",
   category: "/category/:id",
+  sale: "/sale",
   product: "/product/:id/",
   cart: "/cart/",
   flatpages: "/flatpages/"
@@ -30,6 +32,7 @@ const Routes = ({ Component, params }) => {
       <Route path={PATH_NAMES.flatpages} component={FlatpagesPage} />
       <Route path={PATH_NAMES.catalog} component={CatalogPage} />
       <Route path={PATH_NAMES.category} component={CategoryPage} />
+      <Route path={PATH_NAMES.sale} component={SalePage} />
       <Route path={PATH_NAMES.product} component={ProductPage} />
       <Route path={PATH_NAMES.cart} component={CartPage} />
     </Component>

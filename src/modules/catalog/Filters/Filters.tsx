@@ -4,15 +4,14 @@ import { MyTouchFeedback } from "@src/modules/common/utils";
 import { LoadingMask } from "@src/modules/layout";
 import { IRootReducer } from "@src/rootReducer";
 import { IDataAllProduct } from "@src/routes/CategoryPage/CategoryPage";
+import { getPathName } from "@src/routes/CategoryPage/CategoryPage";
 import { Accordion, Flex, List, Progress, Switch } from "antd-mobile";
-import { compile } from "path-to-regexp";
 import * as queryString from "query-string";
 import * as React from "react";
 import { QueryProps } from "react-apollo";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
-import { PATH_NAMES } from "../../../routes/RouteSwitch/RouteSwitch";
 import { IAllProducts, IFilter, IFilterValue } from "../model";
 
 const styles = require("./styles.css");
@@ -183,11 +182,8 @@ class Filters extends React.Component<Props, State> {
         () => {
           const GET = queryString.parse(history.location.search);
           GET.filters = url;
-          history.push(
-            `${compile(PATH_NAMES.category)({
-              id: categoryId
-            })}?${queryString.stringify(GET)}`
-          );
+          const pathName = getPathName(categoryId);
+          history.push(`${pathName}?${queryString.stringify(GET)}`);
         }
       );
     }
