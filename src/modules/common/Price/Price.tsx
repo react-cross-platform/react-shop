@@ -1,7 +1,7 @@
 import { Flex } from "antd-mobile";
 import * as React from "react";
 
-import { prettyPrice } from "../utils";
+import { formatPrice } from "../utils";
 
 const styles = require("./styles.css");
 
@@ -25,16 +25,17 @@ class Price extends React.Component<OwnProps, any> {
           justify="center"
         >
           <div className={styles.currentValue}>
-            {!isSinglePrice && <span className={styles.priceFrom}>от&nbsp;</span>}
-            {prettyPrice(price)} {currency}
+            {!isSinglePrice &&
+              <span className={styles.priceFrom}>от&nbsp;</span>}
+            {formatPrice(price)} {currency}
           </div>
           <div className={styles.oldValue}>
-            {prettyPrice(oldPrice)} {currency}
+            {formatPrice(oldPrice)} {currency}
           </div>
         </Flex>
       : <span className={styles.singleValue} style={style}>
           {!isSinglePrice && <span className={styles.priceFrom}>от&nbsp;</span>}
-          {prettyPrice(price)} {currency}
+          {formatPrice(price)} {currency}
         </span>;
   }
 }

@@ -1,27 +1,16 @@
 import * as React from "react";
 import TouchFeedback from "rmc-feedback/lib/TouchFeedback";
 
-export const prettyPrice = (value: number) => {
-  if (!value) {
-    return;
-  }
-  const splitValue = Math.round(value).toString().split("");
+export const formatPrice = (value: number) => {
+  const convertToString = value.toString();
+  const splitValue = convertToString.split("");
   const valueLength = splitValue.length;
-  switch (splitValue.length) {
-    case 4:
-      splitValue.splice(-3, 0, " ");
-      return splitValue.join("");
 
-    case 5:
-      splitValue.splice(-3, 0, " ");
-      return splitValue.join("");
-
-    case 6:
-      splitValue.splice(3, 0, " ");
-      return splitValue.join("");
-
-    default:
-      return value;
+  if (splitValue.length > 3) {
+    splitValue.splice(-3, 0, " ");
+    return splitValue.join("");
+  } else {
+    return convertToString;
   }
 };
 
