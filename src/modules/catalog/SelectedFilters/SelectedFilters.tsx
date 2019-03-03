@@ -20,6 +20,8 @@ interface OwnProps {
   filters: IFilter[];
   style?: any;
   history: MyHistory;
+
+  /** Is filters sidebar opened? */
   openFilters: boolean;
 }
 
@@ -28,6 +30,7 @@ interface State {}
 interface Props extends OwnProps {}
 
 class SelectedFilters extends React.Component<Props, State> {
+
   shouldComponentUpdate(nextProps: Props, nextState: State) {
     return true;
   }
@@ -42,9 +45,7 @@ class SelectedFilters extends React.Component<Props, State> {
 
   render() {
     const { filters, categoryId, style, openFilters } = this.props;
-    const checkedFilters = getSelectedFilters(filters).filter(
-      filter => filter.hasChecked
-    );
+
     return (
       <Flex
         style={style}
@@ -52,19 +53,23 @@ class SelectedFilters extends React.Component<Props, State> {
         direction={openFilters ? "row" : "column"}
         wrap="wrap"
       >
-        {checkedFilters.map((filter, i) =>
+        {getSelectedFilters(filters).map((filter) =>
+          filter.values.filter((v) => v.isChecked).map((value, i) =>
+
           <MyTouchFeedback key={i}>
-            <Link to={this.getUrl(filter)} className={styles.item}>
+            <Link
+            to={this.getUrl(filter)}
+             className={styles.item}>
               <MyIcon
                 className={styles.closeIcon}
                 type={require("!svg-sprite-loader!./circle-close.svg")}
               />
               <span className={styles.label}>
-                {filter.name}
+                {value.name}
               </span>
             </Link>
           </MyTouchFeedback>
-        )}
+          ))}
       </Flex>
     );
   }

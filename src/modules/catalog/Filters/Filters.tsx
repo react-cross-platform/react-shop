@@ -3,8 +3,7 @@ import { MyIcon } from "@src/modules/common";
 import { MyTouchFeedback } from "@src/modules/common/utils";
 import { LoadingMask } from "@src/modules/layout";
 import { IRootReducer } from "@src/rootReducer";
-import { IDataAllProduct } from "@src/routes/CategoryPage/CategoryPage";
-import { getPathName } from "@src/routes/CategoryPage/CategoryPage";
+import { getPathName, IDataAllProduct } from "@src/routes/CategoryPage/CategoryPage";
 import { Accordion, Flex, List, Progress, Switch } from "antd-mobile";
 import * as queryString from "query-string";
 import * as React from "react";
@@ -47,6 +46,7 @@ interface State {
 interface Props extends OwnProps, StateProps, DispatchProps, GraphQLProps {}
 
 class Filters extends React.Component<Props, State> {
+
   state = {
     loading: false,
     checkedValueIds: [] as number[]
@@ -56,8 +56,7 @@ class Filters extends React.Component<Props, State> {
     const { dataAllProducts: { loading, allProducts } } = nextProps;
     const checkedValueIds = this.getCheckedValueIds(allProducts.filters);
     if (
-      checkedValueIds !== this.state.checkedValueIds &&
-      allProducts !== this.props.dataAllProducts.allProducts
+      checkedValueIds !== this.state.checkedValueIds
     ) {
       this.setState({
         checkedValueIds,
@@ -68,9 +67,12 @@ class Filters extends React.Component<Props, State> {
 
   shouldComponentUpdate(nextProps: Props, nextState: State) {
     if (
-      !nextProps.dataAllProducts.allProducts ||
-      nextProps.open !== this.props.open
+      !nextProps.dataAllProducts.allProducts
+      // || nextProps.open !== this.props.open
     ) {
+      if (!nextProps.dataAllProducts.loading) {
+        debugger;
+      }
       return false;
     }
     return true;
@@ -198,7 +200,6 @@ class Filters extends React.Component<Props, State> {
     const { dataAllProducts } = this.props;
     const { refetch } = dataAllProducts;
     const { checkedValueIds } = this.state;
-
     /* Colors */
     if (filter.isColor) {
       return (
