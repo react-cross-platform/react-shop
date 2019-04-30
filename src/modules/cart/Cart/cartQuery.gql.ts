@@ -1,0 +1,54 @@
+import gql from "graphql-tag";
+
+const cartQuery = gql`
+  query cartQuery {
+    cart {
+      id
+      phone
+      email
+      firstName
+      lastName
+      city
+      address
+      comment
+      items {
+        id
+        amount
+        price
+        attributeValues {
+          id
+          name
+          value
+        }
+        subProduct {
+          id
+          article
+          price
+          oldPrice
+          product {
+            id
+            name
+            brand {
+              id
+              name
+            }
+            images(size: SM, withColorOnly: true) {
+              id
+              src
+              width
+              height
+              isTitle
+              attributeValue {
+                id
+                name
+                value
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export default cartQuery;

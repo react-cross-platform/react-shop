@@ -20,6 +20,7 @@
     },
     "pretty": true,
     "removeComments": false,
+    "skipLibCheck": true,
     "sourceMap": true,
     "strictNullChecks": true,
     "target": "es6",

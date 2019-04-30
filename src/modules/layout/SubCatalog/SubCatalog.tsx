@@ -25,18 +25,24 @@ interface OwnProps {
 
 class SubCatalog extends React.Component<StateProps & OwnProps, {}> {
   isViewed(category: ICategory) {
-    const { catalog: { viewedCategoryIds } } = this.props;
+    const {
+      catalog: { viewedCategoryIds }
+    } = this.props;
     return viewedCategoryIds.indexOf(parseInt(category.id, 0)) !== -1;
   }
 
   getPath(category: ICategory) {
     return compile(PATH_NAMES.category)({
-      id: category.id,
+      id: category.id
     });
   }
 
   isCurrentCategory = (category: ICategory) => {
-    const { router: { location: { pathname } } } = this.props;
+    const {
+      router: {
+        location: { pathname }
+      }
+    } = this.props;
     return pathname === this.getPath(category);
   };
 
@@ -45,19 +51,16 @@ class SubCatalog extends React.Component<StateProps & OwnProps, {}> {
     const height = window.innerWidth / 2;
     return (
       <Flex wrap="wrap">
-        {categories.map((category, i) =>
+        {categories.map((category, i) => (
           <Link
             key={`cat${i}`}
             to={{
-              pathname: this.getPath(category),
+              pathname: this.getPath(category)
             }}
             className={styles.categoryContainer}
             style={{
               borderColor: this.isViewed(category) ? "orange" : "lightgrey",
-              width:
-                categories.length % 2 !== 0 && i + 1 === categories.length
-                  ? "100%"
-                  : "50%"
+              width: categories.length % 2 !== 0 && i + 1 === categories.length ? "100%" : "50%"
             }}
           >
             <MyTouchFeedback>
@@ -69,13 +72,11 @@ class SubCatalog extends React.Component<StateProps & OwnProps, {}> {
                 }}
               >
                 <img className={styles.image} src={category.image.src || ""} />
-                <div className={styles.name}>
-                  {category.name}
-                </div>
+                <div className={styles.name}>{category.name}</div>
               </Card>
             </MyTouchFeedback>
           </Link>
-        )}
+        ))}
       </Flex>
     );
   }

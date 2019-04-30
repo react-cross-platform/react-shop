@@ -4,7 +4,6 @@ import { PATH_NAMES } from "@src/routes";
 import { IRouterReducer } from "@src/routes/interfaces";
 import { Flex } from "antd-mobile";
 import * as React from "react";
-import { renderToString } from "react-dom/server";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -25,7 +24,7 @@ const Logo = ({ isActive }) => {
     />
   );
   // tslint:disable-next-line:no-invalid-template-strings
-  const logo = process.env.PROJECT_NAME.split("${icon}");
+  const logo = process.env.PROJECT_NAME!.split("${icon}");
   return (
     <Flex className={styles.HomeTrigger} align="center">
       {logo[0]}

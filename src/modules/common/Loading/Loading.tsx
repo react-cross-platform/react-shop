@@ -15,7 +15,7 @@ const Loading = () => {
     />
   );
   // tslint:disable-next-line:no-invalid-template-strings
-  const logo = process.env.PROJECT_NAME.split("${icon}");
+  const logo = process.env.PROJECT_NAME!.split("${icon}");
   return (
     <Flex className={styles.HomeTrigger} align="center">
       {logo[0]}

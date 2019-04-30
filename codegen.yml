@@ -1,0 +1,7 @@
+overwrite: true
+schema: "http://localhost:8001/graphql"
+documents: "src/**/*.gql.ts"
+generates:
+  src/generated/graphql.tsx:
+    - "typescript-common"
+    - "typescript-client"

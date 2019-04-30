@@ -10,13 +10,13 @@ const opts = {
 
 const networkInterface = USE_QUERY_BATCHING
   ? createBatchingNetworkInterface({
-      uri: process.env.GRAPHQL_ENDPOINT,
+      uri: process.env.GRAPHQL_ENDPOINT!,
       opts,
       batchInterval: 10, // in milliseconds
       batchMax: 10
     })
   : createNetworkInterface({
-      uri: process.env.GRAPHQL_ENDPOINT,
+      uri: process.env.GRAPHQL_ENDPOINT!,
       opts
     });
 

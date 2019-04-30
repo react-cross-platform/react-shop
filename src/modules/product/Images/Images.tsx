@@ -86,7 +86,7 @@ class Images extends React.Component<Props, State> {
       const selectedImage = images[this.state.selectedImageIndex];
       return (
         <Aux>
-          <Component className={styles.Images} {...linkProps}>
+          <Component className={styles.Images} {...linkProps as any}>
             {linkProps
               ? <Flex
                   justify="center"
@@ -213,7 +213,7 @@ class Images extends React.Component<Props, State> {
               height: this.getHeight(images[0])
             }}
           >
-            {images.length === 0
+            {!images.length
               ? <MyIcon
                   className={styles.noImage}
                   type={require("!svg-sprite-loader!./no-image.svg")}

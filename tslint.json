@@ -1,5 +1,10 @@
 {
   "extends": ["tslint:latest", "tslint-react", "tslint-config-prettier"],
+  "linterOptions": {
+    "exclude": [
+        "src/generated/graphql.tsx"
+    ]
+  },
   "rules": {
     "align": [true, "parameters", "statements"],
     "ordered-imports": [true],
@@ -30,16 +35,18 @@
     "no-console": [false],
     "no-construct": true,
     "no-constructor-vars": false,
-    "no-debugger": true,
+    "no-debugger": false,
     "no-duplicate-variable": true,
     "no-empty": false,
     "no-empty-interface": false,
     "no-eval": true,
+    "no-implicit-dependencies": false,
     "no-internal-module": true,
     "no-namespace": true,
     "no-reference": true,
     "no-shadowed-variable": true,
     "no-string-literal": true,
+    "no-submodule-imports": false,
     "no-switch-case-fall-through": false,
     "no-trailing-whitespace": true,
     "no-unused-expression": true,

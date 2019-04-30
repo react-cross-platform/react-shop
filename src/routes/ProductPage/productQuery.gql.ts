@@ -1,0 +1,58 @@
+import gql from "graphql-tag";
+
+const productQuery = gql`
+  query productQuery($id: Int) {
+    product(id: $id) {
+      id
+      name
+      shortDescription
+      description
+      brand {
+        id
+        name
+      }
+      category {
+        id
+        name
+      }
+      images(size: MD, withColorOnly: false) {
+        id
+        src
+        width
+        height
+        isTitle
+        attributeValue {
+          id
+          name
+          value
+        }
+      }
+      subProducts {
+        id
+        article
+        price
+        oldPrice
+        discount
+        attributes {
+          name
+          values {
+            id
+            name
+            value
+            description
+          }
+        }
+      }
+      attributes {
+        id
+        name
+        values {
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+
+export default productQuery;
