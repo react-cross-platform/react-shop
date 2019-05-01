@@ -1,13 +1,13 @@
 import { MyIcon } from "@src/modules/common";
 import { MyTouchFeedback } from "@src/modules/common/utils";
 import { Modal } from "antd-mobile";
-import gql from "graphql-tag";
 import update from "immutability-helper";
 import React from "react";
 import { graphql } from "react-apollo";
 
 import { DataCart } from "../Cart/Cart";
 import cartQuery from "../Cart/cartQuery.gql";
+import removeCartItemMutation from "./removeCartItemMutation.gql";
 
 const styles = require("./styles.css");
 
@@ -30,7 +30,7 @@ class RemoveCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
   removeCartItem = () => {
     const { submit, id } = this.props;
     Modal.alert(<div style={{ marginTop: "1rem" }}>Удалить из корзины?</div>, "", [
-      { text: "Нет", onPress: () => null },
+      { text: "Нет", onPress: () => null as any },
       { text: "Да", onPress: () => submit(id) }
     ]);
   };
@@ -48,7 +48,6 @@ class RemoveCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
   }
 }
 
-const REMOVE_CART_ITEM_MUTATION = gql(require("./removeCartItem.gql"));
 // const options: OperationOption<OwnProps, GraphQLProps> = {
 const options = {
   props: ({ ownProps, mutate }) => {
@@ -69,6 +68,6 @@ const options = {
   }
 };
 
-export default graphql<GraphQLProps, OwnProps>(REMOVE_CART_ITEM_MUTATION, options as any)(
+export default graphql<GraphQLProps, OwnProps>(removeCartItemMutation, options as any)(
   RemoveCartItem as any
 ) as any;

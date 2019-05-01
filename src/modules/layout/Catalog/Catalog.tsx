@@ -5,6 +5,7 @@ import * as React from "react";
 import { graphql, QueryResult } from "react-apollo";
 
 import LoadingMask from "../LoadingMask/LoadingMask";
+import categoriesQuery from "./categoriesQuery.gql";
 
 const styles = require("./styles.css");
 
@@ -49,6 +50,4 @@ class Catalog extends React.Component<GraphQLProps, {}> {
   }
 }
 
-const CATEGORIES_QUERY = gql(require("./categoriesQuery.gql"));
-
-export default graphql(CATEGORIES_QUERY)(Catalog);
+export default graphql(categoriesQuery)(Catalog);

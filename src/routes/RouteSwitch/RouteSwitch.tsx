@@ -32,7 +32,7 @@ const Routes = ({ Component, params }) => {
       <Route path={PATH_NAMES.flatpages} component={FlatpagesPage} />
       <Route path={PATH_NAMES.catalog} component={CatalogPage} />
       <Route path={PATH_NAMES.category} component={CategoryPage} />
-      <Route path={PATH_NAMES.sale} component={SalePage} />
+      <Route path={PATH_NAMES.sale} component={SalePage as any} />
       <Route path={PATH_NAMES.product} component={ProductPage} />
       <Route path={PATH_NAMES.cart} component={CartPage} />
     </Component>

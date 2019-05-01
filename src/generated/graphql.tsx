@@ -16,7 +16,7 @@ export namespace CartQuery {
   export type Query = {
     __typename?: "Query";
 
-    cart: Cart;
+    cart: Maybe<Cart>;
   };
 
   export type Cart = {
@@ -112,7 +112,7 @@ export namespace CartQuery {
 
     isTitle: boolean;
 
-    attributeValue: AttributeValue;
+    attributeValue: Maybe<AttributeValue>;
   };
 
   export type AttributeValue = {
@@ -123,6 +123,51 @@ export namespace CartQuery {
     name: Maybe<string>;
 
     value: Maybe<string>;
+  };
+}
+
+export namespace UpdateCartMutation {
+  export type Variables = {
+    phone: string;
+    email?: Maybe<string>;
+    firstName?: Maybe<string>;
+    lastName?: Maybe<string>;
+    city?: Maybe<string>;
+    address?: Maybe<string>;
+    comment?: Maybe<string>;
+    finish?: Maybe<boolean>;
+  };
+
+  export type Mutation = {
+    __typename?: "Mutation";
+
+    updateCart: Maybe<UpdateCart>;
+  };
+
+  export type UpdateCart = {
+    __typename?: "UpdateCart";
+
+    cart: Cart;
+  };
+
+  export type Cart = {
+    __typename?: "CartType";
+
+    id: string;
+
+    phone: string;
+
+    email: Maybe<string>;
+
+    firstName: Maybe<string>;
+
+    lastName: Maybe<string>;
+
+    city: string;
+
+    address: string;
+
+    comment: string;
   };
 }
 
@@ -315,7 +360,7 @@ export namespace AllProductsQuery {
 
     isTitle: boolean;
 
-    attributeValue: AttributeValue;
+    attributeValue: Maybe<AttributeValue>;
   };
 
   export type AttributeValue = {
@@ -425,7 +470,7 @@ export namespace ProductQuery {
 
     isTitle: boolean;
 
-    attributeValue: AttributeValue;
+    attributeValue: Maybe<AttributeValue>;
   };
 
   export type AttributeValue = {

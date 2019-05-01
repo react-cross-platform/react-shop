@@ -11,6 +11,7 @@ import { PATH_NAMES } from "@src/routes";
 import { IPage } from "@src/routes/interfaces";
 import update from "immutability-helper";
 import { throttle } from "lodash";
+import Lottie from "lottie-react-web";
 import { compile } from "path-to-regexp";
 import * as queryString from "query-string";
 import * as React from "react";
@@ -130,7 +131,7 @@ class CategoryPage extends React.Component<Props, State> {
       }
     }
 
-    const title = dataCategory && !dataCategory.loading ? dataCategory.category!.name : "Скидки";
+    const title = dataCategory.category ? dataCategory.category!.name : "Скидки";
     if (title !== this.state.title) {
       this.setState({ title });
     }
@@ -225,7 +226,7 @@ class CategoryPage extends React.Component<Props, State> {
         {(dataCategory && dataCategory.loading) ||
         dataAllProducts.loading ||
         !dataAllProducts.allProducts ? (
-          <LoadingMask />
+          this._renderLoading()
         ) : (
           <Aux>
             <div className={styles.CategoryPage}>
@@ -290,7 +291,7 @@ class CategoryPage extends React.Component<Props, State> {
                           <Product
                             attributeValueIds={this.getCheckedAttributeValueIds()}
                             key={i}
-                            {...product as any}  // FIXME: any wasn't
+                            {...product as any} // FIXME: any wasn't
                           />
                         );
                       })}
@@ -413,6 +414,21 @@ class CategoryPage extends React.Component<Props, State> {
         });
       }
     }
+  };
+
+  private _renderLoading = () => {
+    if (this.props.location.pathname === "/sale") {
+      return (
+        <div style={{ paddingTop: "150px" }}>
+          <Lottie
+            options={{
+              animationData: require("./sale.json")
+            }}
+          />
+        </div>
+      );
+    }
+    return <LoadingMask />;
   };
 }
 

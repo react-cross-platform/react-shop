@@ -9,12 +9,6 @@
     "stage-0"
   ],
   "plugins": [
-    [
-      "import",
-      {
-        "style": true,
-        "libraryName": "antd-mobile"
-      }
-    ]
+    ["import", { "libraryName": "antd-mobile", "style": "css" }] // `style: true` for less
   ]
 }

@@ -1,9 +1,9 @@
 import { MyTouchFeedback } from "@src/modules/common/utils";
 import { History } from "history";
+import Lottie from "lottie-react-web";
 import * as React from "react";
 
 const styles = require("./styles.css");
-
 interface OwnProps {
   history: History;
 }
@@ -16,7 +16,13 @@ class EmptyCart extends React.Component<OwnProps, State> {
     return (
       <MyTouchFeedback>
         <div onClick={history.goBack} className={styles.EmptyCart}>
-          <img className={styles.icon} src={require("./sad_smile.png")} />
+        <div style={{height: "300px"}}>
+          <Lottie
+            options={{
+              animationData: require("./empty.json")
+            }}
+          />
+          </div>
           <div className={styles.title}>Корзина пуста</div>
           <div className={styles.continue}>нажмите чтобы закрыть</div>
         </div>

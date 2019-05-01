@@ -1,11 +1,11 @@
 import { CartQuery } from "@src/generated/graphql";
-import gql from "graphql-tag";
 import update from "immutability-helper";
 import React from "react";
 import { graphql } from "react-apollo";
 
 import { DataCart } from "../Cart/Cart";
 import cartQuery from "../Cart/cartQuery.gql";
+import addCartItemMutation from "./addCartItemMutation.gql";
 
 const styles = require("./styles.css");
 
@@ -29,7 +29,6 @@ class AddCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
   }
 }
 
-const ADD_CART_ITEM_MUTATION = gql(require("./addCartItem.gql"));
 // const options: OperationOption<OwnProps, GraphQLProps> = {
 const options = {
   props: ({ ownProps, mutate }) => {
@@ -65,4 +64,4 @@ const options = {
   }
 };
 
-export default graphql<GraphQLProps, OwnProps>(ADD_CART_ITEM_MUTATION, options as any)(AddCartItem) as any;
+export default graphql<GraphQLProps, OwnProps>(addCartItemMutation, options as any)(AddCartItem) as any;

@@ -1,9 +1,14 @@
 import { Icon } from "antd-mobile";
-import { IconPropType } from "antd-mobile/lib/icon";
+// import { IconPropType } from "antd-mobile/lib/icon";
 import * as React from "react";
 
-interface Props extends IconPropType {
+// interface Props extends IconPropType {
+interface Props {
+  className?: string;
   type: any;
+  size?: any;
+  style?: any;
+  onClick?: any;
 }
 
 const MyIcon = ({
@@ -11,7 +16,7 @@ const MyIcon = ({
   size,
   className = "",
   ...restProps
-}: Props): JSX.Element => {
+}: Props): any => {
   return type.startsWith("#")
     ? <svg
         className={`${size ? `am-icon-${size}` : ""} ${className}`}

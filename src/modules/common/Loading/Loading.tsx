@@ -1,3 +1,6 @@
+// Lottie
+// loading https://lottiefiles.com/4584-mall
+
 import { MyIcon } from "@src/modules/common";
 import { Flex } from "antd-mobile";
 import * as React from "react";

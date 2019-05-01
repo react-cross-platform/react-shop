@@ -53,14 +53,15 @@ class Sorting extends React.Component<Props, State> {
         <Popover
           classNme={styles.Sorting}
           {...sortingProps}
-          overlay={items.map(sort =>
+          overlay={items.map((sort, i) =>
             <Popover.Item
-              onVisibleChange={this.toggleSorting}
+              key={i}
+              // onVisibleChange={this.toggleSorting}
               className={styles.sortingItem}
               style={{
                 color: sort.isSelected ? "orange" : "black"
               }}
-              value={sort.value}
+              // value={sort.value}
               icon={<MyIcon type={ICONS_MAP[sort.icon]} size="md" />}
             >
               {sort.name}

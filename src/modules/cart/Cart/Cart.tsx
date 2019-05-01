@@ -63,7 +63,7 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
       return <LoadingMask />;
     }
 
-    const cart: CartQuery.Cart = data.cart;
+    const cart: any = data.cart;
     const amount = getCartAmount(cart);
     if (amount === 0) {
       return finishedId ? <FinishedCart id={finishedId} /> : <EmptyCart history={history} />;

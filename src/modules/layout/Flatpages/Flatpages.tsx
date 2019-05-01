@@ -5,18 +5,18 @@ import { LoadingMask } from "@src/modules/layout";
 import { PATH_NAMES } from "@src/routes";
 import { IPage } from "@src/routes/interfaces";
 import { Accordion, Flex } from "antd-mobile";
-import gql from "graphql-tag";
 import * as React from "react";
 import { graphql, QueryResult } from "react-apollo";
 import { withRouter } from "react-router";
 import { compose } from "redux";
 
+import flatpagesQuery from "./flatpagesQuery.gql";
+
 const renderHTML = require("react-render-html");
 
 const styles = require("./styles.css");
 
-interface IFlatpagesData extends QueryResult, FlatpagesQuery.Query {
-}
+interface IFlatpagesData extends QueryResult, FlatpagesQuery.Query {}
 
 interface GraphQLProps {
   data: IFlatpagesData;
@@ -80,48 +80,44 @@ class Flatpages extends React.Component<Props, {}> {
   };
 
   render() {
-    const { data: { loading, flatpages }, location: { pathname } } = this.props;
+    const {
+      data: { loading, flatpages },
+      location: { pathname }
+    } = this.props;
     if (loading) {
       return <LoadingMask />;
     }
     return (
       <div>
-        {pathname !== PATH_NAMES.flatpages &&
-          <div className={styles.title}>Инфо</div>}
+        {pathname !== PATH_NAMES.flatpages && <div className={styles.title}>Инфо</div>}
         <Accordion
           accordion={true}
           className={styles.Flatpages}
           // defaultActiveKey={flatpages![0].id}
         >
-          {flatpages!.map(page =>
+          {flatpages!.map(page => (
             <Accordion.Panel
               key={page.id}
               header={
                 <MyTouchFeedback>
                   <Flex>
-                    <MyIcon
-                      className={styles.icon}
-                      type={this.getIcon(page.id)}
-                    />
-                    <div>
-                      {page.name}
-                    </div>
+                    <MyIcon className={styles.icon} type={this.getIcon(page.id)} />
+                    <div>{page.name}</div>
                   </Flex>
                 </MyTouchFeedback>
               }
               className={styles.header}
             >
-              <div className={styles.content}>
-                {renderHTML(page.content)}
-              </div>
+              <div className={styles.content}>{renderHTML(page.content)}</div>
             </Accordion.Panel>
-          )}
+          ))}
         </Accordion>
       </div>
     );
   }
 }
 
-const FLATPAGES_QUERY = gql(require("./flatpagesQuery.gql"));
-
-export default compose(withRouter, graphql(FLATPAGES_QUERY))(Flatpages);
+export default compose(
+  withRouter,
+  graphql(flatpagesQuery)
+)(Flatpages);

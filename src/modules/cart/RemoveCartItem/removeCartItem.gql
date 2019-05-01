@@ -1,5 +1,0 @@
-mutation removeCartItem($id: Int!) {
-  removeCartItem(id: $id) {
-    totalPrice
-  }
-}

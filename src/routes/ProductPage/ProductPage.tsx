@@ -12,7 +12,6 @@ import { IProductReducer } from "@src/modules/product/reducer";
 import { IRootReducer } from "@src/rootReducer";
 import ScrollToTop from "@src/utils/ScrollToTop";
 import { Flex, WhiteSpace, WingBlank } from "antd-mobile";
-import { description } from "antd-mobile/lib/popover/demo/basic.native";
 import { compile } from "path-to-regexp";
 import * as queryString from "query-string";
 import * as React from "react";
@@ -292,7 +291,7 @@ class Product extends React.Component<Props, {}> {
             )}
 
             {/* Product description section */}
-            {description && (
+            {product.description && (
               <Aux>
                 <WhiteSpace />
                 <WingBlank>

@@ -1,8 +1,9 @@
 import { CartQuery } from "@src/generated/graphql";
 import { MyTouchFeedback } from "@src/modules/common/utils";
-import gql from "graphql-tag";
 import React from "react";
 import { graphql } from "react-apollo";
+
+import updateCartItemMutation from "./updateCartItemMutation.gql";
 
 const styles = require("./styles.css");
 
@@ -44,8 +45,6 @@ class UpdateCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
   }
 }
 
-const UPDATE_CART_ITEM_MUTATION = gql(require("./updateCartItem.gql"));
-
 const _options = {
   props: ({ ownProps, mutate }) => {
     return {
@@ -56,6 +55,6 @@ const _options = {
   }
 };
 
-export default graphql<GraphQLProps, OwnProps>(UPDATE_CART_ITEM_MUTATION, _options as any)(
+export default graphql<GraphQLProps, OwnProps>(updateCartItemMutation, _options as any)(
   UpdateCartItem as any
 ) as any;

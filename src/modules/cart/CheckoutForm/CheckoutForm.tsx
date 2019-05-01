@@ -2,7 +2,6 @@ import { Dispatch } from "@src/interfaces";
 import { MyTouchFeedback } from "@src/modules/common/utils";
 import { Button, Flex, InputItem, List, Modal, SegmentedControl, TextareaItem } from "antd-mobile";
 import { FormikProps, withFormik } from "formik";
-import gql from "graphql-tag";
 import * as React from "react";
 import { graphql } from "react-apollo";
 import { connect } from "react-redux";
@@ -12,6 +11,7 @@ import Yup from "yup";
 import { DataCart } from "../Cart/Cart";
 import cartQuery from "../Cart/cartQuery.gql";
 import { ACTION_FINISH_CART } from "../reducer";
+import updateCartMutation from "./updateCartMutation.gql";
 
 const styles = require("./styles.css");
 
@@ -128,62 +128,66 @@ class CheckoutForm extends React.Component<Props, State> {
               />
             </Flex>
           </List.Item>
-          {this.state.region === BY_KIEV
-            ? <TextareaItem
+          {this.state.region === BY_KIEV ? (
+            <TextareaItem
+              autoHeight={true}
+              clear={true}
+              name="address"
+              onFocus={() => this.handleFocus("address")}
+              onBlur={value => this.handleBlur("address", value)}
+              onChange={value => this.handleChange("address", value)}
+              ref={input => {
+                this.addressField = input;
+              }}
+              placeholder="дом, улица, квартира"
+              title="Адрес"
+              value={values.address}
+            />
+          ) : (
+            <div />
+          )}
+          {this.state.region === BY_COUNTRY ? (
+            <div className={styles.countryDelivery}>
+              <TextareaItem
                 autoHeight={true}
                 clear={true}
+                name="city"
+                ref={input => {
+                  this.cityField = input;
+                }}
+                onFocus={() => this.handleFocus("city")}
+                onBlur={value => this.handleBlur("city", value)}
+                onChange={value => this.handleChange("city", value)}
+                title="Город"
+                value={values.city}
+              />
+              <TextareaItem
+                clear={true}
+                error={!!errors.address}
                 name="address"
                 onFocus={() => this.handleFocus("address")}
                 onBlur={value => this.handleBlur("address", value)}
                 onChange={value => this.handleChange("address", value)}
-                ref={input => {
-                  this.addressField = input;
-                }}
-                placeholder="дом, улица, квартира"
-                title="Адрес"
+                placeholder="№ отделения Новой Почты"
+                title="НП"
                 value={values.address}
               />
-            : <div />}
-          {this.state.region === BY_COUNTRY
-            ? <div className={styles.countryDelivery}>
-                <TextareaItem
-                  autoHeight={true}
-                  clear={true}
-                  name="city"
-                  ref={input => {
-                    this.cityField = input;
-                  }}
-                  onFocus={() => this.handleFocus("city")}
-                  onBlur={value => this.handleBlur("city", value)}
-                  onChange={value => this.handleChange("city", value)}
-                  title="Город"
-                  value={values.city}
-                />
-                <TextareaItem
-                  clear={true}
-                  error={!!errors.address}
-                  name="address"
-                  onFocus={() => this.handleFocus("address")}
-                  onBlur={value => this.handleBlur("address", value)}
-                  onChange={value => this.handleChange("address", value)}
-                  placeholder="№ отделения Новой Почты"
-                  title="НП"
-                  value={values.address}
-                />
-                <TextareaItem
-                  autoHeight={true}
-                  clear={true}
-                  error={!!errors.lastName}
-                  name="lastName"
-                  onFocus={() => this.handleFocus("lastName")}
-                  onBlur={value => this.handleBlur("lastName", value)}
-                  onChange={value => this.handleChange("lastName", value)}
-                  placeholder="получателя на Новой Почте"
-                  title="Фамилия"
-                  value={values.lastName}
-                />
-              </div>
-            : <div />}
+              <TextareaItem
+                autoHeight={true}
+                clear={true}
+                error={!!errors.lastName}
+                name="lastName"
+                onFocus={() => this.handleFocus("lastName")}
+                onBlur={value => this.handleBlur("lastName", value)}
+                onChange={value => this.handleChange("lastName", value)}
+                placeholder="получателя на Новой Почте"
+                title="Фамилия"
+                value={values.lastName}
+              />
+            </div>
+          ) : (
+            <div />
+          )}
           <TextareaItem
             autoHeight={true}
             clear={true}
@@ -201,7 +205,7 @@ class CheckoutForm extends React.Component<Props, State> {
             className={styles.submit}
             disabled={!isValid || isSubmitting}
             loading={isSubmitting}
-            onClick={handleSubmit}
+            onClick={handleSubmit as any}
           >
             Завершить оформление
           </Button>
@@ -238,8 +242,6 @@ class CheckoutForm extends React.Component<Props, State> {
   };
 }
 
-const UPDATE_CART_MUTATION = gql(require("./updateCart.gql"));
-
 const INITIAL_VALUES = {
   phone: "380"
 };
@@ -247,10 +249,12 @@ const INITIAL_VALUES = {
 export default compose<any>(
   connect(),
   graphql<GraphQLProps, OwnProps>(cartQuery),
-  graphql(UPDATE_CART_MUTATION),
+  graphql(updateCartMutation),
   withFormik({
     validationSchema: Yup.object().shape({
-      phone: Yup.string().matches(/\d{12}/).required(),
+      phone: Yup.string()
+        .matches(/\d{12}/)
+        .required(),
       email: Yup.string().email()
     }),
     mapPropsToValues: (props: Props) => {
@@ -265,26 +269,22 @@ export default compose<any>(
     handleSubmit: (values, { props, setSubmitting, setErrors }) => {
       const { dispatch, mutate, data } = props;
       const { id } = data!.cart!;
-      Modal.alert(
-        <div style={{ marginTop: "1rem" }}>Завершить заказ?</div>,
-        "",
-        [
-          { text: "Нет", onPress: () => setSubmitting(false) },
-          {
-            text: "Да",
-            onPress: () => {
-              mutate({ variables: { ...values, finish: true } })
-                .then(res => {
-                  // Refetch Cart query to clear results from finished cart
-                  data!.refetch();
-                })
-                .then(res => {
-                  dispatch({ type: ACTION_FINISH_CART, id });
-                });
-            }
+      Modal.alert(<div style={{ marginTop: "1rem" }}>Завершить заказ?</div>, "", [
+        { text: "Нет", onPress: () => setSubmitting(false) },
+        {
+          text: "Да",
+          onPress: () => {
+            mutate({ variables: { ...values, finish: true } })
+              .then(res => {
+                // Refetch Cart query to clear results from finished cart
+                data!.refetch();
+              })
+              .then(res => {
+                dispatch({ type: ACTION_FINISH_CART, id });
+              });
           }
-        ]
-      );
+        }
+      ]);
     },
     displayName: "CheckoutForm"
   })

@@ -39,7 +39,7 @@ class CartTrigger extends React.Component<Props> {
   render() {
     const { data, router, isTransporant } = this.props;
     const { loading, cart } = data;
-    const amount = getCartAmount(cart);
+    const amount = getCartAmount(cart!);
     return (
       <MyTouchFeedback
         style={{

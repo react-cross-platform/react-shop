@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 const allProductsQuery = gql`
   query allProductsQuery(
     $categoryId: Int
+    $brandId: Int
     $withDiscountOnly: Boolean
     $filters: String
     $sorting: String
@@ -11,6 +12,7 @@ const allProductsQuery = gql`
   ) {
     allProducts(
       categoryId: $categoryId
+      brandId: $brandId
       withDiscountOnly: $withDiscountOnly
       filters: $filters
       sorting: $sorting

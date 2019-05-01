@@ -87,7 +87,7 @@ class Filters extends React.Component<Props, State> {
       <Flex
         className={styles.Filters}
         direction="column"
-        style={{ height: "100%", widht: "100%", overflowY: "hidden" }}
+        style={{ height: "100%", width: "100%", overflowY: "hidden" }}
       >
         {this.state.loading && <LoadingMask />}
 
