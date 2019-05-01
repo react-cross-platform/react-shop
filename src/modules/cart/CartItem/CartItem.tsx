@@ -1,3 +1,4 @@
+import { CartQuery } from "@src/generated/graphql";
 import { Devider, MyIcon, Price } from "@src/modules/common";
 import { MyTouchFeedback } from "@src/modules/common/utils";
 import { PATH_NAMES } from "@src/routes";
@@ -7,8 +8,7 @@ import * as queryString from "query-string";
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { RemoveCartItem, UpdateCartItem } from "../index";
-import { ICartItem } from "../model";
+import { RemoveCartItem, UpdateCartItem } from "..";
 
 const styles = require("./styles.css");
 
@@ -16,7 +16,7 @@ export const getCartItemTotalPrice = (price: number, amount: number) => {
   return price * amount;
 };
 
-interface OwnProps extends ICartItem {}
+interface OwnProps extends CartQuery.Items {}
 
 class CartItem extends React.Component<OwnProps, {}> {
   handleNavigation = (navigation, id, name) => {
@@ -39,9 +39,7 @@ class CartItem extends React.Component<OwnProps, {}> {
         search: queryString.stringify({
           sub_product_id: subProduct.id,
           attribute_value_ids:
-            attributeValues && attributeValues.length > 0
-              ? attributeValues[0].id
-              : ""
+            attributeValues && attributeValues.length > 0 ? attributeValues[0]!.id : ""
         }),
         state: {
           modal: true,
@@ -57,7 +55,7 @@ class CartItem extends React.Component<OwnProps, {}> {
           image.attributeValue &&
           attributeValues &&
           attributeValues.length > 0 &&
-          image.attributeValue.id === attributeValues[0].id
+          image.attributeValue.id === attributeValues[0]!.id
       );
       titleImage = filtered[0];
     }
@@ -93,14 +91,15 @@ class CartItem extends React.Component<OwnProps, {}> {
             </Flex>
             <Flex justify="between" className={styles.section}>
               <UpdateCartItem id={id} amount={amount} />
-              {color &&
+              {color && (
                 <MyIcon
                   className={styles.icon}
                   type={require("svg-sprite-loader!./checked-circle.svg")}
                   style={{
-                    fill: color.value
+                    fill: color.value!
                   }}
-                />}
+                />
+              )}
               <Price
                 price={price * amount}
                 oldPrice={(subProduct.oldPrice || 0) * amount}

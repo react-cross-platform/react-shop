@@ -1,7 +1,7 @@
+import { CategoriesQuery, CategoryQuery } from "@src/generated/graphql";
 import { Dispatch } from "@src/interfaces";
 import { ICatalogReducer } from "@src/modules/catalog/reducer";
 import { MyTouchFeedback } from "@src/modules/common/utils";
-import { ICategory } from "@src/modules/product/model";
 import { IRootReducer } from "@src/rootReducer";
 import { PATH_NAMES } from "@src/routes";
 import { IRouterReducer } from "@src/routes/interfaces";
@@ -20,24 +20,24 @@ interface StateProps {
 }
 
 interface OwnProps {
-  categories: [ICategory];
+  categories: CategoriesQuery.Categories[];
 }
 
 class SubCatalog extends React.Component<StateProps & OwnProps, {}> {
-  isViewed(category: ICategory) {
+  isViewed(category: CategoryQuery.Category) {
     const {
       catalog: { viewedCategoryIds }
     } = this.props;
     return viewedCategoryIds.indexOf(parseInt(category.id, 0)) !== -1;
   }
 
-  getPath(category: ICategory) {
+  getPath(category: CategoryQuery.Category) {
     return compile(PATH_NAMES.category)({
       id: category.id
     });
   }
 
-  isCurrentCategory = (category: ICategory) => {
+  isCurrentCategory = (category: CategoryQuery.Category) => {
     const {
       router: {
         location: { pathname }
@@ -71,7 +71,7 @@ class SubCatalog extends React.Component<StateProps & OwnProps, {}> {
                   justifyContent: "center"
                 }}
               >
-                <img className={styles.image} src={category.image.src || ""} />
+                <img className={styles.image} src={category.image!.src || ""} />
                 <div className={styles.name}>{category.name}</div>
               </Card>
             </MyTouchFeedback>

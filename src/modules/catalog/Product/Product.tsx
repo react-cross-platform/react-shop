@@ -1,15 +1,13 @@
+import { ProductQuery } from "@src/generated/graphql";
 import { MyIcon, Price } from "@src/modules/common";
 import { MyTouchFeedback } from "@src/modules/common/utils";
 import { Images } from "@src/modules/product";
-import { IImage } from "@src/modules/product/model";
 import { IRootReducer } from "@src/rootReducer";
 import { Card, Flex } from "antd-mobile";
 import { compile } from "path-to-regexp";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-
-import { IProduct } from "../../product/model";
 
 const styles = require("./styles.css");
 
@@ -21,12 +19,12 @@ interface StateProps {
   viewedProductIds: any;
 }
 
-interface OwnProps extends IProduct {
+interface OwnProps extends ProductQuery.Product {
   attributeValueIds: number[];
 }
 
 interface State {
-  titleImage: IImage;
+  titleImage: ProductQuery.Images;
 }
 
 interface Props extends OwnProps, StateProps {}
@@ -49,18 +47,18 @@ class Product extends React.Component<Props, State> {
     const minPrice = getMinOfArray(prices);
 
     const width = Math.round(window.innerWidth / 2) - 5;
-    const selectedImageIndex =
-      images.indexOf(titleImage) === -1 ? 0 : images.indexOf(titleImage);
+    const selectedImageIndex = images.indexOf(titleImage) === -1 ? 0 : images.indexOf(titleImage);
     return (
       <MyTouchFeedback>
         <div className={styles.Product} style={{ width }}>
           <Card>
-            {this.isViewed() &&
+            {this.isViewed() && (
               <MyIcon
                 type={require("!svg-sprite-loader!./viewed.svg")}
                 size="sm"
                 className={styles.isViewed}
-              />}
+              />
+            )}
             <Images
               selectedImageIndex={selectedImageIndex}
               images={images}
@@ -86,12 +84,11 @@ class Product extends React.Component<Props, State> {
                       }}
                       isSinglePrice={isSinglePrice}
                       price={subProduct.price}
-                      oldPrice={subProduct.oldPrice}
+                      oldPrice={subProduct.oldPrice!}
                     />
-                    {subProduct.discount > 0 &&
-                      <div className={styles.discount}>
-                        -{subProduct.discount}%
-                      </div>}
+                    {subProduct.discount! > 0 && (
+                      <div className={styles.discount}>-{subProduct.discount}%</div>
+                    )}
                   </Flex>
                 </div>
               </Link>
@@ -107,9 +104,7 @@ class Product extends React.Component<Props, State> {
     let titleImage;
     if (attributeValueIds.length > 0) {
       const titleImages = images.filter(
-        image =>
-          image.attributeValue &&
-          attributeValueIds.indexOf(image.attributeValue.id) !== -1
+        image => image.attributeValue && attributeValueIds.indexOf(image.attributeValue.id) !== -1
       );
       if (titleImages.length > 0) {
         titleImage = titleImages[0];
@@ -140,9 +135,7 @@ class Product extends React.Component<Props, State> {
       to: {
         pathname: compile(`/product/:id/`)({ id }),
         search:
-          attributeValueIds.length > 0
-            ? `?attribute_value_ids=${attributeValueIds.join(",")}`
-            : "",
+          attributeValueIds.length > 0 ? `?attribute_value_ids=${attributeValueIds.join(",")}` : "",
         state: {
           modal: true,
           title: `${brand.name} ${subProduct.article}`

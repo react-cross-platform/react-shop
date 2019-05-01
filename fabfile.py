@@ -29,6 +29,6 @@ def test_update():
         local('git push')
         run('git reset --hard')
         run('git pull -f')
-        run('git checkout test')
+        run('git checkout master')
         run('yarn')
         run('yarn run publish')

@@ -1,3 +1,4 @@
+import { AllProductsQuery } from "@src/generated/graphql";
 import { MyIcon } from "@src/modules/common";
 import { getPathName } from "@src/routes/CategoryPage/CategoryPage";
 import { Flex } from "antd-mobile";
@@ -7,17 +8,16 @@ import { Link } from "react-router-dom";
 
 import { MyHistory } from "../../../routes/interfaces";
 import { MyTouchFeedback } from "../../common/utils";
-import { IFilter } from "../model";
 
 const styles = require("./styles.css");
 
-export const getSelectedFilters = (filters: IFilter[]) => {
+export const getSelectedFilters = (filters: AllProductsQuery.Filters[]) => {
   return filters.filter(filter => filter.hasChecked);
 };
 
 interface OwnProps {
   categoryId: number;
-  filters: IFilter[];
+  filters: AllProductsQuery.Filters[];
   style?: any;
   history: MyHistory;
 
@@ -30,12 +30,11 @@ interface State {}
 interface Props extends OwnProps {}
 
 class SelectedFilters extends React.Component<Props, State> {
-
   shouldComponentUpdate(nextProps: Props, nextState: State) {
     return true;
   }
 
-  getUrl = (filter: IFilter) => {
+  getUrl = (filter: AllProductsQuery.Filters) => {
     const { categoryId, history } = this.props;
     const GET = queryString.parse(history.location.search);
     GET.filters = filter.resetUrl;
@@ -53,23 +52,21 @@ class SelectedFilters extends React.Component<Props, State> {
         direction={openFilters ? "row" : "column"}
         wrap="wrap"
       >
-        {getSelectedFilters(filters).map((filter) =>
-          filter.values.filter((v) => v.isChecked).map((value, i) =>
-
-          <MyTouchFeedback key={i}>
-            <Link
-            to={this.getUrl(filter)}
-             className={styles.item}>
-              <MyIcon
-                className={styles.closeIcon}
-                type={require("!svg-sprite-loader!./circle-close.svg")}
-              />
-              <span className={styles.label}>
-                {value.name}
-              </span>
-            </Link>
-          </MyTouchFeedback>
-          ))}
+        {getSelectedFilters(filters).map(filter =>
+          filter.values
+            .filter(v => v.isChecked)
+            .map((value, i) => (
+              <MyTouchFeedback key={i}>
+                <Link to={this.getUrl(filter)} className={styles.item}>
+                  <MyIcon
+                    className={styles.closeIcon}
+                    type={require("!svg-sprite-loader!./circle-close.svg")}
+                  />
+                  <span className={styles.label}>{value.name}</span>
+                </Link>
+              </MyTouchFeedback>
+            ))
+        )}
       </Flex>
     );
   }

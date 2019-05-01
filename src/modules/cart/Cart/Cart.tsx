@@ -1,36 +1,32 @@
-import { Price } from "@src/modules/common/index";
-import { MyTouchFeedback } from "@src/modules/common/utils";
+import { CartQuery } from "@src/generated/graphql";
+import { Price } from "@src/modules/common";
+import { LoadingMask } from "@src/modules/layout";
 import { IRootReducer } from "@src/rootReducer";
-import { PATH_NAMES } from "@src/routes/index";
+import { PATH_NAMES } from "@src/routes";
 import { IRouterReducer } from "@src/routes/interfaces";
-import { Button, Flex } from "antd-mobile";
-import gql from "graphql-tag";
+import { Flex } from "antd-mobile";
 import { History } from "history";
 import * as React from "react";
-import { graphql, QueryProps } from "react-apollo";
+import { graphql, QueryResult } from "react-apollo";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import { compose } from "redux";
 
-import LoadingMask from "../../layout/LoadingMask/LoadingMask";
+import { CartItem, CheckoutForm, EmptyCart, FinishedCart } from "..";
 import { getCartItemTotalPrice } from "../CartItem/CartItem";
-import { CartItem, EmptyCart, FinishedCart, CheckoutForm } from "../index";
-import { ICart } from "../model";
-import { ICartReducer } from "../reducer";
+import { CartReducer } from "../reducer";
+import cartQuery from "./cartQuery.gql";
 
 const styles = require("./styles.css");
 
 interface StateProps {
-  cartReducer: ICartReducer;
+  cartReducer: CartReducer;
   router: IRouterReducer;
 }
 
-export interface IDataCart extends QueryProps {
-  cart?: ICart;
-}
+export interface DataCart extends QueryResult, CartQuery.Query {}
 
 interface GraphQLProps {
-  data: IDataCart;
+  data: DataCart;
 }
 
 interface OwnProps {
@@ -38,7 +34,7 @@ interface OwnProps {
   isModal: boolean;
 }
 
-const getCartTotalPrice = (cart: ICart): number => {
+const getCartTotalPrice = (cart: CartQuery.Cart): number => {
   let totalPrice = 0;
   if (cart && cart.items) {
     cart.items.forEach(item => {
@@ -49,7 +45,7 @@ const getCartTotalPrice = (cart: ICart): number => {
   return totalPrice;
 };
 
-export const getCartAmount = (cart?: ICart): number => {
+export const getCartAmount = (cart?: CartQuery.Cart): number => {
   return cart && cart.items ? cart.items.length : 0;
 };
 
@@ -67,23 +63,20 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
       return <LoadingMask />;
     }
 
-    const cart = data.cart as ICart;
+    const cart: CartQuery.Cart = data.cart;
     const amount = getCartAmount(cart);
     if (amount === 0) {
-      return finishedId
-        ? <FinishedCart id={finishedId} />
-        : <EmptyCart history={history} />;
+      return finishedId ? <FinishedCart id={finishedId} /> : <EmptyCart history={history} />;
     }
 
     return (
       <Flex direction="column" justify="between" className={styles.Cart}>
         <div className={styles.section}>
           <div className={styles.title}>
-            Итого к оплате:{" "}
-            <Price isSinglePrice={true} price={getCartTotalPrice(cart)} />
+            Итого к оплате: <Price isSinglePrice={true} price={getCartTotalPrice(cart)} />
           </div>
           <div className={styles.items}>
-            {cart.items.map((item, index) =>
+            {cart.items.map((item, index) => (
               <CartItem
                 key={index}
                 id={item.id}
@@ -92,7 +85,7 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
                 price={item.price}
                 amount={item.amount}
               />
-            )}
+            ))}
           </div>
         </div>
 
@@ -117,9 +110,7 @@ const mapStateToProps = (state: IRootReducer): StateProps => ({
   router: state.router
 });
 
-export const CART_QUERY = gql(require("./cart.gql"));
-
 export default compose(
-  graphql<GraphQLProps, OwnProps>(CART_QUERY),
+  graphql<GraphQLProps, OwnProps>(cartQuery),
   connect<StateProps, {}, OwnProps>(mapStateToProps)
-)(Cart);
+)(Cart) as any;

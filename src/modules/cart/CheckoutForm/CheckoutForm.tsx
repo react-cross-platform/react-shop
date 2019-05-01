@@ -1,14 +1,6 @@
 import { Dispatch } from "@src/interfaces";
 import { MyTouchFeedback } from "@src/modules/common/utils";
-import {
-  Button,
-  Flex,
-  InputItem,
-  List,
-  Modal,
-  SegmentedControl,
-  TextareaItem
-} from "antd-mobile";
+import { Button, Flex, InputItem, List, Modal, SegmentedControl, TextareaItem } from "antd-mobile";
 import { FormikProps, withFormik } from "formik";
 import gql from "graphql-tag";
 import * as React from "react";
@@ -17,9 +9,8 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import Yup from "yup";
 
-import { Aux } from "../../common/utils";
-import { CART_QUERY, IDataCart } from "../Cart/Cart";
-import { ICheckout } from "../model";
+import { DataCart } from "../Cart/Cart";
+import cartQuery from "../Cart/cartQuery.gql";
 import { ACTION_FINISH_CART } from "../reducer";
 
 const styles = require("./styles.css");
@@ -38,7 +29,7 @@ interface DispatchProps {
 }
 
 interface OwnProps {
-  data?: IDataCart;
+  data?: DataCart;
 }
 
 interface State {
@@ -48,7 +39,8 @@ interface State {
 interface Props
   extends OwnProps,
     DispatchProps,
-    FormikProps<ICheckout>,
+    // FormikProps<ICheckout>,  // FIXME
+    FormikProps<any>,
     GraphQLProps {}
 
 class CheckoutForm extends React.Component<Props, State> {
@@ -254,7 +246,7 @@ const INITIAL_VALUES = {
 
 export default compose<any>(
   connect(),
-  graphql<GraphQLProps, OwnProps>(CART_QUERY),
+  graphql<GraphQLProps, OwnProps>(cartQuery),
   graphql(UPDATE_CART_MUTATION),
   withFormik({
     validationSchema: Yup.object().shape({

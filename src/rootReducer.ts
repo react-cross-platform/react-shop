@@ -3,23 +3,20 @@ import { routerReducer } from "react-router-redux";
 import { combineReducers } from "redux";
 
 import client from "./graphqlClient";
-import { default as cart, ICartReducer } from "./modules/cart/reducer";
-import { default as catalog, ICatalogReducer } from "./modules/catalog/reducer";
-import { default as product, IProductReducer } from "./modules/product/reducer";
+import cart, { CartReducer } from "./modules/cart/reducer";
+import catalog, { ICatalogReducer } from "./modules/catalog/reducer";
+import product, { IProductReducer } from "./modules/product/reducer";
 
 export interface IRootReducer {
-  apollo: {};
   router: IRouterReducer;
   catalog: ICatalogReducer;
   product: IProductReducer;
-  cart: ICartReducer;
+  cart: CartReducer;
 }
 
-const apollo = client.reducer();
 const router = routerReducer;
 
 const rootReducers = combineReducers({
-  apollo,
   catalog,
   product,
   cart,

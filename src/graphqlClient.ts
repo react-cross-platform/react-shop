@@ -1,27 +1,13 @@
-import ApolloClient, { createBatchingNetworkInterface } from "apollo-client";
-import { createNetworkInterface } from "react-apollo";
-
-// const USE_QUERY_BATCHING = true;
-const USE_QUERY_BATCHING = false;
-
-const opts = {
-  credentials: "include"
-} as any;
-
-const networkInterface = USE_QUERY_BATCHING
-  ? createBatchingNetworkInterface({
-      uri: process.env.GRAPHQL_ENDPOINT!,
-      opts,
-      batchInterval: 10, // in milliseconds
-      batchMax: 10
-    })
-  : createNetworkInterface({
-      uri: process.env.GRAPHQL_ENDPOINT!,
-      opts
-    });
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { ApolloClient } from "apollo-client";
+import { HttpLink } from "apollo-link-http";
 
 const client = new ApolloClient({
-  networkInterface
+  link: new HttpLink({
+    uri: process.env.GRAPHQL_ENDPOINT,
+    credentials: "include"
+  }),
+  cache: new InMemoryCache()
 });
 
 export default client;

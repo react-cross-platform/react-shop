@@ -1,3 +1,4 @@
+import { ProductQuery } from "@src/generated/graphql";
 import { Dispatch } from "@src/interfaces";
 import { MyIcon, Price } from "@src/modules/common";
 import { IRootReducer } from "@src/rootReducer";
@@ -6,7 +7,6 @@ import * as React from "react";
 import { connect } from "react-redux";
 
 import { ACTION_SET_SUB_PRODUCT_ID } from "../constants";
-import { ISubProduct } from "../model";
 import { IProductReducer } from "../reducer";
 
 const styles = require("./styles.css");
@@ -20,24 +20,27 @@ interface DispatchProps {
 }
 
 interface OwnProps {
-  subProducts: [ISubProduct];
+  subProducts: ProductQuery.SubProducts[];
   subProductIdsInCart: number[];
 }
 
 interface Props extends StateProps, DispatchProps, OwnProps {}
 
 class SubProducts extends React.Component<Props, {}> {
-  isActive = (subProduct: ISubProduct) => {
+  isActive = (subProduct: ProductQuery.SubProducts) => {
     return parseInt(subProduct.id, 0) === this.props.product.subProductId;
   };
 
-  inCart = (subProduct: ISubProduct) => {
+  inCart = (subProduct: ProductQuery.SubProducts) => {
     const { subProductIdsInCart } = this.props;
     return subProductIdsInCart.indexOf(parseInt(subProduct.id, 0)) !== -1;
   };
 
   selectSubProduct = (id: number) => {
-    const { dispatch, product: { attributeValueIds } } = this.props;
+    const {
+      dispatch,
+      product: { attributeValueIds }
+    } = this.props;
     dispatch({
       type: ACTION_SET_SUB_PRODUCT_ID,
       subProductId: id,
@@ -49,27 +52,29 @@ class SubProducts extends React.Component<Props, {}> {
     const { subProducts } = this.props;
     return (
       <List>
-        {subProducts.map((subProduct, index) =>
+        {subProducts.map((subProduct, index) => (
           <List.Item
             key={index}
             platform="android"
             onClick={() => this.selectSubProduct(parseInt(subProduct.id, 0))}
             thumb={
-              this.isActive(subProduct)
-                ? <MyIcon
-                    className={styles.icon}
-                    type={require("svg-sprite-loader!./checked-circle.svg")}
-                    style={{
-                      fill: this.inCart(subProduct) ? "green" : "orange"
-                    }}
-                  />
-                : <MyIcon
-                    className={styles.icon}
-                    type={require("svg-sprite-loader!./empty-circle.svg")}
-                    style={{
-                      fill: this.inCart(subProduct) ? "green" : "gray"
-                    }}
-                  />
+              this.isActive(subProduct) ? (
+                <MyIcon
+                  className={styles.icon}
+                  type={require("svg-sprite-loader!./checked-circle.svg")}
+                  style={{
+                    fill: this.inCart(subProduct) ? "green" : "orange"
+                  }}
+                />
+              ) : (
+                <MyIcon
+                  className={styles.icon}
+                  type={require("svg-sprite-loader!./empty-circle.svg")}
+                  style={{
+                    fill: this.inCart(subProduct) ? "green" : "gray"
+                  }}
+                />
+              )
             }
             extra={
               <span
@@ -80,7 +85,7 @@ class SubProducts extends React.Component<Props, {}> {
                 <Price
                   isSinglePrice={true}
                   price={subProduct.price}
-                  oldPrice={subProduct.oldPrice}
+                  oldPrice={subProduct.oldPrice!}
                   style={{
                     fontWeight: this.isActive(subProduct) ? "bold" : "normal",
                     alignItems: "flex-end"
@@ -91,7 +96,7 @@ class SubProducts extends React.Component<Props, {}> {
           >
             {subProduct.article}
           </List.Item>
-        )}
+        ))}
       </List>
     );
   }
@@ -101,6 +106,4 @@ const mapStateToProps = (state: IRootReducer): StateProps => ({
   product: state.product
 });
 
-export default connect<StateProps, DispatchProps, OwnProps>(mapStateToProps)(
-  SubProducts
-);
+export default connect<StateProps, DispatchProps, OwnProps>(mapStateToProps)(SubProducts);

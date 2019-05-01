@@ -1,16 +1,15 @@
+import { CartQuery } from "@src/generated/graphql";
 import { MyTouchFeedback } from "@src/modules/common/utils";
 import gql from "graphql-tag";
 import React from "react";
-import { graphql, OperationOption } from "react-apollo";
-
-import { ICartItem } from "../model";
+import { graphql } from "react-apollo";
 
 const styles = require("./styles.css");
 
 interface IUpdateCartItem {
   data: {
     updateCartItem: {
-      cartItem: ICartItem;
+      cartItem: CartQuery.Items;
     };
   };
 }
@@ -35,16 +34,10 @@ class UpdateCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
     const options = new Array(10).keys();
     return (
       <MyTouchFeedback>
-        <select
-          value={amount}
-          onChange={this.onChange}
-          className={styles.UpdateCartItem}
-        >
-          {[...Array(10).keys()].map(i =>
-            <option key={i}>
-              {i + 1}
-            </option>
-          )}
+        <select value={amount} onChange={this.onChange} className={styles.UpdateCartItem}>
+          {[...Array(10).keys()].map(i => (
+            <option key={i}>{i + 1}</option>
+          ))}
         </select>
       </MyTouchFeedback>
     );
@@ -53,7 +46,7 @@ class UpdateCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
 
 const UPDATE_CART_ITEM_MUTATION = gql(require("./updateCartItem.gql"));
 
-const options: OperationOption<OwnProps, GraphQLProps> = {
+const _options = {
   props: ({ ownProps, mutate }) => {
     return {
       submit: (id: number, amount: number) => {
@@ -63,7 +56,6 @@ const options: OperationOption<OwnProps, GraphQLProps> = {
   }
 };
 
-export default graphql<GraphQLProps, OwnProps>(
-  UPDATE_CART_ITEM_MUTATION,
-  options
-)(UpdateCartItem);
+export default graphql<GraphQLProps, OwnProps>(UPDATE_CART_ITEM_MUTATION, _options as any)(
+  UpdateCartItem as any
+) as any;

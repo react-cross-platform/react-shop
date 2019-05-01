@@ -6,6 +6,4 @@ import SelectedFilters from "./SelectedFilters/SelectedFilters";
 import ShowOnlyViewed from "./ShowOnlyViewed/ShowOnlyViewed";
 import Sorting from "./Sorting/Sorting";
 
-import * as model from "./model";
-
-export { Filters, Nav, Product, ProductsCounter, SelectedFilters, ShowOnlyViewed, Sorting, model };
+export { Filters, Nav, Product, ProductsCounter, SelectedFilters, ShowOnlyViewed, Sorting };

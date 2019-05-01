@@ -1,3 +1,4 @@
+import { FlatpagesQuery } from "@src/generated/graphql";
 import { MyIcon } from "@src/modules/common";
 import { MyTouchFeedback } from "@src/modules/common/utils";
 import { LoadingMask } from "@src/modules/layout";
@@ -6,18 +7,15 @@ import { IPage } from "@src/routes/interfaces";
 import { Accordion, Flex } from "antd-mobile";
 import gql from "graphql-tag";
 import * as React from "react";
-import { graphql, QueryProps } from "react-apollo";
+import { graphql, QueryResult } from "react-apollo";
 import { withRouter } from "react-router";
 import { compose } from "redux";
-
-import { IFlatpage } from "../model";
 
 const renderHTML = require("react-render-html");
 
 const styles = require("./styles.css");
 
-interface IFlatpagesData extends QueryProps {
-  flatpages?: [IFlatpage];
+interface IFlatpagesData extends QueryResult, FlatpagesQuery.Query {
 }
 
 interface GraphQLProps {
@@ -124,6 +122,6 @@ class Flatpages extends React.Component<Props, {}> {
   }
 }
 
-const FLATPAGES_QUERY = gql(require("./flatpages.gql"));
+const FLATPAGES_QUERY = gql(require("./flatpagesQuery.gql"));
 
 export default compose(withRouter, graphql(FLATPAGES_QUERY))(Flatpages);

@@ -2,11 +2,11 @@ import update from "immutability-helper";
 
 export const ACTION_FINISH_CART = "cart.ACTION_FINISH_CART";
 
-export interface ICartReducer {
+export interface CartReducer {
   readonly finishedId?: number;
 }
 
-const DEFAULT: ICartReducer = {
+const DEFAULT: CartReducer = {
   finishedId: undefined
 };
 

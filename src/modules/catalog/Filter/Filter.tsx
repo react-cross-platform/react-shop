@@ -1,24 +1,19 @@
+import { AllProductsQuery } from "@src/generated/graphql";
 import { MyIcon } from "@src/modules/common";
 import { Accordion, Flex, List, Switch } from "antd-mobile";
 import { compile } from "path-to-regexp";
 import * as queryString from "query-string";
 import * as React from "react";
-import { QueryProps } from "react-apollo";
 
 import { PATH_NAMES } from "../../../routes/RouteSwitch/RouteSwitch";
-import { IAllProducts, IFilter, IFilterValue } from "../model";
 
 const styles = require("./styles.css");
 
-const getSelected = (fitlers: IFilter[]) => {};
-
-interface IDataFilteredProducts extends QueryProps {
-  allProducts: IAllProducts;
-}
+const getSelected = (fitlers: AllProductsQuery.Filters[]) => {};
 
 interface OwnProps {
   setLoading: (loading: boolean, callback?: any) => void;
-  filter: IFilter;
+  filter: AllProductsQuery.Filters;
 
   refetch: any;
   categoryId: number;
@@ -26,8 +21,7 @@ interface OwnProps {
   found: number;
 }
 
-export interface GraphQLProps {
-}
+export interface GraphQLProps {}
 
 interface State {
   checkedValueIds: number[];
@@ -39,17 +33,12 @@ class Filter extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      checkedValueIds: this.props.filter.values
-        .filter(v => v.isChecked)
-        .map(v => v.id)
+      checkedValueIds: this.props.filter.values.filter(v => v.isChecked).map(v => v.id)
     };
   }
 
   render() {
-    const {
-      filter,
-      found
-    } = this.props;
+    const { filter, found } = this.props;
     const { checkedValueIds } = this.state;
     const key = String(filter.id);
     /* Colors */
@@ -70,14 +59,10 @@ class Filter extends React.Component<Props, State> {
                 marginLeft: 10
               }}
             >
-              {filter.values!
-                .filter(value => this.isChecked(value) || value.count !== found)
-                .map((value, i) =>
-                  <div
-                    key={i}
-                    className={styles.colorItem}
-                    onClick={() => this.handleClick(value)}
-                  >
+              {filter
+                .values!.filter(value => this.isChecked(value) || value.count !== found)
+                .map((value, i) => (
+                  <div key={i} className={styles.colorItem} onClick={() => this.handleClick(value)}>
                     <div className={styles.colorCount}>
                       {this.isChecked(value) && "+"}
                       {value.count}
@@ -89,7 +74,7 @@ class Filter extends React.Component<Props, State> {
                         fill: value.value
                       }}
                     />
-                    {this.isChecked(value) &&
+                    {this.isChecked(value) && (
                       <MyIcon
                         className={styles.color}
                         type={require("svg-sprite-loader!./checked-circle.svg")}
@@ -101,9 +86,10 @@ class Filter extends React.Component<Props, State> {
                           top: -4,
                           right: -4
                         }}
-                      />}
+                      />
+                    )}
                   </div>
-                )}
+                ))}
             </Flex>
           }
         />
@@ -124,9 +110,7 @@ class Filter extends React.Component<Props, State> {
             >
               <div>
                 {filter.name}
-                <div className={styles.count}>
-                  {filter.values[0].count}
-                </div>
+                <div className={styles.count}>{filter.values[0].count}</div>
               </div>
               <Switch
                 color="blue"
@@ -143,37 +127,34 @@ class Filter extends React.Component<Props, State> {
       /* Multi Select */
     } else if (filter.type !== "B") {
       return (
-        <Accordion.Panel
-          key={key}
-          accordion={true}
-          showArrow={true}
-          header={filter.name}
-        >
+        <Accordion.Panel key={key} accordion={true} showArrow={true} header={filter.name}>
           <List>
-            {filter.values!
-              .filter(value => value.count !== found || this.isChecked(value))
-              .map((value, ii) =>
+            {filter
+              .values!.filter(value => value.count !== found || this.isChecked(value))
+              .map((value, ii) => (
                 <List.Item
                   onClick={() => this.handleClick(value)}
                   key={ii}
                   className={styles.value}
                   wrap={true}
                   thumb={
-                    this.isChecked(value)
-                      ? <MyIcon
-                          className={styles.checkIcon}
-                          type={require("svg-sprite-loader!./checked-circle.svg")}
-                          style={{
-                            fill: "blue"
-                          }}
-                        />
-                      : <MyIcon
-                          className={styles.checkIcon}
-                          type={require("svg-sprite-loader!./empty-circle.svg")}
-                          style={{
-                            fill: "gray"
-                          }}
-                        />
+                    this.isChecked(value) ? (
+                      <MyIcon
+                        className={styles.checkIcon}
+                        type={require("svg-sprite-loader!./checked-circle.svg")}
+                        style={{
+                          fill: "blue"
+                        }}
+                      />
+                    ) : (
+                      <MyIcon
+                        className={styles.checkIcon}
+                        type={require("svg-sprite-loader!./empty-circle.svg")}
+                        style={{
+                          fill: "gray"
+                        }}
+                      />
+                    )
                   }
                 >
                   {value.name}
@@ -182,7 +163,7 @@ class Filter extends React.Component<Props, State> {
                     {value.count}
                   </div>
                 </List.Item>
-              )}
+              ))}
           </List>
         </Accordion.Panel>
       );
@@ -191,7 +172,7 @@ class Filter extends React.Component<Props, State> {
     }
   }
 
-  handleClick = (value: IFilterValue) => {
+  handleClick = (value: AllProductsQuery.Values) => {
     const { setLoading, categoryId, refetch, history } = this.props;
     const GET = queryString.parse(history.location.search);
 
@@ -221,7 +202,7 @@ class Filter extends React.Component<Props, State> {
     });
   };
 
-  isChecked = (value: IFilterValue): boolean => {
+  isChecked = (value: AllProductsQuery.Values): boolean => {
     return this.state.checkedValueIds.indexOf(value.id) !== -1;
   };
 }

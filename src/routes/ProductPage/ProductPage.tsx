@@ -1,43 +1,38 @@
-import { CART_QUERY, IDataCart } from "@src/modules/cart/Cart/Cart";
+import { ProductQuery } from "@src/generated/graphql";
+import cartQuery from "@src/modules/cart/Cart/cartQuery.gql";
+import { DataCart } from "@src/modules/cart/Cart/DataCart";
 import { ACTION_ADD_VIEWED_PRODUCT } from "@src/modules/catalog/constants";
 import { Devider, MyIcon } from "@src/modules/common";
 import { Aux, MyTouchFeedback } from "@src/modules/common/utils";
 import { Layout, LoadingMask } from "@src/modules/layout";
 import { Images, ProductToCart, SubProducts } from "@src/modules/product";
-import { ACTION_SET_SUB_PRODUCT_ID } from "@src/modules/product/constants";
-import {
-  ACTION_RESET,
-  ACTION_SET_ATTRIBUTE_VALUE_IDS
-} from "@src/modules/product/constants";
+import { ACTION_RESET, ACTION_SET_ATTRIBUTE_VALUE_IDS, ACTION_SET_SUB_PRODUCT_ID } from "@src/modules/product/constants";
 import { getImagesWithColor } from "@src/modules/product/Images/Images";
-import { IProduct } from "@src/modules/product/model";
-import { ISubProduct } from "@src/modules/product/model";
 import { IProductReducer } from "@src/modules/product/reducer";
 import { IRootReducer } from "@src/rootReducer";
 import ScrollToTop from "@src/utils/ScrollToTop";
 import { Flex, WhiteSpace, WingBlank } from "antd-mobile";
 import { description } from "antd-mobile/lib/popover/demo/basic.native";
-import gql from "graphql-tag";
 import { compile } from "path-to-regexp";
 import * as queryString from "query-string";
 import * as React from "react";
-import { compose, graphql, OperationOption, QueryProps } from "react-apollo";
+import { compose, graphql, OperationOption, QueryResult } from "react-apollo";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { PATH_NAMES } from "../index";
+
+import { PATH_NAMES } from "..";
 import { IPage } from "../interfaces";
+import productQuery from "./productQuery.gql";
 
 const renderHTML = require("react-render-html");
 
 const styles = require("./styles.css");
 
-interface IDataProduct extends QueryProps {
-  product?: IProduct;
-}
+interface DataProduct extends QueryResult, ProductQuery.Query {}
 
 interface GraphQLProps {
-  dataProduct: IDataProduct;
-  dataCart: IDataCart;
+  dataProduct: DataProduct;
+  dataCart: DataCart;
 }
 
 interface StateProps {
@@ -58,16 +53,13 @@ interface OwnProps extends IPage {
 interface Props extends GraphQLProps, StateProps, DispatchProps, OwnProps {}
 
 const getActiveSubProduct = (
-  subProducts: ISubProduct[],
+  subProducts: ProductQuery.SubProducts[],
   subProductId: number
-): ISubProduct => {
-  return (
-    subProducts.filter(sp => parseInt(sp.id, 0) === subProductId)[0] ||
-    subProducts[0]
-  );
+): ProductQuery.SubProducts => {
+  return subProducts.filter(sp => parseInt(sp.id, 0) === subProductId)[0] || subProducts[0];
 };
 
-const getSubProductIdsInCart = (data: IDataCart): number[] => {
+const getSubProductIdsInCart = (data: DataCart): number[] => {
   const { cart, loading } = data;
   return !loading && cart && cart.items
     ? cart.items.map(item => parseInt(item.subProduct.id, 0))
@@ -81,7 +73,12 @@ class Product extends React.Component<Props, {}> {
   };
 
   componentWillMount() {
-    const { match: { params: { id } }, addViewedProduct } = this.props;
+    const {
+      match: {
+        params: { id }
+      },
+      addViewedProduct
+    } = this.props;
     addViewedProduct(parseInt(id, 0));
   }
 
@@ -120,22 +117,16 @@ class Product extends React.Component<Props, {}> {
       }
 
       if (!subProductId) {
-        const imagesWithColor = getImagesWithColor(product!.images);
+        const imagesWithColor = getImagesWithColor(product.images);
         const GET = queryString.parse(location.search);
 
-        subProductId = GET.sub_product_id
-          ? parseInt(GET.sub_product_id, 0)
-          : subProductIds[0];
+        subProductId = GET.sub_product_id ? parseInt(GET.sub_product_id, 0) : subProductIds[0];
 
         if (!attributeValueIds && GET.attribute_value_ids) {
-          attributeValueIds = GET.attribute_value_ids
-            .split(",")
-            .map(id => parseInt(id, 0));
+          attributeValueIds = GET.attribute_value_ids.split(",").map(id => parseInt(id, 0));
         }
         if (!attributeValueIds) {
-          const filtered = imagesWithColor.filter(
-            image => image.attributeValue
-          );
+          const filtered = imagesWithColor.filter(image => image.attributeValue);
           if (filtered.length > 0) {
             attributeValueIds = [filtered[0].attributeValue!.id];
           }
@@ -178,14 +169,7 @@ class Product extends React.Component<Props, {}> {
 
     const { product } = dataProduct;
     const { attributeValueIds, subProductId } = this.props.product;
-    const {
-      id,
-      brand,
-      description,
-      attributes,
-      images,
-      subProducts
-    } = product!;
+    const { id, brand, attributes, images, subProducts } = product!;
     const activeSubProduct = getActiveSubProduct(subProducts, subProductId!);
     const activeImage =
       parseInt(activeSubProduct.id, 0) === subProductId
@@ -228,111 +212,102 @@ class Product extends React.Component<Props, {}> {
             <Devider />
 
             {/* Select SubProduct section */}
-            {subProducts.length > 1 &&
+            {subProducts.length > 1 && (
               <Aux>
-                <SubProducts
-                  subProducts={subProducts}
-                  subProductIdsInCart={subProductIdsInCart}
-                />
+                <SubProducts subProducts={subProducts} subProductIdsInCart={subProductIdsInCart} />
                 <Devider />
-              </Aux>}
+              </Aux>
+            )}
 
             {/* Select Color section */}
-            {imagesWithColor.length > 0 &&
+            {imagesWithColor.length > 0 && (
               <Aux>
                 <WhiteSpace />
                 <WingBlank>
                   <Flex justify="between">
                     <Flex align="center">
-                      {imagesWithColor.map(
-                        (image, i) =>
-                          attributeValueIds &&
-                          image.attributeValue &&
-                          attributeValueIds.indexOf(image.attributeValue.id) !==
-                            -1
-                            ? <MyIcon
-                                key={i}
-                                className={styles.colorIcon}
-                                type={require("svg-sprite-loader!./checked-circle.svg")}
-                                style={{
-                                  fill: image.attributeValue.value
-                                }}
-                              />
-                            : <MyTouchFeedback key={i}>
-                                <MyIcon
-                                  className={styles.colorIcon}
-                                  onClick={() =>
-                                    this.props.setAttributeValueIds([
-                                      image.attributeValue!.id
-                                    ])}
-                                  type={require("svg-sprite-loader!./circle.svg")}
-                                  style={{
-                                    fill: image.attributeValue!.value
-                                  }}
-                                />
-                              </MyTouchFeedback>
+                      {imagesWithColor.map((image, i) =>
+                        attributeValueIds &&
+                        image.attributeValue &&
+                        attributeValueIds.indexOf(image.attributeValue.id) !== -1 ? (
+                          <MyIcon
+                            key={i}
+                            className={styles.colorIcon}
+                            type={require("svg-sprite-loader!./checked-circle.svg")}
+                            style={{
+                              fill: image.attributeValue.value!
+                            }}
+                          />
+                        ) : (
+                          <MyTouchFeedback key={i}>
+                            <MyIcon
+                              className={styles.colorIcon}
+                              onClick={() =>
+                                this.props.setAttributeValueIds([image.attributeValue!.id])
+                              }
+                              type={require("svg-sprite-loader!./circle.svg")}
+                              style={{
+                                fill: image.attributeValue!.value!
+                              }}
+                            />
+                          </MyTouchFeedback>
+                        )
                       )}
                     </Flex>
                     <div className={styles.colorName}>
-                      {activeImage &&
-                        activeImage.attributeValue &&
-                        activeImage.attributeValue.name}
+                      {activeImage && activeImage.attributeValue && activeImage.attributeValue.name}
                     </div>
                   </Flex>
                 </WingBlank>
                 <WhiteSpace />
                 <Devider />
-              </Aux>}
+              </Aux>
+            )}
 
             {/* active SubProduct and Product params section */}
-            {(attributes.length > 0 ||
-              activeSubProduct.attributes.length > 0) &&
+            {(attributes.length > 0 || activeSubProduct.attributes.length > 0) && (
               <Aux>
                 <WhiteSpace />
                 <WingBlank>
-                  {activeSubProduct.attributes.map((el, index) =>
+                  {activeSubProduct.attributes.map((el, index) => (
                     <Flex key={index} justify="between">
-                      <Flex className={styles.paramName}>
-                        {el.name}
-                      </Flex>
+                      <Flex className={styles.paramName}>{el.name}</Flex>
                       <Flex className={styles.paramValue}>
                         {el.values.map(v => v.name).join(", ")}
                       </Flex>
                     </Flex>
-                  )}
-                  {attributes.map((el, index) =>
+                  ))}
+                  {attributes.map((el, index) => (
                     <Flex key={index} justify="between">
-                      <Flex className={styles.paramtName}>
-                        {el.name}
-                      </Flex>
+                      <Flex className={styles.paramtName}>{el.name}</Flex>
                       <Flex className={styles.paramValue}>
                         {el.values.map(v => v.name).join(", ")}
                       </Flex>
                     </Flex>
-                  )}
+                  ))}
                 </WingBlank>
                 <WhiteSpace />
                 <Devider />
-              </Aux>}
+              </Aux>
+            )}
 
             {/* Product description section */}
-            {description &&
+            {description && (
               <Aux>
                 <WhiteSpace />
                 <WingBlank>
-                  <div className={styles.description}>
-                    {renderHTML(description)}
-                  </div>
+                  <div className={styles.description}>{renderHTML(product.description)}</div>
                 </WingBlank>
                 <WhiteSpace />
-              </Aux>}
+              </Aux>
+            )}
 
             {/* Add to cart */}
             <ProductToCart
               subProductId={subProductId!}
               attributeValueIds={attributeValueIds}
               price={price}
-              oldPrice={oldPrice}
+              oldPrice={oldPrice!}
               inCart={subProductIdsInCart.indexOf(subProductId!) !== -1}
             />
           </div>
@@ -403,7 +378,6 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
   }
 });
 
-const PRODUCT_QUERY = gql(require("./product.gql"));
 const productOptions: OperationOption<OwnProps, GraphQLProps> = {
   name: "dataProduct",
   options: props => ({
@@ -422,6 +396,6 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  graphql(CART_QUERY, cartOptions),
-  graphql(PRODUCT_QUERY, productOptions)
+  graphql(cartQuery, cartOptions),
+  graphql(productQuery, productOptions)
 )(Product);

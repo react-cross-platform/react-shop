@@ -1,25 +1,22 @@
+import { AllProductsQuery } from "@src/generated/graphql";
 import { Dispatch } from "@src/interfaces";
 import { MyIcon } from "@src/modules/common";
 import { MyTouchFeedback } from "@src/modules/common/utils";
 import { LoadingMask } from "@src/modules/layout";
 import { IRootReducer } from "@src/rootReducer";
-import { getPathName, IDataAllProduct } from "@src/routes/CategoryPage/CategoryPage";
+import { getPathName } from "@src/routes/CategoryPage/CategoryPage";
 import { Accordion, Flex, List, Progress, Switch } from "antd-mobile";
 import * as queryString from "query-string";
 import * as React from "react";
-import { QueryProps } from "react-apollo";
+import { QueryResult } from "react-apollo";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
-import { IAllProducts, IFilter, IFilterValue } from "../model";
-
 const styles = require("./styles.css");
 
-const getSelected = (fitlers: IFilter[]) => {};
+const getSelected = (fitlers: AllProductsQuery.Filters[]) => {};
 
-interface IDataFilteredProducts extends QueryProps {
-  allProducts: IAllProducts;
-}
+interface DataFilteredProducts extends QueryResult, AllProductsQuery.Query {}
 
 interface OwnProps {
   categoryId: number;
@@ -34,8 +31,10 @@ interface DispatchProps {
   dispatch: Dispatch;
 }
 
+export interface DataAllProducts extends QueryResult, AllProductsQuery.Query {}
+
 export interface GraphQLProps {
-  dataAllProducts: IDataAllProduct;
+  dataAllProducts: DataAllProducts;
 }
 
 interface State {
@@ -55,7 +54,7 @@ class Filters extends React.Component<Props, State> {
     const {
       dataAllProducts: { loading, allProducts }
     } = nextProps;
-    const checkedValueIds = this.getCheckedValueIds(allProducts.filters);
+    const checkedValueIds = this.getCheckedValueIds(allProducts!.filters!);
     if (checkedValueIds !== this.state.checkedValueIds) {
       this.setState({
         checkedValueIds,
@@ -83,7 +82,7 @@ class Filters extends React.Component<Props, State> {
       toggleFilters,
       dataAllProducts: { allProducts }
     } = this.props;
-    const { filters, found, total } = allProducts;
+    const { filters, found, total } = allProducts!;
     return (
       <Flex
         className={styles.Filters}
@@ -143,7 +142,7 @@ class Filters extends React.Component<Props, State> {
     );
   }
 
-  getCheckedValueIds = (filters: IFilter[]) => {
+  getCheckedValueIds = (filters: AllProductsQuery.Filters[]) => {
     const ids: number[] = [];
     filters.forEach(filter => {
       filter!.values.forEach(value => {
@@ -155,7 +154,7 @@ class Filters extends React.Component<Props, State> {
     return ids;
   };
 
-  handleSelect = (value?: IFilterValue) => {
+  handleSelect = (value?: AllProductsQuery.Values) => {
     const {
       categoryId,
       dataAllProducts: { refetch },
@@ -195,7 +194,7 @@ class Filters extends React.Component<Props, State> {
     this.handleSelect();
   };
 
-  renderFilter = (filter: IFilter, found) => {
+  renderFilter = (filter: AllProductsQuery.Filters, found) => {
     const { categoryId } = this.props;
     const { dataAllProducts } = this.props;
     const { refetch } = dataAllProducts;
@@ -281,7 +280,7 @@ class Filters extends React.Component<Props, State> {
                   type={ICONS_MAP[filter.icon]}
                   size="md"
                   style={{
-                    fill: filter.iconColor
+                    fill: filter.iconColor!
                   }}
                 />
               )}

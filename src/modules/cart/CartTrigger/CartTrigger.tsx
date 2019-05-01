@@ -5,12 +5,14 @@ import { PATH_NAMES } from "@src/routes";
 import { IRouterReducer } from "@src/routes/interfaces";
 import { Flex } from "antd-mobile";
 import * as React from "react";
-import { graphql } from "react-apollo";
+import { graphql, QueryResult } from "react-apollo";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { compose } from "redux";
 
-import { CART_QUERY, getCartAmount, IDataCart } from "../Cart/Cart";
+import { getCartAmount } from "../Cart/Cart";
+import cartQuery from "../Cart/cartQuery.gql";
+import { DataCart } from "../Cart/DataCart";
 
 interface OwnProps {
   isTransporant: boolean;
@@ -20,15 +22,15 @@ interface StateProps {
   router: IRouterReducer;
 }
 
-interface GraphQLProps {
-  data: IDataCart;
+interface GraphQLProps extends QueryResult {
+  data: DataCart;
 }
 
 interface Props extends OwnProps, StateProps, GraphQLProps {}
 
 const styles = require("./styles.css");
 
-class CartTrigger extends React.Component<Props, {}> {
+class CartTrigger extends React.Component<Props> {
   isCartPage = () => {
     const { router } = this.props;
     return router.location.pathname === PATH_NAMES.cart;
@@ -52,11 +54,11 @@ class CartTrigger extends React.Component<Props, {}> {
             state: { modal: true, title: "Корзина" }
           }}
         >
-          {!loading && amount > 0
-            ? <Flex justify="center" align="center" className={styles.amount}>
-                {amount}
-              </Flex>
-            : null}
+          {!loading && amount > 0 ? (
+            <Flex justify="center" align="center" className={styles.amount}>
+              {amount}
+            </Flex>
+          ) : null}
           <MyIcon
             style={{ fill: isTransporant ? "black" : "white" }}
             type={require("!svg-sprite-loader!./cart.svg")}
@@ -73,6 +75,6 @@ const mapStateToProps = (state: IRootReducer): StateProps => ({
 });
 
 export default compose(
-  graphql<GraphQLProps, OwnProps>(CART_QUERY),
+  graphql<GraphQLProps, OwnProps>(cartQuery),
   connect<StateProps, {}, OwnProps>(mapStateToProps)
-)(CartTrigger);
+)(CartTrigger) as any;

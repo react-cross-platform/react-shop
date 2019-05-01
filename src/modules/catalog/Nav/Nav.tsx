@@ -6,18 +6,15 @@ import { Flex, Progress } from "antd-mobile";
 import * as React from "react";
 import { connect } from "react-redux";
 
-import { IDataAllProduct } from "../../../routes/CategoryPage/CategoryPage";
+import { DataAllProduct } from "../../../routes/CategoryPage/CategoryPage";
 import { MyHistory } from "../../../routes/interfaces";
-import { IFilter } from "../model";
 
 const styles = require("./styles.css");
-
-const getSelected = (fitlers: IFilter[]) => {};
 
 interface OwnProps {
   categoryId: number;
   toggleFilters: () => void;
-  dataAllProducts: IDataAllProduct;
+  dataAllProducts: DataAllProduct;
   history: MyHistory;
 }
 
@@ -35,23 +32,14 @@ class Nav extends React.Component<Props, State> {
   }
 
   render() {
-    const {
-      history,
-      dataAllProducts,
-      categoryId,
-      scrolledProducts
-    } = this.props;
-    const { found, sorting } = dataAllProducts.allProducts;
-    const total = dataAllProducts.allProducts.total;
+    const { history, dataAllProducts, categoryId, scrolledProducts } = this.props;
+    const { found, sorting, total } = dataAllProducts.allProducts!;
     return (
       <Flex className={styles.Nav} direction="column">
         <Flex className={styles.nav} justify="between" align="center">
           <Sorting items={sorting} history={history} categoryId={categoryId} />
           <MyTouchFeedback style={{ backgroundColor: "lightgray" }}>
-            <Flex
-              onClick={this.props.toggleFilters}
-              className={styles.navFilter}
-            >
+            <Flex onClick={this.props.toggleFilters} className={styles.navFilter}>
               <MyIcon
                 className={styles.filterIcon}
                 type={require("!svg-sprite-loader!./filter.svg")}
@@ -77,9 +65,8 @@ class Nav extends React.Component<Props, State> {
           </MyTouchFeedback>
         </Flex>
         <Progress
-          className={`${styles.progress} ${scrolledProducts >= found &&
-            styles.finished}`}
-          percent={Math.round(scrolledProducts! / found * 100)}
+          className={`${styles.progress} ${scrolledProducts >= found && styles.finished}`}
+          percent={Math.round((scrolledProducts! / found) * 100)}
           position="normal"
           unfilled={false}
         />

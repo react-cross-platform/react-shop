@@ -1,20 +1,13 @@
+import { CartQuery } from "@src/generated/graphql";
 import gql from "graphql-tag";
 import update from "immutability-helper";
 import React from "react";
-import { graphql, OperationOption } from "react-apollo";
+import { graphql } from "react-apollo";
 
-import { CART_QUERY, IDataCart } from "../Cart/Cart";
-import { ICartItem } from "../model";
+import { DataCart } from "../Cart/Cart";
+import cartQuery from "../Cart/cartQuery.gql";
 
 const styles = require("./styles.css");
-
-interface IAddCartItem {
-  data: {
-    addCartItem: {
-      cartItem: ICartItem;
-    };
-  };
-}
 
 interface OwnProps {
   subProductId: number;
@@ -22,7 +15,7 @@ interface OwnProps {
 }
 
 interface GraphQLProps {
-  submit: () => IAddCartItem;
+  submit: () => CartQuery.Items;
 }
 
 class AddCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
@@ -37,7 +30,8 @@ class AddCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
 }
 
 const ADD_CART_ITEM_MUTATION = gql(require("./addCartItem.gql"));
-const options: OperationOption<OwnProps, GraphQLProps> = {
+// const options: OperationOption<OwnProps, GraphQLProps> = {
+const options = {
   props: ({ ownProps, mutate }) => {
     const { subProductId, attributeValueIds } = ownProps;
     return {
@@ -47,15 +41,23 @@ const options: OperationOption<OwnProps, GraphQLProps> = {
             subProductId,
             attributeValueIds
           },
-          update: (store, props: IAddCartItem) => {
-            const { data: { addCartItem: { cartItem } } } = props;
-            const data: IDataCart = store.readQuery({ query: CART_QUERY });
+          update: (
+            store,
+            // props: IAddCartItem
+            props: any // FIXME
+          ) => {
+            const {
+              data: {
+                addCartItem: { cartItem }
+              }
+            } = props;
+            const data: DataCart = store.readQuery({ query: cartQuery });
             if (!data.cart) {
               data.cart = cartItem.cart;
               data.cart!.items = [];
             }
             data.cart!.items.push(cartItem);
-            store.writeQuery({ query: CART_QUERY, data });
+            store.writeQuery({ query: cartQuery, data });
           }
         });
       }
@@ -63,6 +65,4 @@ const options: OperationOption<OwnProps, GraphQLProps> = {
   }
 };
 
-export default graphql<GraphQLProps, OwnProps>(ADD_CART_ITEM_MUTATION, options)(
-  AddCartItem
-);
+export default graphql<GraphQLProps, OwnProps>(ADD_CART_ITEM_MUTATION, options as any)(AddCartItem) as any;

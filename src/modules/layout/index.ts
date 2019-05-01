@@ -1,4 +1,3 @@
-import * as model from "./model";
 import * as utils from "./utils";
 
 import Catalog from "./Catalog/Catalog";
@@ -10,15 +9,4 @@ import Layout from "./Layout/Layout";
 import LoadingMask from "./LoadingMask/LoadingMask";
 import SubCatalog from "./SubCatalog/SubCatalog";
 
-export {
-  Catalog,
-  Flatpages,
-  Footer,
-  Header,
-  HomeTrigger,
-  Layout,
-  LoadingMask,
-  SubCatalog,
-  model,
-  utils
-};
+export { Catalog, Flatpages, Footer, Header, HomeTrigger, Layout, LoadingMask, SubCatalog, utils };

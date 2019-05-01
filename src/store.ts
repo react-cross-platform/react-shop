@@ -9,7 +9,7 @@ import rootReducer from "./rootReducer";
 
 const initialState = {};
 
-const middlewares = [thunk, routerMiddleware(history), client.middleware()];
+const middlewares = [thunk, routerMiddleware(history)];
 if (process.env.DEBUG) {
   middlewares.push(logger);
 }
