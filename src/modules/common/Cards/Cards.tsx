@@ -20,10 +20,10 @@ interface StateProps {
 }
 
 interface OwnProps {
-  categories: CategoriesQuery.Categories[];
+  items: CategoriesQuery.Categories[];
 }
 
-class SubCatalog extends React.Component<StateProps & OwnProps, {}> {
+class Cards extends React.Component<StateProps & OwnProps, {}> {
   isViewed(category: CategoryQuery.Category) {
     const {
       catalog: { viewedCategoryIds }
@@ -47,32 +47,32 @@ class SubCatalog extends React.Component<StateProps & OwnProps, {}> {
   };
 
   render() {
-    const { categories } = this.props;
+    const { items } = this.props;
     const height = window.innerWidth / 2;
     return (
       <Flex wrap="wrap">
-        {categories.map((category, i) => (
+        {items.map((item, i) => (
           <Link
             key={`cat${i}`}
             to={{
-              pathname: this.getPath(category)
+              pathname: this.getPath(item)
             }}
             className={styles.categoryContainer}
             style={{
-              borderColor: this.isViewed(category) ? "orange" : "lightgrey",
-              width: categories.length % 2 !== 0 && i + 1 === categories.length ? "100%" : "50%"
+              borderColor: this.isViewed(item) ? "orange" : "lightgrey",
+              width: items.length % 2 !== 0 && i + 1 === items.length ? "100%" : "50%"
             }}
           >
             <MyTouchFeedback>
               <Card
                 className={styles.category}
                 style={{
-                  opacity: this.isCurrentCategory(category) ? 0.3 : 1,
+                  opacity: this.isCurrentCategory(item) ? 0.3 : 1,
                   justifyContent: "center"
                 }}
               >
-                <img className={styles.image} src={category.image!.src || ""} />
-                <div className={styles.name}>{category.name}</div>
+                <img className={styles.image} src={item.image!.src || ""} />
+                <div className={styles.name}>{item.name}</div>
               </Card>
             </MyTouchFeedback>
           </Link>
@@ -87,4 +87,4 @@ const mapStateToProps = (state: IRootReducer): StateProps => ({
   router: state.router
 });
 
-export default connect<StateProps, {}, OwnProps>(mapStateToProps)(SubCatalog);
+export default connect<StateProps, {}, OwnProps>(mapStateToProps)(Cards);

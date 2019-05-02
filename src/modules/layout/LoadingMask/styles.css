@@ -17,6 +17,13 @@
   z-index: 1000001;
 }
 
+.lottie {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @keyframes spinner {
   0% {
     transform: rotate(0deg) rotate(90deg);

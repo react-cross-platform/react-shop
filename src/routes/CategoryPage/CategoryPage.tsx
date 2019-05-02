@@ -1,9 +1,8 @@
-import { AllProductsQuery, CategoryQuery } from "@src/generated/graphql";
+import { AllProductsQuery, BrandQuery, CategoryQuery } from "@src/generated/graphql";
 import { Dispatch } from "@src/interfaces";
 import { Filters, Nav, Product, SelectedFilters } from "@src/modules/catalog";
 import { ACTION_SET_SCROLLED_PRODUCTS } from "@src/modules/catalog/constants";
 import { getSelectedFilters } from "@src/modules/catalog/SelectedFilters/SelectedFilters";
-import { MyIcon } from "@src/modules/common";
 import { Aux } from "@src/modules/common/utils";
 import { Layout, LoadingMask } from "@src/modules/layout";
 import { IRootReducer } from "@src/rootReducer";
@@ -22,6 +21,7 @@ import Sidebar from "react-sidebar";
 import { compose } from "redux";
 
 import allProductsQuery from "./allProductsQuery.gql";
+import brandQuery from "./brandQuery.gql";
 import categoryQuery from "./categoryQuery.gql";
 
 const styles = require("./styles.css");
@@ -39,6 +39,7 @@ const SCROLL_THROTTLE = 500;
 const FETCH_MORE_THRESHOLD = window.innerHeight * 3;
 
 interface DataCategory extends QueryResult, CategoryQuery.Query {}
+interface DataBrand extends QueryResult, BrandQuery.Query {}
 
 export interface DataAllProduct extends QueryResult, AllProductsQuery.Query {}
 
@@ -50,6 +51,7 @@ interface DispatchProps {
 
 export interface GraphQLProps {
   dataCategory: DataCategory;
+  dataBrand: DataBrand;
   dataAllProducts: DataAllProduct;
 }
 
@@ -61,6 +63,17 @@ interface State {
   title: string;
   openFilters: boolean;
 }
+
+const getPageType = (props: Props): "category" | "brand" | "discount" => {
+  const { match } = props;
+  if (!match.params.id) {
+    return "discount";
+  } else if (match.path.indexOf("/category") !== -1) {
+    return "category";
+  } else {
+    return "brand";
+  }
+};
 
 const hasMore = (allProducts: AllProductsQuery.AllProducts): boolean => {
   if (!allProducts) {
@@ -98,7 +111,7 @@ class CategoryPage extends React.Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    const { dataCategory, dataAllProducts } = nextProps;
+    const { dataCategory, dataBrand, dataAllProducts } = nextProps;
 
     if (
       this.props.match.params.id !== nextProps.match.params.id ||
@@ -131,21 +144,22 @@ class CategoryPage extends React.Component<Props, State> {
       }
     }
 
-    const title = dataCategory.category ? dataCategory.category!.name : "Скидки";
-    if (title !== this.state.title) {
-      this.setState({ title });
+    if (dataCategory.category || dataBrand.brand) {
+      const title = this._getTitle(nextProps);
+      if (title !== this.state.title) {
+        this.setState({ title });
+      }
     }
   }
 
   shouldComponentUpdate(nextProps: Props, nextState: State) {
     const {
       dataCategory,
+      dataBrand,
       dataAllProducts,
-      history,
       match: {
         params: { id }
-      },
-      location
+      }
     } = nextProps;
 
     if (this.props.location !== nextProps.history.location) {
@@ -165,6 +179,7 @@ class CategoryPage extends React.Component<Props, State> {
 
     if (
       (dataCategory && dataCategory.loading) ||
+      (dataBrand && dataBrand.loading) ||
       dataAllProducts.loading ||
       !dataAllProducts.allProducts
     ) {
@@ -216,13 +231,14 @@ class CategoryPage extends React.Component<Props, State> {
       location,
       history,
       dataCategory,
+      dataBrand,
       dataAllProducts
     } = this.props;
 
     const gutter = 3;
 
     return (
-      <Layout location={location} history={history} {...this.getLayoutOptions()}>
+      <Layout location={location} history={history} {...this._getLayoutOptions()}>
         {(dataCategory && dataCategory.loading) ||
         dataAllProducts.loading ||
         !dataAllProducts.allProducts ? (
@@ -299,11 +315,7 @@ class CategoryPage extends React.Component<Props, State> {
                   </div>
 
                   {dataAllProducts.allProducts && hasMore(dataAllProducts.allProducts) && (
-                    <MyIcon
-                      type={require("!svg-sprite-loader!./loader.svg")}
-                      size="lg"
-                      className={styles.loading}
-                    />
+                    <LoadingMask centered={false} />
                   )}
                 </div>
               </Sidebar>
@@ -341,14 +353,6 @@ class CategoryPage extends React.Component<Props, State> {
   isLoading = () => {
     const { dataCategory, dataAllProducts } = this.props;
     return (dataCategory && dataCategory.loading) || dataAllProducts.loading;
-  };
-
-  getLayoutOptions = () => {
-    return {
-      header: {
-        title: this.state.title
-      }
-    };
   };
 
   addScrollListener = () => {
@@ -389,7 +393,6 @@ class CategoryPage extends React.Component<Props, State> {
       },
       dataAllProducts: { allProducts, loading, fetchMore }
     } = this.props;
-    console.log("handleScroll");
     const pathname = getPathName(id);
     if (!loading && location.pathname === pathname) {
       const { products } = allProducts!;
@@ -419,7 +422,7 @@ class CategoryPage extends React.Component<Props, State> {
   private _renderLoading = () => {
     if (this.props.location.pathname === "/sale") {
       return (
-        <div style={{ paddingTop: "150px" }}>
+        <div style={{ marginTop: (window.innerHeight / 2) - 150 }}>
           <Lottie
             options={{
               animationData: require("./sale.json")
@@ -430,35 +433,77 @@ class CategoryPage extends React.Component<Props, State> {
     }
     return <LoadingMask />;
   };
+
+  private _getLayoutOptions = () => {
+    return {
+      header: {
+        title: this.state.title
+      }
+    };
+  };
+
+  private _getTitle = (props: Props) => {
+    const { dataCategory, dataBrand } = props;
+    const pageType = getPageType(props);
+    if (pageType === "brand") {
+      return dataBrand.brand ? dataBrand.brand!.name : "";
+    } else if (pageType === "category") {
+      return dataCategory.category ? dataCategory.category!.name : "";
+    } else {
+      return "Скидки";
+    }
+  };
 }
 
 const categoryOptions: OperationOption<OwnProps, GraphQLProps> = {
-  options: props => ({
-    skip: !props.match.params.id,
-    fetchPolicy: "cache-first",
-    variables: {
-      id: parseInt(props.match.params.id, 0)
-    }
-  }),
+  options: (props: Props) => {
+    const skip = !props.match.params.id || getPageType(props) !== "category";
+    return {
+      skip,
+      fetchPolicy: "cache-first",
+      variables: {
+        id: parseInt(props.match.params.id, 0)
+      }
+    };
+  },
   name: "dataCategory"
 };
 
+const brandOptions: OperationOption<OwnProps, GraphQLProps> = {
+  options: (props: Props) => {
+    const skip = !props.match.params.id || getPageType(props) !== "brand";
+    return {
+      skip,
+      fetchPolicy: "cache-first",
+      variables: {
+        id: parseInt(props.match.params.id, 0)
+      }
+    };
+  },
+  name: "dataBrand"
+};
+
 export const allProductsOptions = {
-  options: ownProps => {
-    const GET = queryString.parse(ownProps.location.search);
-    const categoryId = ownProps.match.params.id;
+  options: props => {
+    const GET = queryString.parse(props.location.search);
+    const objId = props.match.params.id;
     const variables = {
       filters: GET.filters,
       sorting: GET.sorting,
+      categoryId: null,
+      brandId: null,
       first: LIMIT,
       offset: 0
     } as any;
-    if (!!categoryId) {
-      variables.categoryId = categoryId;
+    if (!!objId) {
+      if (props.location.pathname.indexOf("/category/") !== -1) {
+        variables.categoryId = objId;
+      } else {
+        variables.brandId = objId;
+      }
       variables.withDiscountOnly = false;
     } else {
       variables.withDiscountOnly = true; // sale page
-      variables.categoryId = null;
     }
     return {
       fetchPolicy: "network-only", // it's important!
@@ -504,6 +549,7 @@ const mapStateToProps = (state: IRootReducer): StateProps => ({});
 export default compose(
   connect(mapStateToProps),
   graphql(categoryQuery, categoryOptions as any),
+  graphql(brandQuery, brandOptions as any),
   graphql(allProductsQuery, allProductsOptions as any)
   // connect<StateProps, DispatchProps, OwnProps>(mapStateToProps),
   // graphql<GraphQLProps>(CATEGORY_QUERY, categoryOptions),

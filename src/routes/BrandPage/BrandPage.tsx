@@ -2,6 +2,6 @@ import * as React from "react";
 
 import CategoryPage from "../CategoryPage/CategoryPage";
 
-class SalePage extends CategoryPage {}
+class BrandPage extends CategoryPage {}
 
-export default SalePage;
+export default BrandPage;

@@ -3,6 +3,7 @@ import { IPage } from "@src/routes/interfaces";
 import * as React from "react";
 import { Route, Switch } from "react-router";
 
+import BrandPage from "../BrandPage/BrandPage";
 import CartPage from "../CartPage/CartPage";
 import CatalogPage from "../CatalogPage/CatalogPage";
 import CategoryPage from "../CategoryPage/CategoryPage";
@@ -15,10 +16,11 @@ export const PATH_NAMES = {
   home: "/",
   catalog: "/catalog/",
   category: "/category/:id",
+  brand: "/brand/:id",
   sale: "/sale",
   product: "/product/:id/",
   cart: "/cart/",
-  flatpages: "/flatpages/"
+  flatpages: "/flatpages/",
 };
 
 const styles = require("./styles.css");
@@ -32,6 +34,7 @@ const Routes = ({ Component, params }) => {
       <Route path={PATH_NAMES.flatpages} component={FlatpagesPage} />
       <Route path={PATH_NAMES.catalog} component={CatalogPage} />
       <Route path={PATH_NAMES.category} component={CategoryPage} />
+      <Route path={PATH_NAMES.brand} component={BrandPage as any} />
       <Route path={PATH_NAMES.sale} component={SalePage as any} />
       <Route path={PATH_NAMES.product} component={ProductPage} />
       <Route path={PATH_NAMES.cart} component={CartPage} />

@@ -1,10 +1,13 @@
 import { ProductQuery } from "@src/generated/graphql";
 import { MyIcon } from "@src/modules/common";
 import { Div } from "@src/modules/common/utils";
+import { LoadingMask } from "@src/modules/layout";
+import { MyHistory } from "@src/routes/interfaces";
 import { Flex } from "antd-mobile";
 import { defaultProps } from "antd-mobile/lib/search-bar/PropsType";
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import { compose } from "redux";
 import ReactCarousel from "rmc-nuka-carousel";
 
 import { Aux } from "../../common/utils";
@@ -24,19 +27,30 @@ const DEFAULT_SELECTED_IMAGE_INDEX = 0;
 
 const LAZY_OFFSET = 400;
 
+interface Image extends ProductQuery.Images {
+  url?: string;
+}
+
 interface OwnProps {
+  autoplay?: boolean;
+  wrapAround?: boolean;
   containerHeight?: number;
-  images: ProductQuery.Images[];
+  images: Image[];
   dotHeight: number;
   selectedImageIndex?: number;
   objectFitSize?: {
     width: string;
     height: string;
+    objectFit?: string;
   };
   linkProps?: {};
 }
 
-interface Props extends OwnProps {}
+interface StateProps {
+  history: MyHistory;
+}
+
+interface Props extends OwnProps, StateProps {}
 
 interface State {
   selectedImageIndex: number;
@@ -45,7 +59,9 @@ interface State {
 
 class Images extends React.Component<Props, State> {
   static defaultProps = {
-    selectedImageIndex: DEFAULT_SELECTED_IMAGE_INDEX
+    selectedImageIndex: DEFAULT_SELECTED_IMAGE_INDEX,
+    autoplay: false,
+    wrapAround: false
   };
 
   constructor(props: Props) {
@@ -61,21 +77,16 @@ class Images extends React.Component<Props, State> {
     this.setState({ selectedImageIndex });
   }
 
-  getHeight = (image?: ProductQuery.Images): number => {
-    const { containerHeight } = this.props;
-    if (!image || containerHeight) {
-      return containerHeight!;
-    }
-    let squareHeight = window.innerWidth / 2;
-    const { width, height } = image;
-    if (width > height) {
-      squareHeight *= height / width;
-    }
-    return squareHeight * 1.2;
-  };
-
   render() {
-    const { images, linkProps, dotHeight, containerHeight } = this.props;
+    const {
+      images,
+      linkProps,
+      dotHeight,
+      containerHeight,
+      autoplay,
+      wrapAround,
+      history
+    } = this.props;
     const objectFitSize = this.props.objectFitSize || DEFAULT_OBJEFT_FIT_SIZE;
     const Component = linkProps ? Link : Div;
     if (images.length > 1) {
@@ -92,8 +103,7 @@ class Images extends React.Component<Props, State> {
                 justify="center"
                 align="center"
                 style={{
-                  // height: this.getHeight(selectedImage)
-                  height: this.getHeight(images[0])
+                  height: this._getHeight(images[0])
                 }}
               >
                 {false ? (
@@ -114,16 +124,16 @@ class Images extends React.Component<Props, State> {
               </Flex>
             ) : (
               <ReactCarousel
-                // autoplay={false}
+                autoplay={autoplay}
                 // className={styles.Carousel}
                 // selectedIndex={this.state.selectedImageIndex}
                 // dots={false}
-                // infinite={false}
+                wrapAround={wrapAround}
                 // speed={1}
+                cellAlign="left"
                 decorators={[]}
                 dragging={false}
                 swiping={true}
-                autoplay={false}
                 className={styles.Carousel}
                 slideIndex={this.state.selectedImageIndex}
                 // dots={false}  // FIXME: Should be
@@ -138,7 +148,7 @@ class Images extends React.Component<Props, State> {
                     });
                   }
                 }}
-                style={{ height: this.getHeight(images[0]) }}
+                style={{ height: this._getHeight(images[0]) }}
               >
                 {this.props.images.map((image, index) => (
                   <Flex
@@ -146,14 +156,19 @@ class Images extends React.Component<Props, State> {
                     justify="center"
                     align="center"
                     style={{
-                      height: this.getHeight(images[0])
+                      height: this._getHeight(images[0])
                     }}
                   >
                     {index <= this.state.maxLoadedImageIndex ||
                     index === this.state.selectedImageIndex ? (
-                      <img style={objectFitSize} className={styles.image} src={image.src} />
+                      <img
+                        onClick={e => (image.url ? this._redirect(image.url!) : null)}
+                        style={objectFitSize}
+                        className={styles.image}
+                        src={image.src}
+                      />
                     ) : (
-                      <MyIcon type="loading" size="lg" />
+                      <LoadingMask />
                     )}
                   </Flex>
                 ))}
@@ -204,7 +219,7 @@ class Images extends React.Component<Props, State> {
             justify="center"
             align="center"
             style={{
-              height: this.getHeight(images[0])
+              height: this._getHeight(images[0])
             }}
           >
             {images.length === 0 ? (
@@ -220,6 +235,24 @@ class Images extends React.Component<Props, State> {
       );
     }
   }
+
+  private _getHeight = (image?: ProductQuery.Images): number => {
+    const { containerHeight } = this.props;
+    if (!image || containerHeight) {
+      return containerHeight!;
+    }
+    let squareHeight = window.innerWidth / 2;
+    const { width, height } = image;
+    if (width > height) {
+      squareHeight *= height / width;
+    }
+    return squareHeight * 1.2;
+  };
+
+  private _redirect = (url: string) => {
+    const { history } = this.props;
+    history.push(url!);
+  };
 }
 
-export default Images;
+export default compose(withRouter)(Images as any) as any;

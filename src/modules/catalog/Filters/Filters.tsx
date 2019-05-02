@@ -10,6 +10,7 @@ import * as queryString from "query-string";
 import * as React from "react";
 import { QueryResult } from "react-apollo";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 
 const styles = require("./styles.css");
@@ -20,7 +21,7 @@ interface DataFilteredProducts extends QueryResult, AllProductsQuery.Query {}
 
 interface OwnProps {
   categoryId: number;
-  history: any;
+  history?: any;
   open: boolean;
   toggleFilters: () => void;
 }
@@ -357,4 +358,7 @@ class Filters extends React.Component<Props, State> {
 
 const mapStateToProps = (state: IRootReducer): StateProps => ({});
 
-export default compose(connect<StateProps, DispatchProps, OwnProps>(mapStateToProps))(Filters);
+export default compose(
+  withRouter,
+  connect<StateProps, DispatchProps, OwnProps>(mapStateToProps),
+)(Filters) as any;

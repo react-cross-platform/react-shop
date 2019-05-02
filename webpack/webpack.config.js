@@ -42,7 +42,7 @@ module.exports = {
           {
             loader: "ts-loader",
             options: {
-              configFileName: __DEV__ ? "tsconfig.json" : "tsconfig.prod.json"
+              configFile: __DEV__ ? "tsconfig.json" : "tsconfig.prod.json"
             }
           }
         ]

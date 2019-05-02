@@ -7,6 +7,5 @@ import Header from "./Header/Header";
 import HomeTrigger from "./HomeTrigger/HomeTrigger";
 import Layout from "./Layout/Layout";
 import LoadingMask from "./LoadingMask/LoadingMask";
-import SubCatalog from "./SubCatalog/SubCatalog";
 
-export { Catalog, Flatpages, Footer, Header, HomeTrigger, Layout, LoadingMask, SubCatalog, utils };
+export { Catalog, Flatpages, Footer, Header, HomeTrigger, Layout, LoadingMask, utils };

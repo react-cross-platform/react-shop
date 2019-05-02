@@ -1,5 +1,5 @@
-import { Catalog } from "@src/modules/layout";
-import { Layout } from "@src/modules/layout";
+import Promotions from "@src/modules/common/Promotions/Promotions";
+import { Catalog, Layout } from "@src/modules/layout";
 import { ScrollToTop } from "@src/utils";
 import * as React from "react";
 
@@ -29,6 +29,7 @@ class CatalogPage extends React.Component<OwnProps, {}> {
       <ScrollToTop>
         <Layout {...this.getLayoutOptions()}>
           <div className={styles.CatalogPage}>
+            <Promotions />
             <Catalog />
           </div>
         </Layout>

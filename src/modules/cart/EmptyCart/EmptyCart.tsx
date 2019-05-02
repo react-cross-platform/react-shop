@@ -16,7 +16,7 @@ class EmptyCart extends React.Component<OwnProps, State> {
     return (
       <MyTouchFeedback>
         <div onClick={history.goBack} className={styles.EmptyCart}>
-        <div style={{height: "300px"}}>
+        <div style={{height: "250px"}}>
           <Lottie
             options={{
               animationData: require("./empty.json")

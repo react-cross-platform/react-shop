@@ -1,5 +1,7 @@
 import { CartQuery } from "@src/generated/graphql";
+import { Aux } from "@src/modules/common/utils";
 import update from "immutability-helper";
+import Lottie from "lottie-react-web";
 import React from "react";
 import { graphql } from "react-apollo";
 
@@ -18,14 +20,42 @@ interface GraphQLProps {
   submit: () => CartQuery.Items;
 }
 
-class AddCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
+interface Props extends OwnProps, GraphQLProps {}
+
+interface State {
+  loading: boolean;
+}
+
+class AddCartItem extends React.Component<Props, State> {
+  state = {
+    loading: false
+  };
+
   addCartItem = () => {
     const { submit } = this.props;
+    this.setState({ loading: true });
     submit();
   };
 
   render() {
-    return <div onClick={this.addCartItem}>Купить</div>;
+    const { submit } = this.props;
+    return (
+      <Aux>
+        <div onClick={this.addCartItem}>Купить</div>
+        {this.state.loading && (
+          <div style={{ position: "fixed", bottom: -225, right: -200 }}>
+            <Lottie
+              height="200%"
+              options={{
+                autoplay: true,
+                loop: false,
+                animationData: require("./added.json")
+              }}
+            />
+          </div>
+        )}
+      </Aux>
+    );
   }
 }
 
@@ -64,4 +94,6 @@ const options = {
   }
 };
 
-export default graphql<GraphQLProps, OwnProps>(addCartItemMutation, options as any)(AddCartItem) as any;
+export default graphql<GraphQLProps, OwnProps>(addCartItemMutation, options as any)(
+  AddCartItem
+) as any;

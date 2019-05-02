@@ -1,5 +1,5 @@
-import { Flatpages } from "@src/modules/layout";
-import { Layout } from "@src/modules/layout";
+import Promotions from "@src/modules/common/Promotions/Promotions";
+import { Flatpages, Layout } from "@src/modules/layout";
 import { ScrollToTop } from "@src/utils";
 import * as React from "react";
 
@@ -28,6 +28,7 @@ class FlatpagesPage extends React.Component<OwnProps, {}> {
       <ScrollToTop>
         <Layout {...this.getLayoutOptions()}>
           <div className={styles.FlatpagesPage}>
+            <Promotions />
             <Flatpages />
           </div>
         </Layout>

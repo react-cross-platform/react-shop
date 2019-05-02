@@ -1,30 +1,9 @@
 {
+  "extends": "./tsconfig",
   "compilerOptions": {
-    "allowJs": false,
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": "./",
-    "declaration": false,
-    "jsx": "react",
-    "lib": [
-      "dom",
-      "es2015.promise",
-      "es2016",
-      "es2016.array.include",
-      "esnext.asynciterable"
-    ],
-    "moduleResolution": "node",
-    "noImplicitAny": false,
-    "outDir": "./dist/",
-    "paths": {
-      "@src/*": ["src/*"]
-    },
     "pretty": false,
     "removeComments": true,
     "sourceMap": false,
     "strictNullChecks": true,
-    "target": "es6",
-    "types": ["node"]
   },
-  "exclude": ["node_modules"],
-  "include": ["src/**/*"]
 }

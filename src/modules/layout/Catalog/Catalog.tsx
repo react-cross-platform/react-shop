@@ -1,6 +1,5 @@
 import { CategoriesQuery } from "@src/generated/graphql";
-import { SubCatalog } from "@src/modules/layout";
-import gql from "graphql-tag";
+import Cards from "@src/modules/common/Cards/Cards";
 import * as React from "react";
 import { graphql, QueryResult } from "react-apollo";
 
@@ -9,12 +8,10 @@ import categoriesQuery from "./categoriesQuery.gql";
 
 const styles = require("./styles.css");
 
-interface IDataCategory extends QueryResult {
-  categories?: CategoriesQuery.Categories[];
-}
+interface DataCategory extends CategoriesQuery.Query, QueryResult {}
 
 interface GraphQLProps {
-  data: IDataCategory;
+  data: DataCategory;
 }
 
 class Catalog extends React.Component<GraphQLProps, {}> {
@@ -26,7 +23,7 @@ class Catalog extends React.Component<GraphQLProps, {}> {
     const { loading, categories } = data;
     const startCats: CategoriesQuery.Categories[] = [];
     const childrenMap = {};
-    for (const cat of categories!) {
+    for (const cat of categories) {
       if (cat.parent) {
         const key = cat.parent.id;
         if (!(key in childrenMap)) {
@@ -42,7 +39,7 @@ class Catalog extends React.Component<GraphQLProps, {}> {
         {startCats.map((parent, i) => (
           <div key={i}>
             <div className={styles.header}>{parent.name}</div>
-            <SubCatalog key={i} categories={childrenMap[parent.id]} />
+            <Cards key={i} items={childrenMap[parent.id]} />
           </div>
         ))}
       </div>

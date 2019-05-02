@@ -1,5 +1,4 @@
 import * as React from "react";
-import { CSSProperties } from "react";
 
 const styles = require("./styles.css");
 
@@ -7,11 +6,7 @@ interface OwnProps {}
 
 class ModalRoute extends React.Component<OwnProps, {}> {
   render() {
-    return (
-      <div className={styles.ModalRoute}>
-        {this.props.children}
-      </div>
-    );
+    return <div className={styles.ModalRoute}>{this.props.children}</div>;
   }
 }
 

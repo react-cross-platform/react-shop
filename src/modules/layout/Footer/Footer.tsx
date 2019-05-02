@@ -5,7 +5,7 @@ import { PATH_NAMES } from "@src/routes";
 import { IPage, IRouterReducer } from "@src/routes/interfaces";
 import { Flex } from "antd-mobile";
 import * as React from "react";
-import { CSSProperties } from "react";
+// import { CSSProperties } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 

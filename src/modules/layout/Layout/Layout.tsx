@@ -53,17 +53,17 @@ class Layout extends React.Component<Props, State> {
     const { history, location, header, footer } = this.props;
     return (
       <div className={styles.Layout}>
-        <Header
+        {header && <Header
           onTop={this.state.onTop}
           {...header}
           location={location}
           history={history}
-        />
+        />}
         <div
           className={styles.layoutContent}
           style={{
-            padding: `${location.pathname.indexOf("product") !== -1
-              ? 0
+            padding: `${(location.pathname.indexOf("product") !== -1 || !header)
+              ? "0"
               : "2.8rem"} 0 ${footer === null ? 0 : "2.8rem"}`
           }}
         >

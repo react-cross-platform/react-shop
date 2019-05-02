@@ -6,7 +6,11 @@ import { Devider, MyIcon } from "@src/modules/common";
 import { Aux, MyTouchFeedback } from "@src/modules/common/utils";
 import { Layout, LoadingMask } from "@src/modules/layout";
 import { Images, ProductToCart, SubProducts } from "@src/modules/product";
-import { ACTION_RESET, ACTION_SET_ATTRIBUTE_VALUE_IDS, ACTION_SET_SUB_PRODUCT_ID } from "@src/modules/product/constants";
+import {
+  ACTION_RESET,
+  ACTION_SET_ATTRIBUTE_VALUE_IDS,
+  ACTION_SET_SUB_PRODUCT_ID
+} from "@src/modules/product/constants";
 import { getImagesWithColor } from "@src/modules/product/Images/Images";
 import { IProductReducer } from "@src/modules/product/reducer";
 import { IRootReducer } from "@src/rootReducer";

@@ -30,7 +30,7 @@
     "formik": "^0.9.4",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.4.2",
-    "history": "^4.6.3",
+    "history": "4.9.0",
     "immutability-helper": "^2.2.0",
     "lottie-react-web": "^2.1.4",
     "path-to-regexp": "^2.0.0",
@@ -58,7 +58,6 @@
   "devDependencies": {
     "@types/es6-promise": "^0.0.32",
     "@types/fastclick": "^1.0.28",
-    "@types/history": "4.6.0",
     "@types/immutability-helper": "^2.0.15",
     "@types/jest": "^22.2.3",
     "@types/lodash": "ts2.3",

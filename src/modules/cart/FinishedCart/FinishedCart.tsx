@@ -1,6 +1,6 @@
-import { MyIcon } from "@src/modules/common";
 import { MyTouchFeedback } from "@src/modules/common/utils";
 import { PATH_NAMES } from "@src/routes";
+import Lottie from "lottie-react-web";
 import * as React from "react";
 import { Link } from "react-router-dom";
 
@@ -19,14 +19,16 @@ class FinishedCart extends React.Component<OwnProps, State> {
     return (
       <MyTouchFeedback>
         <Link to={PATH_NAMES.home} className={styles.FinishedCart}>
-          <MyIcon
-            className={styles.icon}
-            type={require("!svg-sprite-loader!./circle-checked.svg")}
+          <Lottie
+            height="30%"
+            options={{
+              autoplay: true,
+              loop: false,
+              animationData: require("./done.json")
+            }}
           />
           <div className={styles.title}>Заказ принят!</div>
-          <div className={styles.continue}>
-            номер заказа — {id}
-          </div>
+          <div className={styles.continue}>номер заказа — {id}</div>
         </Link>
       </MyTouchFeedback>
     );

@@ -25,37 +25,27 @@ class ProductToCart extends React.Component<
   IProductBuyState
 > {
   render() {
-    const {
-      subProductId,
-      attributeValueIds,
-      price,
-      oldPrice,
-      inCart
-    } = this.props;
+    const { subProductId, attributeValueIds, price, oldPrice, inCart } = this.props;
     return (
       <Flex className={styles.ProductToCart} justify="center" align="center">
         <div className={styles.priceSection}>
           <Price isSinglePrice={true} price={price} oldPrice={oldPrice} />
         </div>
         <MyTouchFeedback>
-          <div
-            className={styles.cartSection}
-            style={{ background: inCart ? "green" : "orange" }}
-            >
-            {inCart
-              ? <Link
-                  style={{ color: "white", display: "block" }}
-                  to={{
-                    pathname: PATH_NAMES.cart,
-                    state: { modal: true, title: "Корзина" }
-                  }}
-                >
-                  В корзину
-                </Link>
-              : <AddCartItem
-                  subProductId={subProductId}
-                  attributeValueIds={attributeValueIds}
-                />}
+          <div className={styles.cartSection} style={{ background: inCart ? "green" : "orange" }}>
+            {inCart ? (
+              <Link
+                style={{ color: "white", display: "block" }}
+                to={{
+                  pathname: PATH_NAMES.cart,
+                  state: { modal: true, title: "Корзина" }
+                }}
+              >
+                В корзину
+              </Link>
+            ) : (
+              <AddCartItem subProductId={subProductId} attributeValueIds={attributeValueIds} />
+            )}
           </div>
         </MyTouchFeedback>
       </Flex>
