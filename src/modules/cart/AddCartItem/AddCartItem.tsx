@@ -49,7 +49,7 @@ class AddCartItem extends React.Component<Props, State> {
               options={{
                 autoplay: true,
                 loop: false,
-                animationData: require("./added.json")
+                animationData: require("./addedToCart.json")
               }}
             />
           </div>
