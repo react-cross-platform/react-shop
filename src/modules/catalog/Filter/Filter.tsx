@@ -188,21 +188,21 @@ class Filter extends React.Component<Props, State> {
     }
 
     this.setState({ checkedValueIds }, () => {
-    //   setLoading(true, () => {
-    //     refetch({
-    //       categoryId,
-    //       filters: value ? value.url : "",
-    //       offset: 0
-    //     }).then(res => {
-    //       setLoading(false);
-    //       GET.filters = value.url;
-    //       history.push(
-    //         `${compile(PATH_NAMES.category)({
-    //           id: categoryId
-    //         })}?${queryString.stringify(GET)}`
-    //       );
-    //     });
-    //   });
+      //   setLoading(true, () => {
+      //     refetch({
+      //       categoryId,
+      //       filters: value ? value.url : "",
+      //       offset: 0
+      //     }).then(res => {
+      //       setLoading(false);
+      //       GET.filters = value.url;
+      //       history.push(
+      //         `${compile(PATH_NAMES.category)({
+      //           id: categoryId
+      //         })}?${queryString.stringify(GET)}`
+      //       );
+      //     });
+      //   });
     });
   };
 
@@ -212,4 +212,3 @@ class Filter extends React.Component<Props, State> {
 }
 
 export default Filter;
-.
