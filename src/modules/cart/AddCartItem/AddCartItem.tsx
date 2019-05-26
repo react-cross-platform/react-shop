@@ -1,4 +1,5 @@
 import { CartQuery } from "@src/generated/graphql";
+import GoogleAnalytics from "@src/modules/common/api/GoogleAnalytics/GoogleAnalytics";
 import { Aux } from "@src/modules/common/utils";
 import update from "immutability-helper";
 import Lottie from "lottie-react-web";
@@ -35,6 +36,11 @@ class AddCartItem extends React.Component<Props, State> {
     const { submit } = this.props;
     this.setState({ loading: true });
     submit();
+
+    GoogleAnalytics.addTransaction({
+      id: "jd38je31j",
+      revenue: "3.50"
+    });
   };
 
   render() {
