@@ -82,8 +82,8 @@ const hasMore = (allProducts: AllProductsQuery.AllProducts): boolean => {
   return allProducts!.products!.length % LIMIT === 0 && allProducts.products.length >= LIMIT;
 };
 
-export const getPathName = (categoryId?) => {
-  return categoryId ? compile(PATH_NAMES.category)({ id: categoryId }) : PATH_NAMES.sale;
+export const getPathName = (id?) => {
+  return id ? compile(PATH_NAMES.category)({ id }) : PATH_NAMES.sale;
 };
 
 class CategoryPage extends React.Component<Props, State> {
@@ -422,7 +422,7 @@ class CategoryPage extends React.Component<Props, State> {
   private _renderLoading = () => {
     if (this.props.location.pathname === "/sale") {
       return (
-        <div style={{ marginTop: (window.innerHeight / 2) - 150 }}>
+        <div style={{ marginTop: window.innerHeight / 2 - 150 }}>
           <Lottie
             options={{
               animationData: require("./sale.json")

@@ -69,9 +69,6 @@ class Filters extends React.Component<Props, State> {
       !nextProps.dataAllProducts.allProducts
       // || nextProps.open !== this.props.open
     ) {
-      if (!nextProps.dataAllProducts.loading) {
-        debugger;
-      }
       return false;
     }
     return true;
@@ -116,12 +113,12 @@ class Filters extends React.Component<Props, State> {
           activeKey={filters.map(filter => String(filter.id))}
           className={styles.accordion}
         >
-          {filters.map(filter => this.renderFilter(filter, found))}
+          {filters.map(filter => this._renderFilter(filter, found))}
         </Accordion>
 
         {this.state.checkedValueIds.length > 0 && (
           <Flex
-            onClick={() => this.handleReset()}
+            onClick={() => this._handleReset()}
             justify="center"
             align="center"
             className={styles.resetButton}
@@ -155,7 +152,7 @@ class Filters extends React.Component<Props, State> {
     return ids;
   };
 
-  handleSelect = (value?: AllProductsQuery.Values) => {
+  private _handleSelect = (value?: AllProductsQuery.Values) => {
     const {
       categoryId,
       dataAllProducts: { refetch },
@@ -191,11 +188,11 @@ class Filters extends React.Component<Props, State> {
     }
   };
 
-  handleReset = () => {
-    this.handleSelect();
+  private _handleReset = () => {
+    this._handleSelect();
   };
 
-  renderFilter = (filter: AllProductsQuery.Filters, found) => {
+  private _renderFilter = (filter: AllProductsQuery.Filters, found) => {
     const { categoryId } = this.props;
     const { dataAllProducts } = this.props;
     const { refetch } = dataAllProducts;
@@ -225,7 +222,7 @@ class Filters extends React.Component<Props, State> {
                   <div
                     key={i}
                     className={styles.colorItem}
-                    onClick={() => this.handleSelect(value)}
+                    onClick={() => this._handleSelect(value)}
                   >
                     <div className={styles.colorCount}>
                       {filter.hasChecked && !value.isChecked && "+"}
@@ -274,7 +271,7 @@ class Filters extends React.Component<Props, State> {
             <Flex
               justify="between"
               style={{ paddingLeft: 0, marginRight: "-20px" }}
-              onClick={() => this.handleSelect(filter.values[0])}
+              onClick={() => this._handleSelect(filter.values[0])}
             >
               {filter.icon && (
                 <MyIcon
@@ -294,7 +291,7 @@ class Filters extends React.Component<Props, State> {
                 color="orange"
                 checked={checkedValueIds.indexOf(filter.values[0].id) !== -1}
                 onChange={() => {
-                  this.handleSelect(filter.values[0]);
+                  this._handleSelect(filter.values[0]);
                 }}
               />
             </Flex>
@@ -318,7 +315,7 @@ class Filters extends React.Component<Props, State> {
               .map((value, ii) => (
                 <List.Item
                   disabled={!value.isChecked && value.count === found}
-                  onClick={() => this.handleSelect(value)}
+                  onClick={() => this._handleSelect(value)}
                   key={ii}
                   className={styles.value}
                   thumb={
@@ -360,5 +357,5 @@ const mapStateToProps = (state: IRootReducer): StateProps => ({});
 
 export default compose(
   withRouter,
-  connect<StateProps, DispatchProps, OwnProps>(mapStateToProps),
+  connect<StateProps, DispatchProps, OwnProps>(mapStateToProps)
 )(Filters) as any;

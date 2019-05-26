@@ -18,6 +18,21 @@ export const getImagesWithColor = (images: ProductQuery.Images[]): ProductQuery.
   return images.filter(image => image.attributeValue && image.attributeValue.value !== "");
 };
 
+export const getImagesWithUniqColor = (images: ProductQuery.Images[]): ProductQuery.Images[] => {
+  const colorIds: number[] = [];
+  return images.filter(image => {
+    if (
+      !!image.attributeValue &&
+      colorIds.indexOf(image.attributeValue!.id!) === -1 &&
+      image.attributeValue &&
+      image.attributeValue.value !== ""
+    ) {
+      colorIds.push(image.attributeValue!.id!);
+      return true;
+    }
+  });
+};
+
 const DEFAULT_OBJEFT_FIT_SIZE = {
   width: "100%",
   height: "95%"

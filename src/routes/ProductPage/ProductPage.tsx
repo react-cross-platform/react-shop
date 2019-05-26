@@ -6,12 +6,8 @@ import { Devider, MyIcon } from "@src/modules/common";
 import { Aux, MyTouchFeedback } from "@src/modules/common/utils";
 import { Layout, LoadingMask } from "@src/modules/layout";
 import { Images, ProductToCart, SubProducts } from "@src/modules/product";
-import {
-  ACTION_RESET,
-  ACTION_SET_ATTRIBUTE_VALUE_IDS,
-  ACTION_SET_SUB_PRODUCT_ID
-} from "@src/modules/product/constants";
-import { getImagesWithColor } from "@src/modules/product/Images/Images";
+import { ACTION_RESET, ACTION_SET_ATTRIBUTE_VALUE_IDS, ACTION_SET_SUB_PRODUCT_ID } from "@src/modules/product/constants";
+import { getImagesWithColor, getImagesWithUniqColor } from "@src/modules/product/Images/Images";
 import { IProductReducer } from "@src/modules/product/reducer";
 import { IRootReducer } from "@src/rootReducer";
 import ScrollToTop from "@src/utils/ScrollToTop";
@@ -187,7 +183,7 @@ class Product extends React.Component<Props, {}> {
     const subProductIdsInCart = getSubProductIdsInCart(dataCart);
     const { price, oldPrice } = activeSubProduct;
 
-    const imagesWithColor = getImagesWithColor(images);
+    const imagesWithUniqColor = getImagesWithUniqColor(images);
     const selectedImageIndex = this.getSelectedImageIndex();
     return (
       <ScrollToTop>
@@ -223,13 +219,13 @@ class Product extends React.Component<Props, {}> {
             )}
 
             {/* Select Color section */}
-            {imagesWithColor.length > 0 && (
+            {imagesWithUniqColor.length > 0 && (
               <Aux>
                 <WhiteSpace />
                 <WingBlank>
                   <Flex justify="between">
                     <Flex align="center">
-                      {imagesWithColor.map((image, i) =>
+                      {imagesWithUniqColor.map((image, i) =>
                         attributeValueIds &&
                         image.attributeValue &&
                         attributeValueIds.indexOf(image.attributeValue.id) !== -1 ? (

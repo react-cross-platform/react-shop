@@ -60,11 +60,15 @@ class Filter extends React.Component<Props, State> {
               }}
             >
               {filter
-                .values!.filter(value => this.isChecked(value) || value.count !== found)
+                .values!.filter(value => this._isChecked(value) || value.count !== found)
                 .map((value, i) => (
-                  <div key={i} className={styles.colorItem} onClick={() => this.handleClick(value)}>
+                  <div
+                    key={i}
+                    className={styles.colorItem}
+                    onClick={() => this._handleClick(value)}
+                  >
                     <div className={styles.colorCount}>
-                      {this.isChecked(value) && "+"}
+                      {this._isChecked(value) && "+"}
                       {value.count}
                     </div>
                     <MyIcon
@@ -74,7 +78,7 @@ class Filter extends React.Component<Props, State> {
                         fill: value.value
                       }}
                     />
-                    {this.isChecked(value) && (
+                    {this._isChecked(value) && (
                       <MyIcon
                         className={styles.color}
                         type={require("svg-sprite-loader!./checked-circle.svg")}
@@ -106,7 +110,7 @@ class Filter extends React.Component<Props, State> {
             <Flex
               justify="between"
               style={{ paddingLeft: 0, marginRight: "-20px" }}
-              onClick={() => this.handleClick(filter.values[0])}
+              onClick={() => this._handleClick(filter.values[0])}
             >
               <div>
                 {filter.name}
@@ -114,9 +118,9 @@ class Filter extends React.Component<Props, State> {
               </div>
               <Switch
                 color="blue"
-                checked={this.isChecked(filter.values[0])}
+                checked={this._isChecked(filter.values[0])}
                 onChange={() => {
-                  this.handleClick(filter.values[0]);
+                  this._handleClick(filter.values[0]);
                 }}
               />
             </Flex>
@@ -130,15 +134,15 @@ class Filter extends React.Component<Props, State> {
         <Accordion.Panel key={key} accordion={true} showArrow={true} header={filter.name}>
           <List>
             {filter
-              .values!.filter(value => value.count !== found || this.isChecked(value))
+              .values!.filter(value => value.count !== found || this._isChecked(value))
               .map((value, ii) => (
                 <List.Item
-                  onClick={() => this.handleClick(value)}
+                  onClick={() => this._handleClick(value)}
                   key={ii}
                   className={styles.value}
                   wrap={true}
                   thumb={
-                    this.isChecked(value) ? (
+                    this._isChecked(value) ? (
                       <MyIcon
                         className={styles.checkIcon}
                         type={require("svg-sprite-loader!./checked-circle.svg")}
@@ -159,7 +163,7 @@ class Filter extends React.Component<Props, State> {
                 >
                   {value.name}
                   <div className={styles.count}>
-                    {!this.isChecked(value) && "+"}
+                    {!this._isChecked(value) && "+"}
                     {value.count}
                   </div>
                 </List.Item>
@@ -172,7 +176,7 @@ class Filter extends React.Component<Props, State> {
     }
   }
 
-  handleClick = (value: AllProductsQuery.Values) => {
+  private _handleClick = (value: AllProductsQuery.Values) => {
     const { setLoading, categoryId, refetch, history } = this.props;
     const GET = queryString.parse(history.location.search);
 
@@ -184,27 +188,28 @@ class Filter extends React.Component<Props, State> {
     }
 
     this.setState({ checkedValueIds }, () => {
-      setLoading(true, () => {
-        refetch({
-          categoryId,
-          filters: value ? value.url : "",
-          offset: 0
-        }).then(res => {
-          setLoading(false);
-          GET.filters = value.url;
-          history.push(
-            `${compile(PATH_NAMES.category)({
-              id: categoryId
-            })}?${queryString.stringify(GET)}`
-          );
-        });
-      });
+    //   setLoading(true, () => {
+    //     refetch({
+    //       categoryId,
+    //       filters: value ? value.url : "",
+    //       offset: 0
+    //     }).then(res => {
+    //       setLoading(false);
+    //       GET.filters = value.url;
+    //       history.push(
+    //         `${compile(PATH_NAMES.category)({
+    //           id: categoryId
+    //         })}?${queryString.stringify(GET)}`
+    //       );
+    //     });
+    //   });
     });
   };
 
-  isChecked = (value: AllProductsQuery.Values): boolean => {
+  private _isChecked = (value: AllProductsQuery.Values): boolean => {
     return this.state.checkedValueIds.indexOf(value.id) !== -1;
   };
 }
 
 export default Filter;
+.

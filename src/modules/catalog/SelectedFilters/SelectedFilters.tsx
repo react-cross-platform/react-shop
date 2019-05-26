@@ -62,7 +62,7 @@ class SelectedFilters extends React.Component<Props, State> {
                     className={styles.closeIcon}
                     type={require("!svg-sprite-loader!./circle-close.svg")}
                   />
-                  <span className={styles.label}>{value.name}</span>
+                  <span className={styles.label}>{filter.name}: {value.name}</span>
                 </Link>
               </MyTouchFeedback>
             ))

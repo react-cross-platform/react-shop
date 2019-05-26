@@ -67,17 +67,22 @@ class Promotions extends React.Component<Props, State> {
     });
 
     return (
-      <Images
-        autoplay={true}
-        wrapAround={true}
-        containerHeight={187}
-        selectedImageIndex={0}
-        images={images as any}
-        // 375 x 174
-        objectFitSize={{ width: "100%", height: "100%", objectFit: "unset" }}
-        dotHeight={13}
-        // linkProps={this.getLinkProps() as any}
-      />
+      <div style={{
+        borderRadius: "10px",
+        background: "organge"
+      }}>
+        <Images
+          autoplay={true}
+          wrapAround={true}
+          containerHeight={187}
+          selectedImageIndex={0}
+          images={images as any}
+          // 375 x 174
+          objectFitSize={{ width: "100%", height: "100%", objectFit: "unset" }}
+          dotHeight={13}
+          // linkProps={this.getLinkProps() as any}
+        />
+      </div>
     );
   }
 
