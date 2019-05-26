@@ -38,7 +38,7 @@ class SelectedFilters extends React.Component<Props, State> {
     const { categoryId, history } = this.props;
     const GET = queryString.parse(history.location.search);
     GET.filters = filter.resetUrl;
-    const pathName = getPathName(categoryId);
+    const pathName = getPathName(history, categoryId);
     return `${pathName}?${queryString.stringify(GET)}`;
   };
 
@@ -62,7 +62,9 @@ class SelectedFilters extends React.Component<Props, State> {
                     className={styles.closeIcon}
                     type={require("!svg-sprite-loader!./circle-close.svg")}
                   />
-                  <span className={styles.label}>{filter.name}: {value.name}</span>
+                  <span className={styles.label}>
+                    {filter.name}: {value.name}
+                  </span>
                 </Link>
               </MyTouchFeedback>
             ))

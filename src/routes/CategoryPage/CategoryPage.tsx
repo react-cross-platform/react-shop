@@ -82,8 +82,14 @@ const hasMore = (allProducts: AllProductsQuery.AllProducts): boolean => {
   return allProducts!.products!.length % LIMIT === 0 && allProducts.products.length >= LIMIT;
 };
 
-export const getPathName = (id?) => {
-  return id ? compile(PATH_NAMES.category)({ id }) : PATH_NAMES.sale;
+export const getPathName = (history, id?) => {
+  if (id) {
+    const pathname =
+      history.location.pathname.indexOf("category") !== -1 ? PATH_NAMES.category : PATH_NAMES.brand;
+    return compile(pathname)({ id });
+  } else {
+    return PATH_NAMES.sale;
+  }
 };
 
 class CategoryPage extends React.Component<Props, State> {
@@ -159,12 +165,13 @@ class CategoryPage extends React.Component<Props, State> {
       dataAllProducts,
       match: {
         params: { id }
-      }
+      },
+      history
     } = nextProps;
 
     if (this.props.location !== nextProps.history.location) {
       const nextUrl = nextProps.history.location.pathname;
-      if (nextUrl === getPathName(id)) {
+      if (nextUrl === getPathName(history, id)) {
         this.addScrollListener();
       } else {
         this.removeScrollListener();
@@ -387,13 +394,14 @@ class CategoryPage extends React.Component<Props, State> {
 
   handleScroll = event => {
     const {
+      history,
       location,
       match: {
         params: { id }
       },
       dataAllProducts: { allProducts, loading, fetchMore }
     } = this.props;
-    const pathname = getPathName(id);
+    const pathname = getPathName(history, id);
     if (!loading && location.pathname === pathname) {
       const { products } = allProducts!;
 

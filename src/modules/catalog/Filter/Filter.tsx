@@ -6,6 +6,7 @@ import * as queryString from "query-string";
 import * as React from "react";
 
 import { PATH_NAMES } from "../../../routes/RouteSwitch/RouteSwitch";
+import { getPathName } from "@src/routes/CategoryPage/CategoryPage";
 
 const styles = require("./styles.css");
 
@@ -186,23 +187,19 @@ class Filter extends React.Component<Props, State> {
     } else {
       checkedValueIds = checkedValueIds.filter(id => id !== value.id);
     }
-
     this.setState({ checkedValueIds }, () => {
-      //   setLoading(true, () => {
-      //     refetch({
-      //       categoryId,
-      //       filters: value ? value.url : "",
-      //       offset: 0
-      //     }).then(res => {
-      //       setLoading(false);
-      //       GET.filters = value.url;
-      //       history.push(
-      //         `${compile(PATH_NAMES.category)({
-      //           id: categoryId
-      //         })}?${queryString.stringify(GET)}`
-      //       );
-      //     });
-      //   });
+      setLoading(true, () => {
+        refetch({
+          categoryId,
+          filters: value ? value.url : "",
+          offset: 0
+        }).then(res => {
+          setLoading(false);
+          GET.filters = value.url;
+          const pathname = getPathName(history, categoryId);
+          history.push(`${pathname}?${queryString.stringify(GET)}`);
+        });
+      });
     });
   };
 

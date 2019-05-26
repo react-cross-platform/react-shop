@@ -181,7 +181,8 @@ class Filters extends React.Component<Props, State> {
         () => {
           const GET = queryString.parse(history.location.search);
           GET.filters = url;
-          const pathName = getPathName(categoryId);
+
+          const pathName = getPathName(history, categoryId);
           history.push(`${pathName}?${queryString.stringify(GET)}`);
         }
       );

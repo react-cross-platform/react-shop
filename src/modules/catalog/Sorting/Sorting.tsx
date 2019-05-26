@@ -41,7 +41,7 @@ class Sorting extends React.Component<Props, State> {
       onSelect: (node, index) => {
         if (GET.sorting !== node.props.value) {
           GET.sorting = node.props.value;
-          const pathName = getPathName(categoryId);
+          const pathName = getPathName(history, categoryId);
           history.push(`${pathName}?${queryString.stringify(GET)}`);
         }
         this.toggleSorting();
@@ -53,7 +53,7 @@ class Sorting extends React.Component<Props, State> {
         <Popover
           classNme={styles.Sorting}
           {...sortingProps}
-          overlay={items.map((sort, i) =>
+          overlay={items.map((sort, i) => (
             <Popover.Item
               key={i}
               // onVisibleChange={this.toggleSorting}
@@ -66,18 +66,13 @@ class Sorting extends React.Component<Props, State> {
             >
               {sort.name}
             </Popover.Item>
-          )}
+          ))}
         >
           <Flex className={styles.navSorting}>
-            <MyIcon
-              className={styles.sortIcon}
-              type={ICONS_MAP[selectedSort.icon]}
-            />
+            <MyIcon className={styles.sortIcon} type={ICONS_MAP[selectedSort.icon]} />
             <Flex direction="column" align="start">
               <div className={styles.navName}>Сортировка</div>
-              <div className={styles.navValue}>
-                {selectedSort.name}
-              </div>
+              <div className={styles.navValue}>{selectedSort.name}</div>
             </Flex>
           </Flex>
         </Popover>
