@@ -36,15 +36,15 @@ class Sorting extends React.Component<Props, State> {
     const sortingProps: any = {
       placement: "bottomLeft",
       visible: this.state.sortingEnabled,
-      onVisibleChange: this.toggleSorting,
       mask: true,
       onSelect: (node, index) => {
-        if (GET.sorting !== node.props.value) {
-          GET.sorting = node.props.value;
+        const sortValue = this.props.items[index].value;
+        if (GET.sorting !== sortValue) {
+          GET.sorting = sortValue;
           const pathName = getPathName(history, categoryId);
           history.push(`${pathName}?${queryString.stringify(GET)}`);
         }
-        this.toggleSorting();
+        this._hideSorting();
       }
     };
     const selectedSort = items.filter(sort => sort.isSelected)[0];
@@ -55,13 +55,12 @@ class Sorting extends React.Component<Props, State> {
           {...sortingProps}
           overlay={items.map((sort, i) => (
             <Popover.Item
-              key={i}
               // onVisibleChange={this.toggleSorting}
               className={styles.sortingItem}
               style={{
                 color: sort.isSelected ? "orange" : "black"
               }}
-              // value={sort.value}
+              key={i}
               icon={<MyIcon type={ICONS_MAP[sort.icon]} size="md" />}
             >
               {sort.name}
@@ -79,8 +78,9 @@ class Sorting extends React.Component<Props, State> {
       </MyTouchFeedback>
     );
   }
-  toggleSorting = () => {
-    this.setState({ sortingEnabled: !this.state.sortingEnabled });
+
+  private _hideSorting = () => {
+    this.setState({ sortingEnabled: false });
   };
 }
 
