@@ -3,6 +3,7 @@ import { ICategory } from "@src/modules/product/model";
 import gql from "graphql-tag";
 import * as React from "react";
 import { graphql, QueryProps } from "react-apollo";
+// import { gql, useQuery } from '@apollo/client';
 
 import LoadingMask from "../LoadingMask/LoadingMask";
 
@@ -16,9 +17,69 @@ interface GraphQLProps {
   data: IDataCategory;
 }
 
+const GET_CATEGORIES = gql`
+  query Categories {
+    categories {
+      id
+      name
+      alias
+      parent {
+        id
+      }
+      image {
+        src
+      }
+    }
+  }
+`;
+
+// const Catalog = () => {
+//   const catalogData = useQuery(GET_CATEGORIES)
+
+//   if (catalogData.loading) {
+//     return <LoadingMask />;
+//   }
+
+//   const { data } = catalogData;
+  
+//   if (data.loading) {
+//     return <LoadingMask />;
+//   }
+
+//   const { categories } = data;
+//   const startCats: ICategory[] = [];
+//   const childrenMap = {};
+//   for (const cat of categories!) {
+//     if (cat.parent) {
+//       const key = cat.parent.id;
+//       if (!(key in childrenMap)) {
+//         childrenMap[key] = [];
+//         childrenMap[key] = [];
+//       }
+//       childrenMap[key].push(cat);
+//     } else {
+//       startCats.push(cat);
+//     }
+//   }
+
+//   return (
+//       <div className={styles.Catalog}>
+//         {startCats.map((parent, i) =>
+//           <div key={i}>
+//             <div className={styles.header}>
+//               {parent.name}
+//             </div>
+//             <SubCatalog key={i} categories={childrenMap[parent.id]} />
+//           </div>
+//         )}
+//       </div>
+//     );
+// }
+
 class Catalog extends React.Component<GraphQLProps, {}> {
   render() {
     const { data } = this.props;
+    console.log("data", data)
     if (data.loading) {
       return <LoadingMask />;
     }
@@ -30,12 +91,14 @@ class Catalog extends React.Component<GraphQLProps, {}> {
         const key = cat.parent.id;
         if (!(key in childrenMap)) {
           childrenMap[key] = [];
+          childrenMap[key] = [];
         }
         childrenMap[key].push(cat);
       } else {
         startCats.push(cat);
       }
     }
+
     return (
       <div className={styles.Catalog}>
         {startCats.map((parent, i) =>

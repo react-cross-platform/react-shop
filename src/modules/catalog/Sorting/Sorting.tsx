@@ -5,6 +5,7 @@ import { MyHistory } from "@src/routes/interfaces";
 import { Flex, Popover } from "antd-mobile";
 import * as queryString from "query-string";
 import * as React from "react";
+import {useState} from "react"
 
 const styles = require("./styles.css");
 
@@ -19,24 +20,21 @@ interface OwnProps {
   items: any;
 }
 
-interface State {
-  sortingEnabled: boolean;
-}
-
 interface Props extends OwnProps {}
 
-class Sorting extends React.Component<Props, State> {
-  state = {
-    sortingEnabled: false
-  };
-
-  render() {
-    const { categoryId, history, items } = this.props;
+const Sorting: React.FC<Props> = (props) => {
+ const[sortingEnabled, setSortingEnabled] = useState(false)
+  
+ const toggleSorting = () => {
+   setSortingEnabled(!sortingEnabled );
+ };
+  
+    const { categoryId, history, items } = props;
     const GET = queryString.parse(history.location.search);
     const sortingProps: any = {
       placement: "bottomLeft",
-      visible: this.state.sortingEnabled,
-      onVisibleChange: this.toggleSorting,
+      visible: sortingEnabled,
+      onVisibleChange: toggleSorting,
       mask: true,
       onSelect: (node, index) => {
         if (GET.sorting !== node.props.value) {
@@ -44,7 +42,7 @@ class Sorting extends React.Component<Props, State> {
           const pathName = getPathName(categoryId);
           history.push(`${pathName}?${queryString.stringify(GET)}`);
         }
-        this.toggleSorting();
+        toggleSorting();
       }
     };
     const selectedSort = items.filter(sort => sort.isSelected)[0];
@@ -55,7 +53,7 @@ class Sorting extends React.Component<Props, State> {
           {...sortingProps}
           overlay={items.map(sort =>
             <Popover.Item
-              onVisibleChange={this.toggleSorting}
+              onVisibleChange={toggleSorting}
               className={styles.sortingItem}
               style={{
                 color: sort.isSelected ? "orange" : "black"
@@ -82,10 +80,6 @@ class Sorting extends React.Component<Props, State> {
         </Popover>
       </MyTouchFeedback>
     );
-  }
-  toggleSorting = () => {
-    this.setState({ sortingEnabled: !this.state.sortingEnabled });
-  };
 }
 
 export default Sorting;

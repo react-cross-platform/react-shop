@@ -31,6 +31,7 @@ const styles = require("./styles.css");
 class CartTrigger extends React.Component<Props, {}> {
   isCartPage = () => {
     const { router } = this.props;
+   // debugger
     return router.location.pathname === PATH_NAMES.cart;
   };
 
@@ -38,6 +39,7 @@ class CartTrigger extends React.Component<Props, {}> {
     const { data, router, isTransporant } = this.props;
     const { loading, cart } = data;
     const amount = getCartAmount(cart);
+   // debugger
     return (
       <MyTouchFeedback
         style={{
@@ -67,7 +69,7 @@ class CartTrigger extends React.Component<Props, {}> {
     );
   }
 }
-
+//debugger
 const mapStateToProps = (state: IRootReducer): StateProps => ({
   router: state.router
 });
