@@ -33,48 +33,6 @@ const GET_CATEGORIES = gql`
   }
 `;
 
-// const Catalog = () => {
-//   const catalogData = useQuery(GET_CATEGORIES)
-
-//   if (catalogData.loading) {
-//     return <LoadingMask />;
-//   }
-
-//   const { data } = catalogData;
-  
-//   if (data.loading) {
-//     return <LoadingMask />;
-//   }
-
-//   const { categories } = data;
-//   const startCats: ICategory[] = [];
-//   const childrenMap = {};
-//   for (const cat of categories!) {
-//     if (cat.parent) {
-//       const key = cat.parent.id;
-//       if (!(key in childrenMap)) {
-//         childrenMap[key] = [];
-//         childrenMap[key] = [];
-//       }
-//       childrenMap[key].push(cat);
-//     } else {
-//       startCats.push(cat);
-//     }
-//   }
-
-//   return (
-//       <div className={styles.Catalog}>
-//         {startCats.map((parent, i) =>
-//           <div key={i}>
-//             <div className={styles.header}>
-//               {parent.name}
-//             </div>
-//             <SubCatalog key={i} categories={childrenMap[parent.id]} />
-//           </div>
-//         )}
-//       </div>
-//     );
-// }
 
 class Catalog extends React.Component<GraphQLProps, {}> {
   render() {
@@ -90,7 +48,6 @@ class Catalog extends React.Component<GraphQLProps, {}> {
       if (cat.parent) {
         const key = cat.parent.id;
         if (!(key in childrenMap)) {
-          childrenMap[key] = [];
           childrenMap[key] = [];
         }
         childrenMap[key].push(cat);

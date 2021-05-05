@@ -31,7 +31,6 @@ const styles = require("./styles.css");
 class CartTrigger extends React.Component<Props, {}> {
   isCartPage = () => {
     const { router } = this.props;
-   // debugger
     return router.location.pathname === PATH_NAMES.cart;
   };
 
@@ -39,7 +38,6 @@ class CartTrigger extends React.Component<Props, {}> {
     const { data, router, isTransporant } = this.props;
     const { loading, cart } = data;
     const amount = getCartAmount(cart);
-   // debugger
     return (
       <MyTouchFeedback
         style={{
@@ -54,11 +52,11 @@ class CartTrigger extends React.Component<Props, {}> {
             state: { modal: true, title: "Корзина" }
           }}
         >
-          {!loading && amount > 0
-            ? <Flex justify="center" align="center" className={styles.amount}>
-                {amount}
-              </Flex>
-            : null}
+          {!loading && amount > 0 ? (
+            <Flex justify="center" align="center" className={styles.amount}>
+              {amount}
+            </Flex>
+          ) : null}
           <MyIcon
             style={{ fill: isTransporant ? "black" : "white" }}
             type={require("!svg-sprite-loader!./cart.svg")}
@@ -69,7 +67,7 @@ class CartTrigger extends React.Component<Props, {}> {
     );
   }
 }
-//debugger
+
 const mapStateToProps = (state: IRootReducer): StateProps => ({
   router: state.router
 });
