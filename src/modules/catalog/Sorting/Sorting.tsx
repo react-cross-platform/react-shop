@@ -5,6 +5,7 @@ import { MyHistory } from "@src/routes/interfaces";
 import { Flex, Popover } from "antd-mobile";
 import * as queryString from "query-string";
 import * as React from "react";
+import { useState } from "react";
 
 const styles = require("./styles.css");
 
@@ -19,73 +20,60 @@ interface OwnProps {
   items: any;
 }
 
-interface State {
-  sortingEnabled: boolean;
-}
-
 interface Props extends OwnProps {}
 
-class Sorting extends React.Component<Props, State> {
-  state = {
-    sortingEnabled: false
-  };
+const Sorting: React.FC<Props> = props => {
+  const [sortingEnabled, setSortingEnabled] = useState(false);
 
-  render() {
-    const { categoryId, history, items } = this.props;
-    const GET = queryString.parse(history.location.search);
-    const sortingProps: any = {
-      placement: "bottomLeft",
-      visible: this.state.sortingEnabled,
-      onVisibleChange: this.toggleSorting,
-      mask: true,
-      onSelect: (node, index) => {
-        if (GET.sorting !== node.props.value) {
-          GET.sorting = node.props.value;
-          const pathName = getPathName(categoryId);
-          history.push(`${pathName}?${queryString.stringify(GET)}`);
-        }
-        this.toggleSorting();
-      }
-    };
-    const selectedSort = items.filter(sort => sort.isSelected)[0];
-    return (
-      <MyTouchFeedback style={{ backgroundColor: "lightgray" }}>
-        <Popover
-          classNme={styles.Sorting}
-          {...sortingProps}
-          overlay={items.map(sort =>
-            <Popover.Item
-              onVisibleChange={this.toggleSorting}
-              className={styles.sortingItem}
-              style={{
-                color: sort.isSelected ? "orange" : "black"
-              }}
-              value={sort.value}
-              icon={<MyIcon type={ICONS_MAP[sort.icon]} size="md" />}
-            >
-              {sort.name}
-            </Popover.Item>
-          )}
-        >
-          <Flex className={styles.navSorting}>
-            <MyIcon
-              className={styles.sortIcon}
-              type={ICONS_MAP[selectedSort.icon]}
-            />
-            <Flex direction="column" align="start">
-              <div className={styles.navName}>Сортировка</div>
-              <div className={styles.navValue}>
-                {selectedSort.name}
-              </div>
-            </Flex>
-          </Flex>
-        </Popover>
-      </MyTouchFeedback>
-    );
-  }
-  toggleSorting = () => {
-    this.setState({ sortingEnabled: !this.state.sortingEnabled });
+  const toggleSorting = () => {
+    setSortingEnabled(!sortingEnabled);
   };
-}
+  const { categoryId, history, items } = props;
+  const GET = queryString.parse(history.location.search);
+  const sortingProps: any = {
+    placement: "bottomLeft",
+    visible: sortingEnabled,
+    onVisibleChange: toggleSorting,
+    mask: true,
+    onSelect: (node, index) => {
+      if (GET.sorting !== node.props.value) {
+        GET.sorting = node.props.value;
+        const pathName = getPathName(categoryId);
+        history.push(`${pathName}?${queryString.stringify(GET)}`);
+      }
+      toggleSorting();
+    }
+  };
+  const selectedSort = items.filter(sort => sort.isSelected)[0];
+  return (
+    <MyTouchFeedback style={{ backgroundColor: "lightgray" }}>
+      <Popover
+        classNme={styles.Sorting}
+        {...sortingProps}
+        overlay={items.map(sort => (
+          <Popover.Item
+            onVisibleChange={toggleSorting}
+            className={styles.sortingItem}
+            style={{
+              color: sort.isSelected ? "orange" : "black"
+            }}
+            value={sort.value}
+            icon={<MyIcon type={ICONS_MAP[sort.icon]} size="md" />}
+          >
+            {sort.name}
+          </Popover.Item>
+        ))}
+      >
+        <Flex className={styles.navSorting}>
+          <MyIcon className={styles.sortIcon} type={ICONS_MAP[selectedSort.icon]} />
+          <Flex direction="column" align="start">
+            <div className={styles.navName}>Сортировка</div>
+            <div className={styles.navValue}>{selectedSort.name}</div>
+          </Flex>
+        </Flex>
+      </Popover>
+    </MyTouchFeedback>
+  );
+};
 
 export default Sorting;

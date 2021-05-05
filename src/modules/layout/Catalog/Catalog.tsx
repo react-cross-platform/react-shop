@@ -3,6 +3,7 @@ import { ICategory } from "@src/modules/product/model";
 import gql from "graphql-tag";
 import * as React from "react";
 import { graphql, QueryProps } from "react-apollo";
+// import { gql, useQuery } from '@apollo/client';
 
 import LoadingMask from "../LoadingMask/LoadingMask";
 
@@ -16,9 +17,27 @@ interface GraphQLProps {
   data: IDataCategory;
 }
 
+const GET_CATEGORIES = gql`
+  query Categories {
+    categories {
+      id
+      name
+      alias
+      parent {
+        id
+      }
+      image {
+        src
+      }
+    }
+  }
+`;
+
+
 class Catalog extends React.Component<GraphQLProps, {}> {
   render() {
     const { data } = this.props;
+    console.log("data", data)
     if (data.loading) {
       return <LoadingMask />;
     }
@@ -36,6 +55,7 @@ class Catalog extends React.Component<GraphQLProps, {}> {
         startCats.push(cat);
       }
     }
+
     return (
       <div className={styles.Catalog}>
         {startCats.map((parent, i) =>

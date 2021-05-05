@@ -51,6 +51,7 @@ class Product extends React.Component<Props, State> {
     const width = Math.round(window.innerWidth / 2) - 5;
     const selectedImageIndex =
       images.indexOf(titleImage) === -1 ? 0 : images.indexOf(titleImage);
+      
     return (
       <MyTouchFeedback>
         <div className={styles.Product} style={{ width }}>

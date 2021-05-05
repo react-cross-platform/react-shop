@@ -52,11 +52,11 @@ class CartTrigger extends React.Component<Props, {}> {
             state: { modal: true, title: "Корзина" }
           }}
         >
-          {!loading && amount > 0
-            ? <Flex justify="center" align="center" className={styles.amount}>
-                {amount}
-              </Flex>
-            : null}
+          {!loading && amount > 0 ? (
+            <Flex justify="center" align="center" className={styles.amount}>
+              {amount}
+            </Flex>
+          ) : null}
           <MyIcon
             style={{ fill: isTransporant ? "black" : "white" }}
             type={require("!svg-sprite-loader!./cart.svg")}
