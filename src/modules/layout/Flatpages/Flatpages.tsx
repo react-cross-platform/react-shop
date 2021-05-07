@@ -27,7 +27,7 @@ interface GraphQLProps {
 interface Props extends GraphQLProps, IPage {}
 
 class Flatpages extends React.Component<Props, {}> {
-  getIcon = id => {
+  getIcon = (id) => {
     // tslint:disable-next-line:variable-name
     const _id = parseInt(id, 10);
     switch (_id) {
@@ -82,42 +82,37 @@ class Flatpages extends React.Component<Props, {}> {
   };
 
   render() {
-    const { data: { loading, flatpages }, location: { pathname } } = this.props;
+    const {
+      data: { loading, flatpages },
+      location: { pathname }
+    } = this.props;
     if (loading) {
       return <LoadingMask />;
     }
     return (
       <div>
-        {pathname !== PATH_NAMES.flatpages &&
-          <div className={styles.title}>Инфо</div>}
+        {pathname !== PATH_NAMES.flatpages && <div className={styles.title}>Инфо</div>}
         <Accordion
           accordion={true}
           className={styles.Flatpages}
           // defaultActiveKey={flatpages![0].id}
         >
-          {flatpages!.map(page =>
+          {flatpages!.map((page) => (
             <Accordion.Panel
               key={page.id}
               header={
                 <MyTouchFeedback>
                   <Flex>
-                    <MyIcon
-                      className={styles.icon}
-                      type={this.getIcon(page.id)}
-                    />
-                    <div>
-                      {page.name}
-                    </div>
+                    <MyIcon className={styles.icon} type={this.getIcon(page.id)} />
+                    <div>{page.name}</div>
                   </Flex>
                 </MyTouchFeedback>
               }
               className={styles.header}
             >
-              <div className={styles.content}>
-                {renderHTML(page.content)}
-              </div>
+              <div className={styles.content}>{renderHTML(page.content)}</div>
             </Accordion.Panel>
-          )}
+          ))}
         </Accordion>
       </div>
     );
@@ -126,4 +121,4 @@ class Flatpages extends React.Component<Props, {}> {
 
 const FLATPAGES_QUERY = gql(require("./flatpages.gql"));
 
-export default compose(withRouter, graphql(FLATPAGES_QUERY))(Flatpages);
+export default compose<any>(withRouter, graphql(FLATPAGES_QUERY))(Flatpages);

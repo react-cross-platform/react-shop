@@ -7,15 +7,9 @@ const renderHTML = require("react-render-html");
 const styles = require("./styles.css");
 
 const Loading = () => {
-  const icon = (
-    <MyIcon
-      className={styles.icon}
-      type={require("!svg-sprite-loader!./loader.svg")}
-      size="md"
-    />
-  );
+  const icon = <MyIcon className={styles.icon} type={require("!svg-sprite-loader!./loader.svg")} size="md" />;
   // tslint:disable-next-line:no-invalid-template-strings
-  const logo = process.env.PROJECT_NAME.split("${icon}");
+  const logo = process.env["PROJECT_NAME"]!.split("${icon}");
   return (
     <Flex className={styles.HomeTrigger} align="center">
       {logo[0]}

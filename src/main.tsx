@@ -24,6 +24,6 @@ render(
 
 if (module.hot) {
   module.hot.accept("./App", () => {
-    render(App);
+    render(App as any, null);
   });
 }
