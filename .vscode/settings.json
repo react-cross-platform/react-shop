@@ -3,5 +3,19 @@
   // Default (format when you paste)
   "editor.formatOnPaste": true,
   // Default (format when you save)
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "cSpell.words": [
+    "Artem",
+    "Flatpage",
+    "Flatpages",
+    "Serga",
+    "antd",
+    "asynciterable",
+    "fastclick",
+    "formik",
+    "nuka",
+    "rozygrish",
+    "stylelint",
+    "Инфо"
+  ]
 }

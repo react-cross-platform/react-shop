@@ -8,7 +8,7 @@ import history from "./history";
 import { RouteSwitch } from "./routes";
 import store from "./store";
 
-const App = () => {
+const App = (props) => {
   return (
     <ApolloProvider store={store} client={client as any}>
       <ConnectedRouter history={history}>

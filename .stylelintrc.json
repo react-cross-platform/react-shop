@@ -8,8 +8,10 @@
     "color-no-invalid-hex": true,
     "comment-empty-line-before": null,
     "comment-whitespace-inside": null,
-    "declaration-block-no-duplicate-properties": true,
+    "declaration-block-no-duplicate-properties": null,
+    "declaration-block-trailing-semicolon": null,
     "function-linear-gradient-no-nonstandard-direction": true,
+    "function-name-case": null,
     "no-empty-source": null,
     "order/properties-alphabetical-order": null
   },
