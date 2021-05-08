@@ -55,16 +55,16 @@ const Images: React.FC<Props> = (props) => {
   );
   const [maxLoadedImageIndex, setMaxLoadedImageIndex] = useState(DEFAULT_SELECTED_IMAGE_INDEX);
 
-  useEffect(() => {
-    setSelectedImageIndex(props.selectedImageIndex! || DEFAULT_SELECTED_IMAGE_INDEX);
-  }, [props.selectedImageIndex]);
-
   const { images, linkProps, dotHeight, containerHeight } = props;
   const objectFitSize = props.objectFitSize || DEFAULT_OBJECT_FIT_SIZE;
   const Component: any = linkProps ? Link : Div;
-  if (images.length > 1) {
-    const selectedImage = images[selectedImageIndex];
 
+  useEffect(() => {
+    setSelectedImageIndex(props.selectedImageIndex!);
+  }, [props.selectedImageIndex]);
+
+  if (images.length > 1) {
+    let selectedImage = images[selectedImageIndex] || images[props.selectedImageIndex!];
     return (
       <Aux>
         <Component className={styles.Images} {...linkProps}>
