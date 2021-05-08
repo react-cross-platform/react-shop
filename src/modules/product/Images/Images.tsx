@@ -1,7 +1,6 @@
 import { MyIcon } from "@src/modules/common";
 import { Div } from "@src/modules/common/utils";
 import { Flex } from "antd-mobile";
-import { defaultProps } from "antd-mobile/lib/search-bar/PropsType";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -38,16 +37,7 @@ interface OwnProps {
 
 interface Props extends OwnProps {}
 
-// interface State {
-//   selectedImageIndex: number;
-//   maxLoadedImageIndex: number;
-// }
-
 const Images: React.FC<Props> = (props) => {
-  // static defaultProps = {
-  //   selectedImageIndex: DEFAULT_SELECTED_IMAGE_INDEX
-  // };
-
   const [selectedImageIndex, setSelectedImageIndex] = useState(
     props.selectedImageIndex || DEFAULT_SELECTED_IMAGE_INDEX
   );
@@ -56,11 +46,6 @@ const Images: React.FC<Props> = (props) => {
   useEffect(() => {
     setSelectedImageIndex(props.selectedImageIndex!);
   }, [props.selectedImageIndex]);
-  // componentWillReceiveProps(nextProps: OwnProps) {
-  //   const selectedImageIndex =
-  //     nextProps.selectedImageIndex || DEFAULT_SELECTED_IMAGE_INDEX;
-  //   this.setState({ selectedImageIndex });
-  // }
 
   const getHeight = (image?: IImage): number => {
     const { containerHeight } = props;
@@ -87,12 +72,6 @@ const Images: React.FC<Props> = (props) => {
       <Aux>
         <Component className={styles.Images} {...linkProps}>
           <ReactCarousel
-            // autoplay={false}
-            // className={styles.Carousel}
-            // selectedIndex={this.state.selectedImageIndex}
-            // dots={false}
-            // infinite={false}
-            // speed={1}
             decorators={[]}
             dragging={false}
             swiping={true}
@@ -102,10 +81,6 @@ const Images: React.FC<Props> = (props) => {
             dots={false}
             infinite={false}
             afterSlide={(index) => {
-              // const {
-              //   selectedImageIndex,
-              //   maxLoadedImageIndex
-              // } = this.state;
               if (index !== selectedImageIndex) {
                 setSelectedImageIndex(0);
                 setMaxLoadedImageIndex(0 + 1 > maxLoadedImageIndex ? 0 + 1 : maxLoadedImageIndex);
@@ -133,12 +108,7 @@ const Images: React.FC<Props> = (props) => {
         </Component>
 
         {/* Carousel dots per image */}
-        <Flex
-          // justify="between"
-          justify="center"
-          className={styles.dots}
-          style={{ minHeight: dotHeight * 1.5 }}
-        >
+        <Flex justify="center" className={styles.dots} style={{ minHeight: dotHeight * 1.5 }}>
           {props.images.map((image, i) => (
             <MyIcon
               key={i}
@@ -149,7 +119,6 @@ const Images: React.FC<Props> = (props) => {
                   : require("!svg-sprite-loader!./empty-circle.svg")
               }
               style={{
-                backgroundColor: "lightgreen",
                 fill:
                   image.attributeValue && image.attributeValue.value
                     ? image.attributeValue.value
