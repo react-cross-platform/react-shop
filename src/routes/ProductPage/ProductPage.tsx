@@ -9,7 +9,7 @@ import {
   ACTION_RESET,
   ACTION_SET_ATTRIBUTE_VALUE_IDS
 } from "@src/modules/product/constants";
-import { getImagesWithColor } from "@src/modules/product/Images/Images";
+import { getImagesWithColor } from "@src/modules/product/Images/Images.hooks";
 import { IProduct } from "@src/modules/product/model";
 import { ISubProduct } from "@src/modules/product/model";
 import { IProductReducer } from "@src/modules/product/reducer";

@@ -20,7 +20,7 @@ interface DispatchProps {
 }
 
 interface OwnProps {
-  subProducts: [ISubProduct];
+  subProducts: ISubProduct[];
   subProductIdsInCart: number[];
 }
 
