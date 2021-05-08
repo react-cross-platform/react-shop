@@ -26,10 +26,10 @@ export interface IProduct {
   description: string;
   brand: IBrand;
   category: ICategory;
-  images: [IImage];
-  imagesWithColor: [IImage];
-  subProducts: [ISubProduct];
-  attributes: [IAttribute];
+  images: IImage[];
+  imagesWithColor: IImage[];
+  subProducts: ISubProduct[];
+  attributes: IAttribute[];
 }
 
 export interface IBrand {
