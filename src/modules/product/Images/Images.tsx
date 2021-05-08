@@ -63,48 +63,69 @@ const Images: React.FC<Props> = (props) => {
   const { images, linkProps, dotHeight, containerHeight } = props;
   const objectFitSize = props.objectFitSize || DEFAULT_OBJECT_FIT_SIZE;
   const Component: any = linkProps ? Link : Div;
-  // const selectedImage = images[selectedImageIndex];
-
   if (images.length > 1) {
     const selectedImage = images[selectedImageIndex];
 
     return (
       <Aux>
         <Component className={styles.Images} {...linkProps}>
-          <ReactCarousel
-            decorators={[]}
-            dragging={false}
-            swiping={true}
-            autoplay={false}
-            className={styles.Carousel}
-            slideIndex={selectedImageIndex}
-            dots={false}
-            infinite={false}
-            afterSlide={(index) => {
-              if (index !== selectedImageIndex) {
-                setSelectedImageIndex(0);
-                setMaxLoadedImageIndex(0 + 1 > maxLoadedImageIndex ? 0 + 1 : maxLoadedImageIndex);
-              }
-            }}
-            style={{ height: getHeight(images[0]) }}
-          >
-            {props.images.map((image, index) => (
-              <Flex
-                key={index}
-                justify="center"
-                align="center"
-                style={{
-                  height: getHeight(images[0])
-                }}
-              >
-                {index <= maxLoadedImageIndex || index === selectedImageIndex ? (
-                  <img style={objectFitSize} className={styles.image} src={image.src} />
-                ) : (
-                  <MyIcon type="loading" size="lg" />
-                )}
-              </Flex>
-            ))}
-          </ReactCarousel>
+          {linkProps ? (
+            <Flex
+              justify="center"
+              align="center"
+              style={{
+                height: getHeight(images[0])
+              }}
+            >
+              {false ? (
+                <MyIcon className={styles.noImage} type={require("!svg-sprite-loader!./no-image.svg")} />
+              ) : (
+                <img
+                  className={styles.image}
+                  style={objectFitSize}
+                  src={selectedImage.src}
+                  onLoad={() => {
+                    window.dispatchEvent(new Event("resize"));
+                  }}
+                />
+              )}
+            </Flex>
+          ) : (
+            <ReactCarousel
+              decorators={[]}
+              dragging={false}
+              swiping={true}
+              autoplay={false}
+              className={styles.Carousel}
+              slideIndex={selectedImageIndex}
+              dots={false}
+              infinite={false}
+              afterSlide={(index) => {
+                if (index !== selectedImageIndex) {
+                  setSelectedImageIndex(index);
+                  setMaxLoadedImageIndex(index + 1 > maxLoadedImageIndex ? index + 1 : maxLoadedImageIndex);
+                }
+              }}
+              style={{ height: getHeight(images[0]) }}
+            >
+              {images.map((image, index) => (
+                <Flex
+                  key={index}
+                  justify="center"
+                  align="center"
+                  style={{
+                    height: getHeight(images[0])
+                  }}
+                >
+                  {index <= maxLoadedImageIndex || index === selectedImageIndex ? (
+                    <img style={objectFitSize} className={styles.image} src={image.src} />
+                  ) : (
+                    <MyIcon type="loading" size="lg" />
+                  )}
+                </Flex>
+              ))}
+            </ReactCarousel>
+          )}
         </Component>
 
         {/* Carousel dots per image */}
