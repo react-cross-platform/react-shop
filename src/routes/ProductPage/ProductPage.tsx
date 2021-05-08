@@ -5,11 +5,8 @@ import { Aux, MyTouchFeedback } from "@src/modules/common/utils";
 import { Layout, LoadingMask } from "@src/modules/layout";
 import { Images, ProductToCart, SubProducts } from "@src/modules/product";
 import { ACTION_SET_SUB_PRODUCT_ID } from "@src/modules/product/constants";
-import {
-  ACTION_RESET,
-  ACTION_SET_ATTRIBUTE_VALUE_IDS
-} from "@src/modules/product/constants";
-import { getImagesWithColor } from "@src/modules/product/Images/Images.hooks";
+import { ACTION_RESET, ACTION_SET_ATTRIBUTE_VALUE_IDS } from "@src/modules/product/constants";
+import { getImagesWithColor } from "@src/modules/product/Images/Images";
 import { IProduct } from "@src/modules/product/model";
 import { ISubProduct } from "@src/modules/product/model";
 import { IProductReducer } from "@src/modules/product/reducer";
@@ -57,21 +54,13 @@ interface OwnProps extends IPage {
 
 interface Props extends GraphQLProps, StateProps, DispatchProps, OwnProps {}
 
-const getActiveSubProduct = (
-  subProducts: ISubProduct[],
-  subProductId: number
-): ISubProduct => {
-  return (
-    subProducts.filter(sp => parseInt(sp.id, 0) === subProductId)[0] ||
-    subProducts[0]
-  );
+const getActiveSubProduct = (subProducts: ISubProduct[], subProductId: number): ISubProduct => {
+  return subProducts.filter((sp) => parseInt(sp.id, 0) === subProductId)[0] || subProducts[0];
 };
 
 const getSubProductIdsInCart = (data: IDataCart): number[] => {
   const { cart, loading } = data;
-  return !loading && cart && cart.items
-    ? cart.items.map(item => parseInt(item.subProduct.id, 0))
-    : [];
+  return !loading && cart && cart.items ? cart.items.map((item) => parseInt(item.subProduct.id, 0)) : [];
 };
 
 class Product extends React.Component<Props, {}> {
@@ -81,7 +70,12 @@ class Product extends React.Component<Props, {}> {
   };
 
   componentWillMount() {
-    const { match: { params: { id } }, addViewedProduct } = this.props;
+    const {
+      match: {
+        params: { id }
+      },
+      addViewedProduct
+    } = this.props;
     addViewedProduct(parseInt(id, 0));
   }
 
@@ -92,7 +86,7 @@ class Product extends React.Component<Props, {}> {
     if (!loading) {
       const { subProducts, category } = product!;
       let { subProductId, attributeValueIds } = nextProps.product;
-      subProductIds = subProducts.map(sp => parseInt(sp.id, 0));
+      subProductIds = subProducts.map((sp) => parseInt(sp.id, 0));
       if (location.state && location.state.modal) {
         this.setState({
           title: product!.name
@@ -107,10 +101,7 @@ class Product extends React.Component<Props, {}> {
                   id: category.id
                 })}
               >
-                <MyIcon
-                  className={styles.headerLeftIcon}
-                  type={require("!svg-sprite-loader!./back.svg")}
-                />
+                <MyIcon className={styles.headerLeftIcon} type={require("!svg-sprite-loader!./back.svg")} />
                 {category.name}
               </Link>
             </MyTouchFeedback>
@@ -123,19 +114,13 @@ class Product extends React.Component<Props, {}> {
         const imagesWithColor = getImagesWithColor(product!.images);
         const GET = queryString.parse(location.search);
 
-        subProductId = GET.sub_product_id
-          ? parseInt(GET.sub_product_id, 0)
-          : subProductIds[0];
+        subProductId = GET.sub_product_id ? parseInt(GET.sub_product_id, 0) : subProductIds[0];
 
         if (!attributeValueIds && GET.attribute_value_ids) {
-          attributeValueIds = GET.attribute_value_ids
-            .split(",")
-            .map(id => parseInt(id, 0));
+          attributeValueIds = GET.attribute_value_ids.split(",").map((id) => parseInt(id, 0));
         }
         if (!attributeValueIds) {
-          const filtered = imagesWithColor.filter(
-            image => image.attributeValue
-          );
+          const filtered = imagesWithColor.filter((image) => image.attributeValue);
           if (filtered.length > 0) {
             attributeValueIds = [filtered[0].attributeValue!.id];
           }
@@ -178,24 +163,17 @@ class Product extends React.Component<Props, {}> {
 
     const { product } = dataProduct;
     const { attributeValueIds, subProductId } = this.props.product;
-    const {
-      id,
-      brand,
-      description,
-      attributes,
-      images,
-      subProducts
-    } = product!;
+    const { id, brand, description, attributes, images, subProducts } = product!;
     const activeSubProduct = getActiveSubProduct(subProducts, subProductId!);
     const activeImage =
       parseInt(activeSubProduct.id, 0) === subProductId
         ? images.filter(
-            image =>
+            (image) =>
               image.attributeValue &&
               attributeValueIds &&
               attributeValueIds!.indexOf(image.attributeValue.id) !== -1
           )[0]
-        : images.filter(image => image.isTitle === true)[0];
+        : images.filter((image) => image.isTitle === true)[0];
 
     const subProductIdsInCart = getSubProductIdsInCart(dataCart);
     const { price, oldPrice } = activeSubProduct;
@@ -228,104 +206,89 @@ class Product extends React.Component<Props, {}> {
             <Devider />
 
             {/* Select SubProduct section */}
-            {subProducts.length > 1 &&
+            {subProducts.length > 1 && (
               <Aux>
-                <SubProducts
-                  subProducts={subProducts}
-                  subProductIdsInCart={subProductIdsInCart}
-                />
+                <SubProducts subProducts={subProducts} subProductIdsInCart={subProductIdsInCart} />
                 <Devider />
-              </Aux>}
+              </Aux>
+            )}
 
             {/* Select Color section */}
-            {imagesWithColor.length > 0 &&
+            {imagesWithColor.length > 0 && (
               <Aux>
                 <WhiteSpace />
                 <WingBlank>
                   <Flex justify="between">
                     <Flex align="center">
-                      {imagesWithColor.map(
-                        (image, i) =>
-                          attributeValueIds &&
-                          image.attributeValue &&
-                          attributeValueIds.indexOf(image.attributeValue.id) !==
-                            -1
-                            ? <MyIcon
-                                key={i}
-                                className={styles.colorIcon}
-                                type={require("svg-sprite-loader!./checked-circle.svg")}
-                                style={{
-                                  fill: image.attributeValue.value
-                                }}
-                              />
-                            : <MyTouchFeedback key={i}>
-                                <MyIcon
-                                  className={styles.colorIcon}
-                                  onClick={() =>
-                                    this.props.setAttributeValueIds([
-                                      image.attributeValue!.id
-                                    ])}
-                                  type={require("svg-sprite-loader!./circle.svg")}
-                                  style={{
-                                    fill: image.attributeValue!.value
-                                  }}
-                                />
-                              </MyTouchFeedback>
+                      {imagesWithColor.map((image, i) =>
+                        attributeValueIds &&
+                        image.attributeValue &&
+                        attributeValueIds.indexOf(image.attributeValue.id) !== -1 ? (
+                          <MyIcon
+                            key={i}
+                            className={styles.colorIcon}
+                            type={require("svg-sprite-loader!./checked-circle.svg")}
+                            style={{
+                              fill: image.attributeValue.value
+                            }}
+                          />
+                        ) : (
+                          <MyTouchFeedback key={i}>
+                            <MyIcon
+                              className={styles.colorIcon}
+                              onClick={() => this.props.setAttributeValueIds([image.attributeValue!.id])}
+                              type={require("svg-sprite-loader!./circle.svg")}
+                              style={{
+                                fill: image.attributeValue!.value
+                              }}
+                            />
+                          </MyTouchFeedback>
+                        )
                       )}
                     </Flex>
                     <div className={styles.colorName}>
-                      {activeImage &&
-                        activeImage.attributeValue &&
-                        activeImage.attributeValue.name}
+                      {activeImage && activeImage.attributeValue && activeImage.attributeValue.name}
                     </div>
                   </Flex>
                 </WingBlank>
                 <WhiteSpace />
                 <Devider />
-              </Aux>}
+              </Aux>
+            )}
 
             {/* active SubProduct and Product params section */}
-            {(attributes.length > 0 ||
-              activeSubProduct.attributes.length > 0) &&
+            {(attributes.length > 0 || activeSubProduct.attributes.length > 0) && (
               <Aux>
                 <WhiteSpace />
                 <WingBlank>
-                  {activeSubProduct.attributes.map((el, index) =>
+                  {activeSubProduct.attributes.map((el, index) => (
                     <Flex key={index} justify="between">
-                      <Flex className={styles.paramName}>
-                        {el.name}
-                      </Flex>
-                      <Flex className={styles.paramValue}>
-                        {el.values.map(v => v.name).join(", ")}
-                      </Flex>
+                      <Flex className={styles.paramName}>{el.name}</Flex>
+                      <Flex className={styles.paramValue}>{el.values.map((v) => v.name).join(", ")}</Flex>
                     </Flex>
-                  )}
-                  {attributes.map((el, index) =>
+                  ))}
+                  {attributes.map((el, index) => (
                     <Flex key={index} justify="between">
-                      <Flex className={styles.paramtName}>
-                        {el.name}
-                      </Flex>
-                      <Flex className={styles.paramValue}>
-                        {el.values.map(v => v.name).join(", ")}
-                      </Flex>
+                      <Flex className={styles.paramName}>{el.name}</Flex>
+                      <Flex className={styles.paramValue}>{el.values.map((v) => v.name).join(", ")}</Flex>
                     </Flex>
-                  )}
+                  ))}
                 </WingBlank>
                 <WhiteSpace />
                 <Devider />
-              </Aux>}
+              </Aux>
+            )}
 
             {/* Product description section */}
-            {description &&
+            {description && (
               <Aux>
                 <WhiteSpace />
                 <WingBlank>
-                  <div className={styles.description}>
-                    {renderHTML(description)}
-                  </div>
+                  <div className={styles.description}>{renderHTML(description)}</div>
                 </WingBlank>
                 <WhiteSpace />
-              </Aux>}
+              </Aux>
+            )}
 
             {/* Add to cart */}
             <ProductToCart
@@ -366,8 +329,7 @@ class Product extends React.Component<Props, {}> {
         index: i
       }))
       .filter(
-        ({ attributeValue, index }) =>
-          attributeValue && attributeValueIds.indexOf(attributeValue.id) !== -1
+        ({ attributeValue, index }) => attributeValue && attributeValueIds.indexOf(attributeValue.id) !== -1
       );
     if (filtered.length > 0) {
       return filtered[0].index;
@@ -406,7 +368,7 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
 const PRODUCT_QUERY = gql(require("./product.gql"));
 const productOptions: OperationOption<OwnProps, GraphQLProps> = {
   name: "dataProduct",
-  options: props => ({
+  options: (props) => ({
     variables: {
       id: props.match.params.id
     }
@@ -418,10 +380,7 @@ const cartOptions: OperationOption<OwnProps, GraphQLProps> = {
 };
 
 export default compose(
-  connect<StateProps, DispatchProps, OwnProps>(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect<StateProps, DispatchProps, OwnProps>(mapStateToProps, mapDispatchToProps),
   graphql(CART_QUERY, cartOptions),
   graphql(PRODUCT_QUERY, productOptions)
 )(Product);
