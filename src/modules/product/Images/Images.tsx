@@ -14,6 +14,18 @@ export const getImagesWithColor = (images: IImage[]): IImage[] => {
   return images.filter((image) => image.attributeValue && image.attributeValue.value !== "");
 };
 
+const getHeight = (image?: IImage, containerHeight?: number): number => {
+  if (!image || containerHeight) {
+    return containerHeight!;
+  }
+  let squareHeight = window.innerWidth / 2;
+  const { width, height } = image;
+  if (width > height) {
+    squareHeight *= height / width;
+  }
+  return squareHeight * 1.2;
+};
+
 const DEFAULT_OBJECT_FIT_SIZE = {
   width: "100%",
   height: "95%"
@@ -22,7 +34,6 @@ const DEFAULT_OBJECT_FIT_SIZE = {
 const DEFAULT_SELECTED_IMAGE_INDEX = 0;
 
 const LAZY_OFFSET = 400;
-
 interface OwnProps {
   containerHeight?: number;
   images: IImage[];
@@ -44,28 +55,17 @@ const Images: React.FC<Props> = (props) => {
   const [maxLoadedImageIndex, setMaxLoadedImageIndex] = useState(DEFAULT_SELECTED_IMAGE_INDEX);
 
   useEffect(() => {
-    setSelectedImageIndex(props.selectedImageIndex!);
+    setSelectedImageIndex(props.selectedImageIndex! || DEFAULT_SELECTED_IMAGE_INDEX);
   }, [props.selectedImageIndex]);
-
-  const getHeight = (image?: IImage): number => {
-    const { containerHeight } = props;
-    if (!image || containerHeight) {
-      return containerHeight!;
-    }
-    let squareHeight = window.innerWidth / 2;
-    const { width, height } = image;
-    if (width > height) {
-      squareHeight *= height / width;
-    }
-    return squareHeight * 1.2;
-  };
 
   const { images, linkProps, dotHeight, containerHeight } = props;
   const objectFitSize = props.objectFitSize || DEFAULT_OBJECT_FIT_SIZE;
   const Component: any = linkProps ? Link : Div;
   if (images.length > 1) {
-    const selectedImage = images[selectedImageIndex];
-
+    const selectedImage = images[selectedImageIndex] || images[props.selectedImageIndex!];
+    //  if(!selectedImageIndex) {
+    //    debugger
+    // }
     return (
       <Aux>
         <Component className={styles.Images} {...linkProps}>
@@ -74,7 +74,7 @@ const Images: React.FC<Props> = (props) => {
               justify="center"
               align="center"
               style={{
-                height: getHeight(images[0])
+                height: getHeight(images[0], containerHeight)
               }}
             >
               {false ? (
@@ -106,7 +106,7 @@ const Images: React.FC<Props> = (props) => {
                   setMaxLoadedImageIndex(index + 1 > maxLoadedImageIndex ? index + 1 : maxLoadedImageIndex);
                 }
               }}
-              style={{ height: getHeight(images[0]) }}
+              style={{ height: getHeight(images[0], containerHeight) }}
             >
               {images.map((image, index) => (
                 <Flex
@@ -114,7 +114,7 @@ const Images: React.FC<Props> = (props) => {
                   justify="center"
                   align="center"
                   style={{
-                    height: getHeight(images[0])
+                    height: getHeight(images[0], containerHeight)
                   }}
                 >
                   {index <= maxLoadedImageIndex || index === selectedImageIndex ? (
@@ -163,7 +163,7 @@ const Images: React.FC<Props> = (props) => {
           justify="center"
           align="center"
           style={{
-            height: getHeight(images[0])
+            height: getHeight(images[0], containerHeight)
           }}
         >
           {images.length === 0 ? (

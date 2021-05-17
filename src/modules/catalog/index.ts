@@ -1,6 +1,6 @@
 import Filters from "./Filters/Filters";
 import Nav from "./Nav/Nav";
-import Product from "./Product/Product";
+import Product from "./Product/ProductHooks";
 import ProductsCounter from "./ProductsCounter/ProductsCounter";
 import SelectedFilters from "./SelectedFilters/SelectedFilters";
 import ShowOnlyViewed from "./ShowOnlyViewed/ShowOnlyViewed";
