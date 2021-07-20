@@ -1,10 +1,10 @@
 import gql from "graphql-tag";
-import update from "immutability-helper";
 import React from "react";
-import { graphql, OperationOption } from "react-apollo";
+import { graphql } from "@apollo/client/react/hoc";
 
 import { CART_QUERY, IDataCart } from "../Cart/Cart";
 import { ICartItem } from "../model";
+import { debug } from "console";
 
 const styles = require("./styles.css");
 
@@ -37,7 +37,7 @@ class AddCartItem extends React.Component<GraphQLProps & OwnProps, {}> {
 }
 
 const ADD_CART_ITEM_MUTATION = gql(require("./addCartItem.gql"));
-const options: OperationOption<OwnProps, GraphQLProps> = {
+const options = {
   props: ({ ownProps, mutate }) => {
     const { subProductId, attributeValueIds } = ownProps;
     return {
@@ -48,9 +48,14 @@ const options: OperationOption<OwnProps, GraphQLProps> = {
             attributeValueIds
           },
           update: (store, props: IAddCartItem) => {
-            const { data: { addCartItem: { cartItem } } } = props;
+            const {
+              data: {
+                addCartItem: { cartItem }
+              }
+            } = props;
             const data: IDataCart = store.readQuery({ query: CART_QUERY });
             if (!data.cart) {
+              // FIXME: Refactor to hook to fix Error: Cannot assign to read only property 'cart' of object '#<Object>'
               data.cart = cartItem.cart;
               data.cart!.items = [];
             }
@@ -63,6 +68,4 @@ const options: OperationOption<OwnProps, GraphQLProps> = {
   }
 };
 
-export default graphql<GraphQLProps, OwnProps>(ADD_CART_ITEM_MUTATION, options)(
-  AddCartItem
-);
+export default graphql<GraphQLProps, OwnProps>(ADD_CART_ITEM_MUTATION, options as any)(AddCartItem) as any;

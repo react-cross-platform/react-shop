@@ -3,13 +3,12 @@ import { applyMiddleware, compose, createStore } from "redux";
 import logger from "redux-logger";
 import thunk from "redux-thunk";
 
-import client from "./graphqlClient";
 import history from "./history";
 import rootReducer from "./rootReducer";
 
 const initialState = {};
 
-const middlewares = [thunk, routerMiddleware(history), client.middleware()];
+const middlewares = [thunk, routerMiddleware(history)];
 if (process.env.DEBUG) {
   middlewares.push(logger);
 }
@@ -21,7 +20,7 @@ const store = createStore(
     applyMiddleware(...middlewares),
     typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== "undefined"
       ? window.__REDUX_DEVTOOLS_EXTENSION__()
-      : f => f
+      : (f) => f
   )
 );
 

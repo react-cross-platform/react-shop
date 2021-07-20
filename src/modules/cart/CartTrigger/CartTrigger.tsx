@@ -5,11 +5,10 @@ import { PATH_NAMES } from "@src/routes";
 import { IRouterReducer } from "@src/routes/interfaces";
 import { Flex } from "antd-mobile";
 import * as React from "react";
-import { graphql } from "react-apollo";
+import { graphql } from "@apollo/client/react/hoc";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { compose } from "redux";
-
+import { compose } from "recompose";
 import { CART_QUERY, getCartAmount, IDataCart } from "../Cart/Cart";
 
 interface OwnProps {
@@ -68,11 +67,14 @@ class CartTrigger extends React.Component<Props, {}> {
   }
 }
 
-const mapStateToProps = (state: IRootReducer): StateProps => ({
-  router: state.router
-});
+const mapStateToProps = (state: IRootReducer): StateProps => {
+  console.log("state.router", state.router);
+  return {
+    router: state.router
+  };
+};
 
 export default compose(
   graphql<GraphQLProps, OwnProps>(CART_QUERY),
   connect<StateProps, {}, OwnProps>(mapStateToProps)
-)(CartTrigger);
+)(CartTrigger) as any;

@@ -6,9 +6,9 @@ import { IPage } from "@src/routes/interfaces";
 import { Accordion, Flex } from "antd-mobile";
 import gql from "graphql-tag";
 import * as React from "react";
-import { graphql, QueryProps } from "react-apollo";
+import { graphql } from "@apollo/client/react/hoc";
 import { withRouter } from "react-router";
-import { compose } from "redux";
+import { compose } from "recompose";
 
 import { IFlatpage } from "../model";
 
@@ -16,8 +16,9 @@ const renderHTML = require("react-render-html");
 
 const styles = require("./styles.css");
 
-interface IFlatpagesData extends QueryProps {
+interface IFlatpagesData {
   flatpages?: [IFlatpage];
+  loading?: any;
 }
 
 interface GraphQLProps {

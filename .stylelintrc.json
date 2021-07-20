@@ -15,7 +15,8 @@
     "function-name-case": null,
     "indentation": null,
     "no-empty-source": null,
-    "order/properties-alphabetical-order": null
+    "order/properties-alphabetical-order": null,
+    "function-whitespace-after": null
   },
   "ignoreFiles": [
     "./node_modules/**",
