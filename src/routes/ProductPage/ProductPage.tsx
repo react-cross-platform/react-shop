@@ -1,3 +1,4 @@
+import { graphql } from "@apollo/client/react/hoc";
 import { CART_QUERY, IDataCart } from "@src/modules/cart/Cart/Cart";
 import { ACTION_ADD_VIEWED_PRODUCT } from "@src/modules/catalog/constants";
 import { Devider, MyIcon } from "@src/modules/common";
@@ -18,9 +19,9 @@ import gql from "graphql-tag";
 import { compile } from "path-to-regexp";
 import * as queryString from "query-string";
 import * as React from "react";
-import { compose, graphql, OperationOption, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { compose } from "recompose";
 import { PATH_NAMES } from "../index";
 import { IPage } from "../interfaces";
 
@@ -28,8 +29,9 @@ const renderHTML = require("react-render-html");
 
 const styles = require("./styles.css");
 
-interface IDataProduct extends QueryProps {
+interface IDataProduct {
   product?: IProduct;
+  loading?: any;
 }
 
 interface GraphQLProps {
@@ -366,7 +368,7 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
 });
 
 const PRODUCT_QUERY = gql(require("./product.gql"));
-const productOptions: OperationOption<OwnProps, GraphQLProps> = {
+const productOptions = {
   name: "dataProduct",
   options: (props) => ({
     variables: {
@@ -375,7 +377,7 @@ const productOptions: OperationOption<OwnProps, GraphQLProps> = {
   })
 };
 
-const cartOptions: OperationOption<OwnProps, GraphQLProps> = {
+const cartOptions = {
   name: "dataCart"
 };
 

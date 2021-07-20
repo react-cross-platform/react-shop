@@ -44,21 +44,14 @@ class RouteSwitch extends React.Component<Props, {}> {
 
   componentWillUpdate(nextProps: Props) {
     const { location } = this.props;
-    if (
-      nextProps.history.action !== "POP" &&
-      (!location.state || !location.state.modal)
-    ) {
+    if (nextProps.history.action !== "POP" && (!location.state || !location.state.modal)) {
       this.previousLocation = this.props.location;
     }
   }
 
   isModal = () => {
     const { location } = this.props;
-    return !!(
-      location.state &&
-      location.state.modal &&
-      this.previousLocation !== location
-    );
+    return !!(location.state && location.state.modal && this.previousLocation !== location);
   };
 
   getLocation = () => {
@@ -77,10 +70,7 @@ class RouteSwitch extends React.Component<Props, {}> {
             display: isModal ? "none" : "block"
           }}
         >
-          <Routes
-            Component={Switch}
-            params={{ location: isModal ? this.previousLocation : location }}
-          />
+          <Routes Component={Switch} params={{ location: isModal ? this.previousLocation : location }} />
         </div>
         {isModal ? <Routes Component={ModalRoute} params={null} /> : null}
       </div>

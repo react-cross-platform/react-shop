@@ -7,16 +7,16 @@ import { Button, Flex } from "antd-mobile";
 import gql from "graphql-tag";
 import { History } from "history";
 import * as React from "react";
-import { graphql, QueryProps } from "react-apollo";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { compose } from "redux";
+import { graphql } from "@apollo/client/react/hoc";
 
 import LoadingMask from "../../layout/LoadingMask/LoadingMask";
 import { getCartItemTotalPrice } from "../CartItem/CartItem";
 import { CartItem, EmptyCart, FinishedCart, CheckoutForm } from "../index";
 import { ICart } from "../model";
 import { ICartReducer } from "../reducer";
+import { compose } from "recompose";
 
 const styles = require("./styles.css");
 
@@ -25,8 +25,9 @@ interface StateProps {
   router: IRouterReducer;
 }
 
-export interface IDataCart extends QueryProps {
+export interface IDataCart {
   cart?: ICart;
+  loading?: any;
 }
 
 interface GraphQLProps {
@@ -41,7 +42,7 @@ interface OwnProps {
 const getCartTotalPrice = (cart: ICart): number => {
   let totalPrice = 0;
   if (cart && cart.items) {
-    cart.items.forEach(item => {
+    cart.items.forEach((item) => {
       const { price, amount } = item;
       totalPrice += getCartItemTotalPrice(price, amount);
     });
@@ -70,20 +71,17 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
     const cart = data.cart as ICart;
     const amount = getCartAmount(cart);
     if (amount === 0) {
-      return finishedId
-        ? <FinishedCart id={finishedId} />
-        : <EmptyCart history={history} />;
+      return finishedId ? <FinishedCart id={finishedId} /> : <EmptyCart history={history} />;
     }
 
     return (
       <Flex direction="column" justify="between" className={styles.Cart}>
         <div className={styles.section}>
           <div className={styles.title}>
-            Итого к оплате:{" "}
-            <Price isSinglePrice={true} price={getCartTotalPrice(cart)} />
+            Итого к оплате: <Price isSinglePrice={true} price={getCartTotalPrice(cart)} />
           </div>
           <div className={styles.items}>
-            {cart.items.map((item, index) =>
+            {cart.items.map((item, index) => (
               <CartItem
                 key={index}
                 id={item.id}
@@ -92,7 +90,7 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
                 price={item.price}
                 amount={item.amount}
               />
-            )}
+            ))}
           </div>
         </div>
 
@@ -101,7 +99,7 @@ class Cart extends React.Component<StateProps & GraphQLProps & OwnProps, {}> {
     );
   }
 
-  handleClick = e => {
+  handleClick = (e) => {
     e.stopPropagation();
     const { isModal, history } = this.props;
     if (isModal) {

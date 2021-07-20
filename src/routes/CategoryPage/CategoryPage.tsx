@@ -1,7 +1,7 @@
+import { graphql } from "@apollo/client/react/hoc";
 import { Dispatch } from "@src/interfaces";
 import { Filters, Nav, Product, SelectedFilters } from "@src/modules/catalog";
 import { ACTION_SET_SCROLLED_PRODUCTS } from "@src/modules/catalog/constants";
-import { IFilter, ISort } from "@src/modules/catalog/model";
 import { getSelectedFilters } from "@src/modules/catalog/SelectedFilters/SelectedFilters";
 import { MyIcon } from "@src/modules/common";
 import { Aux } from "@src/modules/common/utils";
@@ -16,11 +16,10 @@ import { throttle } from "lodash";
 import { compile } from "path-to-regexp";
 import * as queryString from "query-string";
 import * as React from "react";
-import { graphql, OperationOption, QueryProps } from "react-apollo";
 import MasonryInfiniteScroller from "react-masonry-infinite";
 import { connect } from "react-redux";
 import Sidebar from "react-sidebar";
-import { compose } from "redux";
+import { compose } from "recompose";
 
 import { IAllProducts } from "../../modules/catalog/model";
 
@@ -38,12 +37,15 @@ const SCROLL_THROTTLE = 500;
 // const FETCH_MORE_THRESHOLD = window.innerHeight * 2;
 const FETCH_MORE_THRESHOLD = window.innerHeight * 3;
 
-interface IDataCategory extends QueryProps {
+interface IDataCategory {
   category?: ICategory;
+  loading?: any;
 }
 
-export interface IDataAllProduct extends QueryProps {
+export interface IDataAllProduct {
   allProducts: IAllProducts;
+  loading?: any;
+  fetchMore?: any;
 }
 
 interface StateProps {}
@@ -70,16 +72,11 @@ const hasMore = (allProducts: IAllProducts): boolean => {
   if (!allProducts) {
     return false;
   }
-  return (
-    allProducts.products.length % LIMIT === 0 &&
-    allProducts.products.length >= LIMIT
-  );
+  return allProducts.products.length % LIMIT === 0 && allProducts.products.length >= LIMIT;
 };
 
 export const getPathName = (categoryId?) => {
-  return categoryId
-    ? compile(PATH_NAMES.category)({ id: categoryId })
-    : PATH_NAMES.sale;
+  return categoryId ? compile(PATH_NAMES.category)({ id: categoryId }) : PATH_NAMES.sale;
 };
 
 class CategoryPage extends React.Component<Props, State> {
@@ -102,10 +99,7 @@ class CategoryPage extends React.Component<Props, State> {
     // TODO: Bind to some element, but not window
     // https://stackoverflow.com/questions/36207398/not-getting-callback-after-adding-an-event-listener-for-scroll-event-in-react-js/36207913#36207913
 
-    this.handleScrollThrottle = throttle(
-      event => this.handleScroll(event),
-      SCROLL_THROTTLE
-    );
+    this.handleScrollThrottle = throttle((event) => this.handleScroll(event), SCROLL_THROTTLE);
     this.addScrollListener();
   }
 
@@ -119,26 +113,18 @@ class CategoryPage extends React.Component<Props, State> {
       document.getElementById("js-content")!.scrollIntoView();
     }
 
-    if (
-      this.props.history.location.pathname !==
-      nextProps.history.location.pathname
-    ) {
+    if (this.props.history.location.pathname !== nextProps.history.location.pathname) {
       this.removeScrollListener();
     }
 
     if (nextProps.dataAllProducts.allProducts) {
-      const loadedSubProducts = this.getSubProductsLength(
-        nextProps.dataAllProducts.allProducts.products
-      );
+      const loadedSubProducts = this.getSubProductsLength(nextProps.dataAllProducts.allProducts.products);
       // const loadedSubProducts = this.refineScrolledProducts(
       //   nextProps.dataAllProducts.allProducts.products.length
       // );
       if (
         !this.props.dataAllProducts.allProducts ||
-        loadedSubProducts !==
-          this.getSubProductsLength(
-            this.props.dataAllProducts.allProducts.products
-          )
+        loadedSubProducts !== this.getSubProductsLength(this.props.dataAllProducts.allProducts.products)
       ) {
         const { allProducts } = this.props.dataAllProducts;
         this.props.dispatch({
@@ -148,10 +134,7 @@ class CategoryPage extends React.Component<Props, State> {
       }
     }
 
-    const title =
-      dataCategory && !dataCategory.loading
-        ? dataCategory.category!.name
-        : "Скидки";
+    const title = dataCategory && !dataCategory.loading ? dataCategory.category!.name : "Скидки";
     if (title !== this.state.title) {
       this.setState({ title });
     }
@@ -162,7 +145,9 @@ class CategoryPage extends React.Component<Props, State> {
       dataCategory,
       dataAllProducts,
       history,
-      match: { params: { id } },
+      match: {
+        params: { id }
+      },
       location
     } = nextProps;
 
@@ -181,11 +166,7 @@ class CategoryPage extends React.Component<Props, State> {
       this.removeScrollListener();
     }
 
-    if (
-      (dataCategory && dataCategory.loading) ||
-      dataAllProducts.loading ||
-      !dataAllProducts.allProducts
-    ) {
+    if ((dataCategory && dataCategory.loading) || dataAllProducts.loading || !dataAllProducts.allProducts) {
       return false;
     }
 
@@ -218,10 +199,7 @@ class CategoryPage extends React.Component<Props, State> {
     const { loading, allProducts } = this.props.dataAllProducts;
     if (!loading) {
       this.bottomHeight =
-        this.ref.offsetTop +
-        this.ref.clientHeight -
-        window.innerHeight -
-        FETCH_MORE_THRESHOLD;
+        this.ref.offsetTop + this.ref.clientHeight - window.innerHeight - FETCH_MORE_THRESHOLD;
     }
   }
 
@@ -231,7 +209,9 @@ class CategoryPage extends React.Component<Props, State> {
 
   render() {
     const {
-      match: { params: { id } },
+      match: {
+        params: { id }
+      },
       location,
       history,
       dataCategory,
@@ -241,119 +221,112 @@ class CategoryPage extends React.Component<Props, State> {
     const gutter = 3;
 
     return (
-      <Layout
-        location={location}
-        history={history}
-        {...this.getLayoutOptions()}
-      >
-        {(dataCategory && dataCategory.loading) ||
-        dataAllProducts.loading ||
-        !dataAllProducts.allProducts
-          ? <LoadingMask />
-          : <Aux>
-              <div className={styles.CategoryPage}>
-                <Sidebar
-                  rootClassName={`${styles.root} ${this.state.openFilters &&
-                    styles.rootOpened}`}
-                  sidebarClassName={styles.sidebar}
-                  overlayClassName={styles.overlay}
-                  contentClassName={styles.content}
-                  pullRight={true}
-                  touch={false}
-                  shadow={true}
-                  sidebar={
-                    <Filters
-                      dataAllProducts={dataAllProducts}
-                      categoryId={id}
-                      open={this.state.openFilters}
-                      toggleFilters={this.toggleFilters}
-                      history={history}
-                    />
-                  }
-                  open={this.state.openFilters}
-                  onSetOpen={this.toggleFilters}
+      <Layout location={location} history={history} {...this.getLayoutOptions()}>
+        {(dataCategory && dataCategory.loading) || dataAllProducts.loading || !dataAllProducts.allProducts ? (
+          <LoadingMask />
+        ) : (
+          <Aux>
+            <div className={styles.CategoryPage}>
+              <Sidebar
+                rootClassName={`${styles.root} ${this.state.openFilters && styles.rootOpened}`}
+                sidebarClassName={styles.sidebar}
+                overlayClassName={styles.overlay}
+                contentClassName={styles.content}
+                pullRight={true}
+                touch={false}
+                shadow={true}
+                sidebar={
+                  <Filters
+                    dataAllProducts={dataAllProducts}
+                    categoryId={id}
+                    open={this.state.openFilters}
+                    toggleFilters={this.toggleFilters}
+                    history={history}
+                  />
+                }
+                open={this.state.openFilters}
+                onSetOpen={this.toggleFilters}
+              >
+                <div
+                  id="js-content"
+                  className={styles.sidebarContent}
+                  ref={(element) => (this.ref = element)}
                 >
-                  <div
-                    id="js-content"
-                    className={styles.sidebarContent}
-                    ref={element => (this.ref = element)}
-                  >
-                    <Nav
-                      history={history}
-                      dataAllProducts={dataAllProducts}
-                      categoryId={id}
-                      toggleFilters={this.toggleFilters}
-                    />
-                    <SelectedFilters
-                      openFilters={this.state.openFilters}
-                      history={history}
-                      categoryId={id}
-                      filters={dataAllProducts.allProducts.filters}
+                  <Nav
+                    history={history}
+                    dataAllProducts={dataAllProducts}
+                    categoryId={id}
+                    toggleFilters={this.toggleFilters}
+                  />
+                  <SelectedFilters
+                    openFilters={this.state.openFilters}
+                    history={history}
+                    categoryId={id}
+                    filters={dataAllProducts.allProducts.filters}
+                    style={{
+                      flexDirection: this.state.openFilters ? "column" : "row"
+                    }}
+                  />
+                  <div className={styles.Products}>
+                    <MasonryInfiniteScroller
                       style={{
-                        flexDirection: this.state.openFilters ? "column" : "row"
+                        marginTop:
+                          getSelectedFilters(dataAllProducts.allProducts.filters).length > 0
+                            ? "2.4rem"
+                            : "0.2rem"
                       }}
-                    />
-                    <div className={styles.Products}>
-                      <MasonryInfiniteScroller
-                        style={{
-                          marginTop:
-                            getSelectedFilters(
-                              dataAllProducts.allProducts.filters
-                            ).length > 0
-                              ? "2.4rem"
-                              : "0.2rem"
-                        }}
-                        pack={true}
-                        packed="data-packed"
-                        sizes={[{ columns: 2, gutter }]}
-                        loadMore={() => ""}
-                        ref={node => {
-                          this.ref = node;
-                        }}
-                      >
-                        {dataAllProducts.allProducts.products.map(
-                          (product, i) => {
-                            return (
-                              <Product
-                                attributeValueIds={this.getCheckedAttributeValueIds()}
-                                key={i}
-                                {...product}
-                              />
-                            );
-                          }
-                        )}
-                      </MasonryInfiniteScroller>
-                    </div>
-
-                    {dataAllProducts.allProducts &&
-                      hasMore(dataAllProducts.allProducts) &&
-                      <MyIcon
-                        type={require("!svg-sprite-loader!./loader.svg")}
-                        size="lg"
-                        className={styles.loading}
-                      />}
+                      pack={true}
+                      packed="data-packed"
+                      sizes={[{ columns: 2, gutter }]}
+                      loadMore={() => ""}
+                      ref={(node) => {
+                        this.ref = node;
+                      }}
+                    >
+                      {dataAllProducts.allProducts.products.map((product, i) => {
+                        return (
+                          <Product
+                            attributeValueIds={this.getCheckedAttributeValueIds()}
+                            key={i}
+                            {...product}
+                          />
+                        );
+                      })}
+                    </MasonryInfiniteScroller>
                   </div>
-                </Sidebar>
-              </div>
-            </Aux>}
+
+                  {dataAllProducts.allProducts && hasMore(dataAllProducts.allProducts) && (
+                    <MyIcon
+                      type={require("!svg-sprite-loader!./loader.svg")}
+                      size="lg"
+                      className={styles.loading}
+                    />
+                  )}
+                </div>
+              </Sidebar>
+            </div>
+          </Aux>
+        )}
       </Layout>
     );
   }
 
   getCheckedAttributeValueIds = () => {
-    const { dataAllProducts: { allProducts: { filters } } } = this.props;
+    const {
+      dataAllProducts: {
+        allProducts: { filters }
+      }
+    } = this.props;
     let attributeValueIds: number[] = [];
-    filters.forEach(filter => {
+    filters.forEach((filter) => {
       if (filter.isColor) {
-        attributeValueIds = filter.values
-          .filter(value => value.isChecked)
-          .map(value => value.id);
+        attributeValueIds = filter.values.filter((value) => value.isChecked).map((value) => value.id);
       }
     });
     return attributeValueIds;
   };
 
-  refineScrolledProducts = scrolledProducts => {
+  refineScrolledProducts = (scrolledProducts) => {
     const { dataAllProducts } = this.props;
     const { fetchMore, allProducts } = dataAllProducts;
     const { products, found, total } = allProducts!;
@@ -390,33 +363,29 @@ class CategoryPage extends React.Component<Props, State> {
   toggleFilters = () => {
     document.body.style.overflow = this.state.openFilters ? "scroll" : "hidden";
     this.setState({ openFilters: !this.state.openFilters }, () => {
-      this.state.openFilters
-        ? this.removeScrollListener()
-        : this.addScrollListener();
+      this.state.openFilters ? this.removeScrollListener() : this.addScrollListener();
     });
   };
 
-  getScrolledProducts = scrollTop => {
+  getScrolledProducts = (scrollTop) => {
     const { dataAllProducts } = this.props;
-    return Math.round(
-      scrollTop /
-        this.bottomHeight *
-        dataAllProducts.allProducts.products.length
-    );
+    return Math.round((scrollTop / this.bottomHeight) * dataAllProducts.allProducts.products.length);
   };
 
   getSubProductsLength = (products: IProduct[]) => {
     let count = 0;
-    products.forEach(product => {
+    products.forEach((product) => {
       count += product.subProducts.length;
     });
     return count;
   };
 
-  handleScroll = event => {
+  handleScroll = (event) => {
     const {
       location,
-      match: { params: { id } },
+      match: {
+        params: { id }
+      },
       dataAllProducts: { allProducts, loading, fetchMore }
     } = this.props;
     console.log("handleScroll");
@@ -436,7 +405,7 @@ class CategoryPage extends React.Component<Props, State> {
 
       if (scrollTop > this.bottomHeight) {
         this.removeScrollListener();
-        fetchMore({} as any).then(res => {
+        fetchMore({} as any).then((res) => {
           // if (found !== total) {
           if (hasMore(res.data.allProducts)) {
             this.addScrollListener();
@@ -448,8 +417,8 @@ class CategoryPage extends React.Component<Props, State> {
 }
 
 const CATEGORY_QUERY = gql(require("./category.gql"));
-const categoryOptions: OperationOption<OwnProps, GraphQLProps> = {
-  options: props => ({
+const categoryOptions = {
+  options: (props) => ({
     skip: !props.match.params.id,
     fetchPolicy: "cache-first",
     variables: {
@@ -461,8 +430,8 @@ const categoryOptions: OperationOption<OwnProps, GraphQLProps> = {
 
 export const ALL_PRODUCTS_QUERY = gql(require("./allProducts.gql"));
 
-export const allProductsOptions: OperationOption<OwnProps, GraphQLProps> = {
-  options: ownProps => {
+export const allProductsOptions = {
+  options: (ownProps) => {
     const GET = queryString.parse(ownProps.location.search);
     const categoryId = ownProps.match.params.id;
     const variables = {
@@ -521,6 +490,6 @@ const mapStateToProps = (state: IRootReducer): StateProps => ({});
 
 export default compose(
   connect<StateProps, DispatchProps, OwnProps>(mapStateToProps),
-  graphql<GraphQLProps>(CATEGORY_QUERY, categoryOptions),
-  graphql<GraphQLProps, OwnProps>(ALL_PRODUCTS_QUERY, allProductsOptions)
+  graphql<GraphQLProps>(CATEGORY_QUERY, categoryOptions as any),
+  graphql<GraphQLProps, OwnProps>(ALL_PRODUCTS_QUERY, allProductsOptions as any)
 )(CategoryPage as any) as any;

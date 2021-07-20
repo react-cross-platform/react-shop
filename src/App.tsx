@@ -1,7 +1,8 @@
 import * as React from "react";
-import { ApolloProvider } from "react-apollo";
+import { ApolloProvider } from "@apollo/client";
 import { Route } from "react-router";
 import { ConnectedRouter } from "react-router-redux";
+import { Provider } from "react-redux";
 
 import client from "./graphqlClient";
 import history from "./history";
@@ -10,11 +11,13 @@ import store from "./store";
 
 const App = (props) => {
   return (
-    <ApolloProvider store={store} client={client as any}>
-      <ConnectedRouter history={history}>
-        <Route component={RouteSwitch} />
-      </ConnectedRouter>
-    </ApolloProvider>
+    <Provider store={store}>
+      <ApolloProvider client={client as any}>
+        <ConnectedRouter history={history}>
+          <Route component={RouteSwitch} />
+        </ConnectedRouter>
+      </ApolloProvider>
+    </Provider>
   );
 };
 
