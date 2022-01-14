@@ -34,7 +34,6 @@ const DEFAULT_OBJECT_FIT_SIZE = {
 const DEFAULT_SELECTED_IMAGE_INDEX = 0;
 
 const LAZY_OFFSET = 400;
-
 interface OwnProps {
   containerHeight?: number;
   images: IImage[];
@@ -55,16 +54,18 @@ const Images: React.FC<Props> = (props) => {
   );
   const [maxLoadedImageIndex, setMaxLoadedImageIndex] = useState(DEFAULT_SELECTED_IMAGE_INDEX);
 
+  useEffect(() => {
+    setSelectedImageIndex(props.selectedImageIndex! || DEFAULT_SELECTED_IMAGE_INDEX);
+  }, [props.selectedImageIndex]);
+
   const { images, linkProps, dotHeight, containerHeight } = props;
   const objectFitSize = props.objectFitSize || DEFAULT_OBJECT_FIT_SIZE;
   const Component: any = linkProps ? Link : Div;
-
-  useEffect(() => {
-    setSelectedImageIndex(props.selectedImageIndex!);
-  }, [props.selectedImageIndex]);
-
   if (images.length > 1) {
-    let selectedImage = images[selectedImageIndex] || images[props.selectedImageIndex!];
+    const selectedImage = images[selectedImageIndex] || images[props.selectedImageIndex!];
+    //  if(!selectedImageIndex) {
+    //    debugger
+    // }
     return (
       <Aux>
         <Component className={styles.Images} {...linkProps}>
@@ -73,7 +74,7 @@ const Images: React.FC<Props> = (props) => {
               justify="center"
               align="center"
               style={{
-                height: getHeight(images[0], props.containerHeight)
+                height: getHeight(images[0], containerHeight)
               }}
             >
               {false ? (
