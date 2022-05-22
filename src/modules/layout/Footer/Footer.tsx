@@ -85,13 +85,14 @@ class Footer extends React.Component<OwnProps & StateProps, {}> {
     if (pathname === PATH_NAMES.home || pathname.indexOf("category")) {
       return (
         <Flex justify="around" align="center" className={styles.Footer}>
-          {this.renderSection(
+{/*           {this.renderSection(
             "Каталог",
             require("!svg-sprite-loader!./catalog.svg"),
             PATH_NAMES.catalog,
             false,
             "orange"
-          )}
+          )} */}
+
           {this.renderSection(
             "Скидки",
             require("!svg-sprite-loader!./discount.svg"),

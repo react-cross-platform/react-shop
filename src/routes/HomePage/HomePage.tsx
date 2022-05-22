@@ -4,6 +4,7 @@ import { ScrollToTop } from "@src/utils";
 import * as React from "react";
 
 import { IPage } from "../interfaces";
+import { PATH_NAMES } from "../RouteSwitch/RouteSwitch";
 
 const styles = require("./styles.css");
 
@@ -13,9 +14,14 @@ class HomePage extends React.Component<OwnProps, {}> {
   getLayoutOptions = () => {
     return {
       header: {
-        title: <HomeTrigger />
-      }
+        title: <HomeTrigger />,
+      },
     };
+  };
+
+  componentDidMount = () => {
+    const { history } = this.props;
+    history.push(PATH_NAMES.sale);
   };
 
   render() {
